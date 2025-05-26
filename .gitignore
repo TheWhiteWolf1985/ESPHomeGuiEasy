@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VSCode settings
+.vscode/
+
+# Python environment folders
+.venv/
+env/
+venv/
+
+# Mac/Linux OS files
+.DS_Store
+
+# PyQt build artifacts
+*.qrc.py
+*.pyc
+
+# Logs, dumps, etc
+*.log
+
+# Output folders
+dist/
+build/
+
+# YAML editor backup (eventuale)
+*.bak
+ESPHomeGUIeasy.code-workspace
