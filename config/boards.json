@@ -1,0 +1,140 @@
+{
+  "boards": [
+    {
+      "label": "Adafruit ESP32 Feather",
+      "value": "featheresp32"
+    },
+    {
+      "label": "Adafruit ESP32-S2 Feather",
+      "value": "adafruit_feather_esp32s2"
+    },
+    {
+      "label": "Adafruit ESP32-S3 Feather",
+      "value": "adafruit_feather_esp32s3"
+    },
+    {
+      "label": "Adafruit HUZZAH32",
+      "value": "huzzah32"
+    },
+    {
+      "label": "ESP32 Dev Board",
+      "value": "esp32dev"
+    },
+    {
+      "label": "ESP32-C3 Dev Module",
+      "value": "esp32-c3-devkitm-1"
+    },
+    {
+      "label": "ESP32-PICO-D4",
+      "value": "esp32-pico-kit"
+    },
+    {
+      "label": "ESP32-PICO-KIT",
+      "value": "esp32doit-devkit-v1"
+    },
+    {
+      "label": "ESP32-S2 Saola",
+      "value": "esp32-s2-saola-1"
+    },
+    {
+      "label": "ESP32-S3 Box",
+      "value": "esp32-s3-box"
+    },
+    {
+      "label": "ESP32-S3 Box Lite",
+      "value": "esp32-s3-box-lite"
+    },
+    {
+      "label": "ESP32-S3 USB OTG",
+      "value": "esp32-s3-usb-otg"
+    },
+    {
+      "label": "ESP32-WROOM-32",
+      "value": "esp-wroom-32"
+    },
+    {
+      "label": "Lolin C3 Mini",
+      "value": "lolin_c3_mini"
+    },
+    {
+      "label": "Lolin D1 Mini",
+      "value": "d1_mini32"
+    },
+    {
+      "label": "Lolin D32",
+      "value": "lolin_d32"
+    },
+    {
+      "label": "Lolin S2 Mini",
+      "value": "lolin_s2_mini"
+    },
+    {
+      "label": "Lolin S3 Mini",
+      "value": "lolin_s3_mini"
+    },
+    {
+      "label": "Lolin S3 Pro",
+      "value": "lolin_s3_pro"
+    },
+    {
+      "label": "M5Stack Atom",
+      "value": "m5stack-atom"
+    },
+    {
+      "label": "M5Stack Core ESP32",
+      "value": "m5stack-core-esp32"
+    },
+    {
+      "label": "M5Stack Core2",
+      "value": "m5stack-core2"
+    },
+    {
+      "label": "M5Stack Fire",
+      "value": "m5stack-fire"
+    },
+    {
+      "label": "M5Stack Stick C",
+      "value": "m5stick-c"
+    },
+    {
+      "label": "M5Stack Stick C Plus",
+      "value": "m5stick-c-plus"
+    },
+    {
+      "label": "NodeMCU",
+      "value": "nodemcu"
+    },
+    {
+      "label": "Seeed Studio XIAO ESP32-C3",
+      "value": "seeed_xiao_esp32c3"
+    },
+    {
+      "label": "TTGO T-Beam",
+      "value": "ttgo-t-beam"
+    },
+    {
+      "label": "TTGO T-Camera",
+      "value": "ttgo-t-camera"
+    },
+    {
+      "label": "TTGO T-Display",
+      "value": "ttgo-t-display"
+    },
+    {
+      "label": "TTGO T-Watch",
+      "value": "ttgo-t-watch"
+    },
+    {
+      "label": "WT32-ETH01",
+      "value": "wt32-eth01"
+    },
+    {
+      "label": "Wemos D1 Mini (ESP8266)",
+      "value": "d1_mini"
+    },
+    {
+      "label": "Wemos D1 R1",
+      "value": "d1"
+    }
+  ]
+}
