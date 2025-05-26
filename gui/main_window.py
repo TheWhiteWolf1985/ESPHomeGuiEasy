@@ -179,13 +179,28 @@ class MainWindow(QMainWindow):
         self.sensor_canvas = SensorCanvas()
         self.sensor_canvas.setMinimumHeight(400)  # imposta un’altezza minima
 
-        # Pulsante per aggiungere nuovi blocchi
+        # Pulsanti per aggiunta sensore e aggiornamento YAML
         add_sensor_btn = QPushButton("➕ Aggiungi Sensore")
         add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)
 
+        self.update_yaml_btn = QPushButton("Aggiorna YAML")
+        self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_blocchi)
+
+        # Layout orizzontale dei pulsanti
+        sensor_btn_layout = QHBoxLayout()
+        sensor_btn_layout.addWidget(add_sensor_btn)
+        sensor_btn_layout.addWidget(self.update_yaml_btn)
+
+        # Wrappa il layout in un QWidget prima di inserirlo in un QVBoxLayout
+        sensor_btn_widget = QWidget()
+        sensor_btn_widget.setLayout(sensor_btn_layout)
+
+        # Inserimento nel layout verticale dei sensori
         sensor_layout.addWidget(self.sensor_canvas)
-        sensor_layout.addWidget(add_sensor_btn)
+        sensor_layout.addWidget(sensor_btn_widget)
+
         sensor_creation.setLayout(sensor_layout)
+
 
         right_pane.addLayout(right_top, 1)
         right_pane.addWidget(sensor_creation, 2)
@@ -276,5 +291,16 @@ class MainWindow(QMainWindow):
             return
 
         self.compiler.compile_yaml(yaml_content)
+
+    def aggiorna_yaml_da_blocchi(self):
+        """
+        @brief Aggiorna il contenuto YAML nell'editor leggendo i blocchi nel canvas.
+        """
+        current_yaml = self.yaml_editor.toPlainText()
+        new_yaml = YAMLHandler.generate_yaml_from_blocks(
+            self.sensor_canvas.scene(), current_yaml
+        )
+        self.yaml_editor.setPlainText(new_yaml)
+        self.logger.log("✅ YAML aggiornato dai blocchi.", "success")        
 
 
