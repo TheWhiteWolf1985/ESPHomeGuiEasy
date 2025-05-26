@@ -15,6 +15,8 @@ from core.log_handler import LOGHandler
 from gui.yaml_editor import YamlCodeEditor
 from gui.sensor_canvas import SensorCanvas
 from gui.sensor_block_item import SensorBlockItem
+from core.compile_manager import CompileManager
+from core.log_handler import LOGHandler
 import config.GUIconfig as conf
 import json
 import os
@@ -74,7 +76,6 @@ class MainWindow(QMainWindow):
 
         self.yaml_editor.setPlainText(YAMLHandler.load_default_yaml())
 
-
         left_top = QVBoxLayout()
         left_top.addWidget(self.yaml_editor)
 
@@ -92,12 +93,18 @@ class MainWindow(QMainWindow):
                 border: 5px ridge silver;
             }
         """)
-        LOGHandler.append_to_console(self.console_output, "Console avviata...", "info")
+        
+
+        self.logger = LOGHandler(self.console_output)
+        self.compiler = CompileManager(self.logger.log)
+        self.logger.log("Console avviata...", "info")  
 
         # Connection & Command Group
         connection_group = QGroupBox("Connessione & Comandi")
         conn_layout = QVBoxLayout()
-        conn_layout.addWidget(QPushButton("Compila"))
+        self.compile_btn = QPushButton("Compila")
+        self.compile_btn.clicked.connect(self.compila_progetto)
+        conn_layout.addWidget(self.compile_btn)
         conn_layout.addWidget(QPushButton("Flash USB"))
         conn_layout.addWidget(QPushButton("Flash OTA"))
         conn_layout.addWidget(QPushButton("Scan OTA"))
@@ -257,5 +264,17 @@ class MainWindow(QMainWindow):
         @brief Crea e aggiunge un nuovo blocco sensore nel canvas.
         """
         nuovo_blocco = SensorBlockItem("Nuovo Sensore")
-        self.sensor_canvas.add_sensor_block(nuovo_blocco)            
+        self.sensor_canvas.add_sensor_block(nuovo_blocco)         
+
+    def compila_progetto(self):
+        """
+        @brief Compila il contenuto YAML dell'editor corrente tramite ESPHome.
+        """
+        yaml_content = self.yaml_editor.toPlainText()
+        if not yaml_content.strip():
+            self.logger.log("⚠️ Nessun contenuto YAML da compilare.")
+            return
+
+        self.compiler.compile_yaml(yaml_content)
+
 
