@@ -261,14 +261,14 @@ class MainWindow(QMainWindow):
         self.logger.log("🆕 Nuovo progetto creato.", "info")
 
     def apri_progetto(self):
-        from PyQt6.QtWidgets import QFileDialog
         filename, _ = QFileDialog.getOpenFileName(self, "Apri progetto", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
         if filename:
             with open(filename, "r", encoding="utf-8") as f:
                 content = f.read()
                 self.yaml_editor.setPlainText(content)
-            # Se vuoi sincronizzare i dati negli altri tab:
-            self.tab_settings.aggiorna_layout_da_dati()
+            # Prima aggiorna i campi settings leggendo dallo YAML!
+            self.tab_settings.carica_dati_da_yaml(content)
+            # Poi aggiorna i blocchi grafici
             self.tab_sensori.aggiorna_blocchi_da_yaml(content)
             self.logger.log(f"📂 Progetto aperto: {filename}", "success")
 

@@ -261,3 +261,35 @@ class TabSettings(QWidget):
         self.board_combo.setCurrentIndex(0)
         self.wifi_ssid_edit.clear()
         self.wifi_pass_edit.clear()
+
+    def carica_dati_da_yaml(self, yaml_content):
+        """
+        Legge lo YAML e aggiorna i campi del tab settings di conseguenza.
+        """
+        from ruamel.yaml import YAML
+        yaml = YAML(typ="safe")
+        try:
+            data = yaml.load(yaml_content)
+        except Exception as e:
+            if hasattr(self, "logger"):
+                self.logger.log(f"Errore parsing YAML: {e}", "error")
+            return
+
+        # Aggiorna i campi se presenti
+        if not data:
+            return
+        esphome = data.get("esphome", {})
+        self.device_name_edit.setText(esphome.get("name", ""))
+
+        esp32 = data.get("esp32", {})
+        board = esp32.get("board", "")
+        idx = self.board_combo.findData(board)
+        if idx >= 0:
+            self.board_combo.setCurrentIndex(idx)
+        else:
+            self.board_combo.setCurrentIndex(0)
+
+        wifi = data.get("wifi", {})
+        self.wifi_ssid_edit.setText(wifi.get("ssid", ""))
+        self.wifi_pass_edit.setText(wifi.get("password", ""))
+

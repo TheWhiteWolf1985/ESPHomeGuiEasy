@@ -5,6 +5,8 @@ from PyQt6.QtCore import Qt
 from gui.sensor_canvas import SensorCanvas
 from core.yaml_handler import YAMLHandler
 import config.GUIconfig as GUIconfig
+from ruamel.yaml import YAML
+from gui.sensor_block_item import SensorBlockItem
 
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
@@ -88,3 +90,68 @@ class TabSensori(QWidget):
 
     def get_sensor_canvas(self):
         return self.sensor_canvas
+    
+    def aggiorna_blocchi_da_yaml(self, yaml_content):
+        """
+        Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
+        """
+
+        # 1. Svuota tutti i blocchi esistenti
+        self.get_sensor_canvas().clear_blocks()
+
+        # 2. Parsea il contenuto YAML
+        yaml = YAML(typ="safe")
+        try:
+            data = yaml.load(yaml_content)
+        except Exception as e:
+            if hasattr(self, "logger"):
+                self.logger.log(f"Errore parsing YAML: {e}", "error")
+            return
+
+        if not data or "sensor" not in data or not isinstance(data["sensor"], list):
+            if hasattr(self, "logger"):
+                self.logger.log("Nessuna sezione 'sensor' valida trovata nello YAML.", "warning")
+            return
+
+        # 3. Ricrea un blocco per ogni sensore
+        for sensor in data["sensor"]:
+            # Prendi tipo sensore e info
+            platform = sensor.get("platform", "").lower()
+            name = sensor.get("name", "")
+            pin = sensor.get("pin", "")
+            interval = None
+
+            # Determina tipo per il combo
+            if platform == "dht":
+                sensor_type = sensor.get("model", "dht11")
+                name = sensor.get("temperature", {}).get("name", "DHT Temp")
+                pin = sensor.get("pin", "")
+                interval = sensor.get("update_interval", "60s").replace("s", "")
+            elif platform == "gpio":
+                sensor_type = "gpio"
+                interval = ""  # GPIO non ha update interval di solito
+            elif platform == "adc":
+                sensor_type = "analogico"
+                interval = sensor.get("update_interval", "60s").replace("s", "")
+            else:
+                sensor_type = platform
+
+            # Crea blocco
+            nuovo_blocco = SensorBlockItem(name)
+            # Imposta tipo sensore
+            idx = nuovo_blocco.type_combo.findText(sensor_type, Qt.MatchFlag.MatchFixedString)
+            if idx >= 0:
+                nuovo_blocco.type_combo.setCurrentIndex(idx)
+            # Imposta nome
+            nuovo_blocco.name_edit.setText(name)
+            # Imposta pin
+            nuovo_blocco.pin_edit.setText(str(pin))
+            # Imposta intervallo, se presente
+            if interval and hasattr(nuovo_blocco, "update_spin"):
+                try:
+                    nuovo_blocco.update_spin.setValue(int(interval))
+                except Exception:
+                    pass  # intervallo non numerico, ignora
+
+            self.get_sensor_canvas().add_sensor_block(nuovo_blocco)
+
