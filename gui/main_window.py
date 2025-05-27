@@ -8,7 +8,6 @@ e strumenti di creazione dei sensori, strutturato in modo modulare.
 
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
 from core.yaml_highlighter import YamlHighlighter
 from core.yaml_handler import YAMLHandler
 from core.log_handler import LOGHandler
@@ -17,9 +16,10 @@ from gui.sensor_canvas import SensorCanvas
 from gui.sensor_block_item import SensorBlockItem
 from core.compile_manager import CompileManager
 from core.log_handler import LOGHandler
+from gui.tab_settings import TabSettings
+from gui.tab_sensori import TabSensori
+from gui.tab_command import TabCommand
 import config.GUIconfig as conf
-import json
-import os
 
 
 class MainWindow(QMainWindow):
@@ -99,21 +99,8 @@ class MainWindow(QMainWindow):
         self.compiler = CompileManager(self.logger.log)
         self.logger.log("Console avviata...", "info")  
 
-        # Connection & Command Group
-        connection_group = QGroupBox("Connessione & Comandi")
-        conn_layout = QVBoxLayout()
-        self.compile_btn = QPushButton("Compila")
-        self.compile_btn.clicked.connect(self.compila_progetto)
-        conn_layout.addWidget(self.compile_btn)
-        conn_layout.addWidget(QPushButton("Flash USB"))
-        conn_layout.addWidget(QPushButton("Flash OTA"))
-        conn_layout.addWidget(QPushButton("Scan OTA"))
-        conn_layout.addWidget(QComboBox())  # Porta seriale/IP
-        connection_group.setLayout(conn_layout)
-
         left_bottom = QHBoxLayout()
         left_bottom.addWidget(self.console_output)
-        left_bottom.addWidget(connection_group)
 
         left_pane.addLayout(left_top)
         left_pane.addLayout(left_bottom)
@@ -121,89 +108,36 @@ class MainWindow(QMainWindow):
         # --- RIGHT PANE ---
         right_pane = QVBoxLayout()
 
-        # Controller Image
-        self.controller_image = QLabel("[Immagine Controller]")
-        self.controller_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.controller_image.setStyleSheet("background-color: lightgray")
-        self.controller_image.setFixedSize(400, 300)
-
-        # General Project Data
-        general_data = QGroupBox("Dati Generali Progetto")
-        general_layout = QFormLayout()
-
-        general_layout.addRow("Nome:", QLineEdit())
-
-        # Ricerca + Combo filtrabile
-        self.board_list = self.load_board_list()
-
-        self.board_search = QLineEdit()
-        self.board_search.setPlaceholderText("Cerca board...")
-        self.board_combo = QComboBox()
-        self.board_combo.currentIndexChanged.connect(
-        lambda: self.update_controller_image(self.board_combo.currentData())
+        self.tab_widget = QTabWidget()
+        # --- TAB 1: SETTAGGI PROGETTO ---
+        self.tab_settings = TabSettings(
+            yaml_editor=self.yaml_editor,
+            logger=self.logger
         )
-
-        def filter_board_list(text):
-            self.board_combo.clear()
-            for board in self.board_list:
-                if text.lower() in board["label"].lower():
-                    self.board_combo.addItem(board["label"], board["value"])
-
-        # Carica inizialmente tutte le board
-        filter_board_list("")
-        self.board_search.textChanged.connect(filter_board_list)
-
-        # Layout
-        board_layout = QVBoxLayout()
-        board_layout.addWidget(self.board_search)
-        board_layout.addWidget(self.board_combo)
-        board_container = QWidget()
-        board_container.setLayout(board_layout)
-
-        general_layout.addRow("Board:", board_container)
+        self.tab_widget.addTab(self.tab_settings, "🛠️ Settaggi")
+        self.tab_settings.get_update_yaml_btn().clicked.connect(self.tab_settings.aggiorna_layout_da_dati)
 
 
-        general_layout.addRow("SSID:", QLineEdit())
-        general_layout.addRow("Password:", QLineEdit())
-        general_data.setLayout(general_layout)
+        # --- TAB 2: SENSORI ---
+        self.tab_sensori = TabSensori(
+            yaml_editor=self.yaml_editor,
+            logger=self.logger,
+            tab_settings=self.tab_settings
+        )
+        self.tab_widget.addTab(self.tab_sensori, "🧩 Sensori")
 
-        right_top = QHBoxLayout()
-        right_top.addWidget(self.controller_image, 2)
-        right_top.addWidget(general_data, 1)
+        # --- TAB 3: COMPILAZIONE/CARICAMENTO ---
+        self.tab_command = TabCommand(
+            yaml_editor=self.yaml_editor,
+            logger=self.logger,
+            compiler=self.compiler,
+            flash_callback=None,  # Potrai aggiungerli dopo!
+            ota_callback=None
+        )
+        self.tab_widget.addTab(self.tab_command, "⬆️ Compila/Carica")
 
-        # Sensor Creation (Canvas + Aggiungi bottone)
-        sensor_creation = QGroupBox("Creazione Sensori")
-        sensor_layout = QVBoxLayout()
-
-        # Crea il canvas e salvalo come attributo per accesso futuro
-        self.sensor_canvas = SensorCanvas()
-        self.sensor_canvas.setMinimumHeight(400)  # imposta un’altezza minima
-
-        # Pulsanti per aggiunta sensore e aggiornamento YAML
-        add_sensor_btn = QPushButton("➕ Aggiungi Sensore")
-        add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)
-
-        self.update_yaml_btn = QPushButton("Aggiorna YAML")
-        self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_blocchi)
-
-        # Layout orizzontale dei pulsanti
-        sensor_btn_layout = QHBoxLayout()
-        sensor_btn_layout.addWidget(add_sensor_btn)
-        sensor_btn_layout.addWidget(self.update_yaml_btn)
-
-        # Wrappa il layout in un QWidget prima di inserirlo in un QVBoxLayout
-        sensor_btn_widget = QWidget()
-        sensor_btn_widget.setLayout(sensor_btn_layout)
-
-        # Inserimento nel layout verticale dei sensori
-        sensor_layout.addWidget(self.sensor_canvas)
-        sensor_layout.addWidget(sensor_btn_widget)
-
-        sensor_creation.setLayout(sensor_layout)
-
-
-        right_pane.addLayout(right_top, 1)
-        right_pane.addWidget(sensor_creation, 2)
+        # --- INSERISCI IL QTabWidget NEL RIGHT_PANE ---
+        right_pane.addWidget(self.tab_widget)
 
         # Splitter orizzontale principale tra left e right pane
         main_splitter = QSplitter(Qt.Orientation.Horizontal)
@@ -226,81 +160,4 @@ class MainWindow(QMainWindow):
         # Composizione finale
         main_layout.addLayout(left_pane, 1)
         main_layout.addLayout(right_pane, 1)
-
-
-
-    def load_board_list(self):
-        """
-        @brief Carica la lista delle board supportate da un file JSON in /config.
-
-        Il file deve avere una struttura:
-        {
-            "boards": [
-                {"label": "Nome commerciale", "value": "nome_tecnico"},
-                ...
-            ]
-        }
-
-        @return lista di dizionari con chiavi 'label' e 'value'
-        """
-        try:
-            base_path = os.path.dirname(os.path.abspath(__file__))
-            config_path = os.path.join(base_path, "../config/boards.json")
-
-            with open(config_path, 'r', encoding='utf-8') as file:
-                data = json.load(file)
-                boards = data.get("boards", [])
-                # Ordina alfabeticamente per label (giusto in caso il file non lo sia già)
-                boards.sort(key=lambda x: x["label"].lower())
-                return boards
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"[Errore] Caricamento boards.json fallito: {e}")
-            return []
-        
-    def update_controller_image(self, board_value):
-        """
-        @brief Aggiorna l'immagine del controller in base alla board selezionata.
-        """
-        image_path = os.path.join("assets", "pinout", f"{board_value}.png")
-
-        if os.path.exists(image_path):
-            pixmap = QPixmap(image_path)
-            scaled = pixmap.scaled(self.controller_image.size(),
-                                Qt.AspectRatioMode.KeepAspectRatio,
-                                Qt.TransformationMode.SmoothTransformation)
-            self.controller_image.setPixmap(scaled)
-            self.controller_image.setText("")  # Rimuove il testo placeholder
-        else:
-            self.controller_image.setPixmap(QPixmap())  # Svuota
-            self.controller_image.setText("[Immagine non disponibile]")   
-
-    def aggiungi_blocco_sensore(self):
-        """
-        @brief Crea e aggiunge un nuovo blocco sensore nel canvas.
-        """
-        nuovo_blocco = SensorBlockItem("Nuovo Sensore")
-        self.sensor_canvas.add_sensor_block(nuovo_blocco)         
-
-    def compila_progetto(self):
-        """
-        @brief Compila il contenuto YAML dell'editor corrente tramite ESPHome.
-        """
-        yaml_content = self.yaml_editor.toPlainText()
-        if not yaml_content.strip():
-            self.logger.log("⚠️ Nessun contenuto YAML da compilare.")
-            return
-
-        self.compiler.compile_yaml(yaml_content)
-
-    def aggiorna_yaml_da_blocchi(self):
-        """
-        @brief Aggiorna il contenuto YAML nell'editor leggendo i blocchi nel canvas.
-        """
-        current_yaml = self.yaml_editor.toPlainText()
-        new_yaml = YAMLHandler.generate_yaml_from_blocks(
-            self.sensor_canvas.scene(), current_yaml
-        )
-        self.yaml_editor.setPlainText(new_yaml)
-        self.logger.log("✅ YAML aggiornato dai blocchi.", "success")        
-
 

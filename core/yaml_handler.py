@@ -38,24 +38,46 @@ class YAMLHandler:
             return f"# Errore nel caricamento del template: {e}"
 
     @staticmethod
-    def generate_yaml_from_blocks(canvas: QGraphicsScene, current_yaml: str) -> str:
+    def generate_yaml_from_blocks(canvas: QGraphicsScene, current_yaml: str,
+                                  device_name: str, board: str, ssid: str, password: str) -> str:
         """
-        @brief Genera un file YAML aggiornato inserendo solo la sezione sensori.
-        @param canvas Oggetto QGraphicsScene contenente i blocchi sensori
+        @brief Genera un file YAML aggiornato inserendo dati generali e sensori.
+        @param canvas QGraphicsScene contenente i blocchi sensori
         @param current_yaml YAML attuale da cui partire
-        @return YAML completo con sezione sensori aggiornata
+        @param device_name Nome del dispositivo (esphome.name)
+        @param board Nome board tecnica
+        @param ssid SSID rete WiFi
+        @param password Password WiFi
+        @return YAML completo aggiornato
         """
         try:
             data = yaml.load(current_yaml) or {}
 
-            # Svuota la sezione sensor
+            # === Sezione esphome ===
+            data['esphome'] = data.get('esphome', {})
+            data['esphome']['name'] = device_name or "nome_dispositivo"
+            data['esphome']['friendly_name'] = device_name or "Dispositivo ESPHome"
+
+            # === Sezione esp32 ===
+            data['esp32'] = {
+                'board': board or "esp32dev",
+                'framework': {'type': 'arduino'}
+            }
+
+            # === Sezione wifi ===
+            data['wifi'] = {
+                'ssid': ssid or "YourSSID",
+                'password': password or "YourPassword"
+            }
+
+            # === Sezione sensor ===
             data['sensor'] = []
 
             for item in canvas.items():
                 if isinstance(item, SensorBlockItem):
                     sensor_type = item.type_combo.currentText()
                     name = item.name_edit.text().strip()
-                    pin = item.pin_combo.currentText()
+                    pin = item.pin_edit.text().strip()
                     interval = item.update_spin.value()
 
                     if not name:
@@ -96,3 +118,98 @@ class YAMLHandler:
 
         except Exception as e:
             return f"# Errore generazione YAML: {e}"
+        
+    @staticmethod
+    def generate_yaml_general_sections(current_yaml: str, device_name: str, board: str, ssid: str, password: str) -> str:
+        """
+        Aggiorna solo le sezioni generali nel file YAML senza toccare la sezione sensori.
+        """
+        try:
+            from ruamel.yaml import YAML
+            yaml = YAML()
+            yaml.indent(mapping=2, sequence=4, offset=2)
+            yaml.preserve_quotes = True
+
+            from io import StringIO
+            data = yaml.load(current_yaml) or {}
+
+            # Sezione esphome
+            data['esphome'] = data.get('esphome', {})
+            data['esphome']['name'] = device_name or "nome_dispositivo"
+            data['esphome']['friendly_name'] = device_name or "Dispositivo ESPHome"
+
+            # Sezione esp32
+            data['esp32'] = {
+                'board': board or "esp32dev",
+                'framework': {'type': 'arduino'}
+            }
+
+            # Sezione wifi
+            data['wifi'] = {
+                'ssid': ssid or "YourSSID",
+                'password': password or "YourPassword"
+            }
+
+            output = StringIO()
+            yaml.dump(data, output)
+            return output.getvalue()
+
+        except Exception as e:
+            return f"# Errore aggiornamento YAML (generale): {e}"
+
+
+    def generate_yaml_sensors_only(canvas: QGraphicsScene, current_yaml: str) -> str:
+        """
+        Aggiorna solo la sezione sensori nel file YAML senza toccare le sezioni generali.
+        """
+        try:
+            data = yaml.load(current_yaml) or {}
+
+            # Sezione sensor
+            data['sensor'] = []
+
+            from gui.sensor_block_item import SensorBlockItem
+            for item in canvas.items():
+                if isinstance(item, SensorBlockItem):
+                    sensor_type = item.type_combo.currentText()
+                    name = item.name_edit.text().strip()
+                    pin = item.pin_edit.text().strip()
+                    interval = item.update_spin.value()
+
+                    if not name:
+                        continue
+
+                    if sensor_type.lower() in ['dht11', 'dht22']:
+                        sensor_block = {
+                            'platform': 'dht',
+                            'model': sensor_type,
+                            'pin': pin,
+                            'temperature': {'name': f"{name} Temp"},
+                            'humidity': {'name': f"{name} Hum"},
+                            'update_interval': f"{interval}s"
+                        }
+                        data['sensor'].append(sensor_block)
+                    elif sensor_type.lower() == 'gpio':
+                        sensor_block = {
+                            'platform': 'gpio',
+                            'pin': pin,
+                            'name': name
+                        }
+                        data['sensor'].append(sensor_block)
+                    elif sensor_type.lower() == 'analogico':
+                        sensor_block = {
+                            'platform': 'adc',
+                            'pin': pin,
+                            'name': name,
+                            'update_interval': f"{interval}s"
+                        }
+                        data['sensor'].append(sensor_block)
+
+            from io import StringIO
+            output = StringIO()
+            yaml.dump(data, output)
+            return output.getvalue()
+
+        except Exception as e:
+            return f"# Errore aggiornamento YAML (sensori): {e}"
+

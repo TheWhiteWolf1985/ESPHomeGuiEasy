@@ -84,10 +84,10 @@ class SensorBlockItem(QGraphicsItem):
         layout.addWidget(self.name_edit)
 
         # Pin
-        self.pin_combo = QComboBox()
-        self.pin_combo.addItems(["D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"])
+        self.pin_edit = QLineEdit()
+        self.pin_edit.setPlaceholderText("es: 4 oppure GPIO4")
         layout.addWidget(QLabel("Pin"))
-        layout.addWidget(self.pin_combo)
+        layout.addWidget(self.pin_edit)
 
         # Update interval
         self.update_spin = QSpinBox()
