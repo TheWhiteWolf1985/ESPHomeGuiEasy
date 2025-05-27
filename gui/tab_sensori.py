@@ -66,7 +66,6 @@ class TabSensori(QWidget):
         """
         @brief Crea e aggiunge un nuovo blocco sensore nel canvas.
         """
-        from gui.sensor_block_item import SensorBlockItem
         nuovo_blocco = SensorBlockItem("Nuovo Sensore")
         self.sensor_canvas.add_sensor_block(nuovo_blocco)
 

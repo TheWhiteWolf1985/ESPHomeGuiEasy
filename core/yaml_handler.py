@@ -89,8 +89,8 @@ class YAMLHandler:
                             'platform': 'dht',
                             'model': sensor_type,
                             'pin': pin,
-                            'temperature': {'name': f"{name} Temp"},
-                            'humidity': {'name': f"{name} Hum"},
+                            'temperature': {'name': f"{name}_Temp"},
+                            'humidity': {'name': f"{name}_Hum"},
                             'update_interval': f"{interval}s"
                         }
                         data['sensor'].append(sensor_block)

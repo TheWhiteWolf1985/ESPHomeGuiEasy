@@ -1,0 +1,27 @@
+esphome:
+  name: cucina_temp
+  friendly_name: cucina_temp
+
+esp32:
+  board: seeed_xiao_esp32c3
+  framework:
+    type: arduino
+logger:
+
+api:
+
+ota:
+
+wifi:
+  ssid: juri-ufficio-2.4
+  password: juri85manuela77
+captive_portal:
+sensor:
+  - platform: dht
+    model: DHT11
+    pin: '21'
+    temperature:
+      name: temp_um_cucina Temp
+    humidity:
+      name: temp_um_cucina Hum
+    update_interval: 60s
