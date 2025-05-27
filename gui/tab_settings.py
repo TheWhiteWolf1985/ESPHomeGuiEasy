@@ -7,6 +7,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 import os
 import json
+import config.GUIconfig as GUIConfig
 
 class TabSettings(QWidget):
     def __init__(self, yaml_editor, logger=None):
@@ -14,7 +15,7 @@ class TabSettings(QWidget):
         self.yaml_editor = yaml_editor
         self.logger = logger
         layout = QVBoxLayout(self)
-        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)        
 
         # --- Controller Image ---
         self.controller_image = QLabel("[Immagine Controller]")
@@ -65,6 +66,7 @@ class TabSettings(QWidget):
         # --- General Project Data ---
         general_data = QGroupBox("Dati Generali Progetto")
         general_layout = QFormLayout()
+        general_data.setStyleSheet(GUIConfig.GROUPBOX_STYLE)
 
         self.device_name_edit = QLineEdit()
         general_layout.addRow("Nome:", self.device_name_edit)
@@ -253,4 +255,9 @@ class TabSettings(QWidget):
         if hasattr(self, "logger"):  # Se hai logger collegato
             self.logger.log("✅ YAML aggiornato con i dati generali.", "success")
 
-
+    def reset_fields(self):
+        """Svuota tutti i campi del tab Settings (nome, board, wifi ecc.)."""
+        self.device_name_edit.clear()
+        self.board_combo.setCurrentIndex(0)
+        self.wifi_ssid_edit.clear()
+        self.wifi_pass_edit.clear()

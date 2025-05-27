@@ -32,3 +32,7 @@ class SensorCanvas(QGraphicsView):
         """
         block.setPos(100, 100)  # posizione fissa iniziale
         self.scene().addItem(block)
+
+    def clear_blocks(self):
+        """Rimuove tutti i blocchi/sensori dal canvas."""
+        self.scene().clear()        

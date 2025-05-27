@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from gui.sensor_canvas import SensorCanvas
 from core.yaml_handler import YAMLHandler
+import config.GUIconfig as GUIconfig
 
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
@@ -30,6 +31,7 @@ class TabSensori(QWidget):
 
         # --- GroupBox per la creazione sensori ---
         sensor_creation = QGroupBox("Creazione Sensori")
+        sensor_creation.setStyleSheet(GUIconfig.GROUPBOX_STYLE)
         sensor_layout = QVBoxLayout()
 
         self.sensor_canvas = SensorCanvas()

@@ -8,6 +8,7 @@ e strumenti di creazione dei sensori, strutturato in modo modulare.
 
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPalette, QColor
 from core.yaml_highlighter import YamlHighlighter
 from core.yaml_handler import YAMLHandler
 from core.log_handler import LOGHandler
@@ -19,6 +20,7 @@ from core.log_handler import LOGHandler
 from gui.tab_settings import TabSettings
 from gui.tab_sensori import TabSensori
 from gui.tab_command import TabCommand
+from gui.menu_bar import MainMenuBar
 import config.GUIconfig as conf
 
 
@@ -38,6 +40,68 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(conf.APP_NAME)
         self.setMinimumSize(conf.MAIN_WINDOW_WIDTH, conf.MAIN_WINDOW_HEIGHT)
+        self.last_save_path = None
+
+        dark_palette = QPalette()
+        dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
+        dark_palette.setColor(QPalette.ColorRole.Base, QColor("#1e1e1e"))
+        dark_palette.setColor(QPalette.ColorRole.Text, QColor("#d4d4d4"))
+        dark_palette.setColor(QPalette.ColorRole.Button, QColor("#23272e"))
+        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#d4d4d4"))
+        dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
+        dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
+        dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))
+        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))
+
+        groupbox_style = """
+            QGroupBox {
+                background-color: #23272e;
+                border: 1.5px solid #2a2d2e;
+                border-radius: 8px;
+                color: #d4d4d4;
+                margin-top: 10px;
+                font-weight: bold;
+                font-size: 12pt;
+                padding: 8px;
+            }
+            QGroupBox:title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                padding: 0 3px 0 3px;
+            }
+            QLabel {
+                color: #d4d4d4;
+                font-size: 11pt;
+            }
+        """             
+
+        common_input_style = """
+            QLineEdit, QComboBox {
+                background-color: #2a2d2e;
+                color: #d4d4d4;
+                border: 1px solid #444;
+                border-radius: 5px;
+                font-size: 11pt;
+                padding: 4px 8px;
+            }
+            QLineEdit:disabled, QComboBox:disabled {
+                background-color: #222;
+                color: #888;
+            }
+        """  
+
+        label_style = """
+        QLabel {
+            color: #d4d4d4;
+            font-size: 11pt;
+        }
+        """        
+
+        self.setStyleSheet(self.styleSheet() + common_input_style)
+        self.setStyleSheet(self.styleSheet() + label_style)
+
+        self.setPalette(dark_palette)
+        self.setAutoFillBackground(True)        
 
         main_widget = QWidget()
         main_layout = QVBoxLayout()
@@ -47,16 +111,8 @@ class MainWindow(QMainWindow):
         # --- LEFT PANE ---
         left_pane = QVBoxLayout()
 
-        # YAML Toolbar
-        menubar = self.menuBar()
-
-        # Crea il menu "File"
-        file_menu = menubar.addMenu("File")
-
-        file_menu.addAction("Nuovo")
-        file_menu.addAction("Apri")
-        file_menu.addAction("Salva")
-        file_menu.addAction("Esporta bin")
+        self.menu_bar = MainMenuBar(self)
+        self.setMenuBar(self.menu_bar) 
 
         # YAML Editor
         self.yaml_editor = YamlCodeEditor()
@@ -70,7 +126,8 @@ class MainWindow(QMainWindow):
                 font-family: Consolas, monospace;
                 font-size: 12pt;
                 padding: 8px;
-                border: 5px ridge silver;
+                border: 2px solid #444;
+                border-radius: 8px;
             }
         """)
 
@@ -90,7 +147,8 @@ class MainWindow(QMainWindow):
                 font-family: 'Cascadia Code', Consolas, monospace;
                 font-size: 11pt;
                 padding: 8px;
-                border: 5px ridge silver;
+                border: 2px solid #444;
+                border-radius: 8px;
             }
         """)
         
@@ -109,6 +167,11 @@ class MainWindow(QMainWindow):
         right_pane = QVBoxLayout()
 
         self.tab_widget = QTabWidget()
+        self.tab_widget.setStyleSheet("""
+            QTabWidget::pane { border: none; }
+            QTabBar::tab:selected { background: #23272e; color: #61dafb; }
+            QTabBar::tab { background: #1e1e1e; color: #d4d4d4; font-size: 12pt; border-radius: 8px; padding: 8px 16px;}
+        """)
         # --- TAB 1: SETTAGGI PROGETTO ---
         self.tab_settings = TabSettings(
             yaml_editor=self.yaml_editor,
@@ -116,7 +179,6 @@ class MainWindow(QMainWindow):
         )
         self.tab_widget.addTab(self.tab_settings, "🛠️ Settaggi")
         self.tab_settings.get_update_yaml_btn().clicked.connect(self.tab_settings.aggiorna_layout_da_dati)
-
 
         # --- TAB 2: SENSORI ---
         self.tab_sensori = TabSensori(
@@ -160,4 +222,101 @@ class MainWindow(QMainWindow):
         # Composizione finale
         main_layout.addLayout(left_pane, 1)
         main_layout.addLayout(right_pane, 1)
+
+
+##########################################################################
+#                          METODI MENU BAR                               #
+##########################################################################
+
+        self.menu_bar.new_action.triggered.connect(self.nuovo_progetto)
+        self.menu_bar.open_action.triggered.connect(self.apri_progetto)
+        self.menu_bar.save_action.triggered.connect(self.salva_progetto)
+        self.menu_bar.saveas_action.triggered.connect(self.salva_con_nome)
+        self.menu_bar.import_action.triggered.connect(self.importa_yaml)
+        self.menu_bar.export_action.triggered.connect(self.esporta_yaml)
+        self.menu_bar.exit_action.triggered.connect(self.close)     
+
+    def nuovo_progetto(self):
+        """
+        Reset completo per nuovo progetto:
+        - Svuota campi settings
+        - Svuota canvas sensori
+        - Carica template YAML di base
+        - Reset path file attuale
+        """
+        # 1. Reset campi TabSettings
+        self.tab_settings.reset_fields()
+
+        # 2. Svuota canvas sensori
+        self.tab_sensori.get_sensor_canvas().clear_blocks()
+
+        # 3. Carica template YAML di base
+        base_yaml = YAMLHandler.load_default_yaml()
+        self.yaml_editor.setPlainText(base_yaml)
+
+        # 4. Reset percorso file corrente
+        self.last_save_path = None
+
+        # 5. Log
+        self.logger.log("🆕 Nuovo progetto creato.", "info")
+
+    def apri_progetto(self):
+        from PyQt6.QtWidgets import QFileDialog
+        filename, _ = QFileDialog.getOpenFileName(self, "Apri progetto", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
+        if filename:
+            with open(filename, "r", encoding="utf-8") as f:
+                content = f.read()
+                self.yaml_editor.setPlainText(content)
+            # Se vuoi sincronizzare i dati negli altri tab:
+            self.tab_settings.aggiorna_layout_da_dati()
+            self.tab_sensori.aggiorna_blocchi_da_yaml(content)
+            self.logger.log(f"📂 Progetto aperto: {filename}", "success")
+
+    def salva_progetto(self):
+        """
+        Salva il progetto sull’ultimo file usato (devi gestire un attributo path).
+        Se non c’è, chiama salva_con_nome().
+        """
+        try:
+            if not hasattr(self, "last_save_path") or not self.last_save_path:
+                self.salva_con_nome()
+                return
+            content = self.yaml_editor.toPlainText()
+            with open(self.last_save_path, "w", encoding="utf-8") as f:
+                f.write(content)
+            self.logger.log(f"💾 Progetto salvato: {self.last_save_path}", "success")
+        except Exception as e:
+            self.logger.log(f"❌ Errore salvataggio: {e}", "error")
+
+    def salva_con_nome(self):
+        from PyQt6.QtWidgets import QFileDialog
+        filename, _ = QFileDialog.getSaveFileName(self, "Salva progetto come...", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
+        if filename:
+            content = self.yaml_editor.toPlainText()
+            with open(filename, "w", encoding="utf-8") as f:
+                f.write(content)
+            self.last_save_path = filename
+            self.logger.log(f"💾 Progetto salvato come: {filename}", "success")
+
+    def importa_yaml(self):
+        from PyQt6.QtWidgets import QFileDialog
+        filename, _ = QFileDialog.getOpenFileName(self, "Importa YAML", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
+        if filename:
+            with open(filename, "r", encoding="utf-8") as f:
+                content = f.read()
+                self.yaml_editor.setPlainText(content)
+            # Puoi sincronizzare anche qui:
+            self.tab_settings.aggiorna_layout_da_dati()
+            self.tab_sensori.aggiorna_blocchi_da_yaml(content)
+            self.logger.log(f"🔄 YAML importato: {filename}", "success")
+
+    def esporta_yaml(self):
+        from PyQt6.QtWidgets import QFileDialog
+        filename, _ = QFileDialog.getSaveFileName(self, "Esporta YAML come...", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
+        if filename:
+            content = self.yaml_editor.toPlainText()
+            with open(filename, "w", encoding="utf-8") as f:
+                f.write(content)
+            self.logger.log(f"📤 YAML esportato come: {filename}", "success")
+
 

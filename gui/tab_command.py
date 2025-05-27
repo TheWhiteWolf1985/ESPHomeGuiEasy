@@ -5,6 +5,8 @@ from PyQt6.QtCore import Qt
 import socket
 import threading
 import serial.tools.list_ports  # Richiede pyserial
+from PyQt6.QtGui import QPalette, QColor
+import config.GUIconfig as GUIconfig
 
 class TabCommand(QWidget):
     def __init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):
@@ -12,6 +14,20 @@ class TabCommand(QWidget):
         self.yaml_editor = yaml_editor
         self.logger = logger
         self.compiler = compiler
+
+        dark_palette = QPalette()
+        dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
+        dark_palette.setColor(QPalette.ColorRole.Base, QColor("#1e1e1e"))
+        dark_palette.setColor(QPalette.ColorRole.Text, QColor("#d4d4d4"))
+        dark_palette.setColor(QPalette.ColorRole.Button, QColor("#23272e"))
+        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#d4d4d4"))
+        dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
+        dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
+        dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))
+        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))
+
+        self.setPalette(dark_palette)
+        self.setAutoFillBackground(True)           
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -188,9 +204,6 @@ class TabCommand(QWidget):
         ota_box.setLayout(ota_vlayout)
         layout.addWidget(ota_box)
 
-
-
-
         # --- SEZIONE COMPILAZIONE ---
         group_compile = QGroupBox("Compilazione Firmware")
         group_layout = QVBoxLayout()
@@ -217,6 +230,10 @@ class TabCommand(QWidget):
         group_layout.addLayout(btn_layout)
         group_compile.setLayout(group_layout)
         layout.addWidget(group_compile)
+
+        usb_box.setStyleSheet(GUIconfig.GROUPBOX_STYLE)
+        ota_box.setStyleSheet(GUIconfig.GROUPBOX_STYLE)
+        group_compile.setStyleSheet(GUIconfig.GROUPBOX_STYLE)    
 
     def refresh_com_ports(self):
         """Aggiorna la lista delle porte seriali disponibili."""
