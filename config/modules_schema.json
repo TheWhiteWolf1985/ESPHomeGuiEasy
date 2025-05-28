@@ -1,0 +1,258 @@
+{
+  "Debug": {
+    "icon": "🐞",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita Debug",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Intervallo Aggiornamento (s)",
+        "key": "update_interval",
+        "default": "",
+        "placeholder": "Es: 5"
+      }
+    ]
+  },
+
+  "Logger": {
+    "icon": "📝",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita Logger",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "combo",
+        "label": "Livello Log",
+        "key": "level",
+        "options": ["NONE", "ERROR", "WARN", "INFO", "DEBUG", "VERBOSE", "VERY_VERBOSE"],
+        "default": "INFO"
+      },
+      {
+        "type": "text",
+        "label": "Baudrate",
+        "key": "baud_rate",
+        "default": "115200",
+        "placeholder": "Es: 115200"
+      }
+    ]
+  },
+
+  "OTA": {
+    "icon": "📡",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita OTA",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Password OTA",
+        "key": "password",
+        "default": "",
+        "is_password": true,
+        "placeholder": "opzionale"
+      },
+      {
+        "type": "checkbox",
+        "label": "Safe Mode",
+        "key": "safe_mode",
+        "default": false
+      }
+    ]
+  },
+
+  "API": {
+    "icon": "🔗",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita API",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Password API",
+        "key": "password",
+        "default": "",
+        "is_password": true,
+        "placeholder": "opzionale"
+      },
+      {
+        "type": "checkbox",
+        "label": "Crittografia",
+        "key": "encryption",
+        "default": false
+      }
+    ]
+  },
+
+  "MQTT": {
+    "icon": "📬",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita MQTT",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Broker",
+        "key": "broker",
+        "default": "",
+        "placeholder": "es. 192.168.1.100"
+      },
+      {
+        "type": "text",
+        "label": "Porta",
+        "key": "port",
+        "default": "1883",
+        "placeholder": "1883"
+      },
+      {
+        "type": "text",
+        "label": "Username",
+        "key": "username",
+        "default": "",
+        "placeholder": "opzionale"
+      },
+      {
+        "type": "text",
+        "label": "Password",
+        "key": "password",
+        "default": "",
+        "is_password": true,
+        "placeholder": "opzionale"
+      },
+      {
+        "type": "text",
+        "label": "Topic Prefix",
+        "key": "topic_prefix",
+        "default": "",
+        "placeholder": "opzionale"
+      }
+    ]
+  },
+
+  "Time": {
+    "icon": "⏰",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita Time",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "combo",
+        "label": "Piattaforma",
+        "key": "platform",
+        "options": ["sntp", "homeassistant"],
+        "default": "sntp"
+      },
+      {
+        "type": "text",
+        "label": "ID",
+        "key": "id",
+        "default": "",
+        "placeholder": "opzionale"
+      },
+      {
+        "type": "text",
+        "label": "Server NTP",
+        "key": "servers",
+        "default": "",
+        "placeholder": "opzionale, separa con virgole"
+      }
+    ]
+  },
+
+  "Restart Switch": {
+    "icon": "🔄",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita Restart Switch",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Nome",
+        "key": "name",
+        "default": "Restart",
+        "placeholder": "Restart"
+      },
+      {
+        "type": "text",
+        "label": "ID",
+        "key": "id",
+        "default": "",
+        "placeholder": "opzionale"
+      }
+    ]
+  },
+
+  "Status LED": {
+    "icon": "💡",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita Status LED",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Pin GPIO",
+        "key": "pin",
+        "default": "",
+        "placeholder": "es. GPIO2"
+      }
+    ]
+  },
+
+  "Web Server": {
+    "icon": "🌐",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "Abilita Web Server",
+        "key": "enabled",
+        "default": false
+      },
+      {
+        "type": "text",
+        "label": "Porta",
+        "key": "port",
+        "default": "80",
+        "placeholder": "80"
+      },
+      {
+        "type": "text",
+        "label": "Username",
+        "key": "username",
+        "default": "",
+        "placeholder": "opzionale"
+      },
+      {
+        "type": "text",
+        "label": "Password",
+        "key": "password",
+        "default": "",
+        "is_password": true,
+        "placeholder": "opzionale"
+      }
+    ]
+  }
+}

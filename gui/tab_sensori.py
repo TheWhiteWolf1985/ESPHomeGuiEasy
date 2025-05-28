@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from gui.sensor_canvas import SensorCanvas
 from core.yaml_handler import YAMLHandler
-import config.GUIconfig as GUIconfig
+from gui.color_pantone import Pantone
 from ruamel.yaml import YAML
 from gui.sensor_block_item import SensorBlockItem
 
@@ -33,7 +33,7 @@ class TabSensori(QWidget):
 
         # --- GroupBox per la creazione sensori ---
         sensor_creation = QGroupBox("Creazione Sensori")
-        sensor_creation.setStyleSheet(GUIconfig.GROUPBOX_STYLE)
+        sensor_creation.setStyleSheet(Pantone.GROUPBOX_STYLE)
         sensor_layout = QVBoxLayout()
 
         self.sensor_canvas = SensorCanvas()

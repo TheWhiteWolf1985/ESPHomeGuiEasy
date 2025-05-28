@@ -1,0 +1,16 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="32" y="48" width="192" height="160" rx="36" fill="#222F3E"/>
+  <rect x="60" y="76" width="136" height="104" rx="18" fill="#3749b4"/>
+  <g>
+    <circle cx="128" cy="128" r="38" fill="#ff9800"/>
+    <g>
+      <circle cx="128" cy="128" r="19" fill="#23272e"/>
+      <path d="M128 109v-17M128 147v17M109 128h-17M147 128h17M114.5 114.5l-12-12M141.5 141.5l12 12M141.5 114.5l12-12M114.5 141.5l-12 12" stroke="#23272e" stroke-width="4"/>
+    </g>
+  </g>
+  <!-- Pin stylization -->
+  <rect x="38" y="61" width="10" height="24" rx="4" fill="#888"/>
+  <rect x="208" y="61" width="10" height="24" rx="4" fill="#888"/>
+  <rect x="38" y="171" width="10" height="24" rx="4" fill="#888"/>
+  <rect x="208" y="171" width="10" height="24" rx="4" fill="#888"/>
+</svg>

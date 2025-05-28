@@ -1,5 +1,3 @@
-# gui/tab_settings.py
-
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QPushButton, QGroupBox, QFormLayout, QLineEdit, QComboBox, QDialog, QSizePolicy, QFrame
 )
@@ -7,7 +5,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 import os
 import json
-import config.GUIconfig as GUIConfig
+from gui.color_pantone import Pantone
 
 class TabSettings(QWidget):
     def __init__(self, yaml_editor, logger=None):
@@ -66,7 +64,7 @@ class TabSettings(QWidget):
         # --- General Project Data ---
         general_data = QGroupBox("Dati Generali Progetto")
         general_layout = QFormLayout()
-        general_data.setStyleSheet(GUIConfig.GROUPBOX_STYLE)
+        general_data.setStyleSheet(Pantone.GROUPBOX_STYLE)
 
         self.device_name_edit = QLineEdit()
         general_layout.addRow("Nome:", self.device_name_edit)

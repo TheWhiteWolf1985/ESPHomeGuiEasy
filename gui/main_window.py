@@ -8,7 +8,7 @@ e strumenti di creazione dei sensori, strutturato in modo modulare.
 
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPalette, QColor
+from PyQt6.QtGui import QPalette, QColor, QIcon
 from core.yaml_highlighter import YamlHighlighter
 from core.yaml_handler import YAMLHandler
 from core.log_handler import LOGHandler
@@ -21,7 +21,9 @@ from gui.tab_settings import TabSettings
 from gui.tab_sensori import TabSensori
 from gui.tab_command import TabCommand
 from gui.menu_bar import MainMenuBar
+from gui.tab_modules import TabModules
 import config.GUIconfig as conf
+from gui.color_pantone import Pantone
 
 
 class MainWindow(QMainWindow):
@@ -40,6 +42,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(conf.APP_NAME)
         self.setMinimumSize(conf.MAIN_WINDOW_WIDTH, conf.MAIN_WINDOW_HEIGHT)
+        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))
+
         self.last_save_path = None
 
         dark_palette = QPalette()
@@ -51,29 +55,7 @@ class MainWindow(QMainWindow):
         dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
         dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
         dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))
-        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))
-
-        groupbox_style = """
-            QGroupBox {
-                background-color: #23272e;
-                border: 1.5px solid #2a2d2e;
-                border-radius: 8px;
-                color: #d4d4d4;
-                margin-top: 10px;
-                font-weight: bold;
-                font-size: 12pt;
-                padding: 8px;
-            }
-            QGroupBox:title {
-                subcontrol-origin: margin;
-                subcontrol-position: top left;
-                padding: 0 3px 0 3px;
-            }
-            QLabel {
-                color: #d4d4d4;
-                font-size: 11pt;
-            }
-        """             
+        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))       
 
         common_input_style = """
             QLineEdit, QComboBox {
@@ -180,7 +162,11 @@ class MainWindow(QMainWindow):
         self.tab_widget.addTab(self.tab_settings, "🛠️ Settaggi")
         self.tab_settings.get_update_yaml_btn().clicked.connect(self.tab_settings.aggiorna_layout_da_dati)
 
-        # --- TAB 2: SENSORI ---
+        # --- TAB 2: MODULI PROGETTO ---
+        self.tab_modules = TabModules()
+        self.tab_widget.addTab(self.tab_modules, "🧩 Moduli")    
+
+        # --- TAB 3: SENSORI ---
         self.tab_sensori = TabSensori(
             yaml_editor=self.yaml_editor,
             logger=self.logger,
@@ -188,7 +174,7 @@ class MainWindow(QMainWindow):
         )
         self.tab_widget.addTab(self.tab_sensori, "🧩 Sensori")
 
-        # --- TAB 3: COMPILAZIONE/CARICAMENTO ---
+        # --- TAB 4: COMPILAZIONE/CARICAMENTO ---
         self.tab_command = TabCommand(
             yaml_editor=self.yaml_editor,
             logger=self.logger,

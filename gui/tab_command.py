@@ -6,7 +6,7 @@ import socket
 import threading
 import serial.tools.list_ports  # Richiede pyserial
 from PyQt6.QtGui import QPalette, QColor
-import config.GUIconfig as GUIconfig
+from gui.color_pantone import Pantone
 
 class TabCommand(QWidget):
     def __init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):
@@ -231,9 +231,9 @@ class TabCommand(QWidget):
         group_compile.setLayout(group_layout)
         layout.addWidget(group_compile)
 
-        usb_box.setStyleSheet(GUIconfig.GROUPBOX_STYLE)
-        ota_box.setStyleSheet(GUIconfig.GROUPBOX_STYLE)
-        group_compile.setStyleSheet(GUIconfig.GROUPBOX_STYLE)    
+        usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
+        ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
+        group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)    
 
     def refresh_com_ports(self):
         """Aggiorna la lista delle porte seriali disponibili."""
