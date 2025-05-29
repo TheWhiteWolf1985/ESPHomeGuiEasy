@@ -1,17 +1,11 @@
 esphome:
-  name: cucina_temp
-  friendly_name: cucina_temp
+  name: cucinatemp
+  friendly_name: cucinatemp
 
 esp32:
   board: seeed_xiao_esp32c3
   framework:
     type: arduino
-logger:
-
-api:
-
-ota:
-
 wifi:
   ssid: juri-ufficio-2.4
   password: juri85manuela77
@@ -25,3 +19,8 @@ sensor:
     humidity:
       name: temp_um_cucina Hum
     update_interval: 60s
+debug:
+  update_interval: 55s
+logger:
+  level: ERROR
+  baud_rate: '115200'

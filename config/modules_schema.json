@@ -9,10 +9,10 @@
         "default": false
       },
       {
-        "type": "text",
+        "type": "int",
         "label": "Intervallo Aggiornamento (s)",
         "key": "update_interval",
-        "default": "",
+        "default": 5,
         "placeholder": "Es: 5"
       }
     ]

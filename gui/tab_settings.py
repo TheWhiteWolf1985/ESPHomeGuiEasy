@@ -106,18 +106,7 @@ class TabSettings(QWidget):
 
         self.update_yaml_btn = QPushButton("Aggiorna YAML")
         self.update_yaml_btn.setFixedWidth(390)
-        self.update_yaml_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6A9955;
-                color: white;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #4e7d44;
-            }
-        """)
+        self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)
 
         # --- Aggiungi widget a layout principale ---
         layout.addWidget(self.controller_image)

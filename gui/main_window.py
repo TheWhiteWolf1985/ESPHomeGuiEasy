@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
         self.tab_settings.get_update_yaml_btn().clicked.connect(self.tab_settings.aggiorna_layout_da_dati)
 
         # --- TAB 2: MODULI PROGETTO ---
-        self.tab_modules = TabModules()
+        self.tab_modules = TabModules(self.yaml_editor, self.logger)
         self.tab_widget.addTab(self.tab_modules, "🧩 Moduli")    
 
         # --- TAB 3: SENSORI ---
@@ -232,6 +232,7 @@ class MainWindow(QMainWindow):
         """
         # 1. Reset campi TabSettings
         self.tab_settings.reset_fields()
+        self.tab_modules.reset_fields() 
 
         # 2. Svuota canvas sensori
         self.tab_sensori.get_sensor_canvas().clear_blocks()
@@ -256,6 +257,8 @@ class MainWindow(QMainWindow):
             self.tab_settings.carica_dati_da_yaml(content)
             # Poi aggiorna i blocchi grafici
             self.tab_sensori.aggiorna_blocchi_da_yaml(content)
+            #Poi aggiorna gli accordion
+            self.tab_modules.carica_dati_da_yaml(content)
             self.logger.log(f"📂 Progetto aperto: {filename}", "success")
 
     def salva_progetto(self):
