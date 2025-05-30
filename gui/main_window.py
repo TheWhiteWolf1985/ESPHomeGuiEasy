@@ -5,7 +5,9 @@
 Contiene il layout base suddiviso tra editor YAML, console, comandi di connessione,
 e strumenti di creazione dei sensori, strutturato in modo modulare.
 """
-
+import os
+import shutil
+import config.GUIconfig as conf
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QColor, QIcon
@@ -22,7 +24,6 @@ from gui.tab_sensori import TabSensori
 from gui.tab_command import TabCommand
 from gui.menu_bar import MainMenuBar
 from gui.tab_modules import TabModules
-import config.GUIconfig as conf
 from gui.color_pantone import Pantone
 
 
@@ -224,28 +225,59 @@ class MainWindow(QMainWindow):
 
     def nuovo_progetto(self):
         """
-        Reset completo per nuovo progetto:
-        - Svuota campi settings
-        - Svuota canvas sensori
-        - Carica template YAML di base
-        - Reset path file attuale
+        Crea un nuovo progetto in una nuova cartella:
+        - Prompt utente per la directory di destinazione
+        - Chiedi il nome del progetto
+        - Crea la cartella, copia template YAML, resetta tutto
+        - Imposta la directory progetto per compilazione/output
         """
-        # 1. Reset campi TabSettings
-        self.tab_settings.reset_fields()
-        self.tab_modules.reset_fields() 
+        # 1. Prompt per cartella principale
+        root_dir = QFileDialog.getExistingDirectory(self, "Seleziona dove creare il nuovo progetto")
+        if not root_dir:
+            return  # Annullato
 
-        # 2. Svuota canvas sensori
+        # 2. Chiedi nome progetto
+        nome_proj, ok = QInputDialog.getText(self, "Nome progetto", "Nome del nuovo progetto:")
+        if not ok or not nome_proj.strip():
+            return
+
+        nome_proj = nome_proj.strip()
+        project_dir = os.path.join(root_dir, nome_proj)
+        if os.path.exists(project_dir):
+            QMessageBox.warning(self, "Attenzione", "La cartella esiste già, scegli un altro nome o cancella la cartella.")
+            return
+        os.makedirs(project_dir)
+
+        # 3. (Opzionale) crea sottocartelle (decommenta se vuoi)
+        # os.makedirs(os.path.join(project_dir, "output"), exist_ok=True)
+        # os.makedirs(os.path.join(project_dir, "src"), exist_ok=True)
+
+        # 4. Copia il template
+        template_path = conf.YAML_TEMPLATE_PATH
+        new_yaml_path = os.path.join(project_dir, f"{nome_proj}.yaml")
+        try:
+            shutil.copy(template_path, new_yaml_path)
+        except Exception as e:
+            QMessageBox.critical(self, "Errore", f"Errore durante la copia del template: {e}")
+            return
+
+        # 5. Aggiorna lo YAML nell’editor e memorizza la path del progetto
+        with open(new_yaml_path, "r", encoding="utf-8") as f:
+            self.yaml_editor.setPlainText(f.read())
+        self.last_save_path = new_yaml_path
+        self.project_dir = project_dir  # <- per reference
+
+        # 6. Log e info
+        self.logger.log(f"🆕 Nuovo progetto creato in: {project_dir}", "success")
+
+        # 7. Reset altri tab
+        self.tab_settings.reset_fields()
+        self.tab_modules.reset_fields()
         self.tab_sensori.get_sensor_canvas().clear_blocks()
 
-        # 3. Carica template YAML di base
-        base_yaml = YAMLHandler.load_default_yaml()
-        self.yaml_editor.setPlainText(base_yaml)
+        # 8. (NEW) Aggiorna la working dir del compilatore!
+        self.compiler.set_project_dir(project_dir)
 
-        # 4. Reset percorso file corrente
-        self.last_save_path = None
-
-        # 5. Log
-        self.logger.log("🆕 Nuovo progetto creato.", "info")
 
     def apri_progetto(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Apri progetto", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")

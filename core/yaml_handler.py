@@ -255,8 +255,8 @@ class YAMLHandler:
                 key = field["key"]
                 widget = fields.get(key)
                 if key == "enabled":
-                    if widget is not None and hasattr(widget, "isChecked"):
-                        params[key] = widget.isChecked()
+                    continue
+                if widget is None:
                     continue
                 # Gestione tipo numerico/spinbox
                 if field["type"] == "int":
