@@ -6,6 +6,7 @@ from PyQt6.QtGui import QPixmap
 import os
 import json
 from gui.color_pantone import Pantone
+from core.translator import Translator
 
 class TabSettings(QWidget):
     def __init__(self, yaml_editor, logger=None):
@@ -16,14 +17,14 @@ class TabSettings(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)        
 
         # --- Controller Image ---
-        self.controller_image = QLabel("[Immagine Controller]")
+        self.controller_image = QLabel(Translator.tr("controller_image"))
         self.controller_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.controller_image.setStyleSheet("background-color: lightgray")
         self.controller_image.setFixedHeight(350)
         self.controller_image.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)        
 
         # --- Pulsante ingrandisci pinout ---
-        self.show_pinout_btn = QPushButton("🔍 Ingrandisci Pinout")
+        self.show_pinout_btn = QPushButton("🔍 " + Translator.tr("zoom_pinout"))
         self.show_pinout_btn.setFixedWidth(390)
         self.show_pinout_btn.clicked.connect(self.mostra_immagine_grande)
         self.show_pinout_btn.setStyleSheet("""
@@ -62,18 +63,18 @@ class TabSettings(QWidget):
         img_container.setLayout(img_box)
 
         # --- General Project Data ---
-        general_data = QGroupBox("Dati Generali Progetto")
-        general_layout = QFormLayout()
-        general_data.setStyleSheet(Pantone.GROUPBOX_STYLE)
+        self.general_data = QGroupBox(Translator.tr("general_project_data"))
+        self.general_form = QFormLayout()
+        self.general_data.setStyleSheet(Pantone.GROUPBOX_STYLE)
 
         self.device_name_edit = QLineEdit()
-        general_layout.addRow("Nome:", self.device_name_edit)
+        self.general_form.addRow(QLabel(Translator.tr("device_name")), self.device_name_edit)
 
         # Ricerca + Combo filtrabile
         self.board_list = self.load_board_list()
 
         self.board_search = QLineEdit()
-        self.board_search.setPlaceholderText("Cerca board...")
+        self.board_search.setPlaceholderText(Translator.tr("select_board"))
         self.board_combo = QComboBox()
         self.board_combo.currentIndexChanged.connect(
             lambda: self.update_controller_image(self.board_combo.currentData())
@@ -94,17 +95,17 @@ class TabSettings(QWidget):
         board_layout = QVBoxLayout()
         board_layout.addWidget(self.board_search)
         board_layout.addWidget(self.board_combo)
-        board_container = QWidget()
-        board_container.setLayout(board_layout)
+        self.board_container = QWidget()
+        self.board_container.setLayout(board_layout)
 
-        general_layout.addRow("Board:", board_container)
+        self.general_form.addRow(QLabel(Translator.tr("board")), self.board_container)
         self.wifi_ssid_edit = QLineEdit()
-        general_layout.addRow("SSID:", self.wifi_ssid_edit)
+        self.general_form.addRow(QLabel(Translator.tr("ssid")), self.wifi_ssid_edit)
         self.wifi_pass_edit = QLineEdit()
-        general_layout.addRow("Password:", self.wifi_pass_edit)
-        general_data.setLayout(general_layout)
+        self.general_form.addRow(QLabel(Translator.tr("password")), self.wifi_pass_edit)
+        self.general_data.setLayout(self.general_form)
 
-        self.update_yaml_btn = QPushButton("Aggiorna YAML")
+        self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
         self.update_yaml_btn.setFixedWidth(390)
         self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)
 
@@ -112,7 +113,7 @@ class TabSettings(QWidget):
         layout.addWidget(self.controller_image)
         layout.addWidget(self.show_pinout_btn, alignment=Qt.AlignmentFlag.AlignHCenter)
         layout.addWidget(divider)
-        layout.addWidget(general_data)
+        layout.addWidget(self.general_data)
         layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
 
     # --- GETTER per accedere ai dati ---
@@ -158,7 +159,7 @@ class TabSettings(QWidget):
                 self.controller_image.setText("")
         else:
             self.controller_image.setPixmap(QPixmap())
-            self.controller_image.setText("[Immagine non disponibile]")       
+            self.controller_image.setText(Translator.tr("image_not_available"))   
 
     def mostra_immagine_grande(self):
         # Prendi la pixmap attuale della label
@@ -167,7 +168,7 @@ class TabSettings(QWidget):
             return  # Niente da mostrare
 
         dlg = QDialog(self)
-        dlg.setWindowTitle("Pinout Controller")
+        dlg.setWindowTitle(Translator.tr("pinout_dialog_title"))
         dlg.setModal(True)
         dlg.setMinimumSize(600, 450)
 
@@ -177,7 +178,7 @@ class TabSettings(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(img_label)
 
-        close_btn = QPushButton("Chiudi")
+        close_btn = QPushButton(Translator.tr("close"))
         close_btn.clicked.connect(dlg.accept)
         layout.addWidget(close_btn, alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -240,7 +241,7 @@ class TabSettings(QWidget):
         self.yaml_editor.setPlainText(new_yaml)
         # Se vuoi loggare
         if hasattr(self, "logger"):  # Se hai logger collegato
-            self.logger.log("✅ YAML aggiornato con i dati generali.", "success")
+            self.logger.log(Translator.tr("yaml_updated_general"), "success")
 
     def reset_fields(self):
         """Svuota tutti i campi del tab Settings (nome, board, wifi ecc.)."""
@@ -259,7 +260,7 @@ class TabSettings(QWidget):
             data = yaml.load(yaml_content)
         except Exception as e:
             if hasattr(self, "logger"):
-                self.logger.log(f"Errore parsing YAML: {e}", "error")
+                self.logger.log(Translator.tr("yaml_parse_error") + f": {e}", "error")
             return
 
         # Aggiorna i campi se presenti
@@ -279,4 +280,17 @@ class TabSettings(QWidget):
         wifi = data.get("wifi", {})
         self.wifi_ssid_edit.setText(wifi.get("ssid", ""))
         self.wifi_pass_edit.setText(wifi.get("password", ""))
+
+    def aggiorna_label(self):
+        from core.translator import Translator
+        self.general_data.setTitle(Translator.tr("general_project_data"))
+        self.show_pinout_btn.setText("🔍 " + Translator.tr("zoom_pinout"))
+        self.device_name_edit.setPlaceholderText(Translator.tr("device_name"))
+        self.board_search.setPlaceholderText(Translator.tr("select_board"))
+        self.general_form.labelForField(self.device_name_edit).setText(Translator.tr("device_name"))
+        self.general_form.labelForField(self.wifi_ssid_edit).setText(Translator.tr("ssid"))
+        self.general_form.labelForField(self.wifi_pass_edit).setText(Translator.tr("password"))
+        self.general_form.labelForField(self.board_container).setText(Translator.tr("board"))
+        self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+
 

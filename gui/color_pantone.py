@@ -154,3 +154,50 @@ class Pantone:
         }
     """
 
+    MENU_BAR = """
+            QMenuBar {
+                background-color: #23272e;
+                color: #d4d4d4;
+                font-size: 12pt;
+                font-weight: bold;
+                border: none;
+            }
+            QMenuBar::item {
+                background: transparent;
+                color: #d4d4d4;
+                padding: 6px 14px;
+            }
+            QMenuBar::item:selected {
+                background: #333842;
+                color: #61dafb;
+                border-radius: 5px;
+            }
+            QMenuBar::item:pressed {
+                background: #22262d;
+                color: #3a9dda;
+            }
+            QMenu {
+                background-color: #23272e;
+                color: #d4d4d4;
+                font-size: 11pt;
+                border: 1.5px solid #2a2d2e;
+                border-radius: 6px;
+            }
+            QMenu::item {
+                background: transparent;
+                color: #d4d4d4;
+                padding: 6px 16px;
+            }
+            QMenu::item:selected {
+                background-color: #3a9dda;
+                color: #fff;
+                border-radius: 4px;
+            }
+            QMenu::separator {
+                height: 2px;
+                background: #333842;
+                margin-left: 6px;
+                margin-right: 6px;
+            }
+        """
+

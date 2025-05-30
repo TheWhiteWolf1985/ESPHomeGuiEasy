@@ -1,6 +1,7 @@
 APP_NAME = "ESPHomeGuiEasy"
 SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
 YAML_TEMPLATE_PATH = "config/default_template.yaml"
+CONFIG_PATH = "user_settings.json"
 
 MAIN_WINDOW_HEIGHT = 900
 MAIN_WINDOW_WIDTH = 1500

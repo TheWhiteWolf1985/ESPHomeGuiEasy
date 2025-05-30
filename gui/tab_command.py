@@ -7,6 +7,7 @@ import threading
 import serial.tools.list_ports  # Richiede pyserial
 from PyQt6.QtGui import QPalette, QColor
 from gui.color_pantone import Pantone
+from core.translator import Translator
 
 class TabCommand(QWidget):
     def __init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):
@@ -33,7 +34,7 @@ class TabCommand(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         # --- Sezione USB / Serial Loader (layout verticale e allineato) ---
-        usb_box = QGroupBox("USB / Serial Loader")
+        self.usb_box = QGroupBox(Translator.tr("usb_serial_loader"))
         usb_vlayout = QVBoxLayout()
 
         usb_form = QFormLayout()
@@ -45,7 +46,7 @@ class TabCommand(QWidget):
         self.baud_combo.addItems(["9600", "57600", "115200", "230400", "460800", "921600"])
         self.baud_combo.setCurrentText("115200")
         self.baud_combo.setFixedWidth(120)
-        usb_form.addRow("Baud:", self.baud_combo)
+        usb_form.addRow(Translator.tr("baud"), self.baud_combo)
 
         # Porta COM + Refresh
         com_row = QHBoxLayout()
@@ -60,13 +61,13 @@ class TabCommand(QWidget):
         refresh_btn.clicked.connect(self.refresh_com_ports)
         com_row.addWidget(self.com_combo)
         com_row.addWidget(refresh_btn)
-        usb_form.addRow("Porta:", com_row)
+        usb_form.addRow(Translator.tr("port"), com_row)
 
         usb_vlayout.addLayout(usb_form)
 
         # Riga bottoni azione
         usb_btn_row = QHBoxLayout()
-        self.test_btn = QPushButton("🔌 Test connessione")
+        self.test_btn = QPushButton(Translator.tr("test_connection"))
         self.test_btn.setFixedWidth(170)
         self.test_btn.setStyleSheet("""
             QPushButton {
@@ -80,7 +81,7 @@ class TabCommand(QWidget):
                 background-color: #B1A91B;
             }
         """)
-        self.flash_btn = QPushButton("💾 Carica via USB")
+        self.flash_btn = QPushButton(Translator.tr("flash_usb"))
         self.flash_btn.setFixedWidth(170)
         self.flash_btn.setStyleSheet("""
             QPushButton {
@@ -105,17 +106,17 @@ class TabCommand(QWidget):
         usb_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)
         usb_vlayout.addLayout(usb_btn_row)
 
-        usb_box.setLayout(usb_vlayout)
-        layout.addWidget(usb_box)
+        self.usb_box.setLayout(usb_vlayout)
+        layout.addWidget(self.usb_box)
 
 
         # --- Sezione OTA (WiFi, layout verticale e allineato) ---
-        ota_box = QGroupBox("OTA (WiFi)")
+        self.ota_box = QGroupBox(Translator.tr("ota_wifi"))
         ota_vlayout = QVBoxLayout()
 
         # Riga 1: Scansione + combo IP trovati
         scan_row = QHBoxLayout()
-        self.scan_btn = QPushButton("🔍 Scansiona Rete")
+        self.scan_btn = QPushButton(Translator.tr("scan_network"))
         self.scan_btn.setFixedWidth(160)
         self.scan_btn.setStyleSheet("""
             QPushButton {
@@ -146,23 +147,23 @@ class TabCommand(QWidget):
         self.ota_ip_edit = QLineEdit()
         self.ota_ip_edit.setPlaceholderText("es: 192.168.1.100")
         self.ota_ip_edit.setFixedWidth(230)
-        ota_form.addRow("Indirizzo IP:", self.ota_ip_edit)
+        ota_form.addRow(Translator.tr("ip_address"), self.ota_ip_edit)
 
         self.ota_port_edit = QLineEdit()
         self.ota_port_edit.setText("3232")
         self.ota_port_edit.setFixedWidth(80)
-        ota_form.addRow("Porta:", self.ota_port_edit)
+        ota_form.addRow(Translator.tr("ota_port"), self.ota_port_edit)
 
         self.ota_pwd_edit = QLineEdit()
         self.ota_pwd_edit.setEchoMode(QLineEdit.EchoMode.Password)
         self.ota_pwd_edit.setFixedWidth(230)
-        ota_form.addRow("Password OTA:", self.ota_pwd_edit)
+        ota_form.addRow(Translator.tr("ota_password"), self.ota_pwd_edit)
 
         ota_vlayout.addLayout(ota_form)
 
         # Riga bottoni finali (Test/Carica)
         ota_btn_row = QHBoxLayout()
-        self.test_ota_btn = QPushButton("📶 Test connessione")
+        self.test_ota_btn = QPushButton(Translator.tr("test_connection"))
         self.test_ota_btn.setFixedWidth(170)
         self.test_ota_btn.setStyleSheet("""
             QPushButton {
@@ -176,7 +177,7 @@ class TabCommand(QWidget):
                 background-color: #B1A91B;
             }
         """)
-        self.flash_ota_btn = QPushButton("📡 Carica via OTA")
+        self.flash_ota_btn = QPushButton(Translator.tr("flash_ota"))
         self.flash_ota_btn.setFixedWidth(170)
         self.flash_ota_btn.setStyleSheet("""
             QPushButton {
@@ -201,14 +202,14 @@ class TabCommand(QWidget):
         ota_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)
         ota_vlayout.addLayout(ota_btn_row)
 
-        ota_box.setLayout(ota_vlayout)
-        layout.addWidget(ota_box)
+        self.ota_box.setLayout(ota_vlayout)
+        layout.addWidget(self.ota_box)
 
         # --- SEZIONE COMPILAZIONE ---
-        group_compile = QGroupBox("Compilazione Firmware")
+        self.group_compile = QGroupBox(Translator.tr("firmware_compile"))
         group_layout = QVBoxLayout()
 
-        self.compile_btn = QPushButton("🚀 Compila")
+        self.compile_btn = QPushButton("🚀 " + Translator.tr("compile"))
         self.compile_btn.setStyleSheet("""
             QPushButton {
                 background-color: #3a9dda;
@@ -228,33 +229,32 @@ class TabCommand(QWidget):
         btn_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         btn_layout.addWidget(self.compile_btn)
         group_layout.addLayout(btn_layout)
-        group_compile.setLayout(group_layout)
-        layout.addWidget(group_compile)
+        self.group_compile.setLayout(group_layout)
+        layout.addWidget(self.group_compile)
 
-        usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
-        ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
-        group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)    
+        self.usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
+        self.ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
+        self.group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)    
 
     def refresh_com_ports(self):
-        """Aggiorna la lista delle porte seriali disponibili."""
         self.com_combo.clear()
         ports = serial.tools.list_ports.comports()
         for port in ports:
             self.com_combo.addItem(f"{port.device} ({port.description})", port.device)
         if not ports:
-            self.com_combo.addItem("Nessuna porta trovata", "")
+            self.com_combo.addItem(Translator.tr("no_port_found"), "")
 
     def compila_progetto(self):
         """Compila il contenuto YAML dell'editor corrente tramite ESPHome."""
         yaml_content = self.yaml_editor.toPlainText()
         if not yaml_content.strip():
-            self.logger.log("⚠️ Nessun contenuto YAML da compilare.")
+            self.logger.log(Translator.tr("no_yaml_to_compile"))
             return
         self.compiler.compile_yaml(yaml_content)
 
     def scan_network_for_esp(self):
         """Scansiona la rete locale per trovare ESPHome in ascolto sulla porta 3232."""
-        self.logger.log("🔎 Scansione rete locale in corso (broadcast UDP su 3232)...", "info")
+        self.logger.log(Translator.tr("scan_in_progress"), "info")
         self.ip_combo.clear()
         found_ips = []
 
@@ -278,7 +278,7 @@ class TabCommand(QWidget):
                         ip = addr[0]
                         if ip not in found_ips:
                             found_ips.append(ip)
-                            self.logger.log(f"🎯 Dispositivo trovato: {ip}", "success")
+                            self.logger.log(Translator.tr("device_found").format(ip=ip), "success")
                             # Aggiorna la combo (thread-safe)
                             self.ip_combo.addItem(ip)
                 except socket.timeout:
@@ -288,9 +288,9 @@ class TabCommand(QWidget):
             finally:
                 s.close()
             if not found_ips:
-                self.logger.log("❌ Nessun dispositivo ESPHome trovato sulla rete.", "warning")
+                self.logger.log(Translator.tr("no_device_found"), "warning")
             else:
-                self.logger.log(f"✅ Trovati {len(found_ips)} dispositivi.", "success")
+                self.logger.log(Translator.tr("devices_found").format(n=len(found_ips)), "success")
 
         threading.Thread(target=scanner, daemon=True).start()
 
@@ -304,34 +304,54 @@ class TabCommand(QWidget):
         ip = self.ota_ip_edit.text().strip()
         port = int(self.ota_port_edit.text().strip() or "3232")
         if not ip:
-            self.logger.log("⚠️ Inserisci un indirizzo IP per il test.", "warning")
+            self.logger.log(Translator.tr("enter_ip_warning"), "warning")
             return
 
         import socket
         try:
             sock = socket.create_connection((ip, port), timeout=2)
             sock.close()
-            self.logger.log(f"✅ Il dispositivo {ip}:{port} risponde!", "success")
+            self.logger.log(Translator.tr("ota_success").format(ip=ip, port=port), "success")
         except Exception as e:
-            self.logger.log(f"❌ Connessione fallita verso {ip}:{port} ({e})", "error")
+            self.logger.log(Translator.tr("ota_fail").format(ip=ip, port=port, e=e), "error")
                 
     def flash_via_ota(self):
         ip = self.ota_ip_edit.text().strip()
         port = self.ota_port_edit.text().strip()
         pwd = self.ota_pwd_edit.text()
-        self.logger.log(f"🚀 Caricamento OTA su {ip}:{port} con password {'[inserita]' if pwd else '[vuota]'} (implementazione in arrivo!)", "info")
+        self.logger.log(Translator.tr("ota_upload").format(ip=ip, port=port, pwd='[inserted]' if pwd else '[empty]'), "info")
         
     def test_usb_connection(self):
         """Stub per test USB: da completare con la logica vera."""
         com = self.com_combo.currentData()
         baud = self.baud_combo.currentText()
         if not com:
-            self.logger.log("⚠️ Nessuna porta seriale selezionata!", "warning")
+            self.logger.log(Translator.tr("no_com_port"), "warning")
             return
-        self.logger.log(f"Test connessione su {com} @ {baud} baud (implementazione da fare)", "info")
+        self.logger.log(Translator.tr("test_usb_connection").format(com=com, baud=baud), "info")
 
     def flash_via_usb(self):
         """Stub per flash USB: da completare con la logica vera."""
         com = self.com_combo.currentData()
         baud = self.baud_combo.currentText()
-        self.logger.log(f"Caricamento firmware via USB su {com} @ {baud} baud (implementazione da fare)", "info")        
+        self.logger.log(Translator.tr("usb_upload").format(com=com, baud=baud), "info")     
+
+    def aggiorna_label(self):
+        from core.translator import Translator
+        # USB/Serial Loader
+        self.usb_box.setTitle(Translator.tr("usb_serial_loader"))
+        self.test_btn.setText(Translator.tr("test_connection"))
+        self.flash_btn.setText(Translator.tr("flash_usb"))
+        self.baud_combo.setItemText(0, Translator.tr("baud"))  # Solo se vuoi tradurre le voci combo
+        # OTA
+        self.ota_box.setTitle(Translator.tr("ota_wifi"))
+        self.scan_btn.setText(Translator.tr("scan_network"))
+        self.test_ota_btn.setText(Translator.tr("test_connection"))
+        self.flash_ota_btn.setText(Translator.tr("flash_ota"))
+        # Compilazione
+        self.group_compile.setTitle(Translator.tr("firmware_compile"))
+        self.compile_btn.setText("🚀 " + Translator.tr("compile"))
+        # Placeholder degli edit
+        self.ota_ip_edit.setPlaceholderText(Translator.tr("ip_address"))
+        self.ota_port_edit.setPlaceholderText(Translator.tr("ota_port"))
+        self.ota_pwd_edit.setPlaceholderText(Translator.tr("ota_password"))

@@ -7,6 +7,7 @@ from core.yaml_handler import YAMLHandler
 from gui.color_pantone import Pantone
 from ruamel.yaml import YAML
 from gui.sensor_block_item import SensorBlockItem
+from core.translator import Translator
 
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
@@ -32,19 +33,19 @@ class TabSensori(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         # --- GroupBox per la creazione sensori ---
-        sensor_creation = QGroupBox("Creazione Sensori")
+        sensor_creation = QGroupBox(Translator.tr("sensors_creation"))
         sensor_creation.setStyleSheet(Pantone.GROUPBOX_STYLE)
         sensor_layout = QVBoxLayout()
 
         self.sensor_canvas = SensorCanvas()
         self.sensor_canvas.setMinimumHeight(400)
 
-        self.add_sensor_btn = QPushButton("➕ Aggiungi Sensore")
+        self.add_sensor_btn = QPushButton("➕ " + Translator.tr("add_sensor"))
         self.add_sensor_btn.setStyleSheet(common_btn_style)
         self.add_sensor_btn.setFixedWidth(180)
         self.add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)
 
-        self.update_yaml_btn = QPushButton("Aggiorna YAML")
+        self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
         self.update_yaml_btn.setStyleSheet(common_btn_style)
         self.update_yaml_btn.setFixedWidth(180)
         self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_blocchi)
@@ -66,7 +67,7 @@ class TabSensori(QWidget):
         """
         @brief Crea e aggiunge un nuovo blocco sensore nel canvas.
         """
-        nuovo_blocco = SensorBlockItem("Nuovo Sensore")
+        nuovo_blocco = SensorBlockItem(Translator.tr("new_sensor"))
         self.sensor_canvas.add_sensor_block(nuovo_blocco)
 
     def aggiorna_yaml_da_blocchi(self):
@@ -84,7 +85,7 @@ class TabSensori(QWidget):
 
         self.yaml_editor.setPlainText(new_yaml)
         if hasattr(self, "logger"):
-            self.logger.log("✅ YAML aggiornato solo dalla sezione sensori.", "success")
+            self.logger.log(Translator.tr("yaml_updated_from_sensors"), "success")
 
 
     def get_sensor_canvas(self):
@@ -104,12 +105,12 @@ class TabSensori(QWidget):
             data = yaml.load(yaml_content)
         except Exception as e:
             if hasattr(self, "logger"):
-                self.logger.log(f"Errore parsing YAML: {e}", "error")
+                self.logger.log(f"{Translator.tr('yaml_parse_error')}: {e}", "error")
             return
 
         if not data or "sensor" not in data or not isinstance(data["sensor"], list):
             if hasattr(self, "logger"):
-                self.logger.log("Nessuna sezione 'sensor' valida trovata nello YAML.", "warning")
+                self.logger.log(Translator.tr("no_sensor_section"), "warning")
             return
 
         # 3. Ricrea un blocco per ogni sensore
@@ -154,3 +155,12 @@ class TabSensori(QWidget):
 
             self.get_sensor_canvas().add_sensor_block(nuovo_blocco)
 
+    def aggiorna_label(self):
+        from core.translator import Translator
+        self.sensor_canvas.setToolTip(Translator.tr("sensors_creation"))
+        self.add_sensor_btn.setText("➕ " + Translator.tr("add_sensor"))
+        self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+        # Aggiorna i blocchi già presenti nel canvas (se ce ne sono)
+        for item in self.sensor_canvas.scene().items():
+            if hasattr(item, "aggiorna_label"):
+                item.aggiorna_label()

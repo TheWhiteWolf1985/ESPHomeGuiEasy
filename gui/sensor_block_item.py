@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QBrush, QPen, QColor, QFont
 from PyQt6.QtCore import QRectF, Qt
+from core.translator import Translator
 
 
 class SensorBlockItem(QGraphicsItem):
@@ -73,20 +74,20 @@ class SensorBlockItem(QGraphicsItem):
         # Tipo sensore
         self.type_combo = QComboBox()
         self.type_combo.addItems(["DHT11", "DHT22", "GPIO", "Analogico"])
-        layout.addWidget(QLabel("Tipo"))
+        layout.addWidget(QLabel(Translator.tr("sensor_type")))
         layout.addWidget(self.type_combo)
 
         # Nome sensore
         self.name_edit = QLineEdit()
-        self.name_edit.setPlaceholderText("es: temperatura")
+        self.name_edit.setPlaceholderText(Translator.tr("placeholder_sensor_name"))
         self.name_edit.textChanged.connect(self.update_title)
-        layout.addWidget(QLabel("Nome"))
+        layout.addWidget(QLabel(Translator.tr("sensor_name")))
         layout.addWidget(self.name_edit)
 
         # Pin
         self.pin_edit = QLineEdit()
-        self.pin_edit.setPlaceholderText("es: 4 oppure GPIO4")
-        layout.addWidget(QLabel("Pin"))
+        self.pin_edit.setPlaceholderText(Translator.tr("placeholder_sensor_pin"))
+        layout.addWidget(QLabel(Translator.tr("sensor_pin")))
         layout.addWidget(self.pin_edit)
 
         # Update interval
@@ -94,7 +95,7 @@ class SensorBlockItem(QGraphicsItem):
         self.update_spin.setMinimum(1)
         self.update_spin.setMaximum(3600)
         self.update_spin.setSuffix(" s")
-        layout.addWidget(QLabel("Aggiornamento"))
+        layout.addWidget(QLabel(Translator.tr("sensor_update_interval")))
         layout.addWidget(self.update_spin)
 
         self.container.setLayout(layout)
@@ -110,7 +111,7 @@ class SensorBlockItem(QGraphicsItem):
         if text.strip():
             self.title_item.setPlainText(text)
         else:
-            self.title_item.setPlainText("Nuovo Sensore")
+            self.title_item.setPlainText(Translator.tr("new_sensor"))
 
     def toggle_expand(self):
         """
@@ -136,3 +137,14 @@ class SensorBlockItem(QGraphicsItem):
         painter.setPen(QPen(Qt.GlobalColor.black, 2))
         height = int(self.boundingRect().height())
         painter.drawRoundedRect(0, 0, self.width, height, 10, 10)
+
+    def aggiorna_label(self):
+        from core.translator import Translator
+        # Cambia label dei campi
+        self.container.layout().itemAt(0).widget().setText(Translator.tr("sensor_type"))
+        self.container.layout().itemAt(2).widget().setText(Translator.tr("sensor_name"))
+        self.container.layout().itemAt(4).widget().setText(Translator.tr("sensor_pin"))
+        self.container.layout().itemAt(6).widget().setText(Translator.tr("sensor_update_interval"))
+        # Placeholder dei campi
+        self.name_edit.setPlaceholderText(Translator.tr("placeholder_sensor_name"))
+        self.pin_edit.setPlaceholderText(Translator.tr("placeholder_sensor_pin"))

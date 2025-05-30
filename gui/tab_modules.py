@@ -3,6 +3,7 @@ from PyQt6.QtCore import Qt
 import json
 from .collapsible_section import CollapsibleSection
 from gui.color_pantone import Pantone 
+from core.translator import Translator
 
 class TabModules(QWidget):
     def __init__(self, yaml_editor=None, logger=None, parent=None):
@@ -33,17 +34,17 @@ class TabModules(QWidget):
             widget_dict = {}
             for field in fields:
                 if field["type"] == "checkbox":
-                    cb = QCheckBox(field["label"])
+                    cb = QCheckBox(Translator.tr(field["label"]))
                     cb.setChecked(field.get("default", False))
                     cb.setStyleSheet(Pantone.CHECKBOX_STYLE)
                     form.addRow(cb)
                     widget_dict[field["key"]] = cb
                 elif field["type"] == "combo":
                     combo = QComboBox()
-                    combo.addItems(field["options"])
+                    combo.addItems([Translator.tr(opt) for opt in field["options"]])
                     combo.setCurrentText(field.get("default", ""))
                     combo.setStyleSheet(Pantone.COMBO_STYLE)
-                    form.addRow(field["label"] + ":", combo)
+                    form.addRow(Translator.tr(field["label"]) + ":", combo)
                     widget_dict[field["key"]] = combo
                 elif field["type"] == "text":
                     line = QLineEdit()
@@ -65,12 +66,12 @@ class TabModules(QWidget):
                     widget_dict[field["key"]] = spin            
             content.setLayout(form)
             content.setStyleSheet(Pantone.LABEL_STYLE)
-            section = CollapsibleSection(module_name, content, icon)
+            section = CollapsibleSection(Translator.tr(module_name), content, icon)
             container_layout.addWidget(section)
             self.widget_map[module_name] = widget_dict
 
         # 3. Pulsante in fondo
-        self.update_yaml_btn = QPushButton("Aggiorna YAML")
+        self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
         self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)
         self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_moduli)
 
@@ -108,10 +109,10 @@ class TabModules(QWidget):
             )
             self.yaml_editor.setPlainText(new_yaml)
             if self.logger:
-                self.logger.log("✅ YAML aggiornato dai moduli.", "success")
+                self.logger.log(Translator.tr("yaml_updated_from_modules"), "success")
         except Exception as e:
             from PyQt6.QtWidgets import QMessageBox
-            QMessageBox.critical(self, "Errore", f"Errore nell'aggiornamento YAML dai moduli: {e}")
+            QMessageBox.critical(self, Translator.tr("yaml_update_modules_error"), f"{e}")
 
     def carica_dati_da_yaml(self, yaml_string):
         from core.yaml_handler import YAMLHandler
@@ -171,5 +172,23 @@ class TabModules(QWidget):
                     widget.setValue(widget.minimum())
 
 
-
-
+    def aggiorna_label(self):
+        from core.translator import Translator
+        # Aggiorna il bottone "Aggiorna YAML"
+        self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+        # Aggiorna ogni modulo accordion (header/campi)
+        for module_name, widget_dict in self.widget_map.items():
+            # Cambia titolo della sezione modulo
+            for section in self.parent().findChildren(QWidget):
+                if hasattr(section, "toggle_button") and Translator.tr(module_name) != section.toggle_button.text():
+                    section.toggle_button.setText(Translator.tr(module_name))
+            # Aggiorna label dei campi dentro ciascun modulo
+            for key, widget in widget_dict.items():
+                if isinstance(widget, QCheckBox) or isinstance(widget, QLabel):
+                    widget.setText(Translator.tr(key))
+                elif isinstance(widget, QLineEdit):
+                    if hasattr(widget, "setPlaceholderText"):
+                        widget.setPlaceholderText(Translator.tr(key))
+                elif isinstance(widget, QComboBox):
+                    # Ricarica options se vuoi tradurre anche le scelte delle combo
+                    pass

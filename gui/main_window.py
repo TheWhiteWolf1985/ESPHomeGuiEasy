@@ -25,6 +25,7 @@ from gui.tab_command import TabCommand
 from gui.menu_bar import MainMenuBar
 from gui.tab_modules import TabModules
 from gui.color_pantone import Pantone
+from core.translator import Translator
 
 
 class MainWindow(QMainWindow):
@@ -101,7 +102,7 @@ class MainWindow(QMainWindow):
         self.yaml_editor = YamlCodeEditor()
         self.highlighter = YamlHighlighter(self.yaml_editor.document())
         self.yaml_editor.setFixedHeight(500)
-        self.yaml_editor.setPlaceholderText("Contenuto YAML qui...")
+        self.yaml_editor.setPlaceholderText(Translator.tr("yaml_placeholder"))
         self.yaml_editor.setStyleSheet("""
             QPlainTextEdit {
                 background-color: #1e1e1e;
@@ -160,12 +161,12 @@ class MainWindow(QMainWindow):
             yaml_editor=self.yaml_editor,
             logger=self.logger
         )
-        self.tab_widget.addTab(self.tab_settings, "🛠️ Settaggi")
+        self.tab_widget.addTab(self.tab_settings, Translator.tr("tab_settings"))
         self.tab_settings.get_update_yaml_btn().clicked.connect(self.tab_settings.aggiorna_layout_da_dati)
 
         # --- TAB 2: MODULI PROGETTO ---
         self.tab_modules = TabModules(self.yaml_editor, self.logger)
-        self.tab_widget.addTab(self.tab_modules, "🧩 Moduli")    
+        self.tab_widget.addTab(self.tab_modules, Translator.tr("tab_modules"))  
 
         # --- TAB 3: SENSORI ---
         self.tab_sensori = TabSensori(
@@ -173,7 +174,7 @@ class MainWindow(QMainWindow):
             logger=self.logger,
             tab_settings=self.tab_settings
         )
-        self.tab_widget.addTab(self.tab_sensori, "🧩 Sensori")
+        self.tab_widget.addTab(self.tab_sensori, Translator.tr("tab_sensors"))
 
         # --- TAB 4: COMPILAZIONE/CARICAMENTO ---
         self.tab_command = TabCommand(
@@ -183,7 +184,7 @@ class MainWindow(QMainWindow):
             flash_callback=None,  # Potrai aggiungerli dopo!
             ota_callback=None
         )
-        self.tab_widget.addTab(self.tab_command, "⬆️ Compila/Carica")
+        self.tab_widget.addTab(self.tab_command, Translator.tr("tab_compile_upload"))
 
         # --- INSERISCI IL QTabWidget NEL RIGHT_PANE ---
         right_pane.addWidget(self.tab_widget)
@@ -232,19 +233,19 @@ class MainWindow(QMainWindow):
         - Imposta la directory progetto per compilazione/output
         """
         # 1. Prompt per cartella principale
-        root_dir = QFileDialog.getExistingDirectory(self, "Seleziona dove creare il nuovo progetto")
+        root_dir = QFileDialog.getExistingDirectory(self, Translator.tr("select_project_dir"))
         if not root_dir:
             return  # Annullato
 
         # 2. Chiedi nome progetto
-        nome_proj, ok = QInputDialog.getText(self, "Nome progetto", "Nome del nuovo progetto:")
+        nome_proj, ok = QInputDialog.getText(self, Translator.tr("project_name_title"), Translator.tr("project_name_prompt"))
         if not ok or not nome_proj.strip():
             return
 
         nome_proj = nome_proj.strip()
         project_dir = os.path.join(root_dir, nome_proj)
         if os.path.exists(project_dir):
-            QMessageBox.warning(self, "Attenzione", "La cartella esiste già, scegli un altro nome o cancella la cartella.")
+            QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("dir_exists"))
             return
         os.makedirs(project_dir)
 
@@ -258,7 +259,7 @@ class MainWindow(QMainWindow):
         try:
             shutil.copy(template_path, new_yaml_path)
         except Exception as e:
-            QMessageBox.critical(self, "Errore", f"Errore durante la copia del template: {e}")
+            QMessageBox.critical(self, Translator.tr("error"), Translator.tr("copy_template_error").format(e=e))
             return
 
         # 5. Aggiorna lo YAML nell’editor e memorizza la path del progetto
@@ -268,7 +269,7 @@ class MainWindow(QMainWindow):
         self.project_dir = project_dir  # <- per reference
 
         # 6. Log e info
-        self.logger.log(f"🆕 Nuovo progetto creato in: {project_dir}", "success")
+        self.logger.log(Translator.tr("new_project_created").format(project_dir=project_dir), "success")
 
         # 7. Reset altri tab
         self.tab_settings.reset_fields()
@@ -291,7 +292,7 @@ class MainWindow(QMainWindow):
             self.tab_sensori.aggiorna_blocchi_da_yaml(content)
             #Poi aggiorna gli accordion
             self.tab_modules.carica_dati_da_yaml(content)
-            self.logger.log(f"📂 Progetto aperto: {filename}", "success")
+            self.logger.log(Translator.tr("project_opened").format(path=filename), "success")
 
     def salva_progetto(self):
         """
@@ -305,9 +306,9 @@ class MainWindow(QMainWindow):
             content = self.yaml_editor.toPlainText()
             with open(self.last_save_path, "w", encoding="utf-8") as f:
                 f.write(content)
-            self.logger.log(f"💾 Progetto salvato: {self.last_save_path}", "success")
+            self.logger.log(Translator.tr("project_saved").format(path=self.last_save_path), "success")
         except Exception as e:
-            self.logger.log(f"❌ Errore salvataggio: {e}", "error")
+            self.logger.log(Translator.tr("save_error").format(e=e), "error")
 
     def salva_con_nome(self):
         from PyQt6.QtWidgets import QFileDialog
@@ -317,7 +318,7 @@ class MainWindow(QMainWindow):
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(content)
             self.last_save_path = filename
-            self.logger.log(f"💾 Progetto salvato come: {filename}", "success")
+            self.logger.log(Translator.tr("project_saved_as").format(path=filename), "success")
 
     def importa_yaml(self):
         from PyQt6.QtWidgets import QFileDialog
@@ -329,7 +330,7 @@ class MainWindow(QMainWindow):
             # Puoi sincronizzare anche qui:
             self.tab_settings.aggiorna_layout_da_dati()
             self.tab_sensori.aggiorna_blocchi_da_yaml(content)
-            self.logger.log(f"🔄 YAML importato: {filename}", "success")
+            self.logger.log(Translator.tr("yaml_imported").format(path=filename), "success")
 
     def esporta_yaml(self):
         from PyQt6.QtWidgets import QFileDialog
@@ -338,6 +339,18 @@ class MainWindow(QMainWindow):
             content = self.yaml_editor.toPlainText()
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(content)
-            self.logger.log(f"📤 YAML esportato come: {filename}", "success")
+            self.logger.log(Translator.tr("yaml_exported").format(path=filename), "success")
 
-
+    def aggiorna_tutte_le_label(self):
+        # Aggiorna i titoli dei tab
+        self.tab_widget.setTabText(0, Translator.tr("tab_settings"))
+        self.tab_widget.setTabText(1, Translator.tr("tab_modules"))
+        self.tab_widget.setTabText(2, Translator.tr("tab_sensors"))
+        self.tab_widget.setTabText(3, Translator.tr("tab_compile_upload"))
+        # Aggiorna menubar
+        self.menu_bar.update_labels()
+        # Aggiorna label/bottoni nei tab (aggiungi metodi aggiorna_label() nei tuoi tab)
+        self.tab_settings.aggiorna_label()
+        self.tab_modules.aggiorna_label()
+        self.tab_sensori.aggiorna_label()
+        self.tab_command.aggiorna_label()            
