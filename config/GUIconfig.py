@@ -3,6 +3,9 @@ SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
 YAML_TEMPLATE_PATH = "config/default_template.yaml"
 CONFIG_PATH = "user_settings.json"
 
+APP_VERSION = "1.0.0"
+APP_RELEASE_DATE = "2025-05-30"
+
 MAIN_WINDOW_HEIGHT = 900
 MAIN_WINDOW_WIDTH = 1500
 

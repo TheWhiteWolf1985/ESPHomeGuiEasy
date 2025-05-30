@@ -1,7 +1,11 @@
-from PyQt6.QtWidgets import QMenuBar, QFileDialog
+from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QAction
 from core.translator import Translator
 from gui.color_pantone import Pantone
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
+import config.GUIconfig as conf
+import os
 
 class MainMenuBar(QMenuBar):
     def __init__(self, parent=None):
@@ -47,6 +51,15 @@ class MainMenuBar(QMenuBar):
         self._build_language_menu()     
 
         self.current_language = Translator.current_language()
+
+                # --- HELP MENU ---
+        help_menu = self.addMenu("❓")
+        self.about_action = QAction("Informazioni", self)
+        self.about_action.triggered.connect(self.show_about_dialog)
+        self.documentation_action = QAction("Documentazione", self)
+        self.documentation_action.triggered.connect(self.show_documentation_placeholder)
+        help_menu.addAction(self.about_action)
+        help_menu.addAction(self.documentation_action)
 
     def update_labels(self):
         # Aggiorna tutte le label dei menu e voci secondo la lingua attuale
@@ -125,3 +138,51 @@ class MainMenuBar(QMenuBar):
         if hasattr(self.parent(), "aggiorna_tutte_le_label"):
             self.parent().aggiorna_tutte_le_label()
         self._build_language_menu()
+
+    def show_about_dialog(self):
+        # Prendi dati versione (da config)
+        version = getattr(conf, "APP_VERSION", "1.0.0")
+        release_date = getattr(conf, "APP_RELEASE_DATE", "2025-05-30")
+        icon_path = getattr(conf, "SW_ICON_PATH", "")
+
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Informazioni su ESPHomeGuiEasy")
+        dlg.setStyleSheet(Pantone.DIALOG_STYLE)
+        layout = QVBoxLayout()
+
+        # Logo (se presente)
+        if os.path.exists(icon_path):
+            pix = QPixmap(icon_path).scaled(90, 90)
+            lbl_logo = QLabel()
+            lbl_logo.setPixmap(pix)
+            lbl_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            layout.addWidget(lbl_logo)
+        else:
+            layout.addWidget(QLabel("ESPHomeGuiEasy"))
+
+        # Info testo
+        lbl_info = QLabel(
+            f"<b>ESPHomeGuiEasy</b><br>"
+            f"Versione: <b>{version}</b><br>"
+            f"Data rilascio: <b>{release_date}</b><br>"
+            f"<br>"
+            f"Copyright (c) 2025 Juri<br>"
+            f"Licenza: AGPLv3 - Uso non commerciale"
+        )
+        lbl_info.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(lbl_info)
+
+        # Bottone chiudi
+        btn = QPushButton("Chiudi")
+        btn.clicked.connect(dlg.accept)
+        layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        dlg.setLayout(layout)
+        dlg.exec()
+
+    def show_documentation_placeholder(self):
+        box = QMessageBox(self)
+        box.setWindowTitle("Documentazione")
+        box.setText("La documentazione sarà disponibile in una release futura.")
+        box.setStyleSheet(Pantone.DIALOG_STYLE)
+        box.exec()

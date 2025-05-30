@@ -201,3 +201,19 @@ class Pantone:
             }
         """
 
+    DIALOG_STYLE = """
+    QLabel {
+        color: #d4d4d4;
+        font-size: 11pt;
+    }
+    QPushButton {
+        background-color: #3a9dda;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 11pt;
+        padding: 6px 12px;
+    }
+    QDialog {
+        background-color: #23272e;
+    }
+"""
