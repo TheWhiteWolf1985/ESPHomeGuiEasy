@@ -1,8 +1,10 @@
 # esphomeGuieasy
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)
+![Non-Commercial](https://img.shields.io/badge/Usage-Non--Commercial-red)
 ![Platform: PyQt6](https://img.shields.io/badge/UI-PyQt6-blue)
 ![Status: In Development](https://img.shields.io/badge/status-WIP-orange)
+
 
 [![Donate](https://img.shields.io/badge/PayPal-Donate-blue?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=HVA3DZFRLW9NU)
 
