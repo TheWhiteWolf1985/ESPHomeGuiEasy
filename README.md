@@ -211,7 +211,21 @@ main.py     # Entry point
 
 ## 📄 License
 
-MIT License - see [LICENSE](./LICENSE)
+**AGPL v3 with additional terms** – see [LICENSE.txt](./LICENSE.txt)
+
+> ⚠️ This project is released for **personal, educational, and non-commercial use only**.  
+> **Commercial use is strictly prohibited** without prior written permission from the author.  
+> For commercial licensing, please contact the author.
+
+---
+
+**AGPL v3 con termini aggiuntivi** – vedi [LICENSE.txt](./LICENSE.txt)
+
+> ⚠️ Questo progetto è rilasciato per **uso personale, educativo e non commerciale**.  
+> **L'uso commerciale è severamente vietato** senza autorizzazione scritta dell'autore.  
+> Per licenze commerciali, contattare l'autore.
+
+
 
 ---
 
