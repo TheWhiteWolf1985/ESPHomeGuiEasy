@@ -10,22 +10,9 @@ class CollapsibleSection(QWidget):
     """
     def __init__(self, title: str, content: QWidget, icon: str = ""):
         super().__init__()
+        self._icon = icon  # <--- salva l’icona come attributo di istanza
         self.toggle_button = QToolButton(text=f"{icon} {title}", checkable=True, checked=False)
-        self.toggle_button.setStyleSheet("""
-            QToolButton {
-                background-color: #23272e;
-                color: #d4d4d4;
-                font-size: 12pt;
-                font-weight: bold;
-                border: none;
-                padding: 8px;
-                text-align: left;
-            }
-            QToolButton:checked {
-                background-color: #3a9dda;
-                color: #fff;
-            }
-        """)
+        self.toggle_button.setStyleSheet(Pantone.ACCORDION_QTOOLBUTTON)
         self.toggle_button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.toggle_button.setArrowType(Qt.ArrowType.RightArrow)
         self.toggle_button.toggled.connect(self.on_toggled)
@@ -57,4 +44,8 @@ class CollapsibleSection(QWidget):
             self.toggle_button.setArrowType(Qt.ArrowType.RightArrow)
             self.content_area.setMaximumHeight(0)
         self.updateGeometry()
+
+    def set_title(self, title):
+        """Aggiorna il testo dell’accordion mantenendo l’icona."""
+        self.toggle_button.setText(f"{self._icon} {title}")        
 

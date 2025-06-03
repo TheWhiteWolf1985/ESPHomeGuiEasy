@@ -12,6 +12,7 @@
     "modules": "Moduli",
     "sensors": "Sensori",
     "compile_upload": "Compila/Carica",
+    "upload": "Carica",
     "save": "Salva",
     "save_as": "Salva con nome...",
     "open_project": "Apri progetto...",

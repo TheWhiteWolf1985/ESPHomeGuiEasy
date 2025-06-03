@@ -8,6 +8,8 @@ import serial.tools.list_ports  # Richiede pyserial
 from PyQt6.QtGui import QPalette, QColor
 from gui.color_pantone import Pantone
 from core.translator import Translator
+from core.compile_manager import CompileManager
+
 
 class TabCommand(QWidget):
     def __init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):
@@ -35,6 +37,7 @@ class TabCommand(QWidget):
 
         # --- Sezione USB / Serial Loader (layout verticale e allineato) ---
         self.usb_box = QGroupBox(Translator.tr("usb_serial_loader"))
+        self.usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
         usb_vlayout = QVBoxLayout()
 
         usb_form = QFormLayout()
@@ -112,6 +115,7 @@ class TabCommand(QWidget):
 
         # --- Sezione OTA (WiFi, layout verticale e allineato) ---
         self.ota_box = QGroupBox(Translator.tr("ota_wifi"))
+        self.ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
         ota_vlayout = QVBoxLayout()
 
         # Riga 1: Scansione + combo IP trovati
@@ -207,34 +211,46 @@ class TabCommand(QWidget):
 
         # --- SEZIONE COMPILAZIONE ---
         self.group_compile = QGroupBox(Translator.tr("firmware_compile"))
+        self.group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)
         group_layout = QVBoxLayout()
 
+        # Bottone COMPILA
         self.compile_btn = QPushButton("🚀 " + Translator.tr("compile"))
         self.compile_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #3a9dda;
-                color: white;
-                border-radius: 8px;
-                font-size: 13pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #2277aa;
-            }
-        """)
+            background-color: #3a9dda;
+            color: white;
+            border-radius: 8px;
+            font-size: 13pt;
+            padding: 6px 12px;
+            font-weight: bold;
+        """ + Pantone.UPDATE_YAML_BTN_STYLE)
         self.compile_btn.setFixedWidth(200)
         self.compile_btn.clicked.connect(self.compila_progetto)
 
+
+        # Bottone CARICA
+        self.upload_btn = QPushButton("📤 " + Translator.tr("upload"))
+        self.upload_btn.setStyleSheet("""
+            background-color: #20c070;
+            color: #131414;
+            border-radius: 8px;
+            font-size: 13pt;
+            padding: 6px 12px;
+            font-weight: bold;
+        """ + Pantone.UPDATE_YAML_BTN_STYLE)
+        self.upload_btn.setFixedWidth(200)
+        self.upload_btn.clicked.connect(self.carica_firmware)
+
+        # Layout bottoni
         btn_layout = QHBoxLayout()
         btn_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         btn_layout.addWidget(self.compile_btn)
+        btn_layout.addWidget(self.upload_btn)
+
         group_layout.addLayout(btn_layout)
         self.group_compile.setLayout(group_layout)
         layout.addWidget(self.group_compile)
-
-        self.usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
-        self.ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)
-        self.group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)    
+ 
 
     def refresh_com_ports(self):
         self.com_combo.clear()
@@ -244,13 +260,45 @@ class TabCommand(QWidget):
         if not ports:
             self.com_combo.addItem(Translator.tr("no_port_found"), "")
 
-    def compila_progetto(self):
-        """Compila il contenuto YAML dell'editor corrente tramite ESPHome."""
-        yaml_content = self.yaml_editor.toPlainText()
-        if not yaml_content.strip():
-            self.logger.log(Translator.tr("no_yaml_to_compile"))
+    def carica_firmware(self):
+        """
+        Avvia upload firmware via USB usando CompileManager e gestisce UI/log.
+        """
+        # Disabilita i bottoni durante l’upload
+        self.compile_btn.setEnabled(False)
+        self.upload_btn.setEnabled(False)
+
+        # Recupera percorso yaml del progetto (come per la compilazione)
+        main_win = self.parent()
+        yaml_path = None
+        if hasattr(main_win, "last_save_path") and main_win.last_save_path:
+            yaml_path = main_win.last_save_path
+        else:
+            self.logger.log("Salva prima il progetto su file per poter caricare il firmware.", "error")
+            self.compile_btn.setEnabled(True)
+            self.upload_btn.setEnabled(True)
             return
-        self.compiler.compile_yaml(yaml_content)
+
+        # Recupera la porta COM selezionata
+        com_port = self.com_combo.currentData() or self.com_combo.currentText()
+        if not com_port:
+            self.logger.log("Seleziona una porta seriale valida.", "error")
+            self.compile_btn.setEnabled(True)
+            self.upload_btn.setEnabled(True)
+            return
+
+        # Collega il logger
+        self.compiler.log_callback = self.logger.log
+
+        # Collega la funzione per riabilitare i bottoni
+        def riabilita_bottoni():
+            self.compile_btn.setEnabled(True)
+            self.upload_btn.setEnabled(True)
+        self.compiler.on_upload_finished = riabilita_bottoni
+
+        # Avvia upload
+        self.compiler.upload_via_usb(yaml_path, com_port)
+
 
     def scan_network_for_esp(self):
         """Scansiona la rete locale per trovare ESPHome in ascolto sulla porta 3232."""
@@ -349,9 +397,32 @@ class TabCommand(QWidget):
         self.test_ota_btn.setText(Translator.tr("test_connection"))
         self.flash_ota_btn.setText(Translator.tr("flash_ota"))
         # Compilazione
-        self.group_compile.setTitle(Translator.tr("firmware_compile"))
         self.compile_btn.setText("🚀 " + Translator.tr("compile"))
+        self.upload_btn.setText("📤 " + Translator.tr("upload"))
         # Placeholder degli edit
         self.ota_ip_edit.setPlaceholderText(Translator.tr("ip_address"))
         self.ota_port_edit.setPlaceholderText(Translator.tr("ota_port"))
         self.ota_pwd_edit.setPlaceholderText(Translator.tr("ota_password"))
+
+    def compila_progetto(self):
+        """
+        Avvia la compilazione del firmware tramite CompileManager e gestisce UI/log.
+        """
+        # Disabilita i bottoni durante la compilazione
+        self.compile_btn.setEnabled(False)
+        self.upload_btn.setEnabled(False)
+
+        # Cattura il testo YAML attualmente nell’editor
+        yaml_text = self.yaml_editor.toPlainText()
+
+        # Collega il log_callback del manager alla console
+        self.compiler.log_callback = self.logger.log
+
+        # Collega la funzione di riabilitazione dei bottoni
+        def riabilita_bottoni():
+            self.compile_btn.setEnabled(True)
+            self.upload_btn.setEnabled(True)
+        self.compiler.on_compile_finished = riabilita_bottoni
+
+        # Chiama la funzione centralizzata
+        self.compiler.compile_yaml(yaml_text)

@@ -12,6 +12,7 @@
     "modules": "Module",
     "sensors": "Sensoren",
     "compile_upload": "Kompilieren/Hochladen",
+    "upload": "Hochladen",
     "save": "Speichern",
     "save_as": "Speichern unter...",
     "open_project": "Projekt öffnen...",

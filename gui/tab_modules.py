@@ -19,6 +19,7 @@ class TabModules(QWidget):
         container_layout.setContentsMargins(0, 0, 0, 0)
 
         self.widget_map = {}
+        self.sections_map = {}
 
         # 2. Aggiungi le sezioni accordion
         with open("config/modules_schema.json", encoding="utf-8") as f:
@@ -69,6 +70,7 @@ class TabModules(QWidget):
             section = CollapsibleSection(Translator.tr(module_name), content, icon)
             container_layout.addWidget(section)
             self.widget_map[module_name] = widget_dict
+            self.sections_map[module_name] = section
 
         # 3. Pulsante in fondo
         self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
@@ -178,10 +180,9 @@ class TabModules(QWidget):
         self.update_yaml_btn.setText(Translator.tr("update_yaml"))
         # Aggiorna ogni modulo accordion (header/campi)
         for module_name, widget_dict in self.widget_map.items():
-            # Cambia titolo della sezione modulo
-            for section in self.parent().findChildren(QWidget):
-                if hasattr(section, "toggle_button") and Translator.tr(module_name) != section.toggle_button.text():
-                    section.toggle_button.setText(Translator.tr(module_name))
+            section = self.sections_map.get(module_name)
+            if section:
+                section.set_title(Translator.tr(module_name))
             # Aggiorna label dei campi dentro ciascun modulo
             for key, widget in widget_dict.items():
                 if isinstance(widget, QCheckBox) or isinstance(widget, QLabel):
@@ -190,5 +191,5 @@ class TabModules(QWidget):
                     if hasattr(widget, "setPlaceholderText"):
                         widget.setPlaceholderText(Translator.tr(key))
                 elif isinstance(widget, QComboBox):
-                    # Ricarica options se vuoi tradurre anche le scelte delle combo
+                    # Se vuoi aggiornare anche le opzioni della combo
                     pass

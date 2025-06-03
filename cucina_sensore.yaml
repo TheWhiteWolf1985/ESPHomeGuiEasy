@@ -15,12 +15,7 @@ sensor:
     model: DHT11
     pin: '21'
     temperature:
-      name: temp_um_cucina Temp
+      name: temp_um_cucina_temp
     humidity:
-      name: temp_um_cucina Hum
+      name: temp_um_cucina_hum
     update_interval: 60s
-debug:
-  update_interval: 55s
-logger:
-  level: ERROR
-  baud_rate: '115200'

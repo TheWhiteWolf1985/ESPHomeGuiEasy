@@ -217,3 +217,19 @@ class Pantone:
         background-color: #23272e;
     }
 """
+
+    ACCORDION_QTOOLBUTTON = """
+            QToolButton {
+                background-color: #23272e;
+                color: #d4d4d4;
+                font-size: 12pt;
+                font-weight: bold;
+                border: none;
+                padding: 8px;
+                text-align: left;
+            }
+            QToolButton:checked {
+                background-color: #3a9dda;
+                color: #fff;
+            }
+        """
