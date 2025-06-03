@@ -2,6 +2,7 @@ from PyQt6.QtCore import QObject, QProcess, pyqtSignal
 import tempfile
 import os
 
+
 class CompileManager(QObject):
     """
     Gestisce la compilazione di file YAML tramite ESPHome usando QProcess.

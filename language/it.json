@@ -117,5 +117,8 @@
     "yaml_placeholder": "Contenuto YAML qui...",
     "menu_file": "&File",
     "menu_settings": "Impostazioni",
-    "menu_language": "Lingua"                
+    "menu_language": "Lingua",
+    "import_project": "Importa progetto...",
+    "export_project": "Esporta progetto..."
+
 }

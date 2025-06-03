@@ -26,6 +26,7 @@ from gui.menu_bar import MainMenuBar
 from gui.tab_modules import TabModules
 from gui.color_pantone import Pantone
 from core.translator import Translator
+from core.project_handler import ProjectHandler
 
 
 class MainWindow(QMainWindow):
@@ -47,6 +48,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(conf.SW_ICON_PATH))
 
         self.last_save_path = None
+        self.project_dir = None
 
         dark_palette = QPalette()
         dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
@@ -217,7 +219,7 @@ class MainWindow(QMainWindow):
 ##########################################################################
 
         self.menu_bar.new_action.triggered.connect(self.nuovo_progetto)
-        self.menu_bar.open_action.triggered.connect(self.apri_progetto)
+        self.menu_bar.open_action.triggered.connect(self.open_project)
         self.menu_bar.save_action.triggered.connect(self.salva_progetto)
         self.menu_bar.saveas_action.triggered.connect(self.salva_con_nome)
         self.menu_bar.import_action.triggered.connect(self.importa_yaml)
@@ -280,19 +282,26 @@ class MainWindow(QMainWindow):
         self.compiler.set_project_dir(project_dir)
 
 
-    def apri_progetto(self):
-        filename, _ = QFileDialog.getOpenFileName(self, "Apri progetto", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
+    def open_project(self, yaml_path):
+        with open(yaml_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            self.yaml_editor.setPlainText(content)
+        # Prima aggiorna i campi settings leggendo dallo YAML!
+        self.tab_settings.carica_dati_da_yaml(content)
+        # Poi aggiorna i blocchi grafici
+        self.tab_sensori.aggiorna_blocchi_da_yaml(content)
+        #Poi aggiorna gli accordion
+        self.tab_modules.carica_dati_da_yaml(content)
+        self.logger.log(Translator.tr("project_opened").format(path=yaml_path), "success")
+        # Salva anche la directory progetto!
+        self.last_save_path = yaml_path
+        self.project_dir = os.path.dirname(os.path.abspath(yaml_path))
+
+    def open_project_dialog(self):
+        filename, _ = QFileDialog.getOpenFileName(self, Translator.tr("open_project"), "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
         if filename:
-            with open(filename, "r", encoding="utf-8") as f:
-                content = f.read()
-                self.yaml_editor.setPlainText(content)
-            # Prima aggiorna i campi settings leggendo dallo YAML!
-            self.tab_settings.carica_dati_da_yaml(content)
-            # Poi aggiorna i blocchi grafici
-            self.tab_sensori.aggiorna_blocchi_da_yaml(content)
-            #Poi aggiorna gli accordion
-            self.tab_modules.carica_dati_da_yaml(content)
-            self.logger.log(Translator.tr("project_opened").format(path=filename), "success")
+            self.open_project(filename)
+
 
     def salva_progetto(self):
         """
@@ -354,3 +363,18 @@ class MainWindow(QMainWindow):
         self.tab_modules.aggiorna_label()
         self.tab_sensori.aggiorna_label()
         self.tab_command.aggiorna_label()            
+
+    def export_project(self):
+        if not self.project_dir:
+            self.logger.log("Nessun progetto attivo da esportare.", "warning")
+            return
+        ProjectHandler.export_project(
+            self.project_dir, QFileDialog.getSaveFileName, self.logger.log
+        )
+
+    def import_project(self):
+        ProjectHandler.import_project(
+            QFileDialog.getOpenFileName, QFileDialog.getExistingDirectory,
+            self.logger.log, self.open_project  # open_project = funzione per aprire un nuovo progetto in GUI
+        )        
+    

@@ -40,6 +40,16 @@ class MainMenuBar(QMenuBar):
         self.export_action = QAction(Translator.tr("export_yaml"), self)
         file_menu.addAction(self.export_action)
 
+        file_menu.addSeparator()      
+
+        self.import_project_action = QAction(Translator.tr("import_project"), self)
+        self.import_project_action.triggered.connect(self.parent().import_project)
+        file_menu.addAction(self.import_project_action)
+
+        self.export_project_action = QAction(Translator.tr("export_project"), self)
+        self.export_project_action.triggered.connect(self.parent().export_project)
+        file_menu.addAction(self.export_project_action)
+
         file_menu.addSeparator()
 
         self.exit_action = QAction(Translator.tr("exit"), self)
