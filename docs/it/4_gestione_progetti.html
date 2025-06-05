@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>4. Gestione Progetti – ESPHomeGuiEasy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="doc-container" style="max-width:900px;margin:0 auto;padding:20px;">
+<h1 style="text-align:center;">4&nbsp;&nbsp;Gestione dei Progetti</h1>
+
+<hr style="border:0;height:4px;background:#3a9dda;margin:30px 0;">
+
+<h2>4.1&nbsp;&nbsp;Creazione di un nuovo progetto</h2>
+<ol>
+<li>Menu <b>File → Nuovo progetto</b>.</li>
+<li>Scegliere la directory che conterrà la cartella progetto.</li>
+<li>Digitare il <i>nome progetto</i>; verrà creata una cartella con lo stesso nome.</li>
+<li>All’interno viene copiato il <code>template.yaml</code> di base.</li>
+<li>Il compilatore viene configurato automaticamente per puntare alla nuova cartella.</li>
+</ol>
+<img src="img/new_project_wizard.png" alt="Procedura nuovo progetto" style="display:block;margin:20px auto;max-width:60%;border:1px solid #aaa;">
+
+<hr style="border:0;height:4px;background:#6a9955;margin:30px 30px;">
+
+<h2>4.2&nbsp;&nbsp;Apertura di un progetto esistente</h2>
+<p>
+Menu <b>File → Apri progetto…</b> consente di selezionare direttamente il file
+<code>.yaml</code> del progetto. ESPHomeGuiEasy:
+</p>
+<ul>
+<li>Carica il contenuto YAML nell’editor.</li>
+<li>Sincronizza le schede <i>Impostazioni</i>, <i>Moduli</i> e <i>Sensori</i>.</li>
+<li>Memorizza la cartella come directory di compilazione.</li>
+</ul>
+<img src="img/open_project_dialog.png" alt="Dialog apertura progetto" style="display:block;margin:20px auto;max-width:55%;border:1px solid #aaa;">
+
+<div class="note">La funzione “Apri progetto” accetta anche file con estensione <code>.yml</code>.</div>
+
+<hr style="border:0;height:4px;background:#dcd11c;margin:30px 30px;">
+
+<h2>4.3&nbsp;&nbsp;Importa/Esporta progetto (ZIP)</h2>
+<table style="margin:0 auto; border-collapse:collapse;">
+<tr><th style="border-bottom:1px solid #888;">Operazione</th><th style="border-bottom:1px solid #888;">Descrizione</th></tr>
+<tr><td><b>Importa progetto…</b></td><td>Seleziona un archivio <code>.zip</code>; l’app lo estrae in una cartella e carica automaticamente il file YAML.</td></tr>
+<tr><td><b>Esporta progetto…</b></td><td>Comprimi l’intera cartella progetto in un <code>nomeprogetto.zip</code>, escludendo la cartella <code>.pioenvs</code>.</td></tr>
+</table>
+
+<pre><code>[12:11:07] INFO Esportazione in corso...
+[12:11:12] SUCCESS Progetto esportato come sensor_studio.zip (1,2 MB)
+</code></pre>
+
+<img src="img/import_export.png" alt="Importa / Esporta progetto" style="display:block;margin:20px auto;max-width:65%;border:1px solid #aaa;">
+
+<div class="warning">
+<b>Best practice:</b> esporta sempre un progetto prima di condividerlo, così includerai anche eventuali asset aggiuntivi (icone, immagini, script Lua, ecc.).
+</div>
+
+<hr style="border:0;height:4px;background:#f55f5f;margin:30px 30px;">
+
+<h2>4.4&nbsp;&nbsp;Struttura delle cartelle di progetto</h2>
+<p>La struttura generata da ESPHomeGuiEasy segue questa convenzione:</p>
+<pre><code>my_project/
+├── my_project.yaml
+├── assets/           # immagini e file statici aggiuntivi
+├── src/              # codice C++ opzionale
+└── .pioenvs/         # cartella build creata da ESPHome (ignorata in ZIP)
+</code></pre>
+<img src="img/project_structure_diagram.png" alt="Diagramma struttura cartelle" style="display:block;margin:20px auto;max-width:70%;border:1px solid #aaa;">
+<div class="tip">Mantieni separati file generati (<code>.pioenvs</code>) e sorgenti per rendere l’esportazione più snella.</div>
+
+</div>
+</body>
+</html>

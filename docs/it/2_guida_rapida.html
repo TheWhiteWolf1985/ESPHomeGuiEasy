@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>2. Guida Rapida – ESPHomeGuiEasy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="doc-container" style="max-width:900px;margin:0 auto;padding:20px;">
+<h1 style="text-align:center;">2&nbsp;&nbsp;Guida Rapida</h1>
+
+<hr style="border:0;height:4px;background:#3a9dda;margin:30px 0;">
+
+<h2>2.1&nbsp;&nbsp;Installazione</h2>
+<div class="note"><b>Prerequisiti:</b> Python 3.10+ già installato.</div>
+
+<ol>
+<li><b>Scaricare</b> l’ultima release da <a href="https://github.com/TUO_REPO/releases" target="_blank">GitHub Releases</a>.</li>
+<li>Installare ESPHome CLI e librerie Qt:
+<pre><code>pip install esphome PyQt6 pyserial</code></pre></li>
+<li>Estrarre l’archivio dell’app in una cartella dedicata.</li>
+<li>Avviare l’applicazione:
+<pre><code>python main.py</code></pre></li>
+</ol>
+
+<hr style="border:0;height:4px;background:#6a9955;margin:30px 30px;">
+
+<h2>2.2&nbsp;&nbsp;Primo Avvio</h2>
+<p>Al primo avvio viene mostrata la finestra di scelta lingua:</p>
+<img src="img/language_dialog.png" alt="Finestra scelta lingua" style="display:block;margin:20px auto;max-width:50%;border:1px solid #aaa;">
+<div class="tip">È possibile cambiare lingua in qualsiasi momento: <i>Impostazioni → Lingua</i>.</div>
+
+<hr style="border:0;height:4px;background:#dcd11c;margin:30px 30px;">
+
+<h2>2.3&nbsp;&nbsp;Creare il primo progetto</h2>
+<ol>
+<li>Menu <b>File → Nuovo progetto</b>.</li>
+<li>Selezionare la cartella di destinazione e digitare il nome del progetto.</li>
+<li>Nella scheda <b>Impostazioni</b> compilare:
+  <ul>
+    <li>Nome dispositivo</li>
+    <li>Scheda (es. <code>esp32-devkit-v1</code>)</li>
+    <li>SSID e Password Wi‑Fi</li>
+  </ul></li>
+<li>Premere <b>Aggiorna YAML</b> per salvare le modifiche.</li>
+<li>Nella scheda <b>Sensori</b> trascinare un sensore sul canvas.</li>
+<li>Salvare (Ctrl+S) e compilare il firmware:</li>
+</ol>
+
+<pre><code>[Console]
+INFO Compilazione in corso...
+OK  Firmware compilato con successo</code></pre>
+
+<img src="img/new_project_wizard.png" alt="Procedura nuovo progetto" style="display:block;margin:20px auto;max-width:60%;border:1px solid #aaa;">
+
+<div class="warning">
+<b>Attenzione:</b> il nome progetto deve essere univoco nella rete locale per evitare conflitti mDNS
+(e.g. non utilizzare “test” se è già presente un dispositivo con identico hostname).
+</div>
+
+</div>
+</body>
+</html>

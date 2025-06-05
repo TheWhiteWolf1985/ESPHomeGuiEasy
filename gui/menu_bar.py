@@ -64,12 +64,15 @@ class MainMenuBar(QMenuBar):
 
                 # --- HELP MENU ---
         help_menu = self.addMenu("❓")
-        self.about_action = QAction("Informazioni", self)
-        self.about_action.triggered.connect(self.show_about_dialog)
-        self.documentation_action = QAction("Documentazione", self)
-        self.documentation_action.triggered.connect(self.show_documentation_placeholder)
+        self.about_action = QAction(Translator.tr("menu_about"), self)
+        self.documentation_action = QAction(Translator.tr("menu_documentation"), self)
         help_menu.addAction(self.about_action)
         help_menu.addAction(self.documentation_action)
+        self.about_action.triggered.connect(self.show_about_dialog)
+        # Deleghiamo la documentazione alla finestra principale
+        self.documentation_action.triggered.connect(
+            lambda: self.parent().show_documentation()
+        )
 
     def update_labels(self):
         # Aggiorna tutte le label dei menu e voci secondo la lingua attuale
@@ -82,6 +85,8 @@ class MainMenuBar(QMenuBar):
         self.import_action = QAction(Translator.tr("import_yaml"), self)
         self.export_action = QAction(Translator.tr("export_yaml"), self)
         self.exit_action = QAction(Translator.tr("exit"), self)
+        self.about_action.setText(Translator.tr("menu_about"))
+        self.documentation_action.setText(Translator.tr("menu_documentation"))
         file_menu.addAction(self.new_action)
         file_menu.addAction(self.open_action)
         file_menu.addAction(self.save_action)
@@ -189,10 +194,3 @@ class MainMenuBar(QMenuBar):
 
         dlg.setLayout(layout)
         dlg.exec()
-
-    def show_documentation_placeholder(self):
-        box = QMessageBox(self)
-        box.setWindowTitle("Documentazione")
-        box.setText("La documentazione sarà disponibile in una release futura.")
-        box.setStyleSheet(Pantone.DIALOG_STYLE)
-        box.exec()

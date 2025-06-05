@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>3. Panoramica Interfaccia – ESPHomeGuiEasy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="doc-container" style="max-width:900px;margin:0 auto;padding:20px;">
+<h1 style="text-align:center;">3&nbsp;&nbsp;Panoramica dell’Interfaccia</h1>
+
+<hr style="border:0;height:4px;background:#3a9dda;margin:30px 0;">
+
+<h2>3.1&nbsp;&nbsp;Layout finestra principale</h2>
+<p>
+La finestra principale di ESPHomeGuiEasy è suddivisa in due colonne ridimensionabili tramite uno
+<code>QSplitter</code> orizzontale:
+</p>
+<ol>
+<li><b>Colonna sinistra</b> — Editor YAML (in alto) e Console log (in basso).</li>
+<li><b>Colonna destra</b> — Pannello a schede con configurazioni progetto e comandi.</li>
+</ol>
+<img src="img/main_window_layout.png" alt="Layout finestra principale" style="display:block;margin:20px auto;max-width:80%;border:1px solid #aaa;">
+<div class="note">Sostituire <code>img/main_window_layout.png</code> con uno screenshot completo del layout.</div>
+
+<hr style="border:0;height:4px;background:#6a9955;margin:30px 30px;">
+
+<h2>3.2&nbsp;&nbsp;Menubar e Toolbar</h2>
+<p>
+La <b>menubar</b> espone tre menu principali:
+</p>
+<ul>
+<li><b>File</b> — operazioni su progetto (Nuovo, Apri, Importa/Esporta, Salva, Esci).</li>
+<li><b>Impostazioni</b> — cambio lingua e preferenze future.</li>
+<li><b>Aiuto</b> — informazioni su versione e link alla documentazione.</li>
+</ul>
+<p>
+Ogni comando cruciale dispone di scorciatoia (es. <code>Ctrl+N</code> per
+Nuovo progetto, <code>Ctrl+Shift+S</code> per Salva con nome).
+Attualmente la <b>toolbar</b> ospita solo icone informative, ma è predisposta
+per pulsanti di accesso rapido in release successive.
+</p>
+<img src="img/menubar_toolbar.png" alt="Menubar e toolbar" style="display:block;margin:20px auto;max-width:70%;border:1px solid #aaa;">
+
+<div class="tip">In futuro la toolbar potrà includere i pulsanti Compila e Carica per operazioni one‑click.</div>
+
+<hr style="border:0;height:4px;background:#dcd11c;margin:30px 30px;">
+
+<h2>3.3&nbsp;&nbsp;Schede</h2>
+<p>Il pannello destro è organizzato in quattro schede principali:</p>
+<table style="margin:0 auto; border-collapse:collapse;">
+<tr><th style="border-bottom:1px solid #888;">Scheda</th><th style="border-bottom:1px solid #888;">Funzione principale</th></tr>
+<tr><td><b>Impostazioni</b></td><td>Dati generali (nome dispositivo, board, Wi‑Fi) e immagine pinout.</td></tr>
+<tr><td><b>Sensori</b></td><td>Canvas drag&amp;drop per blocchi sensore; genera automaticamente codice.</td></tr>
+<tr><td><b>Moduli</b></td><td>Attivazione rapida di Logger, OTA, MQTT, Web Server e altri componenti.</td></tr>
+<tr><td><b>Comandi</b></td><td>Compila, carica firmware, test porte seriali, scansione rete.</td></tr>
+</table>
+
+<img src="img/tabs_overview.png" alt="Schede principali" style="display:block;margin:20px auto;max-width:75%;border:1px solid #aaa;">
+
+<hr style="border:0;height:4px;background:#f55f5f;margin:30px 30px;">
+
+<h2>3.4&nbsp;&nbsp;Console log e barre di avanzamento</h2>
+<p>
+La console (colonna sinistra, parte inferiore) visualizza l’output combinato di processo
+<code>esphome</code> e log interni dell’app. I messaggi sono color‑coded:
+</p>
+<ul>
+<li><span style="color:#33b;">INFO</span> — informazioni routine.</li>
+<li><span style="color:#d80;">WARNING</span> — condizioni non critiche da verificare.</li>
+<li><span style="color:#c00;">ERROR</span> — problemi che impediscono il completamento dell’operazione.</li>
+</ul>
+
+<pre><code>[11:32:05] INFO Compilazione in corso...
+[11:35:40] SUCCESS Firmware compilato senza errori
+[11:36:02] WARNING Nessun dispositivo OTA rilevato in rete
+</code></pre>
+
+<p>
+Le <b>progress bar</b> compaiono automaticamente per import/export ZIP, compilazione e flash:
+</p>
+<img src="img/progress_bars.png" alt="Barre di avanzamento" style="display:block;margin:20px auto;max-width:60%;border:1px solid #aaa;">
+
+<div class="warning">Se una progress bar rimane ferma oltre 5 minuti, verificare la connessione Internet o la dimensione del progetto.</div>
+
+</div>
+</body>
+</html>

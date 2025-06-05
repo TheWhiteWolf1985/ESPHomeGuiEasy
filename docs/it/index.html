@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>ESPHomeGuiEasy - Documentazione</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body>
+<div id="sidebar">
+  <h2>📚 ESPHomeGuiEasy</h2>
+  <input type="text" placeholder="Cerca..." onkeyup="filterTree(this)">
+  <ul class="tree">
+    <li><a onclick="loadPage('1_introduzione.html')">📖 1. Introduzione</a></li>
+    <li><a onclick="loadPage('2_guida_rapida.html')">🚀 2. Guida Rapida</a></li>
+    <li><a onclick="loadPage('3_panorama_interfaccia.html')">🖥️ 3. Panoramica Interfaccia</a></li>
+    <li><a onclick="loadPage('4_gestione_progetti.html')">📁 4. Gestione Progetti</a></li>
+    <li><a onclick="loadPage('5_yaml.html')">📝 5. YAML</a></li>
+    <li><a onclick="loadPage('6_compilazione_caricamento.html')">⚙️ 6. Firmware</a></li>
+    <li><a onclick="loadPage('7_multilingua.html')">🌐 7. Multilingua</a></li>
+    <li><a onclick="loadPage('8_aiuto_supporto.html')">❓ 8. Aiuto & Supporto</a></li>
+    <li><a onclick="loadPage('9_avanzati.html')">🛠️ 9. Argomenti Avanzati</a></li>
+    <li><a onclick="loadPage('10_glossario.html')">📚 10. Glossario</a></li>
+    <li><a onclick="loadPage('11_crediti_licenza.html')">©️ 11. Crediti & Licenza</a></li>
+  </ul>
+</div>
+<div id="content">
+  <iframe id="frame" src="1_introduzione.html"></iframe>
+</div>
+</body>
+</html>

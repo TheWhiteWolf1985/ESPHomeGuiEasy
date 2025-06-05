@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>5. YAML – ESPHomeGuiEasy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="doc-container" style="max-width:900px;margin:0 auto;padding:20px;">
+<h1 style="text-align:center;">5&nbsp;&nbsp;Modifica e Gestione dello YAML</h1>
+
+<hr style="border:0;height:4px;background:#3a9dda;margin:30px 0;">
+
+<h2>5.1&nbsp;&nbsp;Editor YAML</h2>
+<p>
+L’editor integrato utilizza <code>QPlainTextEdit</code> con numerazione di riga,
+evidenziazione sintattica personalizzata, <i>no‑wrap</i> e
+la riga corrente marcata per una rapida navigazione.
+Sono supportati <b>Ctrl+F</b> (trova) e <b>Ctrl+F3</b> (trova successivo).
+</p>
+<img src="img/yaml_editor.png" alt="Editor YAML con numeri di riga" style="display:block;margin:20px auto;max-width:80%;border:1px solid #aaa;">
+<div class="note">Inserire screenshot reale dell’editor con sintassi colorata.</div>
+
+<hr style="border:0;height:4px;background:#6a9955;margin:30px 30px;">
+
+<h2>5.2&nbsp;&nbsp;Drag &amp; Drop Sensori</h2>
+<p>
+Nella scheda <b>Sensori</b> è possibile trascinare blocchi come <i>DHT22</i>,
+<code>GPIO</code>, <i>ADC</i> nel canvas. Ogni blocco espone i campi:
+tipo, nome, pin, intervallo aggiornamento. Quando si preme
+<b>Aggiorna YAML</b>, il codice viene rigenerato preservando le altre sezioni.
+</p>
+
+<table style="margin:0 auto;">
+<tr><td style="vertical-align:top">
+<b>Prima</b> <small>(YAML senza sensori)</small><br>
+<pre><code>esphome:
+  name: devboard
+wifi:
+  ssid: "Casa"
+  password: "********"</code></pre>
+</td>
+<td style="vertical-align:top">
+<b>Dopo</b> <small>(Aggiunto DHT22)</small><br>
+<pre><code>sensor:
+  - platform: dht
+    model: DHT22
+    pin: GPIO4
+    temperature:
+      name: "Temp camera"
+    humidity:
+      name: "Umidità camera"
+    update_interval: 60s</code></pre>
+</td></tr>
+</table>
+
+<img src="img/sensor_canvas.png" alt="Canvas sensori drag&drop" style="display:block;margin:20px auto;max-width:70%;border:1px solid #aaa;">
+
+<div class="tip">È possibile spostare i blocchi nel canvas senza influire sull’ordine del codice generato.</div>
+
+<hr style="border:0;height:4px;background:#dcd11c;margin:30px 30px;">
+
+<h2>5.3&nbsp;&nbsp;Autocompletamento e Validazione</h2>
+<p>
+Il parser interno verifica la sintassi YAML in tempo reale.
+Errori di indentazione o chiavi duplicate vengono evidenziati con un
+messaggio nella console log:
+</p>
+<pre><code>[13:02:11] ERROR Invalid YAML syntax:
+  mapping values are not allowed here
+  in "devboard.yaml", line 23, column 11
+</code></pre>
+
+<div class="warning">
+<b>Attenzione:</b> la convalida non sostituisce un controllo completo di
+<span style="font-family:monospace;">esphome config</span>; eseguire sempre la compilazione per individuare
+problemi avanzati (dipendenze mancanti, conflitti pin, ecc.).
+</div>
+
+</div>
+</body>
+</html>

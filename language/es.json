@@ -114,6 +114,8 @@
     "menu_file": "&Archivo",
     "menu_settings": "Configuraciones",
     "menu_language": "Idioma",
+    "menu_about": "About",
+    "menu_documentation": "Documentación",    
     "import_project": "Importar proyecto...",
     "export_project": "Exportar proyecto..."        
 }

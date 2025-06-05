@@ -118,6 +118,8 @@
     "menu_file": "&File",
     "menu_settings": "Impostazioni",
     "menu_language": "Lingua",
+    "menu_about": "About",
+    "menu_documentation": "Documentazione",
     "import_project": "Importa progetto...",
     "export_project": "Esporta progetto..."
 

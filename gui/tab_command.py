@@ -23,7 +23,7 @@ class TabCommand(QWidget):
         dark_palette.setColor(QPalette.ColorRole.Base, QColor("#1e1e1e"))
         dark_palette.setColor(QPalette.ColorRole.Text, QColor("#d4d4d4"))
         dark_palette.setColor(QPalette.ColorRole.Button, QColor("#23272e"))
-        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#d4d4d4"))
+        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#5f1717"))
         dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
         dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
         dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))

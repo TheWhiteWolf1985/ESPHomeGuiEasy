@@ -1,6 +1,5 @@
 # esphomeGuieasy - GUI editor for ESPHome
 # Copyright (c) 2025 Juri
-#
 # Released under AGPLv3 - Non-commercial use only.
 # See LICENSE file for details.
 
@@ -8,11 +7,12 @@ import sys
 import os
 import json
 from PyQt6.QtWidgets import QApplication, QDialog
+from PyQt6.QtGui import QPixmap
 from gui.main_window import MainWindow
 from core.translator import Translator
-
-# Se hai messo la dialog in gui/language_dialog.py:
 from gui.language_dialog import LanguageDialog
+from gui.splash_screen import SplashScreen
+import config.GUIconfig as GUIconfig
 
 CONFIG_PATH = "user_settings.json"
 
@@ -26,13 +26,17 @@ def save_user_settings(settings):
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(settings, f)
 
+def show_main_window():
+    window = MainWindow()
+    window.show()
+
 def main():
     app = QApplication(sys.argv)
 
-    # 1. Carica settings utente (o crea nuovo)
+    # Carica o crea impostazioni utente
     settings = load_user_settings()
 
-    # 2. Se manca la lingua, chiedila subito all'utente con un dialog
+    # Dialog lingua se non specificata
     if "language" not in settings:
         available_langs = Translator.get_available_languages()
         dlg = LanguageDialog(available_langs)
@@ -40,16 +44,21 @@ def main():
             settings["language"] = dlg.selected
             save_user_settings(settings)
         else:
-            # Se l'utente chiude la dialog senza scegliere, default inglese
             settings["language"] = "en"
             save_user_settings(settings)
 
-    # 3. Carica la lingua scelta
+    # Carica traduzioni
     Translator.load_language(settings.get("language", "en"))
 
-    # 4. Avvia la MainWindow
-    window = MainWindow()
-    window.show()
+    # Splash attivo solo se DEBUG è False
+    if not GUIconfig.DEBUG:
+        pixmap = QPixmap(GUIconfig.SPLASH_IMAGE)  # Sostituisci con percorso reale
+        splash = SplashScreen(pixmap)
+        splash.show()
+        splash.start_initialization(on_complete_callback=show_main_window)
+    else:
+        show_main_window()
+
     sys.exit(app.exec())
 
 if __name__ == "__main__":
