@@ -211,11 +211,6 @@ class MainWindow(QMainWindow):
         # Aggiungi lo splitter al layout principale
         main_layout.addWidget(main_splitter)
 
-        # Composizione finale
-        main_layout.addLayout(left_pane, 1)
-        main_layout.addLayout(right_pane, 1)
-
-
 ##########################################################################
 #                          METODI MENU BAR                               #
 ##########################################################################
