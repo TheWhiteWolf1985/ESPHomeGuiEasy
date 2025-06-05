@@ -1,45 +1,38 @@
-"""
-@file log_handler.py
-@brief Gestione dei log e console per esphomeGuieasy.
-
-Contiene metodi per scrivere messaggi nella console con formattazione colorata.
-"""
-
-from PyQt6.QtGui import QTextCharFormat, QColor, QTextCursor
-from PyQt6.QtWidgets import QTextEdit
+from PyQt6.QtWidgets import QApplication
+from PyQt6.QtGui import QTextCursor
 
 class LOGHandler:
-    """
-    @class LOGHandler
-    @brief Gestisce la stampa di messaggi nella console con stile VSCode.
-    """
+    def __init__(self, console_widget=None):
+        self._console = console_widget  # riferimento iniziale, ma non permanente
 
-    def __init__(self, console_widget: QTextEdit):
-        """
-        @brief Costruttore del log handler
-        @param console_widget Il widget QTextEdit della console
-        """
-        self.console = console_widget
+    @property
+    def console(self):
+        # Cerca un QTextEdit attivo con nome console_output
+        for w in QApplication.topLevelWidgets():
+            if hasattr(w, "console_output"):
+                return w.console_output
+        return self._console  # fallback se non troviamo nulla
 
-    def log(self, text: str, msg_type="info"):
-        """
-        @brief Aggiunge testo formattato alla QTextEdit console.
+    def log(self, message, level="info"):
+        console = self.console
+        if console is None:
+            print(f"[{level.upper()}] {message}")
+            return
 
-        @param text           Testo da scrivere
-        @param msg_type       Tipo di messaggio: info | warning | error | success
-        """
-        format = QTextCharFormat()
-        color_map = {
-            "info": "#d4d4d4",
-            "warning": "#DCDCAA",
-            "error": "#F44747",
-            "success": "#6A9955"
-        }
+        try:
+            cursor = console.textCursor()
+            if level == "error":
+                color = "#ff5555"
+            elif level == "warning":
+                color = "#f1c40f"
+            elif level == "success":
+                color = "#33ff99"
+            else:
+                color = "#d4d4d4"
 
-        format.setForeground(QColor(color_map.get(msg_type, "#d4d4d4")))
-
-        cursor = self.console.textCursor()
-        cursor.movePosition(QTextCursor.MoveOperation.End)
-        cursor.insertText(text + "\n", format)
-        self.console.setTextCursor(cursor)
-        self.console.ensureCursorVisible()
+            html = f'<span style="color:{color};">[{level.upper()}]</span> {message}<br>'
+            console.moveCursor(QTextCursor.MoveOperation.End)
+            console.insertHtml(html)
+            console.moveCursor(QTextCursor.MoveOperation.End)
+        except RuntimeError:
+            print(f"[LOGGER ERROR] QTextEdit distrutto. Messaggio:\n[{level.upper()}] {message}")

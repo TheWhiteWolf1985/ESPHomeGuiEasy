@@ -221,7 +221,7 @@ class MainWindow(QMainWindow):
 ##########################################################################
 
         self.menu_bar.new_action.triggered.connect(self.nuovo_progetto)
-        self.menu_bar.open_action.triggered.connect(self.open_project)
+        self.menu_bar.open_action.triggered.connect(lambda _: self.open_project_dialog())
         self.menu_bar.save_action.triggered.connect(self.salva_progetto)
         self.menu_bar.saveas_action.triggered.connect(self.salva_con_nome)
         self.menu_bar.import_action.triggered.connect(self.importa_yaml)
@@ -300,10 +300,17 @@ class MainWindow(QMainWindow):
         self.project_dir = os.path.dirname(os.path.abspath(yaml_path))
 
     def open_project_dialog(self):
-        filename, _ = QFileDialog.getOpenFileName(self, Translator.tr("open_project"), "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
-        if filename:
+        filename_tuple = QFileDialog.getOpenFileName(
+            self,
+            Translator.tr("open_project"),
+            "",
+            "YAML Files (*.yaml *.yml);;Tutti i file (*)"
+        )
+        if not filename_tuple or not isinstance(filename_tuple, tuple):
+            return
+        filename = filename_tuple[0]
+        if filename and isinstance(filename, str):
             self.open_project(filename)
-
 
     def salva_progetto(self):
         """
