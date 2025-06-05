@@ -12,7 +12,6 @@ from core.translator import Translator
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
         super().__init__()
-        self.yaml_editor = yaml_editor
         self.logger = logger
         self.tab_settings = tab_settings
 
@@ -70,22 +69,42 @@ class TabSensori(QWidget):
         nuovo_blocco = SensorBlockItem(Translator.tr("new_sensor"))
         self.sensor_canvas.add_sensor_block(nuovo_blocco)
 
+    def _editor(self):
+        main = self.window()
+        if hasattr(main, "yaml_editor") and main.yaml_editor:
+            return main.yaml_editor
+        return None
+
+
     def aggiorna_yaml_da_blocchi(self):
         """
         @brief Aggiorna SOLO la sezione sensori nel file YAML, mantenendo il resto invariato.
         """
-        current_yaml = self.yaml_editor.toPlainText()
+        try:
+            main = self.window()
+            editor = self._editor()
+            if editor is None:
+                return
 
-        from core.yaml_handler import YAMLHandler
+            from core.yaml_handler import YAMLHandler
+            current_yaml = editor.toPlainText()
+            new_yaml = YAMLHandler.generate_yaml_sensors_only(
+                canvas=self.sensor_canvas.scene(),
+                current_yaml=current_yaml
+            )
+            editor.setPlainText(new_yaml)
+            if self.logger:
+                self.logger.log(Translator.tr("yaml_updated_from_sensors"), "success")
 
-        new_yaml = YAMLHandler.generate_yaml_sensors_only(
-            canvas=self.sensor_canvas.scene(),
-            current_yaml=current_yaml
-        )
+        except RuntimeError as e:
+            print(f"[Errore YAML TabSensori] {e}")
+            try:
+                if hasattr(main, "logger"):
+                    main.logger.log(f"❌ YAML update crash (sensori): {e}", "error")
+            except Exception:
+                pass
 
-        self.yaml_editor.setPlainText(new_yaml)
-        if hasattr(self, "logger"):
-            self.logger.log(Translator.tr("yaml_updated_from_sensors"), "success")
+
 
 
     def get_sensor_canvas(self):

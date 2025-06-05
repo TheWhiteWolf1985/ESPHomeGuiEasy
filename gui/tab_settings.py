@@ -1,17 +1,17 @@
+import os
+import json
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QPushButton, QGroupBox, QFormLayout, QLineEdit, QComboBox, QDialog, QSizePolicy, QFrame
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
-import os
-import json
 from gui.color_pantone import Pantone
 from core.translator import Translator
+from core.yaml_handler import YAMLHandler
 
 class TabSettings(QWidget):
     def __init__(self, yaml_editor, logger=None):
         super().__init__()
-        self.yaml_editor = yaml_editor
         self.logger = logger
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)        
@@ -219,29 +219,39 @@ class TabSettings(QWidget):
             (nome, board, wifi, ecc) dal tab settings.
             NON tocca la parte sensori.
         """
-        current_yaml = self.yaml_editor.toPlainText()
+        main = self.window()
+        if not hasattr(main, "yaml_editor"):
+            if self.logger:
+                self.logger.log("❌ yaml_editor non trovato nella finestra principale.", "error")
+            return
 
-        # Prendi i dati dal form settings
-        device_name = self.get_device_name()
-        board_value = self.get_board()
-        ssid = self.get_ssid()
-        password = self.get_password()
+        editor = main.yaml_editor
+        if editor is None:
+            if self.logger:
+                self.logger.log("❌ yaml_editor è None. Il riferimento non è più valido.", "error")
+            return
 
-        # Usa YAMLHandler per aggiornare solo le sezioni generali
-        from core.yaml_handler import YAMLHandler
+        try:
+            current_yaml = editor.toPlainText()
+            device_name = self.get_device_name()
+            board_value = self.get_board()
+            ssid = self.get_ssid()
+            password = self.get_password()
 
-        new_yaml = YAMLHandler.generate_yaml_general_sections(
-            current_yaml=current_yaml,
-            device_name=device_name,
-            board=board_value,
-            ssid=ssid,
-            password=password
-        )
+            new_yaml = YAMLHandler.generate_yaml_general_sections(
+                current_yaml=current_yaml,
+                device_name=device_name,
+                board=board_value,
+                ssid=ssid,
+                password=password
+            )
+            editor.setPlainText(new_yaml)
+            if self.logger:
+                self.logger.log(Translator.tr("yaml_updated_general"), "success")
 
-        self.yaml_editor.setPlainText(new_yaml)
-        # Se vuoi loggare
-        if hasattr(self, "logger"):  # Se hai logger collegato
-            self.logger.log(Translator.tr("yaml_updated_general"), "success")
+        except RuntimeError as e:
+            if self.logger:
+                self.logger.log(f"❌ Errore editor YAML distrutto: {str(e)}", "error")
 
     def reset_fields(self):
         """Svuota tutti i campi del tab Settings (nome, board, wifi ecc.)."""
@@ -292,5 +302,26 @@ class TabSettings(QWidget):
         self.general_form.labelForField(self.wifi_pass_edit).setText(Translator.tr("password"))
         self.general_form.labelForField(self.board_container).setText(Translator.tr("board"))
         self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+
+
+    # ----------------------------------------------------------------
+    #  Helper: editor YAML vivo (None se la finestra è già stata chiusa)
+    # ----------------------------------------------------------------
+    def _editor(self):
+        """
+        Restituisce l'editor YAML attivo oppure None se non disponibile.
+        Nessun uso di 'sip', solo controllo parent-chain.
+        """
+        main = self.window()
+        if main is None or not hasattr(main, "yaml_editor"):
+            return None
+
+        editor = main.yaml_editor
+
+        # controllo base: se è un QWidget e non ha più parent, è stato probabilmente distrutto
+        if editor is None or editor.parent() is None:
+            return None
+
+        return editor
 
 

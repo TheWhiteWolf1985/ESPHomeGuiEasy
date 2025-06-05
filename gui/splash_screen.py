@@ -154,15 +154,20 @@ class SplashScreen(QSplashScreen):
 
     def check_online_version(self):
         try:
-            url = GUIconfig.GITHUB_URL
-            with urllib.request.urlopen(url, timeout=5) as response:
+            req = urllib.request.Request(
+                GUIconfig.GITHUB_URL,
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=5) as response:
                 data = json.loads(response.read().decode("utf-8"))
                 latest = data.get("latest_version")
                 changelog = data.get("changelog", "")
          
                 # Ottieni lingua corrente attiva nel sistema Translator
                 current_lang = Translator.get_current_language()
-                print("lingua attiva " + current_lang)
                 changelog_text = changelog.get(current_lang, changelog.get("en", ""))
 
                 if latest and latest != GUIconfig.APP_VERSION:

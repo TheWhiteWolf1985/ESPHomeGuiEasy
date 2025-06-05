@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QFormLayout, QCheckBox, QComboBox, QPushButton, QScrollArea, QSpinBox
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QFormLayout, QCheckBox, QComboBox, QPushButton, QScrollArea, QSpinBox, QMessageBox
 from PyQt6.QtCore import Qt
 import json
 from .collapsible_section import CollapsibleSection
@@ -6,9 +6,8 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 
 class TabModules(QWidget):
-    def __init__(self, yaml_editor=None, logger=None, parent=None):
+    def __init__(self, yaml_editor, logger=None, parent=None):
         super().__init__(parent)
-        self.yaml_editor = yaml_editor
         self.logger = logger
 
         # 1. Crea un container widget e il suo layout verticale
@@ -91,15 +90,29 @@ class TabModules(QWidget):
         layout.addWidget(scroll_area)
         layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
 
+    def _editor(self):
+        """
+        Restituisce l'editor YAML dalla finestra principale, se ancora valido.
+        """
+        main = self.window()
+        if hasattr(main, "yaml_editor"):
+            return main.yaml_editor
+        return None        
+
 
     def aggiorna_yaml_da_moduli(self):
         """
         @brief Aggiorna il contenuto YAML nell'editor leggendo i moduli (accordion) attivi.
         """
         try:
+            main = self.window()
+            if not hasattr(main, "yaml_editor") or main.yaml_editor is None:
+                return  # editor non disponibile
+
+            editor = main.yaml_editor
             from core.yaml_handler import YAMLHandler
-            modules_schema_path = "config/modules_schema.json"  # Percorso reale nel progetto
-            current_yaml = self.yaml_editor.toPlainText()
+            modules_schema_path = "config/modules_schema.json"
+            current_yaml = editor.toPlainText()
             modules_dict = YAMLHandler.extract_module_sections_from_widgets(
                 self.widget_map,
                 modules_schema_path
@@ -109,12 +122,20 @@ class TabModules(QWidget):
                 modules_dict,
                 modules_schema_path
             )
-            self.yaml_editor.setPlainText(new_yaml)
+            editor.setPlainText(new_yaml)
             if self.logger:
                 self.logger.log(Translator.tr("yaml_updated_from_modules"), "success")
-        except Exception as e:
-            from PyQt6.QtWidgets import QMessageBox
-            QMessageBox.critical(self, Translator.tr("yaml_update_modules_error"), f"{e}")
+
+        except RuntimeError as e:
+            # Non usare self o editor se sono già distrutti
+            print(f"[Errore YAML TabModules] {e}")
+            # fallback log
+            try:
+                if hasattr(main, "logger"):
+                    main.logger.log(f"❌ YAML update crash: {e}", "error")
+            except Exception:
+                pass  # se anche main è distrutto, non possiamo far nulla
+
 
     def carica_dati_da_yaml(self, yaml_string):
         from core.yaml_handler import YAMLHandler
