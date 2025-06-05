@@ -1,4 +1,9 @@
 {
   "latest_version": "1.2",
-  "changelog": "✓ Nuove funzioni nel tab Comandi\n✓ Bugfix YAML\n✓ Traduzioni migliorate"
+    "changelog": {
+       "it" : "✓ Nuove funzioni nel tab Comandi\n✓ Bugfix YAML\n✓ Traduzioni migliorate",
+       "en" : "✓ New features in the Commands tab\n✓ YAML bugfix\n✓ Improved translations",
+       "es" : "✓ Nuevas funciones en la pestaña Comandos\n✓ Corrección de errores de YAML\n✓ Traducciones mejoradas",
+       "de" : "✓ Neue Funktionen im Reiter „Befehle“\n✓ YAML-Bugfix\n✓ Verbesserte Übersetzungen"
+    }
 }

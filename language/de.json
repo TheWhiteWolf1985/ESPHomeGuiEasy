@@ -117,5 +117,11 @@
     "menu_about": "About",
     "menu_documentation": "Dokumentation",        
     "import_project": "Projekt importieren...",
-    "export_project": "Projekt exportieren..."            
+    "export_project": "Projekt exportieren...",
+    "update_available": "Neue Version verfügbar!",
+    "update_available_title": "Update verfügbar",
+    "update_available_text": "{latest} Version ist verfügbar (aktuell: {current})",
+    "update_changelog_prompt": "Möchten Sie die Version jetzt herunterladen?",
+    "version_up_to_date": "Aktualisierte Version.",
+    "version_check_failed": "Versionsprüfung fehlgeschlagen."    
 }

@@ -51,4 +51,19 @@ class Translator:
     @classmethod
     def current_language(cls):
         return cls._lang_code
+    
+    @staticmethod
+    def get_current_language():
+        """
+        Restituisce la lingua salvata in user_settings.json.
+        Se il file non esiste o è malformato, restituisce 'en'.
+        """
+        try:
+            if not os.path.exists("user_settings.json"):
+                return "en"
+            with open("user_settings.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("language", "en")
+        except Exception:
+            return "en"
 

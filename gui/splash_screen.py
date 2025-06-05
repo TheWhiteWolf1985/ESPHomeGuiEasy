@@ -7,6 +7,8 @@ import sys
 import json
 import config.GUIconfig as GUIconfig
 import urllib.request
+from core.translator import Translator
+import webbrowser
 
 class SplashScreen(QSplashScreen):
     def __init__(self, pixmap):
@@ -51,7 +53,7 @@ class SplashScreen(QSplashScreen):
         self.version_label.adjustSize()
         self.version_label.move(175, 310)
 
-        self.copyright_label = QLabel("ESPHomeEasyGUI License AGPv3", self)
+        self.copyright_label = QLabel("ESPHomeEasyGUI License AGPLv3", self)
         self.copyright_label.setFont(QFont("Arial"))
         self.copyright_label.setStyleSheet("""
             color: black;
@@ -152,20 +154,40 @@ class SplashScreen(QSplashScreen):
 
     def check_online_version(self):
         try:
-            url = "https://raw.githubusercontent.com/tuo-utente/esphomeguieasy/main/latest_version.json"
+            url = GUIconfig.GITHUB_URL
             with urllib.request.urlopen(url, timeout=5) as response:
                 data = json.loads(response.read().decode("utf-8"))
                 latest = data.get("latest_version")
                 changelog = data.get("changelog", "")
+         
+                # Ottieni lingua corrente attiva nel sistema Translator
+                current_lang = Translator.get_current_language()
+                print("lingua attiva " + current_lang)
+                changelog_text = changelog.get(current_lang, changelog.get("en", ""))
 
                 if latest and latest != GUIconfig.APP_VERSION:
-                    self.status_label.setText(f"Nuova versione {latest} disponibile!")
-                    QMessageBox.information(
-                        self,
-                        "Aggiornamento disponibile",
-                        f"È disponibile la versione {latest} (attuale: {GUIconfig.APP_VERSION})\n\n{changelog}"
+                    self.status_label.setText(Translator.tr("update_available"))
+
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Information)
+                    msg.setWindowTitle(Translator.tr("update_available_title"))
+                    msg.setText(
+                        Translator.tr("update_available_text").format(
+                            latest=latest, current=GUIconfig.APP_VERSION
+                        )
                     )
+                    msg.setInformativeText(
+                        Translator.tr("update_changelog_prompt") + "\n\n" + changelog_text
+                    )
+                    msg.setStandardButtons(
+                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+                    )
+                    msg.setDefaultButton(QMessageBox.StandardButton.Yes)
+
+                    res = msg.exec()
+                    if res == QMessageBox.StandardButton.Yes:
+                        webbrowser.open(GUIconfig.RELEASE_URL)
                 else:
-                    self.status_label.setText("Versione aggiornata.")
-        except Exception as e:
-            self.status_label.setText("Controllo versione fallito.")            
+                    self.status_label.setText(Translator.tr("version_up_to_date"))
+        except Exception:
+            self.status_label.setText(Translator.tr("version_check_failed"))                 
