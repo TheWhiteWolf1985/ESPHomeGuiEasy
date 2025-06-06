@@ -84,6 +84,8 @@ class MainMenuBar(QMenuBar):
         self.saveas_action = QAction(Translator.tr("save_as"), self)
         self.import_action = QAction(Translator.tr("import_yaml"), self)
         self.export_action = QAction(Translator.tr("export_yaml"), self)
+        self.import_project_action = QAction(Translator.tr("import_project"), self)
+        self.export_project_action = QAction(Translator.tr("export_project"), self)
         self.exit_action = QAction(Translator.tr("exit"), self)
         self.about_action.setText(Translator.tr("menu_about"))
         self.documentation_action.setText(Translator.tr("menu_documentation"))
@@ -95,6 +97,9 @@ class MainMenuBar(QMenuBar):
         file_menu.addAction(self.import_action)
         file_menu.addAction(self.export_action)
         file_menu.addSeparator()
+        file_menu.addAction(self.import_project_action)
+        file_menu.addAction(self.export_project_action)        
+        file_menu.addSeparator()        
         file_menu.addAction(self.exit_action)
 
         # Recreate settings menu
