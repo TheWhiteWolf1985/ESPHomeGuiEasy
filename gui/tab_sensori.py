@@ -100,7 +100,7 @@ class TabSensori(QWidget):
             print(f"[Errore YAML TabSensori] {e}")
             try:
                 if hasattr(main, "logger"):
-                    main.logger.log(f"❌ YAML update crash (sensori): {e}", "error")
+                    self.logger.log(Translator.tr("yaml_update_crash_sensors").format(error=str(e)), "error")
             except Exception:
                 pass
 

@@ -259,31 +259,14 @@ class TabCommand(QWidget):
             print("DEBUG: comando upload ignorato perché busy = True")
             return
 
-        logger = self.logger
+        self.busy = True
+        self.compile_btn.setEnabled(False)
+        self.flash_btn.setEnabled(False)
+        self.erase_btn.setEnabled(False)
+
         main = self.window()
-        yaml_text = self.yaml_editor.toPlainText()
-        yaml_path = getattr(main, "last_save_path", None)
-
-        # 🔧 Gestione salvataggio temporaneo se non esiste path
-        if not yaml_path:
-            temp_dir = os.path.join(os.getcwd(), "temp")
-            os.makedirs(temp_dir, exist_ok=True)
-            yaml_path = os.path.join(temp_dir, "__temp_upload.yaml")
-
-            with open(yaml_path, "w", encoding="utf-8") as f:
-                f.write(yaml_text)
-
-            logger.log("⚠️ Il progetto non è stato salvato. Uso file temporaneo per l'upload.", "warning")
-            logger.log(f"📄 File generato: {yaml_path}", "info")
-        else:
-            with open(yaml_path, "w", encoding="utf-8") as f:
-                f.write(yaml_text)
-            logger.log(f"📄 File salvato su: {yaml_path}", "success")
-            self.busy = True
-            self.compile_btn.setEnabled(False)
-            self.flash_btn.setEnabled(False)
-            self.erase_btn.setEnabled(False)
-
+        logger = self.logger
+        yaml_path = main.get_or_create_yaml_path()
 
         # 🧠 LOG percorso firmware compilato
         try:
@@ -302,28 +285,10 @@ class TabCommand(QWidget):
             logger.log("❌ Nessuna porta COM selezionata.", "error")
             return
 
-        # 🔒 Disabilita pulsanti
-        self.compile_btn.setEnabled(False)
-        self.flash_btn.setEnabled(False)
-
+        # 🔌 Avvia upload
         self.compiler.log_callback = logger.log
-
-        def riabilita_bottoni():
-            print("DEBUG: riabilita_bottoni() chiamato")
-            self.compile_btn.setEnabled(True)
-            self.flash_btn.setEnabled(True)
-            self.erase_btn.setEnabled(True)
-            self.logger.log("✅ Upload completato", "success")
-            self.busy = False
-
-            if "__temp_upload.yaml" in yaml_path:
-                try:
-                    os.remove(yaml_path)
-                    self.logger.log("🧹 File temporaneo rimosso.", "info")
-                except Exception as ex:
-                    self.logger.log(f"⚠️ Impossibile rimuovere file temporaneo: {ex}", "warning")
-
         self.compiler.upload_via_usb(yaml_path, com_port)
+
 
 
     def scan_network_for_esp(self):
@@ -422,9 +387,6 @@ class TabCommand(QWidget):
         self.ota_pwd_edit.setPlaceholderText(Translator.tr("ota_password"))
 
     def compila_progetto(self):
-        """
-        Avvia la compilazione del firmware tramite CompileManager e gestisce UI/log.
-        """
         if self.busy:
             print("DEBUG: comando compile ignorato perché busy = True")
             return
@@ -436,11 +398,9 @@ class TabCommand(QWidget):
         self.flash_btn.setEnabled(False)
         self.erase_btn.setEnabled(False)
 
-        yaml_text = self.yaml_editor.toPlainText()
-
+        yaml_path = self.window().get_or_create_yaml_path()
         self.compiler.log_callback = self.logger.log
-        self.compiler.compile_yaml(yaml_text)
-
+        self.compiler.compile_yaml(yaml_path)
 
     def erase_flash(self):
         """

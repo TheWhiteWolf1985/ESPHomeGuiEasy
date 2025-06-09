@@ -222,13 +222,13 @@ class TabSettings(QWidget):
         main = self.window()
         if not hasattr(main, "yaml_editor"):
             if self.logger:
-                self.logger.log("❌ yaml_editor non trovato nella finestra principale.", "error")
+                self.logger.log(Translator.tr("yaml_editor_not_found"), "error")
             return
 
         editor = main.yaml_editor
         if editor is None:
             if self.logger:
-                self.logger.log("❌ yaml_editor è None. Il riferimento non è più valido.", "error")
+               self.logger.log(Translator.tr("yaml_editor_is_none"), "error")
             return
 
         try:
@@ -251,7 +251,7 @@ class TabSettings(QWidget):
 
         except RuntimeError as e:
             if self.logger:
-                self.logger.log(f"❌ Errore editor YAML distrutto: {str(e)}", "error")
+                self.logger.log(Translator.tr("yaml_editor_destroyed").format(error=str(e)), "error")
 
     def reset_fields(self):
         """Svuota tutti i campi del tab Settings (nome, board, wifi ecc.)."""

@@ -429,3 +429,31 @@ class MainWindow(QMainWindow):
         Slot thread-safe per loggare messaggi nella console GUI.
         """
         self.logger.log(message, level)           
+
+
+    def get_or_create_yaml_path(self) -> str:
+        """
+        Restituisce il percorso del file YAML da usare per upload/compile:
+        - Se esiste un salvataggio → salva lì
+        - Altrimenti crea un file temporaneo in .temp/ dentro il progetto
+        """
+        yaml_text = self.yaml_editor.toPlainText()
+
+        if self.last_save_path:
+            with open(self.last_save_path, "w", encoding="utf-8") as f:
+                f.write(yaml_text)
+            self.logger.log(f"📄 File salvato su: {self.last_save_path}", "success")
+            return self.last_save_path
+
+        # Se non c'è project_dir, crea comunque qualcosa nel cwd
+        base_dir = self.project_dir or os.getcwd()
+        temp_dir = os.path.join(base_dir, ".temp")
+        os.makedirs(temp_dir, exist_ok=True)
+        temp_path = os.path.join(temp_dir, "__temp_upload.yaml")
+
+        with open(temp_path, "w", encoding="utf-8") as f:
+            f.write(yaml_text)
+
+        self.logger.log("⚠️ Progetto non salvato. Uso file temporaneo.", "warning")
+        self.logger.log(f"📄 File generato: {temp_path}", "info")
+        return temp_path

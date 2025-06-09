@@ -44,7 +44,7 @@ class SplashScreen(QSplashScreen):
         """)
 
         # Label della versione
-        self.version_label = QLabel(f"Versione {GUIconfig.APP_VERSION}", self)
+        self.version_label = QLabel(Translator.tr("version_label").format(version=GUIconfig.APP_VERSION), self)
         self.version_label.setFont(QFont("Arial"))
         self.version_label.setStyleSheet("""
             color: black;
@@ -53,7 +53,7 @@ class SplashScreen(QSplashScreen):
         self.version_label.adjustSize()
         self.version_label.move(175, 310)
 
-        self.copyright_label = QLabel("ESPHomeEasyGUI License AGPLv3", self)
+        self.copyright_label = QLabel(Translator.tr("license_label"), self)
         self.copyright_label.setFont(QFont("Arial"))
         self.copyright_label.setStyleSheet("""
             color: black;
@@ -62,7 +62,7 @@ class SplashScreen(QSplashScreen):
         self.copyright_label.adjustSize()
         self.copyright_label.move(250-int((self.copyright_label.width()/2)), 350)   
 
-        self.status_label = QLabel("Avvio in corso...", self)
+        self.status_label = QLabel(Translator.tr("splash_starting"), self)
         self.status_label.setStyleSheet("color: black; font-size: 12pt;")
         self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.status_label.setGeometry(0, 400, self.width(), 20)  # Modifica Y per spostarlo su/giù   
@@ -74,14 +74,14 @@ class SplashScreen(QSplashScreen):
         self.counter = 0
 
         self.init_steps = [
-            ("Controllo aggiornamenti online...", self.check_online_version),
-            ("Verifica versione Python...", self.check_python_version),
-            ("Controllo requirements.txt...", self.check_requirements_file),
-            ("Verifica dipendenze installate...", self.check_required_libraries),
-            ("Controllo user_settings.json...", self.check_user_settings),
-            ("Controllo file base progetto...", self.check_base_project_template),
-            ("Controllo cartelle di lavoro...", self.check_working_folders),
-            ("Avvio completato!", lambda: None)
+            (Translator.tr("splash_check_updates"), self.check_online_version),
+            (Translator.tr("splash_check_python"), self.check_python_version),
+            (Translator.tr("splash_check_requirements"), self.check_requirements_file),
+            (Translator.tr("splash_check_dependencies"), self.check_required_libraries),
+            (Translator.tr("splash_check_user_settings"), self.check_user_settings),
+            (Translator.tr("splash_check_base_project"), self.check_base_project_template),
+            (Translator.tr("splash_check_working_folders"), self.check_working_folders),
+            (Translator.tr("splash_start_completed"), lambda: None)
         ]
         self.current_step = 0
 
@@ -101,8 +101,8 @@ class SplashScreen(QSplashScreen):
             try:
                 func()
             except Exception as e:
-                self.status_label.setText(f"Errore: {str(e)}")
-                QMessageBox.critical(None, "Errore di inizializzazione", str(e))
+                self.status_label.setText(Translator.tr("splash_error_generic").format(error=str(e)))
+                QMessageBox.critical(None, Translator.tr("splash_init_error"), str(e))
                 QTimer.singleShot(2000, QApplication.quit)
                 return
             self.advance()

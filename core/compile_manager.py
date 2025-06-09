@@ -22,25 +22,12 @@ class CompileManager(QObject):
     def set_project_dir(self, path):
         self.project_dir = path        
 
-    def compile_yaml(self, yaml_text: str):
+    def compile_yaml(self, yaml_path: str):
         """
-        Salva il testo YAML e avvia la compilazione ESPHome in modo asincrono con QProcess.
+        Avvia la compilazione ESPHome sul file YAML specificato.
         """
         try:
-            # --- Salvataggio file YAML ---
-            if self.project_dir and os.path.isdir(self.project_dir):
-                proj_name = os.path.basename(self.project_dir)
-                yaml_path = os.path.join(self.project_dir, f"{proj_name}.yaml")
-                with open(yaml_path, "w", encoding="utf-8") as f:
-                    f.write(yaml_text)
-                self.temp_path = yaml_path
-                self.log_callback(f"📦 File di progetto creato: {self.temp_path}")
-            else:
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".yaml", mode="w", encoding="utf-8") as temp_file:
-                    temp_file.write(yaml_text)
-                    self.temp_path = temp_file.name
-                self.log_callback(f"📦 File temporaneo creato: {self.temp_path}")
-
+            self.temp_path = yaml_path
             self.log_callback("🚀 Avvio compilazione...")
 
             if self.process:
@@ -51,14 +38,10 @@ class CompileManager(QObject):
             self.process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
             self.process.readyReadStandardOutput.connect(self.handle_compile_output)
             self.process.finished.connect(self.handle_compile_finished)
-            self.process.start("esphome", ["compile", self.temp_path])
+            self.process.start("esphome", ["compile", yaml_path])
 
         except Exception as e:
             self.log_callback(f"💥 Errore durante la compilazione: {e}")
-            if self.temp_path and os.path.exists(self.temp_path):
-                os.remove(self.temp_path)
-                self.log_callback(f"🧹 File temporaneo eliminato: {self.temp_path}")
-            self.temp_path = None
             
     def handle_compile_output(self):
         if not self.process:
