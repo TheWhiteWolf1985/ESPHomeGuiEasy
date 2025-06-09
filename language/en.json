@@ -127,6 +127,7 @@
     "update_available_text": "{latest} version is available (current: {current})",
     "update_changelog_prompt": "Do you want to download it now?",
     "version_up_to_date": "Updated version.",
-    "version_check_failed": "Version check failed."
-       
+    "version_check_failed": "Version check failed.",
+    "erase_flash": "Erase memory"
+      
 }

@@ -9,7 +9,7 @@ import os, json
 import shutil
 import config.GUIconfig as conf
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt, QUrl
+from PyQt6.QtCore import Qt, QUrl, pyqtSlot
 from PyQt6.QtGui import QPalette, QColor, QIcon
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from core.yaml_highlighter import YamlHighlighter
@@ -47,7 +47,9 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(conf.APP_NAME)
         self.setMinimumSize(conf.MAIN_WINDOW_WIDTH, conf.MAIN_WINDOW_HEIGHT)
-        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))
+        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))   
+
+        print("DEBUG SLOT:", hasattr(self, "log_from_thread"))     
 
         self.last_save_path = None
         self.project_dir = None
@@ -143,6 +145,7 @@ class MainWindow(QMainWindow):
 
         self.logger = LOGHandler(self.console_output)
         self.compiler = CompileManager(self.logger.log)
+        self.compiler.window = self
         self.logger.log("Console avviata...", "info")  
 
         left_bottom = QHBoxLayout()
@@ -341,8 +344,9 @@ class MainWindow(QMainWindow):
                 content = f.read()
                 self.yaml_editor.setPlainText(content)
             # Puoi sincronizzare anche qui:
-            self.tab_settings.aggiorna_layout_da_dati()
+            self.tab_settings.carica_dati_da_yaml(content)
             self.tab_sensori.aggiorna_blocchi_da_yaml(content)
+            self.tab_modules.carica_dati_da_yaml(content)
             self.logger.log(Translator.tr("yaml_imported").format(path=filename), "success")
 
     def esporta_yaml(self):
@@ -418,3 +422,10 @@ class MainWindow(QMainWindow):
 
         dlg = DocumentationDialog(path_to_open, parent=self)
         dlg.exec()
+
+    @pyqtSlot(str, str)
+    def log_from_thread(self, message: str, level: str):
+        """
+        Slot thread-safe per loggare messaggi nella console GUI.
+        """
+        self.logger.log(message, level)           

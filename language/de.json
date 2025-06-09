@@ -123,5 +123,6 @@
     "update_available_text": "{latest} Version ist verfügbar (aktuell: {current})",
     "update_changelog_prompt": "Möchten Sie die Version jetzt herunterladen?",
     "version_up_to_date": "Aktualisierte Version.",
-    "version_check_failed": "Versionsprüfung fehlgeschlagen."    
+    "version_check_failed": "Versionsprüfung fehlgeschlagen.",
+    "erase_flash": "Speicher löschen"    
 }

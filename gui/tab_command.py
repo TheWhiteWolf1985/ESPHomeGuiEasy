@@ -1,14 +1,14 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QPushButton, QGroupBox, QHBoxLayout, QLabel, QComboBox, QLineEdit, QFormLayout
 )
-from PyQt6.QtCore import Qt
-import socket
-import threading
+from PyQt6.QtCore import Qt, pyqtSlot
+import socket, threading, os
 import serial.tools.list_ports  # Richiede pyserial
 from PyQt6.QtGui import QPalette, QColor
 from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.compile_manager import CompileManager
+from pathlib import Path
 
 
 class TabCommand(QWidget):
@@ -17,6 +17,10 @@ class TabCommand(QWidget):
         self.yaml_editor = yaml_editor
         self.logger = logger
         self.compiler = compiler
+        self.busy = False  # Blocca comandi concorrenti (compile/erase/upload)
+        self.compiler.upload_finished.connect(self.riabilita_bottoni_qt)
+        self.compiler.compile_finished.connect(self.riabilita_bottoni_qt)
+
 
         dark_palette = QPalette()
         dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
@@ -70,21 +74,24 @@ class TabCommand(QWidget):
 
         # Riga bottoni azione
         usb_btn_row = QHBoxLayout()
-        self.test_btn = QPushButton(Translator.tr("test_connection"))
-        self.test_btn.setFixedWidth(170)
-        self.test_btn.setStyleSheet("""
+
+        self.erase_btn = QPushButton("🧹 " + Translator.tr("erase_flash"))
+        self.erase_btn.setFixedWidth(170)
+        self.erase_btn.clicked.connect(self.erase_flash)
+        self.erase_btn.setStyleSheet("""
             QPushButton {
-                background-color: #DCDCAA;
-                color: #1e1e1e;
+                background-color: #6A9955;
+                color: white;
                 border-radius: 8px;
                 font-size: 12pt;
                 padding: 6px 12px;
             }
             QPushButton:hover {
-                background-color: #B1A91B;
+                background-color: #4e7d44;
             }
         """)
-        self.flash_btn = QPushButton(Translator.tr("flash_usb"))
+
+        self.flash_btn = QPushButton("📤 " + Translator.tr("upload"))
         self.flash_btn.setFixedWidth(170)
         self.flash_btn.setStyleSheet("""
             QPushButton {
@@ -100,11 +107,9 @@ class TabCommand(QWidget):
         """)
 
         refresh_btn.clicked.connect(self.refresh_com_ports)
-        self.test_btn.clicked.connect(self.test_usb_connection)
-        self.flash_btn.clicked.connect(self.flash_via_usb)
+        self.flash_btn.clicked.connect(self.carica_firmware)
 
-
-        usb_btn_row.addWidget(self.test_btn)
+        usb_btn_row.addWidget(self.erase_btn)
         usb_btn_row.addWidget(self.flash_btn)
         usb_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)
         usb_vlayout.addLayout(usb_btn_row)
@@ -228,24 +233,10 @@ class TabCommand(QWidget):
         self.compile_btn.clicked.connect(self.compila_progetto)
 
 
-        # Bottone CARICA
-        self.upload_btn = QPushButton("📤 " + Translator.tr("upload"))
-        self.upload_btn.setStyleSheet("""
-            background-color: #20c070;
-            color: #131414;
-            border-radius: 8px;
-            font-size: 13pt;
-            padding: 6px 12px;
-            font-weight: bold;
-        """ + Pantone.UPDATE_YAML_BTN_STYLE)
-        self.upload_btn.setFixedWidth(200)
-        self.upload_btn.clicked.connect(self.carica_firmware)
-
         # Layout bottoni
         btn_layout = QHBoxLayout()
         btn_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         btn_layout.addWidget(self.compile_btn)
-        btn_layout.addWidget(self.upload_btn)
 
         group_layout.addLayout(btn_layout)
         self.group_compile.setLayout(group_layout)
@@ -262,41 +253,76 @@ class TabCommand(QWidget):
 
     def carica_firmware(self):
         """
-        Avvia upload firmware via USB usando CompileManager e gestisce UI/log.
+        Carica il firmware su ESP via USB. Se il progetto non è stato salvato, salva un file temporaneo.
         """
-        # Disabilita i bottoni durante l’upload
-        self.compile_btn.setEnabled(False)
-        self.upload_btn.setEnabled(False)
-
-        # Recupera percorso yaml del progetto (come per la compilazione)
-        main_win = self.parent()
-        yaml_path = None
-        if hasattr(main_win, "last_save_path") and main_win.last_save_path:
-            yaml_path = main_win.last_save_path
-        else:
-            self.logger.log("Salva prima il progetto su file per poter caricare il firmware.", "error")
-            self.compile_btn.setEnabled(True)
-            self.upload_btn.setEnabled(True)
+        if self.busy:
+            print("DEBUG: comando upload ignorato perché busy = True")
             return
 
-        # Recupera la porta COM selezionata
+        logger = self.logger
+        main = self.window()
+        yaml_text = self.yaml_editor.toPlainText()
+        yaml_path = getattr(main, "last_save_path", None)
+
+        # 🔧 Gestione salvataggio temporaneo se non esiste path
+        if not yaml_path:
+            temp_dir = os.path.join(os.getcwd(), "temp")
+            os.makedirs(temp_dir, exist_ok=True)
+            yaml_path = os.path.join(temp_dir, "__temp_upload.yaml")
+
+            with open(yaml_path, "w", encoding="utf-8") as f:
+                f.write(yaml_text)
+
+            logger.log("⚠️ Il progetto non è stato salvato. Uso file temporaneo per l'upload.", "warning")
+            logger.log(f"📄 File generato: {yaml_path}", "info")
+        else:
+            with open(yaml_path, "w", encoding="utf-8") as f:
+                f.write(yaml_text)
+            logger.log(f"📄 File salvato su: {yaml_path}", "success")
+            self.busy = True
+            self.compile_btn.setEnabled(False)
+            self.flash_btn.setEnabled(False)
+            self.erase_btn.setEnabled(False)
+
+
+        # 🧠 LOG percorso firmware compilato
+        try:
+            build_name = Path(yaml_path).stem
+            firmware_path = Path(".esphome") / "build" / build_name / ".pioenvs" / build_name / "firmware.bin"
+            if firmware_path.exists():
+                logger.log(f"📦 Firmware selezionato per l'upload: {firmware_path.resolve()}", "info")
+            else:
+                logger.log("⚠️ Firmware non trovato. Verrà rigenerato o non ancora compilato.", "warning")
+        except Exception as ex:
+            logger.log(f"⚠️ Errore durante la determinazione del binario: {ex}", "warning")
+
+        # 🔌 Porta COM
         com_port = self.com_combo.currentData() or self.com_combo.currentText()
         if not com_port:
-            self.logger.log("Seleziona una porta seriale valida.", "error")
-            self.compile_btn.setEnabled(True)
-            self.upload_btn.setEnabled(True)
+            logger.log("❌ Nessuna porta COM selezionata.", "error")
             return
 
-        # Collega il logger
-        self.compiler.log_callback = self.logger.log
+        # 🔒 Disabilita pulsanti
+        self.compile_btn.setEnabled(False)
+        self.flash_btn.setEnabled(False)
 
-        # Collega la funzione per riabilitare i bottoni
+        self.compiler.log_callback = logger.log
+
         def riabilita_bottoni():
+            print("DEBUG: riabilita_bottoni() chiamato")
             self.compile_btn.setEnabled(True)
-            self.upload_btn.setEnabled(True)
-        self.compiler.on_upload_finished = riabilita_bottoni
+            self.flash_btn.setEnabled(True)
+            self.erase_btn.setEnabled(True)
+            self.logger.log("✅ Upload completato", "success")
+            self.busy = False
 
-        # Avvia upload
+            if "__temp_upload.yaml" in yaml_path:
+                try:
+                    os.remove(yaml_path)
+                    self.logger.log("🧹 File temporaneo rimosso.", "info")
+                except Exception as ex:
+                    self.logger.log(f"⚠️ Impossibile rimuovere file temporaneo: {ex}", "warning")
+
         self.compiler.upload_via_usb(yaml_path, com_port)
 
 
@@ -369,15 +395,6 @@ class TabCommand(QWidget):
         pwd = self.ota_pwd_edit.text()
         self.logger.log(Translator.tr("ota_upload").format(ip=ip, port=port, pwd='[inserted]' if pwd else '[empty]'), "info")
         
-    def test_usb_connection(self):
-        """Stub per test USB: da completare con la logica vera."""
-        com = self.com_combo.currentData()
-        baud = self.baud_combo.currentText()
-        if not com:
-            self.logger.log(Translator.tr("no_com_port"), "warning")
-            return
-        self.logger.log(Translator.tr("test_usb_connection").format(com=com, baud=baud), "info")
-
     def flash_via_usb(self):
         """Stub per flash USB: da completare con la logica vera."""
         com = self.com_combo.currentData()
@@ -408,21 +425,64 @@ class TabCommand(QWidget):
         """
         Avvia la compilazione del firmware tramite CompileManager e gestisce UI/log.
         """
-        # Disabilita i bottoni durante la compilazione
-        self.compile_btn.setEnabled(False)
-        self.upload_btn.setEnabled(False)
+        if self.busy:
+            print("DEBUG: comando compile ignorato perché busy = True")
+            return
 
-        # Cattura il testo YAML attualmente nell’editor
+        self.logger.log("────────── 🚀 COMPILAZIONE ──────────", "info")
+
+        self.busy = True
+        self.compile_btn.setEnabled(False)
+        self.flash_btn.setEnabled(False)
+        self.erase_btn.setEnabled(False)
+
         yaml_text = self.yaml_editor.toPlainText()
 
-        # Collega il log_callback del manager alla console
         self.compiler.log_callback = self.logger.log
-
-        # Collega la funzione di riabilitazione dei bottoni
-        def riabilita_bottoni():
-            self.compile_btn.setEnabled(True)
-            self.upload_btn.setEnabled(True)
-        self.compiler.on_compile_finished = riabilita_bottoni
-
-        # Chiama la funzione centralizzata
         self.compiler.compile_yaml(yaml_text)
+
+
+    def erase_flash(self):
+        """
+        Cancella la memoria flash dell'ESP32 tramite esptool, solo se non ci sono operazioni in corso.
+        """
+        if self.busy:
+            print("DEBUG: comando erase ignorato perché busy = True")
+            return
+
+        com_port = self.com_combo.currentData() or self.com_combo.currentText()
+        if not com_port:
+            self.logger.log("❌ Nessuna porta COM selezionata. Seleziona una porta per continuare.", "error")
+            return
+
+        self.logger.log("────────── 🧩 ERASE ──────────", "info")
+        self.logger.log(f"🧹 Avvio cancellazione memoria su {com_port}...", "warning")
+
+        # Blocca ulteriori operazioni
+        self.busy = True
+        self.flash_btn.setEnabled(False)
+        self.compile_btn.setEnabled(False)
+        self.erase_btn.setEnabled(False)
+
+        # Callback di fine operazione
+        def fine_erase():
+            self.logger.log("✅ Memoria cancellata con successo", "success")
+            self.busy = False
+            self.flash_btn.setEnabled(True)
+            self.compile_btn.setEnabled(True)
+            self.erase_btn.setEnabled(True)
+
+        # Lancia erase
+        self.compiler.log_callback = self.logger.log
+        self.compiler.on_upload_finished = fine_erase
+        self.compiler.erase_flash(com_port)
+
+    @pyqtSlot()
+    def riabilita_bottoni_qt(self):
+        print("DEBUG: SLOT Qt chiamato")
+        self.compile_btn.setEnabled(True)
+        self.flash_btn.setEnabled(True)
+        self.erase_btn.setEnabled(True)
+        if "run" in (self.compiler.command if hasattr(self.compiler, "command") else []):
+            self.logger.log("✅ Upload completato con successo via USB.", "success")
+        self.busy = False

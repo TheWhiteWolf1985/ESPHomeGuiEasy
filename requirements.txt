@@ -10,6 +10,7 @@ ruamel.yaml>=0.17.0
 
 # Packaging & dependency inspection
 setuptools>=65.0.0
+esptool>=4.6
 
 # Documentation
 mkdocs>=1.5.3
