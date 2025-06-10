@@ -32,7 +32,7 @@ from gui.documentation_dialog import DocumentationDialog
 
 class MainWindow(QMainWindow):
     """
-    @class MainWindow
+    @class MainWindowq
     @brief Finestra principale dell'applicazione GUI per ESPHome.
 
     La classe organizza l'interfaccia grafica in due pannelli principali:

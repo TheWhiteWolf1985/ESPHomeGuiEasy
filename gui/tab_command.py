@@ -17,7 +17,7 @@ class TabCommand(QWidget):
         self.yaml_editor = yaml_editor
         self.logger = logger
         self.compiler = compiler
-        self.busy = False  # Blocca comandi concorrenti (compile/erase/upload)
+        self.busy = False  # Blocca comandi concorrenti (compile/erase/upload
         self.compiler.upload_finished.connect(self.riabilita_bottoni_qt)
         self.compiler.compile_finished.connect(self.riabilita_bottoni_qt)
 
