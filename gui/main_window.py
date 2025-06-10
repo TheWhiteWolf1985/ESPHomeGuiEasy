@@ -14,7 +14,6 @@ from PyQt6.QtGui import QPalette, QColor, QIcon
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from core.yaml_highlighter import YamlHighlighter
 from core.yaml_handler import YAMLHandler
-from core.log_handler import LOGHandler
 from gui.yaml_editor import YamlCodeEditor
 from gui.sensor_canvas import SensorCanvas
 from gui.sensor_block_item import SensorBlockItem

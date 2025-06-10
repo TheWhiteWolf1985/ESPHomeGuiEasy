@@ -32,3 +32,5 @@ cucina_sensore.yaml
 dispositivo_c3.yaml
 cucina_sensore.yaml
 mkdocs.yml
+board list utility/boards.json
+board list utility/script.py

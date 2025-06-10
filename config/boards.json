@@ -1,84 +1,568 @@
 {
   "boards": [
     {
+      "label": "4D Systems GEN4-ESP32 16MB (ESP32S3-R8N16)",
+      "value": "4d_systems_esp32s3_gen4_r8n16"
+    },
+    {
+      "label": "Adafruit pyCamera S3",
+      "value": "adafruit_camera_esp32s3"
+    },
+    {
+      "label": "Adafruit Feather ESP32 V2",
+      "value": "adafruit_feather_esp32_v2"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S2",
+      "value": "adafruit_feather_esp32s2"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S2 Reverse TFT",
+      "value": "adafruit_feather_esp32s2_reversetft"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S2 TFT",
+      "value": "adafruit_feather_esp32s2_tft"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S3 2MB PSRAM",
+      "value": "adafruit_feather_esp32s3"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S3 No PSRAM",
+      "value": "adafruit_feather_esp32s3_nopsram"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S3 Reverse TFT",
+      "value": "adafruit_feather_esp32s3_reversetft"
+    },
+    {
+      "label": "Adafruit Feather ESP32-S3 TFT",
+      "value": "adafruit_feather_esp32s3_tft"
+    },
+    {
+      "label": "Adafruit FunHouse",
+      "value": "adafruit_funhouse_esp32s2"
+    },
+    {
+      "label": "Adafruit ItsyBitsy ESP32",
+      "value": "adafruit_itsybitsy_esp32"
+    },
+    {
+      "label": "Adafruit MagTag 2.9",
+      "value": "adafruit_magtag29_esp32s2"
+    },
+    {
+      "label": "Adafruit MatrixPortal ESP32-S3",
+      "value": "adafruit_matrixportal_esp32s3"
+    },
+    {
+      "label": "Adafruit Metro ESP32-S2",
+      "value": "adafruit_metro_esp32s2"
+    },
+    {
+      "label": "Adafruit Metro ESP32-S3",
+      "value": "adafruit_metro_esp32s3"
+    },
+    {
+      "label": "Adafruit QT Py ESP32",
+      "value": "adafruit_qtpy_esp32"
+    },
+    {
+      "label": "Adafruit QT Py ESP32-C3",
+      "value": "adafruit_qtpy_esp32c3"
+    },
+    {
+      "label": "Adafruit QT Py ESP32-S2",
+      "value": "adafruit_qtpy_esp32s2"
+    },
+    {
+      "label": "Adafruit QT Py ESP32-S3 (4M Flash 2M PSRAM)",
+      "value": "adafruit_qtpy_esp32s3_n4r2"
+    },
+    {
+      "label": "Adafruit QT Py ESP32-S3 No PSRAM",
+      "value": "adafruit_qtpy_esp32s3_nopsram"
+    },
+    {
+      "label": "Adafruit Qualia ESP32-S3 RGB666",
+      "value": "adafruit_qualia_s3_rgb666"
+    },
+    {
+      "label": "AirM2M CORE ESP32C3",
+      "value": "airm2m_core_esp32c3"
+    },
+    {
+      "label": "ALKS ESP32",
+      "value": "alksesp32"
+    },
+    {
+      "label": "Arduino Nano ESP32",
+      "value": "arduino_nano_esp32"
+    },
+    {
+      "label": "ArtronShop ATD1.47-S3",
+      "value": "atd147_s3"
+    },
+    {
+      "label": "EspinalLab ATMegaZero ESP32-S2",
+      "value": "atmegazero_esp32s2"
+    },
+    {
+      "label": "Aventen S3 Sync",
+      "value": "aventen_s3_sync"
+    },
+    {
+      "label": "AZ-Delivery ESP-32 Dev Kit C V4",
+      "value": "az-delivery-devkit-v4"
+    },
+    {
+      "label": "Smart Bee Data Logger",
+      "value": "bee_data_logger"
+    },
+    {
+      "label": "Smart Bee Motion",
+      "value": "bee_motion"
+    },
+    {
+      "label": "Smart Bee Motion Mini",
+      "value": "bee_motion_mini"
+    },
+    {
+      "label": "Smart Bee Motion S3",
+      "value": "bee_motion_s3"
+    },
+    {
+      "label": "Smart Bee S3",
+      "value": "bee_s3"
+    },
+    {
+      "label": "BPI-Bit",
+      "value": "bpi-bit"
+    },
+    {
+      "label": "BPI-Leaf-S3",
+      "value": "bpi_leaf_s3"
+    },
+    {
+      "label": "CNRS AW2ETH",
+      "value": "cnrs_aw2eth"
+    },
+    {
+      "label": "Connaxio's Espoir",
+      "value": "connaxio_espoir"
+    },
+    {
+      "label": "Cytron Maker Feather AIoT S3",
+      "value": "cytron_maker_feather_aiot_s3"
+    },
+    {
+      "label": "D-duino-32",
+      "value": "d-duino-32"
+    },
+    {
+      "label": "Deneyap Kart",
+      "value": "deneyapkart"
+    },
+    {
+      "label": "Deneyap Kart 1A",
+      "value": "deneyapkart1A"
+    },
+    {
+      "label": "Deneyap Kart 1A v2",
+      "value": "deneyapkart1Av2"
+    },
+    {
+      "label": "Deneyap Kart G",
+      "value": "deneyapkartg"
+    },
+    {
+      "label": "Deneyap Mini",
+      "value": "deneyapmini"
+    },
+    {
+      "label": "Deneyap Mini v2",
+      "value": "deneyapminiv2"
+    },
+    {
+      "label": "Denky32 (WROOM32)",
+      "value": "denky32"
+    },
+    {
+      "label": "Denky D4 (PICO-V3-02)",
+      "value": "denky_d4"
+    },
+    {
+      "label": "DFRobot Beetle ESP32-C3",
+      "value": "dfrobot_beetle_esp32c3"
+    },
+    {
+      "label": "DFRobot Firebeetle 2 ESP32-E",
+      "value": "dfrobot_firebeetle2_esp32e"
+    },
+    {
+      "label": "DFRobot Firebeetle 2 ESP32-S3",
+      "value": "dfrobot_firebeetle2_esp32s3"
+    },
+    {
+      "label": "DFRobot Romeo ESP32-S3",
+      "value": "dfrobot_romeo_esp32s3"
+    },
+    {
+      "label": "TAMC DPU ESP32",
+      "value": "dpu_esp32"
+    },
+    {
+      "label": "Seeed Studio Edgebox-ESP-100",
+      "value": "edgebox-esp-100"
+    },
+    {
+      "label": "Espressif ESP-WROVER-KIT",
+      "value": "esp-wrover-kit"
+    },
+    {
+      "label": "Espressif ESP32-C3-DevKitC-02",
+      "value": "esp32-c3-devkitc-02"
+    },
+    {
+      "label": "Espressif ESP32-C3-DevKitM-1",
+      "value": "esp32-c3-devkitm-1"
+    },
+    {
+      "label": "Ai-Thinker ESP-C3-M1-I-Kit",
+      "value": "esp32-c3-m1i-kit"
+    },
+    {
+      "label": "Espressif ESP32-C6-DevKitC-1",
+      "value": "esp32-c6-devkitc-1"
+    },
+    {
+      "label": "Espressif ESP32-C6-DevKitM-1",
+      "value": "esp32-c6-devkitm-1"
+    },
+    {
+      "label": "OLIMEX ESP32-DevKit-LiPo",
+      "value": "esp32-devkitlipo"
+    },
+    {
+      "label": "OLIMEX ESP32-EVB",
+      "value": "esp32-evb"
+    },
+    {
+      "label": "OLIMEX ESP32-GATEWAY",
+      "value": "esp32-gateway"
+    },
+    {
+      "label": "Espressif ESP32-PICO-DevKitM-2",
+      "value": "esp32-pico-devkitm-2"
+    },
+    {
+      "label": "OLIMEX ESP32-PoE-ISO",
+      "value": "esp32-poe-iso"
+    },
+    {
+      "label": "OLIMEX ESP32-PoE",
+      "value": "esp32-poe"
+    },
+    {
+      "label": "OLIMEX ESP32-PRO",
+      "value": "esp32-pro"
+    },
+    {
+      "label": "Franzininho WiFi Board",
+      "value": "esp32-s2-franzininho"
+    },
+    {
+      "label": "Espressif ESP32-S2-Kaluga-1 Kit",
+      "value": "esp32-s2-kaluga-1"
+    },
+    {
+      "label": "Espressif ESP32-S2-Saola-1",
+      "value": "esp32-s2-saola-1"
+    },
+    {
+      "label": "Espressif ESP32-S3-DevKitC-1-N8 (8 MB QD, No PSRAM)",
+      "value": "esp32-s3-devkitc-1"
+    },
+    {
+      "label": "Espressif ESP32-S3-DevKitM-1",
+      "value": "esp32-s3-devkitm-1"
+    },
+    {
+      "label": "Electronic SweetPeas ESP320",
+      "value": "esp320"
+    },
+    {
+      "label": "AI Thinker ESP32-CAM",
+      "value": "esp32cam"
+    },
+    {
+      "label": "Espressif ESP32 Dev Module",
+      "value": "esp32dev"
+    },
+    {
+      "label": "DOIT ESP32 DEVKIT V1",
+      "value": "esp32doit-devkit-v1"
+    },
+    {
+      "label": "DOIT ESPduino32",
+      "value": "esp32doit-espduino"
+    },
+    {
+      "label": "ESP32-S3 PowerFeather",
+      "value": "esp32s3_powerfeather"
+    },
+    {
+      "label": "Espressif ESP32-S3-Box",
+      "value": "esp32s3box"
+    },
+    {
+      "label": "ESP32S3 CAM LCD",
+      "value": "esp32s3camlcd"
+    },
+    {
+      "label": "Espressif ESP32-S3-USB-OTG",
+      "value": "esp32s3usbotg"
+    },
+    {
+      "label": "SparkFun ESP32 Thing",
+      "value": "esp32thing"
+    },
+    {
+      "label": "SparkFun ESP32 Thing Plus",
+      "value": "esp32thing_plus"
+    },
+    {
+      "label": "ESP32vn IoT Uno",
+      "value": "esp32vn-iot-uno"
+    },
+    {
+      "label": "April Brother ESPea32",
+      "value": "espea32"
+    },
+    {
+      "label": "ESPectro32",
+      "value": "espectro32"
+    },
+    {
+      "label": "ESPino32",
+      "value": "espino32"
+    },
+    {
+      "label": "ETBoard",
+      "value": "etboard"
+    },
+    {
+      "label": "Adafruit ESP32-S2 Feather Development Board",
+      "value": "featheresp32-s2"
+    },
+    {
       "label": "Adafruit ESP32 Feather",
       "value": "featheresp32"
     },
     {
-      "label": "Adafruit ESP32-S2 Feather",
-      "value": "adafruit_feather_esp32s2"
+      "label": "FireBeetle-ESP32",
+      "value": "firebeetle32"
     },
     {
-      "label": "Adafruit ESP32-S3 Feather",
-      "value": "adafruit_feather_esp32s3"
+      "label": "ESP32 FM DevKit",
+      "value": "fm-devkit"
     },
     {
-      "label": "Adafruit HUZZAH32",
-      "value": "huzzah32"
+      "label": "Franzininho WiFi",
+      "value": "franzininho_wifi_esp32s2"
     },
     {
-      "label": "ESP32 Dev Board",
-      "value": "esp32dev"
+      "label": "Franzininho WiFi MSC",
+      "value": "franzininho_wifi_msc_esp32s2"
     },
     {
-      "label": "ESP32-C3 Dev Module",
-      "value": "esp32-c3-devkitm-1"
+      "label": "Freenove ESP32-S3 WROOM N8R8 (8MB Flash / 8MB PSRAM)",
+      "value": "freenove_esp32_s3_wroom"
     },
     {
-      "label": "ESP32-PICO-D4",
-      "value": "esp32-pico-kit"
+      "label": "Freenove ESP32-Wrover",
+      "value": "freenove_esp32_wrover"
     },
     {
-      "label": "ESP32-PICO-KIT",
-      "value": "esp32doit-devkit-v1"
+      "label": "Frog Board ESP32",
+      "value": "frogboard"
     },
     {
-      "label": "ESP32-S2 Saola",
-      "value": "esp32-s2-saola-1"
+      "label": "ProtoCentral HealthyPi 4",
+      "value": "healthypi4"
     },
     {
-      "label": "ESP32-S3 Box",
-      "value": "esp32-s3-box"
+      "label": "Heltec WiFi Kit 32",
+      "value": "heltec_wifi_kit_32"
     },
     {
-      "label": "ESP32-S3 Box Lite",
-      "value": "esp32-s3-box-lite"
+      "label": "Heltec WiFi Kit 32 (V3)",
+      "value": "heltec_wifi_kit_32_V3"
     },
     {
-      "label": "ESP32-S3 USB OTG",
-      "value": "esp32-s3-usb-otg"
+      "label": "Heltec WiFi Kit 32 (V2)",
+      "value": "heltec_wifi_kit_32_v2"
     },
     {
-      "label": "ESP32-WROOM-32",
-      "value": "esp-wroom-32"
+      "label": "Heltec WiFi LoRa 32",
+      "value": "heltec_wifi_lora_32"
     },
     {
-      "label": "Lolin C3 Mini",
+      "label": "Heltec WiFi LoRa 32 (V2)",
+      "value": "heltec_wifi_lora_32_V2"
+    },
+    {
+      "label": "Heltec WiFi LoRa 32 (V3)",
+      "value": "heltec_wifi_lora_32_V3"
+    },
+    {
+      "label": "Heltec Wireless Stick",
+      "value": "heltec_wireless_stick"
+    },
+    {
+      "label": "Heltec Wireless Stick Lite",
+      "value": "heltec_wireless_stick_lite"
+    },
+    {
+      "label": "HONEYLemon",
+      "value": "honeylemon"
+    },
+    {
+      "label": "Hornbill ESP32 Dev",
+      "value": "hornbill32dev"
+    },
+    {
+      "label": "Hornbill ESP32 Minima",
+      "value": "hornbill32minima"
+    },
+    {
+      "label": "Imbrios LogSens V1P1",
+      "value": "imbrios-logsens-v1p1"
+    },
+    {
+      "label": "INEX OpenKB",
+      "value": "inex_openkb"
+    },
+    {
+      "label": "IntoRobot Fig",
+      "value": "intorobot"
+    },
+    {
+      "label": "IoTaaP Magnolia",
+      "value": "iotaap_magnolia"
+    },
+    {
+      "label": "oddWires IoT-Bus Io",
+      "value": "iotbusio"
+    },
+    {
+      "label": "oddWires IoT-Bus Proteus",
+      "value": "iotbusproteus"
+    },
+    {
+      "label": "ArtronShop IOXESP32",
+      "value": "ioxesp32"
+    },
+    {
+      "label": "ArtronShop IOXESP32PS",
+      "value": "ioxesp32ps"
+    },
+    {
+      "label": "MakerAsia KB32-FT",
+      "value": "kb32-ft"
+    },
+    {
+      "label": "KITS ESP32 EDU",
+      "value": "kits-edu"
+    },
+    {
+      "label": "Labplus mPython",
+      "value": "labplus_mpython"
+    },
+    {
+      "label": "Lilka v2",
+      "value": "lilka_v2"
+    },
+    {
+      "label": "LilyGo T-Display-S3",
+      "value": "lilygo-t-display-s3"
+    },
+    {
+      "label": "LilyGo T-Display",
+      "value": "lilygo-t-display"
+    },
+    {
+      "label": "LilyGo T3-S3",
+      "value": "lilygo-t3-s3"
+    },
+    {
+      "label": "Lion:Bit Dev Board",
+      "value": "lionbit"
+    },
+    {
+      "label": "Lion:Bit S3 STEM Dev Board",
+      "value": "lionbits3"
+    },
+    {
+      "label": "WEMOS LOLIN32",
+      "value": "lolin32"
+    },
+    {
+      "label": "WEMOS LOLIN32 Lite",
+      "value": "lolin32_lite"
+    },
+    {
+      "label": "WEMOS LOLIN C3 Mini",
       "value": "lolin_c3_mini"
     },
     {
-      "label": "Lolin D1 Mini",
-      "value": "d1_mini32"
-    },
-    {
-      "label": "Lolin D32",
+      "label": "WEMOS LOLIN D32",
       "value": "lolin_d32"
     },
     {
-      "label": "Lolin S2 Mini",
+      "label": "WEMOS LOLIN D32 PRO",
+      "value": "lolin_d32_pro"
+    },
+    {
+      "label": "WEMOS LOLIN S2 Mini",
       "value": "lolin_s2_mini"
     },
     {
-      "label": "Lolin S3 Mini",
+      "label": "WEMOS LOLIN S2 PICO",
+      "value": "lolin_s2_pico"
+    },
+    {
+      "label": "WEMOS LOLIN S3",
+      "value": "lolin_s3"
+    },
+    {
+      "label": "WEMOS LOLIN S3 Mini",
       "value": "lolin_s3_mini"
     },
     {
-      "label": "Lolin S3 Pro",
+      "label": "WEMOS LOLIN S3 PRO",
       "value": "lolin_s3_pro"
     },
     {
-      "label": "M5Stack Atom",
+      "label": "Pycom LoPy",
+      "value": "lopy"
+    },
+    {
+      "label": "Pycom LoPy4",
+      "value": "lopy4"
+    },
+    {
+      "label": "M5Stack-ATOM",
       "value": "m5stack-atom"
+    },
+    {
+      "label": "M5Stack AtomS3",
+      "value": "m5stack-atoms3"
+    },
+    {
+      "label": "M5Stack Core ESP32 16M",
+      "value": "m5stack-core-esp32-16M"
     },
     {
       "label": "M5Stack Core ESP32",
@@ -89,52 +573,572 @@
       "value": "m5stack-core2"
     },
     {
-      "label": "M5Stack Fire",
+      "label": "M5Stack-Core Ink",
+      "value": "m5stack-coreink"
+    },
+    {
+      "label": "M5Stack CoreS3",
+      "value": "m5stack-cores3"
+    },
+    {
+      "label": "M5Stack FIRE",
       "value": "m5stack-fire"
     },
     {
-      "label": "M5Stack Stick C",
+      "label": "M5Stack GREY ESP32",
+      "value": "m5stack-grey"
+    },
+    {
+      "label": "M5Stack StampS3",
+      "value": "m5stack-stamps3"
+    },
+    {
+      "label": "M5Stack Station",
+      "value": "m5stack-station"
+    },
+    {
+      "label": "M5Stack Timer CAM",
+      "value": "m5stack-timer-cam"
+    },
+    {
+      "label": "M5Stamp-Pico",
+      "value": "m5stamp-pico"
+    },
+    {
+      "label": "M5Stick-C",
       "value": "m5stick-c"
     },
     {
-      "label": "M5Stack Stick C Plus",
-      "value": "m5stick-c-plus"
+      "label": "MagicBit",
+      "value": "magicbit"
     },
     {
-      "label": "NodeMCU",
-      "value": "nodemcu"
+      "label": "MGBOT IOTIK 32A",
+      "value": "mgbot-iotik32a"
     },
     {
-      "label": "Seeed Studio XIAO ESP32-C3",
+      "label": "MGBOT IOTIK 32B",
+      "value": "mgbot-iotik32b"
+    },
+    {
+      "label": "MH ET LIVE ESP32DevKIT",
+      "value": "mhetesp32devkit"
+    },
+    {
+      "label": "MH ET LIVE ESP32MiniKit",
+      "value": "mhetesp32minikit"
+    },
+    {
+      "label": "Microduino Core ESP32",
+      "value": "microduino-core-esp32"
+    },
+    {
+      "label": "microS2",
+      "value": "micros2"
+    },
+    {
+      "label": "Deparment of Alchemy MiniMain ESP32-S2",
+      "value": "minimain_esp32s2"
+    },
+    {
+      "label": "MotorGo Mini 1 (ESP32-S3)",
+      "value": "motorgo_mini_1"
+    },
+    {
+      "label": "Namino Arancio",
+      "value": "namino_arancio"
+    },
+    {
+      "label": "Namino Rosso",
+      "value": "namino_rosso"
+    },
+    {
+      "label": "MakerAsia Nano32",
+      "value": "nano32"
+    },
+    {
+      "label": "Kinetic Dynamics Nebula S3",
+      "value": "nebulas3"
+    },
+    {
+      "label": "u-blox NINA-W10 series",
+      "value": "nina_w10"
+    },
+    {
+      "label": "Node32s",
+      "value": "node32s"
+    },
+    {
+      "label": "NodeMCU-32S",
+      "value": "nodemcu-32s"
+    },
+    {
+      "label": "Ai-Thinker NodeMCU-32S2 (ESP-12K)",
+      "value": "nodemcu-32s2"
+    },
+    {
+      "label": "YeaCreate NSCREEN-32",
+      "value": "nscreen-32"
+    },
+    {
+      "label": "ODROID-GO",
+      "value": "odroid_esp32"
+    },
+    {
+      "label": "Onehorse ESP32 Dev Module",
+      "value": "onehorse32dev"
+    },
+    {
+      "label": "OROCA EduBot",
+      "value": "oroca_edubot"
+    },
+    {
+      "label": "ESP32 Pico Kit",
+      "value": "pico32"
+    },
+    {
+      "label": "Fishino Piranha ESP-32",
+      "value": "piranha_esp32"
+    },
+    {
+      "label": "Dongsen Tech Pocket 32",
+      "value": "pocket_32"
+    },
+    {
+      "label": "Pycom GPy",
+      "value": "pycom_gpy"
+    },
+    {
+      "label": "Qchip",
+      "value": "qchip"
+    },
+    {
+      "label": "Noduino Quantum",
+      "value": "quantum"
+    },
+    {
+      "label": "Munich Labs RedPill ESP32-S3",
+      "value": "redpill_esp32s3"
+    },
+    {
+      "label": "RoboHeart Hercules",
+      "value": "roboheart_hercules"
+    },
+    {
+      "label": "RYMCU ESP32-C3-DevKitM-1",
+      "value": "rymcu-esp32-c3-devkitm-1"
+    },
+    {
+      "label": "RYMCU ESP32-DevKitC",
+      "value": "rymcu-esp32-devkitc"
+    },
+    {
+      "label": "RYMCU ESP32-S3-DevKitC-1-N8R2 (8 MB QD, 2 MB PSRAM)",
+      "value": "rymcu-esp32-s3-devkitc-1"
+    },
+    {
+      "label": "S.ODI Ultra v1",
+      "value": "s_odi_ultra"
+    },
+    {
+      "label": "Seeed Studio XIAO ESP32C3",
       "value": "seeed_xiao_esp32c3"
+    },
+    {
+      "label": "Seeed Studio XIAO ESP32C6",
+      "value": "seeed_xiao_esp32c6"
+    },
+    {
+      "label": "Seeed Studio XIAO ESP32S3",
+      "value": "seeed_xiao_esp32s3"
+    },
+    {
+      "label": "senseBox MCU-S2 ESP32-S2",
+      "value": "sensebox_mcu_esp32s2"
+    },
+    {
+      "label": "LOGISENSES Senses Weizen",
+      "value": "sensesiot_weizen"
+    },
+    {
+      "label": "SG-O AirMon",
+      "value": "sg-o_airMon"
+    },
+    {
+      "label": "SparkFun ESP32 IoT RedBoard",
+      "value": "sparkfun_esp32_iot_redboard"
+    },
+    {
+      "label": "SparkFun ESP32 MicroMod",
+      "value": "sparkfun_esp32micromod"
+    },
+    {
+      "label": "SparkFun ESP32-S2 Thing Plus",
+      "value": "sparkfun_esp32s2_thing_plus"
+    },
+    {
+      "label": "SparkFun ESP32 Thing Plus C",
+      "value": "sparkfun_esp32s2_thing_plus_c"
+    },
+    {
+      "label": "SparkFun LoRa Gateway 1-Channel",
+      "value": "sparkfun_lora_gateway_1-channel"
+    },
+    {
+      "label": "TAMC Termod S3",
+      "value": "tamc_termod_s3"
+    },
+    {
+      "label": "Unexpected Maker TinyPICO",
+      "value": "tinypico"
+    },
+    {
+      "label": "Trueverit ESP32 Universal IoT Driver MK II",
+      "value": "trueverit-iot-driver-mk2"
+    },
+    {
+      "label": "Trueverit ESP32 Universal IoT Driver MK III",
+      "value": "trueverit-iot-driver-mk3"
+    },
+    {
+      "label": "Trueverit ESP32 Universal IoT Driver",
+      "value": "trueverit-iot-driver"
+    },
+    {
+      "label": "TTGO LoRa32-OLED V1",
+      "value": "ttgo-lora32-v1"
+    },
+    {
+      "label": "TTGO LoRa32-OLED V2",
+      "value": "ttgo-lora32-v2"
+    },
+    {
+      "label": "TTGO LoRa32-OLED v2.1.6",
+      "value": "ttgo-lora32-v21"
     },
     {
       "label": "TTGO T-Beam",
       "value": "ttgo-t-beam"
     },
     {
-      "label": "TTGO T-Camera",
-      "value": "ttgo-t-camera"
-    },
-    {
-      "label": "TTGO T-Display",
-      "value": "ttgo-t-display"
+      "label": "TTGO T-OI PLUS RISC-V ESP32-C3",
+      "value": "ttgo-t-oi-plus"
     },
     {
       "label": "TTGO T-Watch",
       "value": "ttgo-t-watch"
     },
     {
-      "label": "WT32-ETH01",
+      "label": "TTGO T1",
+      "value": "ttgo-t1"
+    },
+    {
+      "label": "TTGO T7 V1.3 Mini32",
+      "value": "ttgo-t7-v13-mini32"
+    },
+    {
+      "label": "TTGO T7 V1.4 Mini32",
+      "value": "ttgo-t7-v14-mini32"
+    },
+    {
+      "label": "Turta IoT Node",
+      "value": "turta_iot_node"
+    },
+    {
+      "label": "Unexpected Maker FeatherS2",
+      "value": "um_feathers2"
+    },
+    {
+      "label": "Unexpected Maker FeatherS2 Neo",
+      "value": "um_feathers2_neo"
+    },
+    {
+      "label": "Unexpected Maker FeatherS3",
+      "value": "um_feathers3"
+    },
+    {
+      "label": "Unexpected Maker NanoS3",
+      "value": "um_nanos3"
+    },
+    {
+      "label": "Unexpected Maker PROS3",
+      "value": "um_pros3"
+    },
+    {
+      "label": "Unexpected Maker RMP",
+      "value": "um_rmp"
+    },
+    {
+      "label": "Unexpected Maker TinyS2",
+      "value": "um_tinys2"
+    },
+    {
+      "label": "Unexpected Maker TinyS3",
+      "value": "um_tinys3"
+    },
+    {
+      "label": "unPhone 7",
+      "value": "unphone7"
+    },
+    {
+      "label": "unPhone 8",
+      "value": "unphone8"
+    },
+    {
+      "label": "unPhone 9",
+      "value": "unphone9"
+    },
+    {
+      "label": "uPesy ESP32 Wroom DevKit",
+      "value": "upesy_wroom"
+    },
+    {
+      "label": "uPesy ESP32 Wrover DevKit",
+      "value": "upesy_wrover"
+    },
+    {
+      "label": "Valetron Systems VALTRACK-V4MVF",
+      "value": "valtrack_v4_mfw_esp32_c3"
+    },
+    {
+      "label": "Valetron Systems VALTRACK-V4VTS",
+      "value": "valtrack_v4_vts_esp32_c3"
+    },
+    {
+      "label": "VintLabs ESP32 Devkit",
+      "value": "vintlabs-devkit-v1"
+    },
+    {
+      "label": "SQFMI Watchy v2.0",
+      "value": "watchy"
+    },
+    {
+      "label": "WeAct Studio ESP32C3CoreBoard",
+      "value": "weactstudio_esp32c3coreboard"
+    },
+    {
+      "label": "WEMOS D1 MINI ESP32",
+      "value": "wemos_d1_mini32"
+    },
+    {
+      "label": "WEMOS D1 R32",
+      "value": "wemos_d1_uno32"
+    },
+    {
+      "label": "WeMos WiFi and Bluetooth Battery",
+      "value": "wemosbat"
+    },
+    {
+      "label": "Silicognition wESP32",
+      "value": "wesp32"
+    },
+    {
+      "label": "Widora AIR",
+      "value": "widora-air"
+    },
+    {
+      "label": "Blinker WiFiduino32",
+      "value": "wifiduino32"
+    },
+    {
+      "label": "Blinker WiFiduinoV2 (ESP32-C3)",
+      "value": "wifiduino32c3"
+    },
+    {
+      "label": "Blinker WiFiduino32S3",
+      "value": "wifiduino32s3"
+    },
+    {
+      "label": "Pycom WiPy3",
+      "value": "wipy3"
+    },
+    {
+      "label": "Wireless-Tag WT32-ETH01 Ethernet Module",
       "value": "wt32-eth01"
     },
     {
-      "label": "Wemos D1 Mini (ESP8266)",
+      "label": "XinaBox CW02",
+      "value": "xinabox_cw02"
+    },
+    {
+      "label": "Lifely Agrumino Lemon v4",
+      "value": "agruminolemon"
+    },
+    {
+      "label": "WEMOS D1 R1",
+      "value": "d1"
+    },
+    {
+      "label": "WeMos D1 R2 and mini",
       "value": "d1_mini"
     },
     {
-      "label": "Wemos D1 R1",
-      "value": "d1"
+      "label": "WeMos D1 mini Lite",
+      "value": "d1_mini_lite"
+    },
+    {
+      "label": "WeMos D1 mini Pro",
+      "value": "d1_mini_pro"
+    },
+    {
+      "label": "WeMos D1 ESP-WROOM-02",
+      "value": "d1_wroom_02"
+    },
+    {
+      "label": "Schirmilabs Eduino WiFi",
+      "value": "eduinowifi"
+    },
+    {
+      "label": "Espressif Generic ESP8266 ESP-01 512k",
+      "value": "esp01"
+    },
+    {
+      "label": "Espressif Generic ESP8266 ESP-01 1M",
+      "value": "esp01_1m"
+    },
+    {
+      "label": "Espressif Generic ESP8266 ESP-07 1MB",
+      "value": "esp07"
+    },
+    {
+      "label": "Espressif Generic ESP8266 ESP-07S",
+      "value": "esp07s"
+    },
+    {
+      "label": "Espressif ESP8266 ESP-12E",
+      "value": "esp12e"
+    },
+    {
+      "label": "SweetPea ESP-210",
+      "value": "esp210"
+    },
+    {
+      "label": "Generic ESP8285 Module",
+      "value": "esp8285"
+    },
+    {
+      "label": "Espressif ESP-WROOM-02",
+      "value": "esp_wroom_02"
+    },
+    {
+      "label": "ESPDuino (ESP-13 Module)",
+      "value": "espduino"
+    },
+    {
+      "label": "ESPectro Core",
+      "value": "espectro"
+    },
+    {
+      "label": "ESPino",
+      "value": "espino"
+    },
+    {
+      "label": "ThaiEasyElec ESPino",
+      "value": "espinotee"
+    },
+    {
+      "label": "ESP-Mx DevKit (ESP8285)",
+      "value": "espmxdevkit"
+    },
+    {
+      "label": "ESPresso Lite 1.0",
+      "value": "espresso_lite_v1"
+    },
+    {
+      "label": "ESPresso Lite 2.0",
+      "value": "espresso_lite_v2"
+    },
+    {
+      "label": "4D Systems gen4 IoD Range",
+      "value": "gen4iod"
+    },
+    {
+      "label": "Heltec Wifi kit 8",
+      "value": "heltec_wifi_kit_8"
+    },
+    {
+      "label": "Adafruit HUZZAH ESP8266",
+      "value": "huzzah"
+    },
+    {
+      "label": "Invent One",
+      "value": "inventone"
+    },
+    {
+      "label": "Olimex MOD-WIFI-ESP8266(-DEV)",
+      "value": "modwifi"
+    },
+    {
+      "label": "NodeMCU 0.9 (ESP-12 Module)",
+      "value": "nodemcu"
+    },
+    {
+      "label": "NodeMCU 1.0 (ESP-12E Module)",
+      "value": "nodemcuv2"
+    },
+    {
+      "label": "DigiStump Oak",
+      "value": "oak"
+    },
+    {
+      "label": "Phoenix 1.0",
+      "value": "phoenix_v1"
+    },
+    {
+      "label": "Phoenix 2.0",
+      "value": "phoenix_v2"
+    },
+    {
+      "label": "Sonoff Basic",
+      "value": "sonoff_basic"
+    },
+    {
+      "label": "Sonoff S20",
+      "value": "sonoff_s20"
+    },
+    {
+      "label": "Sonoff SV",
+      "value": "sonoff_sv"
+    },
+    {
+      "label": "Sonoff TH",
+      "value": "sonoff_th"
+    },
+    {
+      "label": "SparkFun Blynk Board",
+      "value": "sparkfunBlynk"
+    },
+    {
+      "label": "SparkFun ESP8266 Thing",
+      "value": "thing"
+    },
+    {
+      "label": "SparkFun ESP8266 Thing Dev",
+      "value": "thingdev"
+    },
+    {
+      "label": "WiFi Slot",
+      "value": "wifi_slot"
+    },
+    {
+      "label": "WiFiduino",
+      "value": "wifiduino"
+    },
+    {
+      "label": "WifInfo",
+      "value": "wifinfo"
+    },
+    {
+      "label": "Wio Link",
+      "value": "wio_link"
+    },
+    {
+      "label": "Wio Node",
+      "value": "wio_node"
+    },
+    {
+      "label": "XinaBox CW01",
+      "value": "xinabox_cw01"
     }
   ]
 }

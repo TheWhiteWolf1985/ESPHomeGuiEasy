@@ -367,11 +367,11 @@ class TabCommand(QWidget):
         self.logger.log(Translator.tr("usb_upload").format(com=com, baud=baud), "info")     
 
     def aggiorna_label(self):
-        from core.translator import Translator
         # USB/Serial Loader
         self.usb_box.setTitle(Translator.tr("usb_serial_loader"))
-        self.test_btn.setText(Translator.tr("test_connection"))
-        self.flash_btn.setText(Translator.tr("flash_usb"))
+        # Non c'è self.test_btn
+        self.flash_btn.setText("📤 " + Translator.tr("upload"))
+        self.erase_btn.setText("🧹 " + Translator.tr("erase_flash"))
         self.baud_combo.setItemText(0, Translator.tr("baud"))  # Solo se vuoi tradurre le voci combo
         # OTA
         self.ota_box.setTitle(Translator.tr("ota_wifi"))
@@ -379,8 +379,8 @@ class TabCommand(QWidget):
         self.test_ota_btn.setText(Translator.tr("test_connection"))
         self.flash_ota_btn.setText(Translator.tr("flash_ota"))
         # Compilazione
+        self.group_compile.setTitle(Translator.tr("firmware_compile"))
         self.compile_btn.setText("🚀 " + Translator.tr("compile"))
-        self.upload_btn.setText("📤 " + Translator.tr("upload"))
         # Placeholder degli edit
         self.ota_ip_edit.setPlaceholderText(Translator.tr("ip_address"))
         self.ota_port_edit.setPlaceholderText(Translator.tr("ota_port"))
