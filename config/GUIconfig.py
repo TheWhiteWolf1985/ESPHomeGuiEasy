@@ -4,8 +4,8 @@ SPLASH_IMAGE = "assets/background_image.png"
 YAML_TEMPLATE_PATH = "config/default_template.yaml"
 CONFIG_PATH = "user_settings.json"
 
-APP_VERSION = "1.2"
-APP_RELEASE_DATE = "2025-06-09"
+APP_VERSION = "1.2.2"
+APP_RELEASE_DATE = "2025-06-11"
 
 DEBUG = False  # o False per attivare lo splash
 
