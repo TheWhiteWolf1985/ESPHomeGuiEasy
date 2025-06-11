@@ -105,16 +105,6 @@ python3 main.py
 
 ---
 
-## 📁 Struttura / Structure
-
-```
-core/       # YAML, log, flash handling
-gui/        # PyQt6 UI
-assets/     # Icons, pinout images
-config/     # YAML templates, board list
-main.py     # Entry point
-```
-
 ## 🇮🇹 Descrizione
 
 **esphomeGuieasy** è un'app desktop Python con interfaccia PyQt6 per facilitare la creazione, la modifica e il flashing di dispositivi compatibili ESPHome.
@@ -206,6 +196,16 @@ python3 main.py
     - Log completo dell’errore
 
 ---
+
+## 📁 Struttura / Structure
+
+```
+core/       # YAML, log, flash handling
+gui/        # PyQt6 UI
+assets/     # Icons, pinout images
+config/     # YAML templates, board list
+main.py     # Entry point
+```
 
 ## 📄 License
 
