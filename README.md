@@ -13,98 +13,6 @@
 
 ---
 
-## 🇮🇹 Descrizione
-
-**esphomeGuieasy** è un'app desktop Python con interfaccia PyQt6 per facilitare la creazione, la modifica e il flashing di dispositivi compatibili ESPHome.
-Pensata sia per neofiti che utenti esperti, offre:
-- Editor YAML con evidenziazione della sintassi
-- Console log integrata
-- "Mattoncini" grafici per configurare sensori
-- Flash locale e OTA, gestione board, caricamento template
-
----
-
-## 🇮🇹 Installazione passo-passo
-
-### 1. Prerequisiti
-- Python **3.10 o superiore** ([scarica qui](https://www.python.org/downloads/))
-- [ESPHome](https://esphome.io/) installato globalmente:
-  ```bash
-  pip install esphome
-  ```
-- Sistema operativo: **Windows, Linux, macOS**
-
-### 2. Clona il repository
-```bash
-git clone https://github.com/TUO_USERNAME/esphomeGuieasy.git
-cd esphomeGuieasy
-```
-
-### 3. Crea un ambiente virtuale (opzionale ma consigliato)
-**Windows:**
-```cmd
-python -m venv venv
-venv\Scripts\activate
-```
-**macOS / Linux:**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 4. Installa le dipendenze
-**Windows:**
-```cmd
-pip install -r requirements.txt
-```
-**macOS / Linux:**
-```bash
-pip3 install -r requirements.txt
-```
-
-### 5. Avvia l’applicazione
-**Windows:**
-```cmd
-python main.py
-```
-**macOS / Linux:**
-```bash
-python3 main.py
-```
-
-#### Dipendenze principali
-- **PyQt6** — GUI
-- **ruamel.yaml** — Gestione YAML
-- **pyserial** — Supporto seriale
-
----
-
-### 🚑 Troubleshooting (IT)
-
-- **Errore: "ModuleNotFoundError: No module named 'PyQt6'"**  
-  ➔ Verifica di aver attivato il virtualenv **prima** di installare le dipendenze e di avviare il programma.  
-  ➔ Prova a reinstallare: `pip install -r requirements.txt`
-
-- **Errore: "esphome non trovato"**  
-  ➔ Assicurati di aver installato ESPHome globalmente con `pip install esphome` (potresti dover usare `pip3` su Linux/macOS).  
-  ➔ Controlla di avere la variabile d'ambiente PATH aggiornata.
-
-- **Errore di permessi sulla porta seriale (Linux/macOS):**  
-  ➔ Aggiungi il tuo utente al gruppo `dialout` (Linux):
-  ```bash
-  sudo usermod -aG dialout $(whoami)
-  ```
-  ➔ Dopo il comando, esegui logout/login.
-
-- **Crash o bug non previsti:**  
-  ➔ Apri una Issue nella sezione [Bug](https://github.com/TUO_USERNAME/esphomeGuieasy/issues) riportando:
-    - Sistema operativo e versione
-    - Versione di Python (`python --version`)
-    - Versione di esphome, PyQt6, ruamel.yaml
-    - Log completo dell’errore
-
----
-
 ## 🇬🇧 Description
 
 **esphomeGuieasy** is a Python desktop app with PyQt6 interface to simplify the creation, editing and flashing of ESPHome-compatible devices.
@@ -206,6 +114,96 @@ assets/     # Icons, pinout images
 config/     # YAML templates, board list
 main.py     # Entry point
 ```
+
+## 🇮🇹 Descrizione
+
+**esphomeGuieasy** è un'app desktop Python con interfaccia PyQt6 per facilitare la creazione, la modifica e il flashing di dispositivi compatibili ESPHome.
+Pensata sia per neofiti che utenti esperti, offre:
+- Editor YAML con evidenziazione della sintassi
+- Console log integrata
+- "Mattoncini" grafici per configurare sensori
+- Flash locale e OTA, gestione board, caricamento template
+
+---
+
+## 🇮🇹 Installazione passo-passo
+
+### 1. Prerequisiti
+- Python **3.10 o superiore** ([scarica qui](https://www.python.org/downloads/))
+- [ESPHome](https://esphome.io/) installato globalmente:
+  ```bash
+  pip install esphome
+  ```
+- Sistema operativo: **Windows, Linux, macOS**
+
+### 2. Clona il repository
+```bash
+git clone https://github.com/TUO_USERNAME/esphomeGuieasy.git
+cd esphomeGuieasy
+```
+
+### 3. Crea un ambiente virtuale (opzionale ma consigliato)
+**Windows:**
+```cmd
+python -m venv venv
+venv\Scripts\activate
+```
+**macOS / Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 4. Installa le dipendenze
+**Windows:**
+```cmd
+pip install -r requirements.txt
+```
+**macOS / Linux:**
+```bash
+pip3 install -r requirements.txt
+```
+
+### 5. Avvia l’applicazione
+**Windows:**
+```cmd
+python main.py
+```
+**macOS / Linux:**
+```bash
+python3 main.py
+```
+
+#### Dipendenze principali
+- **PyQt6** — GUI
+- **ruamel.yaml** — Gestione YAML
+- **pyserial** — Supporto seriale
+
+---
+
+### 🚑 Troubleshooting (IT)
+
+- **Errore: "ModuleNotFoundError: No module named 'PyQt6'"**  
+  ➔ Verifica di aver attivato il virtualenv **prima** di installare le dipendenze e di avviare il programma.  
+  ➔ Prova a reinstallare: `pip install -r requirements.txt`
+
+- **Errore: "esphome non trovato"**  
+  ➔ Assicurati di aver installato ESPHome globalmente con `pip install esphome` (potresti dover usare `pip3` su Linux/macOS).  
+  ➔ Controlla di avere la variabile d'ambiente PATH aggiornata.
+
+- **Errore di permessi sulla porta seriale (Linux/macOS):**  
+  ➔ Aggiungi il tuo utente al gruppo `dialout` (Linux):
+  ```bash
+  sudo usermod -aG dialout $(whoami)
+  ```
+  ➔ Dopo il comando, esegui logout/login.
+
+- **Crash o bug non previsti:**  
+  ➔ Apri una Issue nella sezione [Bug](https://github.com/TUO_USERNAME/esphomeGuieasy/issues) riportando:
+    - Sistema operativo e versione
+    - Versione di Python (`python --version`)
+    - Versione di esphome, PyQt6, ruamel.yaml
+    - Log completo dell’errore
 
 ---
 
