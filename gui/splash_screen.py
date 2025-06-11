@@ -5,7 +5,7 @@ from importlib.metadata import version, PackageNotFoundError
 import os
 import sys
 import json
-import config.GUIconfig as GUIconfig
+import config.GUIconfig as conf
 import urllib.request
 from core.translator import Translator
 import webbrowser
@@ -44,7 +44,7 @@ class SplashScreen(QSplashScreen):
         """)
 
         # Label della versione
-        self.version_label = QLabel(Translator.tr("version_label").format(version=GUIconfig.APP_VERSION), self)
+        self.version_label = QLabel(Translator.tr("version_label").format(version=conf.APP_VERSION), self)
         self.version_label.setFont(QFont("Arial"))
         self.version_label.setStyleSheet("""
             color: black;
@@ -139,10 +139,13 @@ class SplashScreen(QSplashScreen):
             raise Exception("Dipendenze mancanti:\n" + "\n".join(missing))
 
     def check_user_settings(self):
-        if not os.path.exists("user_settings.json"):
-            with open("user_settings.json", "w", encoding="utf-8") as f:
+        if not os.path.exists(conf.CONFIG_PATH):
+            with open(conf.CONFIG_PATH, "w", encoding="utf-8") as f:
                 json.dump({"language": "en"}, f, indent=2)
             self.status_label.setText("user_settings.json creato con lingua 'en'.")
+        else:
+            self.status_label.setText("user_settings.json già presente.")
+
 
     def check_base_project_template(self):
         if not os.path.exists("config/default_template.yaml"):
@@ -155,7 +158,7 @@ class SplashScreen(QSplashScreen):
     def check_online_version(self):
         try:
             req = urllib.request.Request(
-                GUIconfig.GITHUB_URL,
+                conf.GITHUB_URL,
                 headers={
                     "Cache-Control": "no-cache",
                     "Pragma": "no-cache"
@@ -170,7 +173,7 @@ class SplashScreen(QSplashScreen):
                 current_lang = Translator.get_current_language()
                 changelog_text = changelog.get(current_lang, changelog.get("en", ""))
 
-                if latest and latest != GUIconfig.APP_VERSION:
+                if latest and latest != conf.APP_VERSION:
                     self.status_label.setText(Translator.tr("update_available"))
 
                     msg = QMessageBox(self)
@@ -178,7 +181,7 @@ class SplashScreen(QSplashScreen):
                     msg.setWindowTitle(Translator.tr("update_available_title"))
                     msg.setText(
                         Translator.tr("update_available_text").format(
-                            latest=latest, current=GUIconfig.APP_VERSION
+                            latest=latest, current=conf.APP_VERSION
                         )
                     )
                     msg.setInformativeText(
@@ -191,7 +194,7 @@ class SplashScreen(QSplashScreen):
 
                     res = msg.exec()
                     if res == QMessageBox.StandardButton.Yes:
-                        webbrowser.open(GUIconfig.RELEASE_URL)
+                        webbrowser.open(conf.RELEASE_URL)
                 else:
                     self.status_label.setText(Translator.tr("version_up_to_date"))
         except Exception:

@@ -12,18 +12,16 @@ from gui.main_window import MainWindow
 from core.translator import Translator
 from gui.language_dialog import LanguageDialog
 from gui.splash_screen import SplashScreen
-import config.GUIconfig as GUIconfig
-
-CONFIG_PATH = "user_settings.json"
+import config.GUIconfig as conf
 
 def load_user_settings():
-    if os.path.exists(CONFIG_PATH):
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+    if os.path.exists(conf.CONFIG_PATH):
+        with open(conf.CONFIG_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
     return {}
 
 def save_user_settings(settings):
-    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+    with open(conf.CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(settings, f)
 
 def show_main_window():
@@ -51,8 +49,8 @@ def main():
     Translator.load_language(settings.get("language", "en"))
 
     # Splash attivo solo se DEBUG è False
-    if not GUIconfig.DEBUG:
-        pixmap = QPixmap(GUIconfig.SPLASH_IMAGE)  # Sostituisci con percorso reale
+    if not conf.DEBUG:
+        pixmap = QPixmap(conf.SPLASH_IMAGE)  # Sostituisci con percorso reale
         splash = SplashScreen(pixmap)
         splash.show()
         splash.start_initialization(on_complete_callback=show_main_window)

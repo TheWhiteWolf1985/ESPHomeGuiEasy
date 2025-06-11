@@ -395,8 +395,8 @@ class MainWindow(QMainWindow):
         Se i file locali mancano, apre il sito ufficiale di ESPHome.
         """
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        docs_root = os.path.normpath(os.path.join(base_dir, "..", "docs"))
-        settings_file = os.path.normpath(os.path.join(base_dir, "..", "user_settings.json"))
+        docs_root = conf.DOCS_PATH
+        settings_file = conf.CONFIG_PATH
 
         # Lingua default
         lang = "it"
