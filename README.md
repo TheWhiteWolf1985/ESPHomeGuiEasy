@@ -44,7 +44,7 @@ cd esphomeGuieasy
 **Windows:**
 ```cmd
 python -m venv venv
-venv\Scriptsctivate
+venv\Scripts\activate
 ```
 **macOS / Linux:**
 ```bash
