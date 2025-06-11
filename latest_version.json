@@ -1,9 +1,9 @@
 {
-  "latest_version": "1.2",
+  "latest_version": "1.2.2",
     "changelog": {
-       "it" : "✓ Nuove funzioni nel tab Comandi\n✓ Bugfix YAML\n✓ Traduzioni migliorate",
-       "en" : "✓ New features in the Commands tab\n✓ YAML bugfix\n✓ Improved translations",
-       "es" : "✓ Nuevas funciones en la pestaña Comandos\n✓ Corrección de errores de YAML\n✓ Traducciones mejoradas",
-       "de" : "✓ Neue Funktionen im Reiter „Befehle“\n✓ YAML-Bugfix\n✓ Verbesserte Übersetzungen"
+      "it": "✓ Migliorata la generazione dei blocchi sensori da YAML\n✓ Evitati campi duplicati (pin, update_interval)\n✓ Aggiunto supporto dinamico a oltre 50 sensori reali",
+      "en": "✓ Improved sensor block generation from YAML\n✓ Removed duplicate fields (pin, update_interval)\n✓ Added dynamic support for 50+ real sensors",
+      "es": "✓ Mejora en la generación de bloques de sensores desde YAML\n✓ Eliminación de campos duplicados (pin, update_interval)\n✓ Soporte dinámico para más de 50 sensores reales",
+      "de": "✓ Verbesserte Sensorgenerierung aus YAML\n✓ Doppelte Felder entfernt (pin, update_interval)\n✓ Dynamische Unterstützung für über 50 reale Sensoren"
     }
 }

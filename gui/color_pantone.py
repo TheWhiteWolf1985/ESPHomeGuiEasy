@@ -233,3 +233,17 @@ class Pantone:
                 color: #fff;
             }
         """
+    
+    LISTWIDGET_STYLE = f"""
+        QListWidget {{
+            background-color: {SECONDARY_BG};
+            color: {TEXT_MAIN};
+            border: 1px solid {GROUPBOX_BORDER};
+            border-radius: 5px;
+            font-size: 11pt;
+        }}
+        QListWidget::item:selected {{
+            background-color: {ACCENT};
+            color: {TEXT_ACCENT};
+        }}
+    """

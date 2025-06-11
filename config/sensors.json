@@ -1,0 +1,412 @@
+{
+  "sensors": [
+    {
+      "label": "DHT11 / DHT22 / AM2302",
+      "platform": "dht",
+      "params": [
+        {"key": "model", "type": "combo", "label": "Model", "options": ["DHT11", "DHT22", "AM2302"], "default": "DHT22", "required": true},
+        {"key": "pin", "type": "text", "label": "Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "DS18B20 (Dallas)",
+      "platform": "dallas",
+      "params": [
+        {"key": "pin", "type": "text", "label": "Pin", "required": true},
+        {"key": "address", "type": "text", "label": "Address (optional)"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "BME280 (Temp/Hum/Press)",
+      "platform": "bme280",
+      "params": [
+        {"key": "i2c_address", "type": "combo", "label": "I²C Address", "options": ["0x76","0x77"], "default": "0x76"},
+        {"key": "temperature_offset", "type": "int", "label": "Temperature Offset (°C)", "default": 0},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "BH1750 (Light, I²C)",
+      "platform": "bh1750",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x23","0x5C"], "default": "0x23"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "TSL2561 (Light, I²C)",
+      "platform": "tsl2561",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x29","0x39","0x49"], "default": "0x39"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "MH-Z19 (CO₂, UART)",
+      "platform": "mhz19",
+      "params": [
+        {"key": "uart_id", "type": "text", "label": "UART ID", "default": "uart1"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "SDS011 (PM2.5/PM10, UART)",
+      "platform": "sds011",
+      "params": [
+        {"key": "uart_id", "type": "text", "label": "UART ID", "default": "uart1"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "HC-SR04 (Ultrasonic)",
+      "platform": "ultrasonic",
+      "params": [
+        {"key": "trigger_pin", "type": "text", "label": "Trigger Pin", "required": true},
+        {"key": "echo_pin", "type": "text", "label": "Echo Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "VL53L0X (ToF, I²C)",
+      "platform": "vl53l0x",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x29"], "default": "0x29"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "HX711 (Load Cell)",
+      "platform": "hx711",
+      "params": [
+        {"key": "dout_pin", "type": "text", "label": "DOUT Pin", "required": true},
+        {"key": "clk_pin", "type": "text", "label": "CLK Pin", "required": true}
+      ]
+    },
+    {
+      "label": "INA219 (Current Sensor, I²C)",
+      "platform": "ina219",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x40"], "default": "0x40"},
+        {"key": "shunt_resistance", "type": "int", "label": "Shunt Resistance (Ω)", "default": 0.1},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "INA3221 (Triple Current Sensor)",
+      "platform": "ina3221",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x40"], "default": "0x40"},
+        {"key": "channel", "type": "combo", "label": "Channel", "options": ["1", "2", "3"], "default": "1"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "BMP180 (Temperature/Pressure)",
+      "platform": "bmp085",
+      "params": [
+        {"key": "i2c_address", "type": "combo", "label": "I²C Address", "options": ["0x77"], "default": "0x77"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "SGP30 (Air Quality, VOC+CO₂)",
+      "platform": "sgp30",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x58"], "default": "0x58"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "SCD30 (CO₂ Sensor, I²C)",
+      "platform": "scd30",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x61"], "default": "0x61"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "SCD40 / SCD41 (CO₂, I²C)",
+      "platform": "scd4x",
+      "params": [
+        {"key": "measurement_mode", "type": "combo", "label": "Measurement Mode", "options": ["periodic", "single_shot"], "default": "periodic"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "SN74HC165 (Digital Inputs)",
+      "platform": "sn74hc165",
+      "params": [
+        {"key": "clock_pin", "type": "text", "label": "Clock Pin", "required": true},
+        {"key": "data_pin", "type": "text", "label": "Data Pin", "required": true},
+        {"key": "load_pin", "type": "text", "label": "Load Pin", "required": true}
+      ]
+    },
+    {
+      "label": "PCF8591 (Analog Inputs, I²C)",
+      "platform": "pcf8591",
+      "params": [
+        {"key": "i2c_address", "type": "combo", "label": "I²C Address", "options": ["0x48"], "default": "0x48"},
+        {"key": "channel", "type": "combo", "label": "Channel", "options": ["A0", "A1", "A2", "A3"], "default": "A0"}
+      ]
+    },
+    {
+      "label": "MAX31855 (Thermocouple SPI)",
+      "platform": "max31855",
+      "params": [
+        {"key": "cs_pin", "type": "text", "label": "CS Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "MAX6675 (Thermocouple SPI)",
+      "platform": "max6675",
+      "params": [
+        {"key": "cs_pin", "type": "text", "label": "CS Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "MQ2 (Gas: LPG, Smoke)",
+      "platform": "mq2",
+      "params": [
+        {"key": "adc_pin", "type": "text", "label": "ADC Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "MQ135 (Air Quality Sensor)",
+      "platform": "mq135",
+      "params": [
+        {"key": "adc_pin", "type": "text", "label": "ADC Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "CCS811 (Air Quality, I²C)",
+      "platform": "ccs811",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x5A", "0x5B"], "default": "0x5A"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "ENS160 (Air Quality, I²C)",
+      "platform": "ens160",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x53", "0x52"], "default": "0x53"},
+        {"key": "temperature_source", "type": "text", "label": "Temperature Sensor ID"}
+      ]
+    },
+    {
+      "label": "PMS5003 (Particulate Matter, UART)",
+      "platform": "pmsx003",
+      "params": [
+        {"key": "uart_id", "type": "text", "label": "UART ID", "default": "uart1"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "Grove Dust Sensor GP2Y1010AU0F",
+      "platform": "gp2y",
+      "params": [
+        {"key": "led_pin", "type": "text", "label": "LED Control Pin", "required": true},
+        {"key": "analog_pin", "type": "text", "label": "Analog Output Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "Reed Switch (Magnetic Contact)",
+      "platform": "gpio",
+      "params": [
+        {"key": "pin", "type": "text", "label": "GPIO Pin", "required": true},
+        {"key": "device_class", "type": "combo", "label": "Device Class", "options": ["door", "window", "garage", "opening"], "default": "door"}
+      ]
+    },
+    {
+      "label": "AM312 (PIR Motion Sensor)",
+      "platform": "gpio",
+      "params": [
+        {"key": "pin", "type": "text", "label": "GPIO Pin", "required": true},
+        {"key": "device_class", "type": "combo", "label": "Device Class", "options": ["motion"], "default": "motion"}
+      ]
+    },
+    {
+      "label": "Wemos Hall Sensor (A3144)",
+      "platform": "gpio",
+      "params": [
+        {"key": "pin", "type": "text", "label": "GPIO Pin", "required": true},
+        {"key": "inverted", "type": "combo", "label": "Inverted", "options": ["true", "false"], "default": "false"}
+      ]
+    },
+    {
+      "label": "RCWL-0516 (Microwave Radar)",
+      "platform": "gpio",
+      "params": [
+        {"key": "pin", "type": "text", "label": "GPIO Pin", "required": true},
+        {"key": "device_class", "type": "combo", "label": "Device Class", "options": ["motion"], "default": "motion"}
+      ]
+    },
+    {
+      "label": "FC-28 (Soil Moisture, Analog)",
+      "platform": "adc",
+      "params": [
+        {"key": "pin", "type": "text", "label": "ADC Pin", "required": true},
+        {"key": "name", "type": "text", "label": "Name", "default": "Soil Moisture"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "YL-69 + LM393 (Soil Sensor, Digital)",
+      "platform": "gpio",
+      "params": [
+        {"key": "pin", "type": "text", "label": "GPIO Pin", "required": true},
+        {"key": "device_class", "type": "combo", "label": "Device Class", "options": ["moisture"], "default": "moisture"}
+      ]
+    },
+    {
+      "label": "Rain Drop Sensor (Analog)",
+      "platform": "adc",
+      "params": [
+        {"key": "pin", "type": "text", "label": "ADC Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "SW-420 (Vibration Sensor)",
+      "platform": "gpio",
+      "params": [
+        {"key": "pin", "type": "text", "label": "GPIO Pin", "required": true}
+      ]
+    },
+    {
+      "label": "ADXL345 (Accelerometer, I²C)",
+      "platform": "adxl345",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x53"], "default": "0x53"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "MPU6050 (Accel + Gyro, I²C)",
+      "platform": "mpu6050",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x68"], "default": "0x68"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "QMC5883L (Magnetometer)",
+      "platform": "qmc5883l",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x0D"], "default": "0x0D"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "HMC5883L (Compass, I²C)",
+      "platform": "hmc5883l",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x1E"], "default": "0x1E"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "GY-521 (MPU6050 Module)",
+      "platform": "mpu6050",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x68"], "default": "0x68"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "LM35 (Temperature, Analog)",
+      "platform": "adc",
+      "params": [
+        {"key": "pin", "type": "text", "label": "ADC Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "TMP36 (Temperature, Analog)",
+      "platform": "adc",
+      "params": [
+        {"key": "pin", "type": "text", "label": "ADC Pin", "required": true},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "GY-21P (SI7021 + BMP180 Combo)",
+      "platform": "bme280",
+      "params": [
+        {"key": "i2c_address", "type": "combo", "label": "I²C Address", "options": ["0x76", "0x77"], "default": "0x76"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "MAX30102 (Heart Rate + SpO₂)",
+      "platform": "max3010x",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x57"], "default": "0x57"},
+        {"key": "pulse_oximeter", "type": "combo", "label": "Pulse Mode", "options": ["true", "false"], "default": "true"}
+      ]
+    },
+    {
+      "label": "MLX90614 (Infrared Temp, I²C)",
+      "platform": "mlx90614",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x5A"], "default": "0x5A"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "AS5600 (Magnetic Angle Sensor)",
+      "platform": "as5600",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x36"], "default": "0x36"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "TMAG5273 (Magnetic Angle, I²C)",
+      "platform": "tmag5273",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x36"], "default": "0x36"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    },
+    {
+      "label": "MS5611 (Barometric Pressure)",
+      "platform": "ms5611",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x77", "0x76"], "default": "0x77"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "TSL2591 (High Range Light, I²C)",
+      "platform": "tsl2591",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x29"], "default": "0x29"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "Texas HDC1080 (Temp + Hum)",
+      "platform": "hdc1080",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x40"], "default": "0x40"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+      ]
+    },
+    {
+      "label": "VL6180X (Proximity, I²C)",
+      "platform": "vl6180x",
+      "params": [
+        {"key": "address", "type": "combo", "label": "I²C Address", "options": ["0x29"], "default": "0x29"},
+        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 30}
+      ]
+    }
+  ]
+}

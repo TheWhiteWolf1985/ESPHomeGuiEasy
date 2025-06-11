@@ -39,91 +39,6 @@ class YAMLHandler:
         except Exception as e:
             return f"# Errore nel caricamento del template: {e}"
 
-    # ------------------------------------------------------------------------
-    # | Generazione YAML da blocchi canvas sensori e sezioni generali         |
-    # ------------------------------------------------------------------------
-    @staticmethod
-    def generate_yaml_from_blocks(canvas: QGraphicsScene, current_yaml: str,
-                                  device_name: str, board: str, ssid: str, password: str) -> str:
-        """
-        @brief Genera un file YAML aggiornato inserendo dati generali e sensori.
-        @param canvas QGraphicsScene contenente i blocchi sensori
-        @param current_yaml YAML attuale da cui partire
-        @param device_name Nome del dispositivo (esphome.name)
-        @param board Nome board tecnica
-        @param ssid SSID rete WiFi
-        @param password Password WiFi
-        @return YAML completo aggiornato
-        """
-        try:
-            data = yaml.load(current_yaml) or {}
-
-            # === Sezione esphome ===
-            data['esphome'] = data.get('esphome', {})
-            data['esphome']['name'] = device_name or "nome_dispositivo"
-            data['esphome']['friendly_name'] = device_name or "Dispositivo ESPHome"
-
-            # === Sezione esp32 ===
-            data['esp32'] = {
-                'board': board or "esp32dev",
-                'framework': {'type': 'arduino'}
-            }
-
-            # === Sezione wifi ===
-            data['wifi'] = {
-                'ssid': ssid or "YourSSID",
-                'password': password or "YourPassword"
-            }
-
-            # === Sezione sensor ===
-            data['sensor'] = []
-
-            for item in canvas.items():
-                if isinstance(item, SensorBlockItem):
-                    sensor_type = item.type_combo.currentText()
-                    name = item.name_edit.text().strip()
-                    pin = item.pin_edit.text().strip()
-                    interval = item.update_spin.value()
-
-                    if not name:
-                        continue
-
-                    # Costruzione del blocco sensor YAML
-                    if sensor_type.lower() in ['dht11', 'dht22']:
-                        sensor_block = {
-                            'platform': 'dht',
-                            'model': sensor_type,
-                            'pin': pin,
-                            'temperature': {'name': f"{name}_Temp"},
-                            'humidity': {'name': f"{name}_Hum"},
-                            'update_interval': f"{interval}s"
-                        }
-                        data['sensor'].append(sensor_block)
-                    elif sensor_type.lower() == 'gpio':
-                        sensor_block = {
-                            'platform': 'gpio',
-                            'pin': pin,
-                            'name': name
-                        }
-                        data['sensor'].append(sensor_block)
-                    elif sensor_type.lower() == 'analogico':
-                        sensor_block = {
-                            'platform': 'adc',
-                            'pin': pin,
-                            'name': name,
-                            'update_interval': f"{interval}s"
-                        }
-                        data['sensor'].append(sensor_block)
-
-            # Serializza in stringa YAML
-            from io import StringIO
-            output = StringIO()
-            yaml.dump(data, output)
-            return output.getvalue()
-
-        except Exception as e:
-            return f"# Errore generazione YAML: {e}"
-
     # -----------------------------------------------------------------
     # |  Aggiornamento sezioni generali YAML (senza toccare sensori)  |
     # -----------------------------------------------------------------
@@ -188,42 +103,45 @@ class YAMLHandler:
             # Sezione sensor
             data['sensor'] = []
 
-            from gui.sensor_block_item import SensorBlockItem
             for item in canvas.items():
                 if isinstance(item, SensorBlockItem):
-                    sensor_type = item.type_combo.currentText()
-                    name = item.name_edit.text().strip()
-                    pin = item.pin_edit.text().strip()
-                    interval = item.update_spin.value()
+                    params = {}
 
-                    if not name:
-                        continue
+                    # Recupera ogni widget dinamico e il suo valore
+                    for key, widget in getattr(item, 'param_widgets', {}).items():
+                        if hasattr(widget, "text"):
+                            value = widget.text().strip()
+                        elif hasattr(widget, "value"):
+                            value = widget.value()
+                        elif hasattr(widget, "currentText"):
+                            value = widget.currentText().strip()
+                        else:
+                            continue
 
-                    if sensor_type.lower() in ['dht11', 'dht22']:
-                        sensor_block = {
-                            'platform': 'dht',
-                            'model': sensor_type,
-                            'pin': pin,
-                            'temperature': {'name': f"{name} Temp"},
-                            'humidity': {'name': f"{name} Hum"},
-                            'update_interval': f"{interval}s"
-                        }
-                        data['sensor'].append(sensor_block)
-                    elif sensor_type.lower() == 'gpio':
-                        sensor_block = {
-                            'platform': 'gpio',
-                            'pin': pin,
-                            'name': name
-                        }
-                        data['sensor'].append(sensor_block)
-                    elif sensor_type.lower() == 'analogico':
-                        sensor_block = {
-                            'platform': 'adc',
-                            'pin': pin,
-                            'name': name,
-                            'update_interval': f"{interval}s"
-                        }
-                        data['sensor'].append(sensor_block)
+                        if value not in ["", None]:
+                            params[key] = value
+
+                    # Nome principale (fallback se non c'è un campo 'name')
+                    if "name" not in params:
+                        raw_name = item.name_edit.text().strip()
+                        if raw_name:
+                            params["name"] = raw_name
+
+                    # Piattaforma sensore (deducibile dal tipo selezionato)
+                    sensor_type = item.conn_type_display.text().strip().lower()
+                    platform_map = {
+                        "analogico": "adc",
+                        "digitale": "gpio",
+                        "i2c": "i2c",  # dipenderà poi da piattaforma reale
+                    }
+
+                    platform = item.sensor_platform if hasattr(item, 'sensor_platform') else platform_map.get(sensor_type, "custom")
+
+                    # Includi nel blocco YAML
+                    yaml_block = {"platform": platform}
+                    yaml_block.update(params)
+                    data['sensor'].append(yaml_block)
+
 
             from io import StringIO
             output = StringIO()

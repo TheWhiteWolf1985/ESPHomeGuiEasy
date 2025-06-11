@@ -25,6 +25,7 @@ class SensorBlockItem(QGraphicsItem):
         self.height = height
         self.title = title
         self.expanded = True  # stato iniziale: espanso
+        self.conn_type_display = None
 
         self.setFlags(
             QGraphicsItem.GraphicsItemFlag.ItemIsMovable |
@@ -48,7 +49,7 @@ class SensorBlockItem(QGraphicsItem):
         self.close_btn = QPushButton("❌")
         self.close_btn.setFixedSize(22, 22)
         self.close_btn.setStyleSheet("QPushButton { background-color: #ff5f56; color: white; border: none; border-radius: 11px; }"
-                                     "QPushButton:hover { background-color: #ff2d20; }")
+                                    "QPushButton:hover { background-color: #ff2d20; }")
         self.close_btn.clicked.connect(self.remove_from_scene)
 
         self.close_proxy = QGraphicsProxyWidget(self)
@@ -59,7 +60,7 @@ class SensorBlockItem(QGraphicsItem):
         self.toggle_btn = QPushButton("🔽")
         self.toggle_btn.setFixedSize(22, 22)
         self.toggle_btn.setStyleSheet("QPushButton { background-color: #3a9dda; color: white; border: none; border-radius: 11px; }"
-                                      "QPushButton:hover { background-color: #2277aa; }")
+                                    "QPushButton:hover { background-color: #2277aa; }")
         self.toggle_btn.clicked.connect(self.toggle_expand)
 
         self.toggle_proxy = QGraphicsProxyWidget(self)
@@ -71,38 +72,26 @@ class SensorBlockItem(QGraphicsItem):
         layout = QVBoxLayout()
         layout.setContentsMargins(8, 30, 8, 8)
 
-        # Tipo sensore
-        self.type_combo = QComboBox()
-        self.type_combo.addItems(["DHT11", "DHT22", "GPIO", "Analogico"])
+        # Tipo sensore (visualizzazione sola lettura)
         layout.addWidget(QLabel(Translator.tr("sensor_type")))
-        layout.addWidget(self.type_combo)
+        self.conn_type_display = QLineEdit()
+        self.conn_type_display.setReadOnly(True)
+        self.conn_type_display.setStyleSheet("background-color: #2a2d2e; color: #d4d4d4; border: 1px solid #444; border-radius: 5px;")
+        layout.addWidget(self.conn_type_display)
 
-        # Nome sensore
+        # Nome sensore (fisso)
         self.name_edit = QLineEdit()
         self.name_edit.setPlaceholderText(Translator.tr("placeholder_sensor_name"))
         self.name_edit.textChanged.connect(self.update_title)
         layout.addWidget(QLabel(Translator.tr("sensor_name")))
         layout.addWidget(self.name_edit)
 
-        # Pin
-        self.pin_edit = QLineEdit()
-        self.pin_edit.setPlaceholderText(Translator.tr("placeholder_sensor_pin"))
-        layout.addWidget(QLabel(Translator.tr("sensor_pin")))
-        layout.addWidget(self.pin_edit)
-
-        # Update interval
-        self.update_spin = QSpinBox()
-        self.update_spin.setMinimum(1)
-        self.update_spin.setMaximum(3600)
-        self.update_spin.setSuffix(" s")
-        layout.addWidget(QLabel(Translator.tr("sensor_update_interval")))
-        layout.addWidget(self.update_spin)
-
         self.container.setLayout(layout)
 
         self.proxy = QGraphicsProxyWidget(self)
         self.proxy.setWidget(self.container)
         self.proxy.setPos(0, 30)
+
 
     def update_title(self, text):
         """
@@ -148,3 +137,51 @@ class SensorBlockItem(QGraphicsItem):
         # Placeholder dei campi
         self.name_edit.setPlaceholderText(Translator.tr("placeholder_sensor_name"))
         self.pin_edit.setPlaceholderText(Translator.tr("placeholder_sensor_pin"))
+
+    def build_from_params(self, param_list):
+        """
+        @brief Aggiunge dinamicamente i campi dal JSON al layout del blocco.
+        @param param_list Lista di dizionari con i parametri (da sensors.json)
+        """
+        self.param_widgets = {}
+
+        layout = self.container.layout()
+        layout.addSpacing(10)
+
+        for param in param_list:
+            key = param.get("key")
+            tipo = param.get("type")
+            label_text = param.get("label", key)
+            default = param.get("default", "")
+            required = param.get("required", False)
+
+            label = QLabel(label_text)
+            layout.addWidget(label)
+
+            if tipo == "text":
+                field = QLineEdit()
+                field.setPlaceholderText(param.get("placeholder", ""))
+                field.setText(str(default))
+                layout.addWidget(field)
+
+            elif tipo == "int":
+                field = QSpinBox()
+                field.setMinimum(0)
+                field.setMaximum(100000)
+                if isinstance(default, int):
+                    field.setValue(default)
+                layout.addWidget(field)
+
+            elif tipo == "combo":
+                field = QComboBox()
+                options = param.get("options", [])
+                field.addItems(options)
+                if default in options:
+                    field.setCurrentText(default)
+                layout.addWidget(field)
+
+            else:
+                continue  # Tipo non gestito (può essere esteso)
+
+            self.param_widgets[key] = field  # Salva il riferimento
+

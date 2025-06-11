@@ -1,6 +1,4 @@
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QGroupBox, QPushButton, QHBoxLayout
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QPushButton, QHBoxLayout, QSpinBox, QLineEdit, QComboBox
 from PyQt6.QtCore import Qt
 from gui.sensor_canvas import SensorCanvas
 from core.yaml_handler import YAMLHandler
@@ -8,6 +6,9 @@ from gui.color_pantone import Pantone
 from ruamel.yaml import YAML
 from gui.sensor_block_item import SensorBlockItem
 from core.translator import Translator
+from gui.sensor_selection_dialog import SensorSelectionDialog
+import os
+
 
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
@@ -64,10 +65,32 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_sensore(self):
         """
-        @brief Crea e aggiunge un nuovo blocco sensore nel canvas.
+        @brief Apre la dialog di selezione sensore e aggiunge un blocco al canvas se confermato.
         """
-        nuovo_blocco = SensorBlockItem(Translator.tr("new_sensor"))
-        self.sensor_canvas.add_sensor_block(nuovo_blocco)
+        from gui.sensor_selection_dialog import SensorSelectionDialog
+        import os
+
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+
+        dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_sensor()
+            if selected:
+                blocco = SensorBlockItem(title=selected.get("label", "Nuovo Sensore"))
+
+                # Imposta nome e tipo
+                blocco.name_edit.setText(selected.get("label", ""))
+                conn_type = dialog.detect_connection_type(selected)
+                blocco.conn_type_display.setText(conn_type)
+
+                # Costruzione dinamica dei parametri
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)
+
+
 
     def _editor(self):
         main = self.window()
@@ -104,16 +127,15 @@ class TabSensori(QWidget):
             except Exception:
                 pass
 
-
-
-
     def get_sensor_canvas(self):
         return self.sensor_canvas
     
     def aggiorna_blocchi_da_yaml(self, yaml_content):
         """
-        Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
+        @brief Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
         """
+        from gui.sensor_selection_dialog import SensorSelectionDialog
+        from ruamel.yaml import YAML
 
         # 1. Svuota tutti i blocchi esistenti
         self.get_sensor_canvas().clear_blocks()
@@ -132,47 +154,56 @@ class TabSensori(QWidget):
                 self.logger.log(Translator.tr("no_sensor_section"), "warning")
             return
 
-        # 3. Ricrea un blocco per ogni sensore
-        for sensor in data["sensor"]:
-            # Prendi tipo sensore e info
-            platform = sensor.get("platform", "").lower()
-            name = sensor.get("name", "")
-            pin = sensor.get("pin", "")
-            interval = None
+        # 3. Carica definizioni da sensors.json
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+        dialog = SensorSelectionDialog(sensors_json_path=json_path)
+        sensor_defs = dialog.sensors
 
-            # Determina tipo per il combo
-            if platform == "dht":
-                sensor_type = sensor.get("model", "dht11")
-                name = sensor.get("temperature", {}).get("name", "DHT Temp")
-                pin = sensor.get("pin", "")
-                interval = sensor.get("update_interval", "60s").replace("s", "")
-            elif platform == "gpio":
-                sensor_type = "gpio"
-                interval = ""  # GPIO non ha update interval di solito
-            elif platform == "adc":
-                sensor_type = "analogico"
-                interval = sensor.get("update_interval", "60s").replace("s", "")
-            else:
-                sensor_type = platform
+        # 4. Ricrea ogni blocco
+        for sensor in data["sensor"]:
+            platform = sensor.get("platform", "").lower()
+            name = sensor.get("name", "Nuovo Sensore")
+
+            # Trova definizione da JSON
+            sensor_def = next(
+                (s for s in sensor_defs if s["platform"] == platform or s["label"] == name),
+                None
+            )
+
+            if not sensor_def:
+                continue  # salta sensori non definiti
 
             # Crea blocco
-            nuovo_blocco = SensorBlockItem(name)
-            # Imposta tipo sensore
-            idx = nuovo_blocco.type_combo.findText(sensor_type, Qt.MatchFlag.MatchFixedString)
-            if idx >= 0:
-                nuovo_blocco.type_combo.setCurrentIndex(idx)
-            # Imposta nome
-            nuovo_blocco.name_edit.setText(name)
-            # Imposta pin
-            nuovo_blocco.pin_edit.setText(str(pin))
-            # Imposta intervallo, se presente
-            if interval and hasattr(nuovo_blocco, "update_spin"):
-                try:
-                    nuovo_blocco.update_spin.setValue(int(interval))
-                except Exception:
-                    pass  # intervallo non numerico, ignora
+            blocco = SensorBlockItem(title=name)
+            blocco.name_edit.setText(name)
 
-            self.get_sensor_canvas().add_sensor_block(nuovo_blocco)
+            # Imposta tipo connessione
+            conn_type = self.tab_settings.detect_connection_type(sensor_def) if hasattr(self.tab_settings, "detect_connection_type") else "custom"
+            blocco.conn_type_display.setText(conn_type)
+
+            # Costruisci parametri
+            param_list = sensor_def.get("params", [])
+            blocco.build_from_params(param_list)
+
+            # Popola i widget dinamici con i valori dallo YAML
+            for key, widget in blocco.param_widgets.items():
+                value = sensor.get(key)
+                if value is not None:
+                    if isinstance(widget, QLineEdit):
+                        widget.setText(str(value))
+                    elif isinstance(widget, QSpinBox):
+                        try:
+                            widget.setValue(int(str(value).replace("s", "")))
+                        except Exception:
+                            pass
+                    elif isinstance(widget, QComboBox):
+                        idx = widget.findText(str(value))
+                        if idx >= 0:
+                            widget.setCurrentIndex(idx)
+
+            self.get_sensor_canvas().add_sensor_block(blocco)
+
 
     def aggiorna_label(self):
         from core.translator import Translator
