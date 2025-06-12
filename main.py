@@ -10,19 +10,10 @@ from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
 from gui.main_window import MainWindow
 from core.translator import Translator
-from gui.language_dialog import LanguageDialog
+from gui.language_selection_dialog import LanguageSelectionDialog
 from gui.splash_screen import SplashScreen
 import config.GUIconfig as conf
-
-def load_user_settings():
-    if os.path.exists(conf.CONFIG_PATH):
-        with open(conf.CONFIG_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {}
-
-def save_user_settings(settings):
-    with open(conf.CONFIG_PATH, "w", encoding="utf-8") as f:
-        json.dump(settings, f)
+from core.settings_db import init_db, get_setting, set_setting
 
 def show_main_window():
     window = MainWindow()
@@ -31,22 +22,23 @@ def show_main_window():
 def main():
     app = QApplication(sys.argv)
 
-    # Carica o crea impostazioni utente
-    settings = load_user_settings()
+    # Inizializza database delle impostazioni
+    init_db()
 
-    # Dialog lingua se non specificata
-    if "language" not in settings:
-        available_langs = Translator.get_available_languages()
-        dlg = LanguageDialog(available_langs)
-        if dlg.exec() == QDialog.DialogCode.Accepted and dlg.selected:
-            settings["language"] = dlg.selected
-            save_user_settings(settings)
+    # Se la lingua non è ancora impostata, mostra il dialog
+    language = get_setting("language")
+    if not language:
+        dlg = LanguageSelectionDialog()
+        if dlg.exec() == QDialog.DialogCode.Accepted and dlg.get_selected_language():
+            set_setting("language", dlg.get_selected_language())
         else:
-            settings["language"] = "en"
-            save_user_settings(settings)
+            set_setting("language", "en")
+
+    # Carica la lingua da DB
+    language = get_setting("language")
 
     # Carica traduzioni
-    Translator.load_language(settings.get("language", "en"))
+    Translator.load_language(get_setting("language") or "en")
 
     # Splash attivo solo se DEBUG è False
     if not conf.DEBUG:

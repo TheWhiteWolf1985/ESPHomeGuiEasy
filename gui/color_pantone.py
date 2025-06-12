@@ -247,3 +247,31 @@ class Pantone:
             color: {TEXT_ACCENT};
         }}
     """
+
+    DIALOG_TITLE_STYLE = """
+    QLabel {
+        color: #ffffff;
+        font-size: 16pt;
+        font-weight: bold;
+        padding: 12px;
+    }
+    """
+
+    BUTTON_STYLE = """
+    QPushButton {
+        background-color: #2d2d30;
+        color: #ffffff;
+        font-size: 12pt;
+        padding: 8px 12px;
+        text-align: left;
+        border: 1px solid #3a3a3d;
+        border-radius: 6px;
+    }
+    QPushButton:hover {
+        background-color: #3c3f41;
+    }
+    QPushButton:pressed {
+        background-color: #007acc;
+        color: #ffffff;
+    }
+    """

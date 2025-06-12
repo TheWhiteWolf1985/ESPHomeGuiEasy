@@ -27,7 +27,10 @@ from gui.tab_modules import TabModules
 from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.project_handler import ProjectHandler
+from core.settings_db import add_recent_file
 from gui.documentation_dialog import DocumentationDialog
+
+
 
 
 class MainWindow(QMainWindow):
@@ -279,6 +282,7 @@ class MainWindow(QMainWindow):
 
         # 8. (NEW) Aggiorna la working dir del compilatore!
         self.compiler.set_project_dir(project_dir)
+        self.menu_bar._update_recent_files_menu()
 
 
     def open_project(self, yaml_path):
@@ -295,6 +299,8 @@ class MainWindow(QMainWindow):
         # Salva anche la directory progetto!
         self.last_save_path = yaml_path
         self.project_dir = os.path.dirname(os.path.abspath(yaml_path))
+        add_recent_file(yaml_path)
+        self.menu_bar._update_recent_files_menu()
 
     def open_project_dialog(self):
         filename_tuple = QFileDialog.getOpenFileName(
@@ -336,7 +342,6 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("project_saved_as").format(path=filename), "success")
 
     def importa_yaml(self):
-        from PyQt6.QtWidgets import QFileDialog
         filename, _ = QFileDialog.getOpenFileName(self, "Importa YAML", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
         if filename:
             with open(filename, "r", encoding="utf-8") as f:
@@ -347,6 +352,8 @@ class MainWindow(QMainWindow):
             self.tab_sensori.aggiorna_blocchi_da_yaml(content)
             self.tab_modules.carica_dati_da_yaml(content)
             self.logger.log(Translator.tr("yaml_imported").format(path=filename), "success")
+            add_recent_file(filename)
+            self.menu_bar._update_recent_files_menu()
 
     def esporta_yaml(self):
         from PyQt6.QtWidgets import QFileDialog

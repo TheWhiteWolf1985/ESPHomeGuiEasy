@@ -34,3 +34,4 @@ cucina_sensore.yaml
 mkdocs.yml
 board list utility/boards.json
 board list utility/script.py
+config/user_settings.json

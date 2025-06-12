@@ -1,14 +1,17 @@
-from PyQt6.QtWidgets import QLabel, QProgressBar, QApplication, QMessageBox, QSplashScreen
-from PyQt6.QtGui import QFont
-from PyQt6.QtCore import Qt, QTimer, QSize
-from importlib.metadata import version, PackageNotFoundError
 import os
 import sys
 import json
 import config.GUIconfig as conf
 import urllib.request
-from core.translator import Translator
 import webbrowser
+from PyQt6.QtWidgets import QLabel, QProgressBar, QApplication, QMessageBox, QSplashScreen
+from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt, QTimer, QSize
+from importlib.metadata import version, PackageNotFoundError
+from core.translator import Translator
+from gui.language_selection_dialog import LanguageSelectionDialog
+from core.settings_db import init_db, get_setting, set_setting
+
 
 class SplashScreen(QSplashScreen):
     def __init__(self, pixmap):
@@ -139,12 +142,12 @@ class SplashScreen(QSplashScreen):
             raise Exception("Dipendenze mancanti:\n" + "\n".join(missing))
 
     def check_user_settings(self):
-        if not os.path.exists(conf.CONFIG_PATH):
-            with open(conf.CONFIG_PATH, "w", encoding="utf-8") as f:
-                json.dump({"language": "en"}, f, indent=2)
-            self.status_label.setText("user_settings.json creato con lingua 'en'.")
+        init_db()
+        if not get_setting("language"):
+            set_setting("language", "en")
+            self.status_label.setText("Impostazione lingua creata: 'en'")
         else:
-            self.status_label.setText("user_settings.json già presente.")
+            self.status_label.setText("Lingua già impostata")
 
 
     def check_base_project_template(self):
