@@ -1,0 +1,28 @@
+{
+  "timers": [
+    {
+      "label": "Ogni N secondi (interval)",
+      "type": "interval",
+      "params": [
+        {
+          "key": "interval",
+          "type": "text",
+          "label": "Intervallo",
+          "placeholder": "es. 5s"
+        }
+      ]
+    },
+    {
+      "label": "Timer singolo (ritardo iniziale)",
+      "type": "startup_delay",
+      "params": [
+        {
+          "key": "delay",
+          "type": "text",
+          "label": "Ritardo all'avvio",
+          "placeholder": "es. 10s"
+        }
+      ]
+    }
+  ]
+}

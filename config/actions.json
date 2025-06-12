@@ -1,0 +1,52 @@
+{
+  "actions": [
+    {
+      "label": "Accendi uscita",
+      "type": "output.turn_on",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID uscita",
+          "placeholder": "es. relay1"
+        }
+      ]
+    },
+    {
+      "label": "Spegni uscita",
+      "type": "output.turn_off",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID uscita",
+          "placeholder": "es. relay1"
+        }
+      ]
+    },
+    {
+      "label": "Scrivi su log",
+      "type": "logger.log",
+      "params": [
+        {
+          "key": "message",
+          "type": "text",
+          "label": "Messaggio",
+          "placeholder": "es. Avvio completato"
+        }
+      ]
+    },
+    {
+      "label": "Attendi",
+      "type": "delay",
+      "params": [
+        {
+          "key": "time",
+          "type": "text",
+          "label": "Tempo (es. 2s)",
+          "placeholder": "2s"
+        }
+      ]
+    }
+  ]
+}

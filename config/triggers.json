@@ -1,0 +1,42 @@
+{
+  "triggers": [
+    {
+      "label": "All'avvio del dispositivo",
+      "type": "on_boot",
+      "params": []
+    },
+    {
+      "label": "Quando viene premuto",
+      "type": "on_press",
+      "params": []
+    },
+    {
+      "label": "Quando viene rilasciato",
+      "type": "on_release",
+      "params": []
+    },
+    {
+      "label": "Quando il valore cambia",
+      "type": "on_value",
+      "params": []
+    },
+    {
+      "label": "Quando è in un intervallo",
+      "type": "on_value_range",
+      "params": [
+        {
+          "key": "above",
+          "type": "int",
+          "label": "Maggiore di",
+          "default": 20
+        },
+        {
+          "key": "below",
+          "type": "int",
+          "label": "Minore di",
+          "default": 80
+        }
+      ]
+    }
+  ]
+}

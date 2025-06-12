@@ -1,0 +1,40 @@
+{
+  "scripts": [
+    {
+      "label": "Esegui uno script",
+      "type": "script.execute",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID dello script",
+          "placeholder": "es. apri_porta"
+        }
+      ]
+    },
+    {
+      "label": "Ferma uno script",
+      "type": "script.stop",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID dello script",
+          "placeholder": "es. apri_porta"
+        }
+      ]
+    },
+    {
+      "label": "Riavvia uno script",
+      "type": "script.restart",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID dello script",
+          "placeholder": "es. apri_porta"
+        }
+      ]
+    }
+  ]
+}

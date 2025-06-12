@@ -9,9 +9,11 @@ from PyQt6.QtWidgets import (
     QGraphicsItem, QGraphicsTextItem, QGraphicsProxyWidget,
     QComboBox, QLineEdit, QSpinBox, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 )
-from PyQt6.QtGui import QBrush, QPen, QColor, QFont
-from PyQt6.QtCore import QRectF, Qt
+from PyQt6.QtGui import QBrush, QPen, QColor, QFont, QIcon
+from PyQt6.QtCore import QRectF, Qt, QSize
 from core.translator import Translator
+import config.GUIconfig as conf
+import os
 
 
 class SensorBlockItem(QGraphicsItem):
@@ -19,10 +21,10 @@ class SensorBlockItem(QGraphicsItem):
     @class SensorBlockItem
     @brief Blocco sensore riducibile con header e corpo configurabile.
     """
-    def __init__(self, title="Nuovo Sensore", width=200, height=200):
+    def __init__(self, title="Nuovo Sensore"):
         super().__init__()
-        self.width = width
-        self.height = height
+        self.width = conf.BLOCK_WIDTH
+        self.height = conf.BLOCK_HEIGHT
         self.title = title
         self.expanded = True  # stato iniziale: espanso
         self.conn_type_display = None
@@ -40,32 +42,52 @@ class SensorBlockItem(QGraphicsItem):
         """
         # HEADER: titolo
         self.title_item = QGraphicsTextItem(self.title, self)
-        font = QFont("Consolas", 10, QFont.Weight.Bold)
+        font = QFont("Consolas", 12, QFont.Weight.Bold)
         self.title_item.setFont(font)
         self.title_item.setDefaultTextColor(Qt.GlobalColor.white)
-        self.title_item.setPos(10, 5)
+        self.title_item.setPos(10, 7)
 
-        # Bottone chiusura
-        self.close_btn = QPushButton("❌")
-        self.close_btn.setFixedSize(22, 22)
-        self.close_btn.setStyleSheet("QPushButton { background-color: #ff5f56; color: white; border: none; border-radius: 11px; }"
-                                    "QPushButton:hover { background-color: #ff2d20; }")
+        # Bottone chiusura (❌ -> icona close.png)
+        self.close_btn = QPushButton()
+        self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "close.png")))
+        self.close_btn.setIconSize(QSize(22, 22))
+        self.close_btn.setFixedSize(25, 25)
+        self.close_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #ff5f56;
+                border: none;
+                border-radius: 10px;
+            }
+            QPushButton:hover {
+                background-color: #ff2d20;
+            }
+        """)
         self.close_btn.clicked.connect(self.remove_from_scene)
 
         self.close_proxy = QGraphicsProxyWidget(self)
         self.close_proxy.setWidget(self.close_btn)
-        self.close_proxy.setPos(self.width - 28, 4)
+        self.close_proxy.setPos(self.width - 35, 8)
 
-        # Bottone riduci/espandi
-        self.toggle_btn = QPushButton("🔽")
-        self.toggle_btn.setFixedSize(22, 22)
-        self.toggle_btn.setStyleSheet("QPushButton { background-color: #3a9dda; color: white; border: none; border-radius: 11px; }"
-                                    "QPushButton:hover { background-color: #2277aa; }")
+        # Bottone riduci/espandi (🔽 -> icona expand.png)
+        self.toggle_btn = QPushButton()
+        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIconSize(QSize(22, 22))
+        self.toggle_btn.setFixedSize(25, 25)
+        self.toggle_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #3a9dda;
+                border: none;
+                border-radius: 11px;
+            }
+            QPushButton:hover {
+                background-color: #2277aa;
+            }
+        """)
         self.toggle_btn.clicked.connect(self.toggle_expand)
 
         self.toggle_proxy = QGraphicsProxyWidget(self)
         self.toggle_proxy.setWidget(self.toggle_btn)
-        self.toggle_proxy.setPos(self.width - 54, 4)
+        self.toggle_proxy.setPos(self.width - 74, 8)
 
         # CONTENITORE DEL CORPO
         self.container = QWidget()
@@ -87,10 +109,11 @@ class SensorBlockItem(QGraphicsItem):
         layout.addWidget(self.name_edit)
 
         self.container.setLayout(layout)
+        self.container.setFixedWidth(self.width)
 
         self.proxy = QGraphicsProxyWidget(self)
         self.proxy.setWidget(self.container)
-        self.proxy.setPos(0, 30)
+        self.proxy.setPos(0, 40)
 
 
     def update_title(self, text):
@@ -104,11 +127,16 @@ class SensorBlockItem(QGraphicsItem):
 
     def toggle_expand(self):
         """
-        @brief Mostra o nasconde il corpo del blocco.
+        @brief Mostra o nasconde il corpo del blocco e aggiorna l'icona.
         """
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
-        self.toggle_btn.setText("🔽" if self.expanded else "🔼")
+        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.prepareGeometryChange()
+        self.update()                 # forza il repaint dell'item
+        self.scene().update()
+
+
 
     def remove_from_scene(self):
         """
@@ -119,7 +147,8 @@ class SensorBlockItem(QGraphicsItem):
             scene.removeItem(self)
 
     def boundingRect(self):
-        return QRectF(0, 0, self.width, self.height if self.expanded else 40)
+        return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
+
 
     def paint(self, painter, option, widget=None):
         painter.setBrush(QBrush(QColor("#3c8dbc")))

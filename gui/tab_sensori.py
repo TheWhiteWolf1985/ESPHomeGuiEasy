@@ -6,7 +6,13 @@ from gui.color_pantone import Pantone
 from ruamel.yaml import YAML
 from gui.sensor_block_item import SensorBlockItem
 from core.translator import Translator
-from gui.sensor_selection_dialog import SensorSelectionDialog
+from gui.block_selection_dialog import *
+from gui.sensor_block_item import SensorBlockItem
+from gui.action_block_item import ActionBlockItem
+from gui.trigger_block_item import TriggerBlockItem
+from gui.condition_block_item import ConditionBlockItem
+from gui.timer_block_item import TimerBlockItem
+from gui.script_block_item import ScriptBlockItem
 import os
 
 
@@ -40,19 +46,56 @@ class TabSensori(QWidget):
         self.sensor_canvas = SensorCanvas()
         self.sensor_canvas.setMinimumHeight(400)
 
+        # Pulsanti azione
         self.add_sensor_btn = QPushButton("➕ " + Translator.tr("add_sensor"))
-        self.add_sensor_btn.setStyleSheet(common_btn_style)
-        self.add_sensor_btn.setFixedWidth(180)
-        self.add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)
-
+        self.add_action_btn = QPushButton("➕ " + Translator.tr("add_action"))
+        self.add_trigger_btn = QPushButton("➕ " + Translator.tr("add_trigger"))
+        self.add_condition_btn = QPushButton("➕ " + Translator.tr("add_condition"))
+        self.add_timer_btn = QPushButton("➕ " + Translator.tr("add_timer"))
+        self.add_script_btn = QPushButton("➕ " + Translator.tr("add_script"))
         self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
-        self.update_yaml_btn.setStyleSheet(common_btn_style)
-        self.update_yaml_btn.setFixedWidth(180)
+
+        # Applica stile comune e larghezza fissa
+        for btn in [
+            self.add_sensor_btn, self.add_action_btn, self.add_trigger_btn,
+            self.add_condition_btn, self.add_timer_btn, self.add_script_btn,
+            self.update_yaml_btn
+        ]:
+            btn.setStyleSheet(common_btn_style)
+            btn.setFixedWidth(180)
+
+        # Connessioni ai metodi stub
+        self.add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)
+        self.add_action_btn.clicked.connect(self.aggiungi_blocco_azione)
+        self.add_trigger_btn.clicked.connect(self.aggiungi_blocco_trigger)
+        self.add_condition_btn.clicked.connect(self.aggiungi_blocco_condizione)
+        self.add_timer_btn.clicked.connect(self.aggiungi_blocco_timer)
+        self.add_script_btn.clicked.connect(self.aggiungi_blocco_script)
         self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_blocchi)
 
-        sensor_btn_layout = QHBoxLayout()
-        sensor_btn_layout.addWidget(self.add_sensor_btn)
-        sensor_btn_layout.addWidget(self.update_yaml_btn)
+        # --- Layout a due righe per i pulsanti di aggiunta ---
+        row1 = QHBoxLayout()
+        row1.addWidget(self.add_sensor_btn)
+        row1.addWidget(self.add_action_btn)
+        row1.addWidget(self.add_trigger_btn)
+
+        row2 = QHBoxLayout()
+        row2.addWidget(self.add_condition_btn)
+        row2.addWidget(self.add_timer_btn)
+        row2.addWidget(self.add_script_btn)
+
+        # --- Pulsante aggiornamento YAML centrato ---
+        yaml_row = QHBoxLayout()
+        yaml_row.addStretch()
+        yaml_row.addWidget(self.update_yaml_btn)
+        yaml_row.addStretch()
+
+        # --- Widget contenitore ---
+        sensor_btn_layout = QVBoxLayout()
+        sensor_btn_layout.addLayout(row1)
+        sensor_btn_layout.addLayout(row2)
+        sensor_btn_layout.addSpacing(10)
+        sensor_btn_layout.addLayout(yaml_row)
 
         sensor_btn_widget = QWidget()
         sensor_btn_widget.setLayout(sensor_btn_layout)
@@ -62,35 +105,6 @@ class TabSensori(QWidget):
         sensor_creation.setLayout(sensor_layout)
 
         layout.addWidget(sensor_creation)
-
-    def aggiungi_blocco_sensore(self):
-        """
-        @brief Apre la dialog di selezione sensore e aggiunge un blocco al canvas se confermato.
-        """
-        from gui.sensor_selection_dialog import SensorSelectionDialog
-        import os
-
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
-
-        dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)
-        if dialog.exec():
-            selected = dialog.get_selected_sensor()
-            if selected:
-                blocco = SensorBlockItem(title=selected.get("label", "Nuovo Sensore"))
-
-                # Imposta nome e tipo
-                blocco.name_edit.setText(selected.get("label", ""))
-                conn_type = dialog.detect_connection_type(selected)
-                blocco.conn_type_display.setText(conn_type)
-
-                # Costruzione dinamica dei parametri
-                param_list = selected.get("params", [])
-                blocco.build_from_params(param_list)
-
-                self.sensor_canvas.add_sensor_block(blocco)
-
-
 
     def _editor(self):
         main = self.window()
@@ -134,7 +148,7 @@ class TabSensori(QWidget):
         """
         @brief Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
         """
-        from gui.sensor_selection_dialog import SensorSelectionDialog
+        from gui.block_selection_dialog import SensorSelectionDialog
         from ruamel.yaml import YAML
 
         # 1. Svuota tutti i blocchi esistenti
@@ -214,3 +228,139 @@ class TabSensori(QWidget):
         for item in self.sensor_canvas.scene().items():
             if hasattr(item, "aggiorna_label"):
                 item.aggiorna_label()
+
+    def aggiungi_blocco_sensore(self):
+        """
+        @brief Apre la dialog di selezione sensore e aggiunge un blocco al canvas se confermato.
+        """
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+
+        dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_sensor()
+            if selected:
+                label = selected.get("label", "Nuovo Sensore")
+                solo_nome = label.split(" (")[0]  # Prende tutto prima della prima parentesi aperta
+                blocco = SensorBlockItem(title=solo_nome)
+
+                # Imposta nome e tipo
+                blocco.name_edit.setText(solo_nome)
+                conn_type = dialog.detect_connection_type(selected)
+                blocco.conn_type_display.setText(conn_type)
+
+                # Costruzione dinamica dei parametri
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)                
+
+    def aggiungi_blocco_azione(self):
+        """
+        @brief Apre la dialog di selezione azione e aggiunge un blocco al canvas se confermato.
+        """
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "actions.json")
+
+        from gui.block_selection_dialog import ActionSelectionDialog
+        dialog = ActionSelectionDialog(actions_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_action()
+            if selected:
+                label = selected.get("label", "Nuova Azione")
+                solo_nome = label.split(" (")[0]
+                blocco = ActionBlockItem(title=solo_nome)
+
+                # Costruzione dinamica dei parametri
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)
+
+    def aggiungi_blocco_trigger(self):
+        """
+        @brief Apre la dialog di selezione trigger e aggiunge un blocco al canvas se confermato.
+        """
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "triggers.json")
+
+        from gui.block_selection_dialog import TriggerSelectionDialog
+        dialog = TriggerSelectionDialog(triggers_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_trigger()
+            if selected:
+                label = selected.get("label", "Nuovo Trigger")
+                solo_nome = label.split(" (")[0]
+                blocco = TriggerBlockItem(title=solo_nome)
+
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)
+
+
+    def aggiungi_blocco_condizione(self):
+        """
+        @brief Apre la dialog di selezione condizione e aggiunge un blocco al canvas se confermato.
+        """
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "conditions.json")
+
+        from gui.block_selection_dialog import ConditionSelectionDialog
+        dialog = ConditionSelectionDialog(conditions_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_condition()
+            if selected:
+                label = selected.get("label", "Nuova Condizione")
+                solo_nome = label.split(" (")[0]
+                blocco = ConditionBlockItem(title=solo_nome)
+
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)
+
+
+    def aggiungi_blocco_timer(self):
+        """
+        @brief Apre la dialog di selezione timer e aggiunge un blocco al canvas se confermato.
+        """
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "timers.json")
+
+        from gui.block_selection_dialog import TimerSelectionDialog
+        dialog = TimerSelectionDialog(timers_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_timer()
+            if selected:
+                label = selected.get("label", "Nuovo Timer")
+                solo_nome = label.split(" (")[0]
+                blocco = TimerBlockItem(title=solo_nome)
+
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)
+
+
+    def aggiungi_blocco_script(self):
+        """
+        @brief Apre la dialog di selezione script e aggiunge un blocco al canvas se confermato.
+        """
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "config", "scripts.json")
+
+        from gui.block_selection_dialog import ScriptSelectionDialog
+        dialog = ScriptSelectionDialog(scripts_json_path=json_path, parent=self)
+        if dialog.exec():
+            selected = dialog.get_selected_script()
+            if selected:
+                label = selected.get("label", "Nuovo Script")
+                solo_nome = label.split(" (")[0]
+                blocco = ScriptBlockItem(title=solo_nome)
+
+                param_list = selected.get("params", [])
+                blocco.build_from_params(param_list)
+
+                self.sensor_canvas.add_sensor_block(blocco)
+

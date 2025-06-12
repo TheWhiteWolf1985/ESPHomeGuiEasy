@@ -1,0 +1,40 @@
+{
+  "conditions": [
+    {
+      "label": "Se un sensore è acceso",
+      "type": "binary_sensor.is_on",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID sensore",
+          "placeholder": "es. porta_ingresso"
+        }
+      ]
+    },
+    {
+      "label": "Se un sensore è spento",
+      "type": "binary_sensor.is_off",
+      "params": [
+        {
+          "key": "id",
+          "type": "text",
+          "label": "ID sensore",
+          "placeholder": "es. finestra_bagno"
+        }
+      ]
+    },
+    {
+      "label": "Se la condizione è vera (espressione YAML)",
+      "type": "lambda",
+      "params": [
+        {
+          "key": "code",
+          "type": "text",
+          "label": "Espressione",
+          "placeholder": "return id(mio_valore) > 50;"
+        }
+      ]
+    }
+  ]
+}

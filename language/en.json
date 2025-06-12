@@ -1,5 +1,6 @@
 {
     "add_sensor": "Add Sensor",
+    "add_action": "Add Action",
     "update_yaml": "Update YAML",
     "device_name": "Name:",
     "board": "Board:",
