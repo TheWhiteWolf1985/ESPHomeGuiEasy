@@ -4,9 +4,13 @@
       "label": "DHT11 / DHT22 / AM2302",
       "platform": "dht",
       "params": [
-        {"key": "model", "type": "combo", "label": "Model", "options": ["DHT11", "DHT22", "AM2302"], "default": "DHT22", "required": true},
-        {"key": "pin", "type": "text", "label": "Pin", "required": true},
-        {"key": "update_interval", "type": "int", "label": "Update Interval (s)", "default": 60}
+        {"key": "model","type": "combo","label": "Model","options": ["DHT11", "DHT22", "AM2302"],"default": "DHT22","required": true},
+        {"key": "pin","type": "text","label": "Pin","required": true},
+        {"key": "update_interval","type": "int","label": "Update Interval (s)","default": 60}
+      ],
+      "returns": [
+        {"id": "temperature","label": "Temperatura","unit": "°C","type": "float"},
+        {"id": "humidity","label": "Umidità","unit": "%","type": "float"}
       ]
     },
     {

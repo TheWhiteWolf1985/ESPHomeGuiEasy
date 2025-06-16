@@ -28,6 +28,8 @@ class SensorBlockItem(QGraphicsItem):
         self.title = title
         self.expanded = True  # stato iniziale: espanso
         self.conn_type_display = None
+        self.output_links = {}  # dizionario per tracciare le uscite collegate
+
 
         self.setFlags(
             QGraphicsItem.GraphicsItemFlag.ItemIsMovable |
@@ -115,6 +117,16 @@ class SensorBlockItem(QGraphicsItem):
         self.proxy.setWidget(self.container)
         self.proxy.setPos(0, 40)
 
+        # # === FOOTER USCITE SEMPRE VISIBILE ===
+        # self.footer = QWidget()
+        # footer_layout = QVBoxLayout()
+        # footer_layout.setContentsMargins(8, 4, 8, 8)
+        # self.footer.setLayout(footer_layout)
+        # self.footer.setFixedWidth(self.width)
+
+        # self.footer_proxy = QGraphicsProxyWidget(self)
+        # self.footer_proxy.setWidget(self.footer)
+        # self.footer_proxy.setPos(0, self.height - 60)  # posizione approssimativa, puoi regolare
 
     def update_title(self, text):
         """
@@ -136,8 +148,6 @@ class SensorBlockItem(QGraphicsItem):
         self.update()                 # forza il repaint dell'item
         self.scene().update()
 
-
-
     def remove_from_scene(self):
         """
         @brief Rimuove il blocco dalla scena.
@@ -147,8 +157,8 @@ class SensorBlockItem(QGraphicsItem):
             scene.removeItem(self)
 
     def boundingRect(self):
-        return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
-
+        height = self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT
+        return QRectF(0, 0, self.width, height)  #+ self.footer.height()
 
     def paint(self, painter, option, widget=None):
         painter.setBrush(QBrush(QColor("#3c8dbc")))
@@ -213,4 +223,29 @@ class SensorBlockItem(QGraphicsItem):
                 continue  # Tipo non gestito (può essere esteso)
 
             self.param_widgets[key] = field  # Salva il riferimento
+
+    def build_from_returns(self, return_list):
+        """
+        @brief Crea i collegamenti logici visibili per ogni valore restituito dal sensore.
+        """
+        footer_layout = self.footer.layout()
+        for ret in return_list:
+            rid = ret.get("id", "output")
+            label = ret.get("label", rid)
+            icon_label = QLabel("🔁")
+            text_label = QLabel(label)
+            combo = QComboBox()
+            combo.addItem("Nessun collegamento")
+
+            hbox = QHBoxLayout()
+            hbox.addWidget(icon_label)
+            hbox.addWidget(text_label)
+            hbox.addWidget(combo)
+
+            container = QWidget()
+            container.setLayout(hbox)
+            footer_layout.addWidget(container)
+
+            self.output_links[rid] = combo  # salva per uso logico/serializzazione
+
 

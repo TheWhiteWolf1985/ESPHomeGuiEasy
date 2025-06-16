@@ -243,6 +243,7 @@ class TabSensori(QWidget):
                 label = selected.get("label", "Nuovo Sensore")
                 solo_nome = label.split(" (")[0]  # Prende tutto prima della prima parentesi aperta
                 blocco = SensorBlockItem(title=solo_nome)
+                blocco.sensor_platform = selected.get("platform", "custom")
 
                 # Imposta nome e tipo
                 blocco.name_edit.setText(solo_nome)
