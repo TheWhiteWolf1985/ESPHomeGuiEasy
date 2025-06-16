@@ -149,5 +149,7 @@
     "yaml_editor_is_none": "❌ YAML-Editor ist None. Die Referenz ist ungültig.",
     "yaml_editor_destroyed": "❌ YAML-Editor zerstört: {error}",
     "yaml_update_error": "YAML-TabSensors-Fehler: {error}",
-    "yaml_update_crash_sensors": "YAML-Update-Absturz (Sensoren): {error}"            
+    "yaml_update_crash_sensors": "YAML-Update-Absturz (Sensoren): {error}",       
+    "sensor_block_skipped": "Der Block „{name}“ wurde übersprungen, da er unvollständig war.",
+    "tab_community_projects": "Community-Projekte"     
 }

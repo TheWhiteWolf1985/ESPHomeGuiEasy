@@ -29,6 +29,8 @@ from core.translator import Translator
 from core.project_handler import ProjectHandler
 from core.settings_db import add_recent_file
 from gui.documentation_dialog import DocumentationDialog
+from gui.tab_progetti import TabProgetti
+
 
 
 
@@ -194,6 +196,10 @@ class MainWindow(QMainWindow):
             ota_callback=None
         )
         self.tab_widget.addTab(self.tab_command, Translator.tr("tab_compile_upload"))
+
+        # --- TAB 5: PROGETTI COMMUNITY ---
+        self.tab_progetti = TabProgetti()
+        self.tab_widget.addTab(self.tab_progetti, "🌐 " + Translator.tr("tab_community_projects"))
 
         # --- INSERISCI IL QTabWidget NEL RIGHT_PANE ---
         right_pane.addWidget(self.tab_widget)

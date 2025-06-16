@@ -154,5 +154,7 @@
     "yaml_editor_is_none": "❌ yaml_editor è None. Il riferimento non è più valido.",
     "yaml_editor_destroyed": "❌ Errore editor YAML distrutto: {error}",
     "yaml_update_error": "Errore YAML TabSensori: {error}",
-    "yaml_update_crash_sensors": "YAML update crash (sensori): {error}"
+    "yaml_update_crash_sensors": "YAML update crash (sensori): {error}",
+    "sensor_block_skipped": "Il blocco '{name}' è stato ignorato perché incompleto.",
+    "tab_community_projects": "Progetti della Community"
 }

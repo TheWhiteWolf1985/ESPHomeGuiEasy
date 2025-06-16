@@ -154,5 +154,7 @@
     "yaml_editor_is_none": "❌ yaml_editor is None. The reference is no longer valid.",
     "yaml_editor_destroyed": "❌ YAML editor destroyed error: {error}",
     "yaml_update_error": "YAML TabSensors error: {error}",
-    "yaml_update_crash_sensors": "YAML update crash (sensors): {error}"      
+    "yaml_update_crash_sensors": "YAML update crash (sensors): {error}",
+    "sensor_block_skipped": "The block '{name}' was skipped because it was incomplete.",
+    "tab_community_projects": "Community Projects"      
 }

@@ -29,6 +29,7 @@ class SensorBlockItem(QGraphicsItem):
         self.expanded = True  # stato iniziale: espanso
         self.conn_type_display = None
         self.output_links = {}  # dizionario per tracciare le uscite collegate
+        self.required_fields = {}
 
 
         self.setFlags(
@@ -49,7 +50,7 @@ class SensorBlockItem(QGraphicsItem):
         self.title_item.setDefaultTextColor(Qt.GlobalColor.white)
         self.title_item.setPos(10, 7)
 
-        # Bottone chiusura (❌ -> icona close.png)
+        # Bottone chiusura
         self.close_btn = QPushButton()
         self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "close.png")))
         self.close_btn.setIconSize(QSize(22, 22))
@@ -70,7 +71,7 @@ class SensorBlockItem(QGraphicsItem):
         self.close_proxy.setWidget(self.close_btn)
         self.close_proxy.setPos(self.width - 35, 8)
 
-        # Bottone riduci/espandi (🔽 -> icona expand.png)
+        # Bottone espandi/riduci
         self.toggle_btn = QPushButton()
         self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
         self.toggle_btn.setIconSize(QSize(22, 22))
@@ -91,23 +92,23 @@ class SensorBlockItem(QGraphicsItem):
         self.toggle_proxy.setWidget(self.toggle_btn)
         self.toggle_proxy.setPos(self.width - 74, 8)
 
-        # CONTENITORE DEL CORPO
+        # CONTENITORE COMPLETO DEL BLOCCO (parametri + outputs)
         self.container = QWidget()
         layout = QVBoxLayout()
         layout.setContentsMargins(8, 30, 8, 8)
 
-        # Tipo sensore (visualizzazione sola lettura)
+        # Tipo sensore (solo lettura)
         layout.addWidget(QLabel(Translator.tr("sensor_type")))
         self.conn_type_display = QLineEdit()
         self.conn_type_display.setReadOnly(True)
         self.conn_type_display.setStyleSheet("background-color: #2a2d2e; color: #d4d4d4; border: 1px solid #444; border-radius: 5px;")
         layout.addWidget(self.conn_type_display)
 
-        # Nome sensore (fisso)
+        # Nome sensore
+        layout.addWidget(QLabel(Translator.tr("sensor_name")))
         self.name_edit = QLineEdit()
         self.name_edit.setPlaceholderText(Translator.tr("placeholder_sensor_name"))
         self.name_edit.textChanged.connect(self.update_title)
-        layout.addWidget(QLabel(Translator.tr("sensor_name")))
         layout.addWidget(self.name_edit)
 
         self.container.setLayout(layout)
@@ -116,17 +117,6 @@ class SensorBlockItem(QGraphicsItem):
         self.proxy = QGraphicsProxyWidget(self)
         self.proxy.setWidget(self.container)
         self.proxy.setPos(0, 40)
-
-        # # === FOOTER USCITE SEMPRE VISIBILE ===
-        # self.footer = QWidget()
-        # footer_layout = QVBoxLayout()
-        # footer_layout.setContentsMargins(8, 4, 8, 8)
-        # self.footer.setLayout(footer_layout)
-        # self.footer.setFixedWidth(self.width)
-
-        # self.footer_proxy = QGraphicsProxyWidget(self)
-        # self.footer_proxy.setWidget(self.footer)
-        # self.footer_proxy.setPos(0, self.height - 60)  # posizione approssimativa, puoi regolare
 
     def update_title(self, text):
         """
@@ -157,8 +147,16 @@ class SensorBlockItem(QGraphicsItem):
             scene.removeItem(self)
 
     def boundingRect(self):
-        height = self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT
-        return QRectF(0, 0, self.width, height)  #+ self.footer.height()
+        """
+        @brief Restituisce il rettangolo di delimitazione del blocco.
+        Tiene conto dell'espansione o contrazione.
+        """
+        if self.expanded:
+            content_height = self.container.sizeHint().height()
+        else:
+            content_height = conf.BLOCK_COLLAPSED_HEIGHT
+
+        return QRectF(0, 0, self.width, content_height + 40)
 
     def paint(self, painter, option, widget=None):
         painter.setBrush(QBrush(QColor("#3c8dbc")))
@@ -223,29 +221,73 @@ class SensorBlockItem(QGraphicsItem):
                 continue  # Tipo non gestito (può essere esteso)
 
             self.param_widgets[key] = field  # Salva il riferimento
+            self.required_fields[key] = required
 
     def build_from_returns(self, return_list):
         """
-        @brief Crea i collegamenti logici visibili per ogni valore restituito dal sensore.
+        @brief Crea i campi output del sensore, con nome personalizzabile.
         """
-        footer_layout = self.footer.layout()
+        if not return_list:
+            return
+
+        layout = self.container.layout()
+        self.output_links = {}
+
         for ret in return_list:
-            rid = ret.get("id", "output")
-            label = ret.get("label", rid)
-            icon_label = QLabel("🔁")
-            text_label = QLabel(label)
-            combo = QComboBox()
-            combo.addItem("Nessun collegamento")
+            rid = ret.get("key", "output")
+            label = ret.get("name", rid)
+
+            name_edit = QLineEdit()
+            name_edit.setPlaceholderText(f"{label} name")
+            name_edit.setStyleSheet("background-color: #2a2d2e; color: #d4d4d4; border: 1px solid #444; border-radius: 5px;")
 
             hbox = QHBoxLayout()
-            hbox.addWidget(icon_label)
-            hbox.addWidget(text_label)
-            hbox.addWidget(combo)
+            hbox.addWidget(QLabel("🔁"))
+            hbox.addWidget(QLabel(label))
+            hbox.addWidget(name_edit)
 
             container = QWidget()
             container.setLayout(hbox)
-            footer_layout.addWidget(container)
+            layout.addWidget(container)
 
-            self.output_links[rid] = combo  # salva per uso logico/serializzazione
+            self.output_links[rid] = name_edit  # ora è un QLineEdit per nome output
+
+    def has_valid_data(self) -> bool:
+        """
+        @brief Verifica che tutti i campi richiesti siano stati compilati.
+        Evidenzia i campi mancanti in rosso.
+        @return True se validi, False altrimenti.
+        """
+        valid = True
+
+        for key, widget in self.param_widgets.items():
+            is_required = self.required_fields.get(key, False)
+
+            value = None
+            if isinstance(widget, QLineEdit):
+                value = widget.text().strip()
+            elif isinstance(widget, QComboBox):
+                value = widget.currentText().strip()
+            elif isinstance(widget, QSpinBox):
+                value = widget.value()
+
+            is_invalid = (
+                is_required and (value in ["", None] or (isinstance(value, int) and value == 0))
+            )
+
+            # Colora in rosso se mancante, altrimenti stile normale
+            if is_invalid:
+                widget.setStyleSheet("background-color: #ffcccc; color: #000; border: 1px solid #a00; border-radius: 4px;")
+                valid = False
+            else:
+                # Reset stile (stile scuro coerente)
+                widget.setStyleSheet("background-color: #2a2d2e; color: #d4d4d4; border: 1px solid #444; border-radius: 5px;")
+
+        return valid
+
+
+
+
+
 
 

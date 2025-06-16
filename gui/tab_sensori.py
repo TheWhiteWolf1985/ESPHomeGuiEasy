@@ -15,7 +15,6 @@ from gui.timer_block_item import TimerBlockItem
 from gui.script_block_item import ScriptBlockItem
 import os
 
-
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
         super().__init__()
@@ -116,6 +115,7 @@ class TabSensori(QWidget):
     def aggiorna_yaml_da_blocchi(self):
         """
         @brief Aggiorna SOLO la sezione sensori nel file YAML, mantenendo il resto invariato.
+        Logga eventuali blocchi ignorati per campi incompleti.
         """
         try:
             main = self.window()
@@ -125,13 +125,22 @@ class TabSensori(QWidget):
 
             from core.yaml_handler import YAMLHandler
             current_yaml = editor.toPlainText()
-            new_yaml = YAMLHandler.generate_yaml_sensors_only(
-                canvas=self.sensor_canvas.scene(),
-                current_yaml=current_yaml
-            )
+
+            # Usa metodo esteso con lista blocchi scartati
+            scene = self.sensor_canvas.scene()
+            new_yaml, scartati = YAMLHandler.generate_yaml_sensors_only_with_log(scene, current_yaml)
+
             editor.setPlainText(new_yaml)
+
             if self.logger:
-                self.logger.log(Translator.tr("yaml_updated_from_sensors"), "success")
+                if scartati:
+                    for titolo_blocco in scartati:
+                        self.logger.log(
+                            Translator.tr("sensor_block_skipped").format(name=titolo_blocco),
+                            "warning"
+                        )
+                else:
+                    self.logger.log(Translator.tr("yaml_updated_from_sensors"), "success")
 
         except RuntimeError as e:
             print(f"[Errore YAML TabSensori] {e}")
@@ -148,8 +157,6 @@ class TabSensori(QWidget):
         """
         @brief Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
         """
-        from gui.block_selection_dialog import SensorSelectionDialog
-        from ruamel.yaml import YAML
 
         # 1. Svuota tutti i blocchi esistenti
         self.get_sensor_canvas().clear_blocks()
@@ -196,11 +203,14 @@ class TabSensori(QWidget):
             conn_type = self.tab_settings.detect_connection_type(sensor_def) if hasattr(self.tab_settings, "detect_connection_type") else "custom"
             blocco.conn_type_display.setText(conn_type)
 
-            # Costruisci parametri
+            # Costruisci parametri e outputs
             param_list = sensor_def.get("params", [])
             blocco.build_from_params(param_list)
 
-            # Popola i widget dinamici con i valori dallo YAML
+            outputs = sensor_def.get("outputs", [])
+            blocco.build_from_returns(outputs)
+
+            # Popola i parametri dinamici dal YAML
             for key, widget in blocco.param_widgets.items():
                 value = sensor.get(key)
                 if value is not None:
@@ -216,7 +226,14 @@ class TabSensori(QWidget):
                         if idx >= 0:
                             widget.setCurrentIndex(idx)
 
+            # Popola anche i campi output (es. temperature, humidity)
+            for output_key, output_widget in getattr(blocco, "output_links", {}).items():
+                if output_key in sensor and isinstance(sensor[output_key], dict):
+                    name_val = sensor[output_key].get("name", "")
+                    output_widget.setText(name_val)
+
             self.get_sensor_canvas().add_sensor_block(blocco)
+
 
 
     def aggiorna_label(self):
@@ -254,6 +271,9 @@ class TabSensori(QWidget):
                 param_list = selected.get("params", [])
                 blocco.build_from_params(param_list)
 
+                outputs = selected.get("outputs", [])
+                blocco.build_from_returns(outputs)
+
                 self.sensor_canvas.add_sensor_block(blocco)                
 
     def aggiungi_blocco_azione(self):
@@ -285,7 +305,6 @@ class TabSensori(QWidget):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(base_dir, "..", "config", "triggers.json")
 
-        from gui.block_selection_dialog import TriggerSelectionDialog
         dialog = TriggerSelectionDialog(triggers_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_trigger()
@@ -307,7 +326,6 @@ class TabSensori(QWidget):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(base_dir, "..", "config", "conditions.json")
 
-        from gui.block_selection_dialog import ConditionSelectionDialog
         dialog = ConditionSelectionDialog(conditions_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_condition()
@@ -329,7 +347,6 @@ class TabSensori(QWidget):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(base_dir, "..", "config", "timers.json")
 
-        from gui.block_selection_dialog import TimerSelectionDialog
         dialog = TimerSelectionDialog(timers_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_timer()
@@ -351,7 +368,6 @@ class TabSensori(QWidget):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(base_dir, "..", "config", "scripts.json")
 
-        from gui.block_selection_dialog import ScriptSelectionDialog
         dialog = ScriptSelectionDialog(scripts_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_script()

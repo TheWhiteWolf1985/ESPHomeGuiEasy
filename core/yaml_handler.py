@@ -11,6 +11,8 @@ import json
 from ruamel.yaml import YAML
 from PyQt6.QtWidgets import QGraphicsScene
 from gui.sensor_block_item import SensorBlockItem
+from io import StringIO
+from PyQt6.QtWidgets import *
 
 yaml = YAML()
 yaml.indent(mapping=2, sequence=4, offset=2)
@@ -107,32 +109,43 @@ class YAMLHandler:
                 if isinstance(item, SensorBlockItem):
                     params = {}
 
+                    if not item.has_valid_data():
+                        continue
+
                     # Recupera ogni widget dinamico e il suo valore
                     for key, widget in getattr(item, 'param_widgets', {}).items():
-                        if hasattr(widget, "text"):
-                            value = widget.text().strip()
-                        elif hasattr(widget, "value"):
-                            value = widget.value()
-                        elif hasattr(widget, "currentText"):
+                        value = None
+
+                        if isinstance(widget, QSpinBox):
+                            v = widget.value()
+                            value = f"{v}s" if key == "update_interval" else v
+
+                        elif isinstance(widget, QComboBox):
                             value = widget.currentText().strip()
-                        else:
-                            continue
+
+                        elif isinstance(widget, QLineEdit):
+                            txt = widget.text().strip()
+                            if key == "update_interval" and txt.isdigit():
+                                value = f"{txt}s"
+                            elif txt.isdigit():
+                                value = int(txt)
+                            else:
+                                value = txt
 
                         if value not in ["", None]:
                             params[key] = value
 
                     # Nome principale (fallback se non c'è un campo 'name')
-                    if "name" not in params:
-                        raw_name = item.name_edit.text().strip()
-                        if raw_name:
-                            params["name"] = raw_name
+                    raw_name = item.name_edit.text().strip()
+                    if raw_name and raw_name != item.title:
+                        params["name"] = raw_name
 
                     # Piattaforma sensore (deducibile dal tipo selezionato)
                     sensor_type = item.conn_type_display.text().strip().lower()
                     platform_map = {
                         "analogico": "adc",
                         "digitale": "gpio",
-                        "i2c": "i2c",  # dipenderà poi da piattaforma reale
+                        "i2c": "i2c",
                     }
 
                     platform = item.sensor_platform if hasattr(item, 'sensor_platform') else platform_map.get(sensor_type, "custom")
@@ -140,16 +153,22 @@ class YAMLHandler:
                     # Includi nel blocco YAML
                     yaml_block = {"platform": platform}
                     yaml_block.update(params)
+
+                    # Gestione outputs (es. temperature, humidity)
+                    for output_key, name_widget in getattr(item, "output_links", {}).items():
+                        nome_output = name_widget.text().strip()
+                        if nome_output:
+                            yaml_block[output_key] = {"name": nome_output}
+
                     data['sensor'].append(yaml_block)
 
-
-            from io import StringIO
             output = StringIO()
             yaml.dump(data, output)
             return output.getvalue()
 
         except Exception as e:
             return f"# Errore aggiornamento YAML (sensori): {e}"
+
 
     # -------------------------------------------------------------------------
     # |     Estrazione dei moduli attivi dagli accordion/widget_map           |
@@ -262,3 +281,64 @@ class YAMLHandler:
                 result[gui_name] = values
         return result
 
+    @staticmethod
+    def generate_yaml_sensors_only_with_log(canvas: QGraphicsScene, current_yaml: str) -> tuple[str, list]:
+        """
+        @brief Genera solo la sezione sensori del file YAML, ma restituisce anche una lista di blocchi ignorati.
+        @return (yaml_string, lista_blocchi_scartati)
+        """
+        scartati = []
+        try:
+            data = yaml.load(current_yaml) or {}
+            data['sensor'] = []
+
+            for item in canvas.items():
+                if isinstance(item, SensorBlockItem):
+                    if not item.has_valid_data():
+                        scartati.append(item.title)
+                        continue
+
+                    params = {}
+                    for key, widget in getattr(item, 'param_widgets', {}).items():
+                        value = None
+                        if isinstance(widget, QSpinBox):
+                            v = widget.value()
+                            value = f"{v}s" if key == "update_interval" else v
+                        elif isinstance(widget, QComboBox):
+                            value = widget.currentText().strip()
+                        elif isinstance(widget, QLineEdit):
+                            txt = widget.text().strip()
+                            if key == "update_interval" and txt.isdigit():
+                                value = f"{txt}s"
+                            elif txt.isdigit():
+                                value = int(txt)
+                            else:
+                                value = txt
+
+                        if value not in ["", None]:
+                            params[key] = value
+
+                    raw_name = item.name_edit.text().strip()
+                    if raw_name and raw_name != item.title:
+                        params["name"] = raw_name
+
+                    sensor_type = item.conn_type_display.text().strip().lower()
+                    platform_map = {"analogico": "adc", "digitale": "gpio", "i2c": "i2c"}
+                    platform = item.sensor_platform if hasattr(item, 'sensor_platform') else platform_map.get(sensor_type, "custom")
+
+                    yaml_block = {"platform": platform}
+                    yaml_block.update(params)
+
+                    for output_key, name_widget in getattr(item, "output_links", {}).items():
+                        nome_output = name_widget.text().strip()
+                        if nome_output:
+                            yaml_block[output_key] = {"name": nome_output}
+
+                    data['sensor'].append(yaml_block)
+
+            output = StringIO()
+            yaml.dump(data, output)
+            return output.getvalue(), scartati
+
+        except Exception as e:
+            return f"# Errore aggiornamento YAML (sensori): {e}", []
