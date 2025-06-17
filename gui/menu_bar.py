@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QFileDialog
 import config.GUIconfig as conf
 import os
 from functools import partial
-
+from gui.project_gallery_window import ProjectGalleryWindow
 
 
 class MainMenuBar(QMenuBar):
@@ -66,6 +66,16 @@ class MainMenuBar(QMenuBar):
         self.file_menu.addSeparator()
         self.recent_file_actions = []
         self._update_recent_files_menu()        
+
+        # MENU PROGETTI
+
+        self.project_menu = self.addMenu(Translator.tr("menu_progetti"))
+
+        self.community_project_action = QAction(Translator.tr("progetti_community"), self)
+        self.community_project_action.triggered.connect(self.open_project_gallery_window)
+        self.project_menu.addAction(self.community_project_action)
+
+        # MENU IMPOSTAZIONI
 
         self.settings_menu = self.addMenu(Translator.tr("menu_settings"))
 
@@ -174,6 +184,18 @@ class MainMenuBar(QMenuBar):
             # Aggiorna GUI
             if hasattr(self.parent(), "aggiorna_tutte_le_label"):
                 self.parent().aggiorna_tutte_le_label()
+
+    def open_project_gallery_window(self):
+        """
+        @brief Apre la finestra dei progetti della community.
+        """
+        if not hasattr(self, "_project_gallery_window") or self._project_gallery_window is None:
+            self._project_gallery_window = ProjectGalleryWindow()
+
+        self._project_gallery_window.show()
+        self._project_gallery_window.raise_()
+        self._project_gallery_window.activateWindow()
+
 
     def _update_recent_files_menu(self):
         # Rimuove le precedenti

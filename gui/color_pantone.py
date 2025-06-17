@@ -246,6 +246,13 @@ class Pantone:
             background-color: {ACCENT};
             color: {TEXT_ACCENT};
         }}
+        QListWidget::item {{
+            margin-bottom: 7px;
+            padding: 5px;
+            border: 1px inset {SECONDARY_BG};
+            border-radius: 5px;
+            text-align: center;
+        }}
     """
 
     DIALOG_TITLE_STYLE = """
@@ -275,3 +282,22 @@ class Pantone:
         color: #ffffff;
     }
     """
+
+    COMMON_BUTTON_STYLE = """
+            QPushButton {
+                background-color: #6A9955;
+                color: white;
+                border-radius: 8px;
+                font-size: 12pt;
+                padding: 6px 12px;
+            }
+            QPushButton:hover {
+                background-color: #4e7d44;
+            }
+        """    
+    
+    TAB_WIDGET = """
+            QTabWidget::pane { border: none;}
+            QTabBar::tab:selected { background: #23272e; color: #61dafb; }
+            QTabBar::tab { background: #1e1e1e; color: #d4d4d4; font-size: 12pt; border-radius: 8px; padding: 8px 16px;}
+        """

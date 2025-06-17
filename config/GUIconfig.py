@@ -5,6 +5,7 @@ YAML_TEMPLATE_PATH = "config/default_template.yaml"
 DOCS_PATH = "docs/"
 USER_DB_PATH = "core/user_config.db"
 ICON_PATH = "assets/icon/"
+PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
 APP_VERSION = "1.2.2"
 APP_RELEASE_DATE = "2025-06-11"

@@ -29,10 +29,6 @@ from core.translator import Translator
 from core.project_handler import ProjectHandler
 from core.settings_db import add_recent_file
 from gui.documentation_dialog import DocumentationDialog
-from gui.tab_progetti import TabProgetti
-
-
-
 
 
 class MainWindow(QMainWindow):
@@ -162,11 +158,7 @@ class MainWindow(QMainWindow):
         right_pane = QVBoxLayout()
 
         self.tab_widget = QTabWidget()
-        self.tab_widget.setStyleSheet("""
-            QTabWidget::pane { border: none; }
-            QTabBar::tab:selected { background: #23272e; color: #61dafb; }
-            QTabBar::tab { background: #1e1e1e; color: #d4d4d4; font-size: 12pt; border-radius: 8px; padding: 8px 16px;}
-        """)
+        self.tab_widget.setStyleSheet(Pantone.TAB_WIDGET)
         # --- TAB 1: SETTAGGI PROGETTO ---
         self.tab_settings = TabSettings(
             yaml_editor=self.yaml_editor,
@@ -196,10 +188,6 @@ class MainWindow(QMainWindow):
             ota_callback=None
         )
         self.tab_widget.addTab(self.tab_command, Translator.tr("tab_compile_upload"))
-
-        # --- TAB 5: PROGETTI COMMUNITY ---
-        self.tab_progetti = TabProgetti()
-        self.tab_widget.addTab(self.tab_progetti, "🌐 " + Translator.tr("tab_community_projects"))
 
         # --- INSERISCI IL QTabWidget NEL RIGHT_PANE ---
         right_pane.addWidget(self.tab_widget)

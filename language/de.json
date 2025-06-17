@@ -151,5 +151,6 @@
     "yaml_update_error": "YAML-TabSensors-Fehler: {error}",
     "yaml_update_crash_sensors": "YAML-Update-Absturz (Sensoren): {error}",       
     "sensor_block_skipped": "Der Block „{name}“ wurde übersprungen, da er unvollständig war.",
-    "tab_community_projects": "Community-Projekte"     
+    "menu_progetti": "Projektmenü",
+    "progetti_community": "Community-Projekte"    
 }

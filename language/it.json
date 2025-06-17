@@ -156,5 +156,6 @@
     "yaml_update_error": "Errore YAML TabSensori: {error}",
     "yaml_update_crash_sensors": "YAML update crash (sensori): {error}",
     "sensor_block_skipped": "Il blocco '{name}' è stato ignorato perché incompleto.",
-    "tab_community_projects": "Progetti della Community"
+    "menu_progetti": "Menù progetti",
+    "progetti_community": "Progetti della community"
 }
