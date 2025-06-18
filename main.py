@@ -37,6 +37,7 @@ def main():
     # Carica la lingua da DB
     language = get_setting("language")
 
+    print("Python path:", sys.executable)
     # Carica traduzioni
     Translator.load_language(get_setting("language") or "en")
 

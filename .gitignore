@@ -10,6 +10,7 @@ __pycache__/
 .venv/
 env/
 venv/
+installation_utility/
 
 # Mac/Linux OS files
 .DS_Store
@@ -35,3 +36,4 @@ mkdocs.yml
 board list utility/boards.json
 board list utility/script.py
 config/user_settings.json
+

@@ -7,10 +7,10 @@ USER_DB_PATH = "core/user_config.db"
 ICON_PATH = "assets/icon/"
 PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
-APP_VERSION = "1.2.2"
-APP_RELEASE_DATE = "2025-06-11"
+APP_VERSION = "1.3.0"
+APP_RELEASE_DATE = "2025-06-18"
 
-DEBUG = True  # o False per attivare lo splash
+DEBUG = False  # o False per attivare lo splash
 
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
