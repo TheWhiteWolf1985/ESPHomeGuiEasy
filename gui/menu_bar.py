@@ -98,8 +98,10 @@ class MainMenuBar(QMenuBar):
         )
 
     def update_labels(self):
-        # Aggiorna tutte le label dei menu e voci secondo la lingua attuale
-        self.clear()  # Elimina tutti i menu per forzare la ricostruzione
+        # Elimina tutti i menu e ricrea da zero
+        self.clear()
+
+        # FILE MENU
         self.file_menu = self.addMenu(Translator.tr("menu_file"))
         self.new_action = QAction(Translator.tr("new_project"), self)
         self.open_action = QAction(Translator.tr("open_project"), self)
@@ -110,8 +112,7 @@ class MainMenuBar(QMenuBar):
         self.import_project_action = QAction(Translator.tr("import_project"), self)
         self.export_project_action = QAction(Translator.tr("export_project"), self)
         self.exit_action = QAction(Translator.tr("exit"), self)
-        self.about_action.setText(Translator.tr("menu_about"))
-        self.documentation_action.setText(Translator.tr("menu_documentation"))
+
         self.file_menu.addAction(self.new_action)
         self.file_menu.addAction(self.open_action)
         self.file_menu.addAction(self.save_action)
@@ -121,15 +122,31 @@ class MainMenuBar(QMenuBar):
         self.file_menu.addAction(self.export_action)
         self.file_menu.addSeparator()
         self.file_menu.addAction(self.import_project_action)
-        self.file_menu.addAction(self.export_project_action)        
-        self.file_menu.addSeparator()        
+        self.file_menu.addAction(self.export_project_action)
+        self.file_menu.addSeparator()
         self.file_menu.addAction(self.exit_action)
 
-        # Recreate settings menu
+        self._update_recent_files_menu()
+
+        # PROJECT MENU
+        self.project_menu = self.addMenu(Translator.tr("menu_progetti"))
+        self.community_project_action = QAction(Translator.tr("progetti_community"), self)
+        self.community_project_action.triggered.connect(self.open_project_gallery_window)
+        self.project_menu.addAction(self.community_project_action)
+
+        # SETTINGS MENU
         self.settings_menu = self.addMenu(Translator.tr("menu_settings"))
         self.language_action = QAction(Translator.tr("menu_language"), self)
         self.language_action.triggered.connect(self.open_language_dialog)
         self.settings_menu.addAction(self.language_action)
+
+        # HELP MENU
+        help_menu = self.addMenu("❓")
+        self.about_action.setText(Translator.tr("menu_about"))
+        self.documentation_action.setText(Translator.tr("menu_documentation"))
+        help_menu.addAction(self.about_action)
+        help_menu.addAction(self.documentation_action)
+
 
 
     def show_about_dialog(self):

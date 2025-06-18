@@ -153,5 +153,7 @@
     "yaml_update_crash_sensors": "Fallo de actualización de YAML (sensores): {error}",
     "sensor_block_skipped": "El bloque '{name}' fue omitido porque estaba incompleto.",
     "menu_progetti": "Menú de Proyectos",
-    "progetti_community": "Proyectos Comunitarios"
+    "progetti_community": "Proyectos Comunitarios",
+    "description": "Descripción",
+    "download": "Descargar"
 }

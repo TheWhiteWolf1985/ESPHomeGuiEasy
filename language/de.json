@@ -152,5 +152,7 @@
     "yaml_update_crash_sensors": "YAML-Update-Absturz (Sensoren): {error}",       
     "sensor_block_skipped": "Der Block „{name}“ wurde übersprungen, da er unvollständig war.",
     "menu_progetti": "Projektmenü",
-    "progetti_community": "Community-Projekte"    
+    "progetti_community": "Community-Projekte",
+    "description": "Beschreibung",
+    "download": "Herunterladen"
 }

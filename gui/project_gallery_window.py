@@ -1,11 +1,13 @@
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
-    QScrollArea, QSizePolicy, QListWidget, QLineEdit, QApplication, QListWidgetItem
+    QScrollArea, QSizePolicy, QListWidget, QLineEdit, QApplication, QListWidgetItem, QMessageBox
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from gui.color_pantone import Pantone
 from core.translator import Translator
+from core.github_handler import GitHubHandler
+import config.GUIconfig as config
 import os
 import sys
 
@@ -22,7 +24,36 @@ class ProjectGalleryWindow(QMainWindow):
             "Actuators & I/O", "Communication", "Automation Logic", "Other / Misc"
         ]
 
-        self.project_data = self.get_mock_project_data()
+        self.project_data = GitHubHandler.fetch_project_metadata_list()
+        if not self.project_data:
+            msg = QMessageBox(self)
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Errore di rete")
+            msg.setText("Nessun progetto disponibile.\nControlla la connessione internet oppure riprova più tardi.")
+            msg.setStyleSheet("""
+                QMessageBox {
+                    background-color: #2e2e2e;
+                }
+                QPushButton {
+                    background-color: #444;
+                    color: white;
+                    border-radius: 4px;
+                    padding: 4px 12px;
+                }
+                QPushButton:hover {
+                    background-color: #666;
+                }
+            """)
+
+            # 🔥 forza il colore bianco del testo QLabel interno
+            for child in msg.children():
+                if isinstance(child, QLabel):
+                    child.setStyleSheet("color: white; font-size: 11pt;")
+
+            msg.exec()
+
+
+
         self.category_to_cards = self.build_category_index()
 
         # Layout principale
@@ -69,14 +100,6 @@ class ProjectGalleryWindow(QMainWindow):
 
         self.category_list.setCurrentRow(0)  # carica la prima categoria
 
-    def get_mock_project_data(self):
-        return [
-            {"Name": "Smart DHT", "Version": "1.0", "Author": "Juri", "Update": "2025-06-17", "category": "Home Monitoring"},
-            {"Name": "Energy Tracker", "Version": "2.1", "Author": "Alice", "Update": "2025-06-12", "category": "Energy & Power"},
-            {"Name": "Alarm Hub", "Version": "0.9", "Author": "Bob", "Update": "2025-06-15", "category": "Security & Alarm"},
-            {"Name": "Comms Node", "Version": "3.0", "Author": "Carol", "Update": "2025-06-10", "category": "Communication"},
-        ]
-
     def build_category_index(self):
         result = {cat: [] for cat in self.categories}
         for proj in self.project_data:
@@ -119,7 +142,7 @@ class ProjectGalleryWindow(QMainWindow):
 
         # Campi visibili
         for label_text in ["Name", "Version", "Author", "Update"]:
-            value_text = fields.get(label_text, "-")
+            value_text = fields.get(label_text, fields.get(label_text.lower(), "-"))
 
             row = QVBoxLayout()
             row.setSpacing(4)
@@ -144,11 +167,14 @@ class ProjectGalleryWindow(QMainWindow):
         btn = QWidget()
         btn_layout = QVBoxLayout()
 
-        download_btn = QPushButton("➕ " + Translator.tr("Download"))
+        download_btn = QPushButton("➕ " + Translator.tr("download"))
         download_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)
+        download_btn.clicked.connect(lambda: self.download_project(fields))
 
-        open_card_btn = QPushButton("➕ " + Translator.tr("Apri"))
+        open_card_btn = QPushButton("➕ " + Translator.tr("descrizione"))
         open_card_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)
+        open_card_btn.clicked.connect(lambda _, f=fields: self.mostra_descrizione_progetto(f))
+
 
         btn_layout.addWidget(download_btn)
         btn_layout.addWidget(open_card_btn)
@@ -157,6 +183,69 @@ class ProjectGalleryWindow(QMainWindow):
 
         card.setLayout(card_layout)
         self.scroll_layout.addWidget(card)
+
+    def download_project(self, fields):
+        nome_progetto = fields.get("name", fields.get("Name", "unknown")).strip().replace(" ", "-").lower()
+        local_folder = os.path.join(os.getcwd(), config.COMMUNITY_LOCAL_FOLDER , nome_progetto)
+        os.makedirs(local_folder, exist_ok=True)
+
+        from core.github_handler import GitHubHandler
+        GitHubHandler.download_project_to_folder(nome_progetto, local_folder)
+
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Icon.Information)
+        msg.setWindowTitle("Download completato")
+        msg.setText(f"Il progetto '{nome_progetto}' è stato salvato in:\n{local_folder}")
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #2e2e2e;
+            }
+            QPushButton {
+                background-color: #444;
+                color: white;
+                border-radius: 4px;
+                padding: 4px 12px;
+            }
+            QPushButton:hover {
+                background-color: #666;
+            }
+        """)
+        # Forza il testo bianco nel QLabel interno
+        for child in msg.children():
+            if isinstance(child, QLabel):
+                child.setStyleSheet("color: white; font-size: 11pt;")
+
+        msg.exec()
+
+    def mostra_descrizione_progetto(self, fields):
+        nome = fields.get("name", fields.get("Name", "Senza nome"))
+        descrizione = fields.get("description", "Nessuna descrizione disponibile.")
+
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Icon.Information)
+        msg.setWindowTitle(f"{nome}")
+        msg.setText(descrizione)
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #2e2e2e;
+            }
+            QPushButton {
+                background-color: #444;
+                color: white;
+                border-radius: 4px;
+                padding: 4px 12px;
+            }
+            QPushButton:hover {
+                background-color: #666;
+            }
+        """)
+        for child in msg.children():
+            if isinstance(child, QLabel):
+                child.setStyleSheet("color: white; font-size: 11pt;")
+        msg.exec()
+
+
+
 
 
 # if __name__ == "__main__":

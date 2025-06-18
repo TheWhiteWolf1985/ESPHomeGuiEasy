@@ -157,5 +157,7 @@
     "yaml_update_crash_sensors": "YAML update crash (sensors): {error}",
     "sensor_block_skipped": "The block '{name}' was skipped because it was incomplete.",
     "menu_progetti": "Projects Menu",
-    "progetti_community": "Community Projects"     
+    "progetti_community": "Community Projects",
+    "description": "Description",
+    "download": "Download"     
 }

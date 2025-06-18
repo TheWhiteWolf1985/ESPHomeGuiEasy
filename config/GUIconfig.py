@@ -14,6 +14,10 @@ DEBUG = True  # o False per attivare lo splash
 
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
+REPO_OWNER = "TheWhiteWolf1985"
+REPO_NAME = "esphomeguieasy-projects"
+PROJECTS_PATH = "progetti"
+COMMUNITY_LOCAL_FOLDER = "community_project"
 
 # Dimensioni della finestra principale
 MAIN_WINDOW_HEIGHT = 900

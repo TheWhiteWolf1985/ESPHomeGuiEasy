@@ -157,5 +157,7 @@
     "yaml_update_crash_sensors": "YAML update crash (sensori): {error}",
     "sensor_block_skipped": "Il blocco '{name}' è stato ignorato perché incompleto.",
     "menu_progetti": "Menù progetti",
-    "progetti_community": "Progetti della community"
+    "progetti_community": "Progetti della community",
+    "descrizione": "Descrizione",
+    "download": "Download"
 }
