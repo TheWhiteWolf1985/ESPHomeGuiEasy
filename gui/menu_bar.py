@@ -88,14 +88,8 @@ class MainMenuBar(QMenuBar):
                 # --- HELP MENU ---
         help_menu = self.addMenu("❓")
         self.about_action = QAction(Translator.tr("menu_about"), self)
-        self.documentation_action = QAction(Translator.tr("menu_documentation"), self)
         help_menu.addAction(self.about_action)
-        help_menu.addAction(self.documentation_action)
         self.about_action.triggered.connect(self.show_about_dialog)
-        # Deleghiamo la documentazione alla finestra principale
-        # self.documentation_action.triggered.connect(
-        #     lambda: self.parent().show_documentation()
-        # )
 
     def update_labels(self):
         # Elimina tutti i menu e ricrea da zero
@@ -143,9 +137,7 @@ class MainMenuBar(QMenuBar):
         # HELP MENU
         help_menu = self.addMenu("❓")
         self.about_action.setText(Translator.tr("menu_about"))
-        self.documentation_action.setText(Translator.tr("menu_documentation"))
         help_menu.addAction(self.about_action)
-        #help_menu.addAction(self.documentation_action)
 
 
 

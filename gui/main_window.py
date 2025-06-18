@@ -27,8 +27,6 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.project_handler import ProjectHandler
 from core.settings_db import add_recent_file
-from gui.documentation_dialog import DocumentationDialog
-
 
 class MainWindow(QMainWindow):
     """
@@ -385,43 +383,6 @@ class MainWindow(QMainWindow):
             self.logger.log, self.open_project  # open_project = funzione per aprire un nuovo progetto in GUI
         )        
     
-    # ------------------------------------------------------------------
-    #                    DOCUMENTAZIONE (Qt Web)
-    # ------------------------------------------------------------------
-    def show_documentation(self):
-        """
-        Apre la documentazione HTML in un QDialog con QWebEngineView.
-        Usa la lingua configurata in user_settings.json, con fallback su 'en'.
-        Se i file locali mancano, apre il sito ufficiale di ESPHome.
-        """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        docs_root = conf.DOCS_PATH
-        settings_file = conf.CONFIG_PATH
-
-        # Lingua default
-        lang = "it"
-
-        try:
-            with open(settings_file, "r", encoding="utf-8") as f:
-                settings = json.load(f)
-                lang = settings.get("language", "it").lower()
-        except Exception:
-            pass  # se qualcosa va storto, resta "it"
-
-        # Percorso documentazione nella lingua scelta
-        doc_file = os.path.join(docs_root, lang, "index.html")
-        fallback_file = os.path.join(docs_root, "en", "index.html")
-
-        if os.path.exists(doc_file):
-            path_to_open = doc_file
-        elif os.path.exists(fallback_file):
-            path_to_open = fallback_file
-        else:
-            path_to_open = "https://esphome.io/"
-
-        dlg = DocumentationDialog(path_to_open, parent=self)
-        dlg.exec()
-
     @pyqtSlot(str, str)
     def log_from_thread(self, message: str, level: str):
         """
