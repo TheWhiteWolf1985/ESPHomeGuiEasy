@@ -11,7 +11,6 @@ import config.GUIconfig as conf
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt, QUrl, pyqtSlot
 from PyQt6.QtGui import QPalette, QColor, QIcon
-from PyQt6.QtWebEngineWidgets import QWebEngineView
 from core.yaml_highlighter import YamlHighlighter
 from core.yaml_handler import YAMLHandler
 from gui.yaml_editor import YamlCodeEditor

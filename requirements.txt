@@ -1,6 +1,5 @@
 # Core GUI
 pyqt6>=6.5.0
-pyqt6-webengine>=6.5.0
 
 # Serial communication
 pyserial>=3.5
