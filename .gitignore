@@ -24,7 +24,6 @@ installation_utility/
 
 # Output folders
 dist/
-build/
 
 # YAML editor backup (eventuale)
 *.bak

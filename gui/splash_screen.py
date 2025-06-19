@@ -155,7 +155,7 @@ class SplashScreen(QSplashScreen):
             raise Exception("File base progetto mancante: config/default_template.yaml")
 
     def check_working_folders(self):
-        for folder in ["docs", "build", "examples"]:
+        for folder in ["assets", "build", "core", "config", "gui", "language"]:
             os.makedirs(folder, exist_ok=True)
 
     def check_online_version(self):
