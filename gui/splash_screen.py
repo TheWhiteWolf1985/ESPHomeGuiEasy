@@ -84,6 +84,7 @@ class SplashScreen(QSplashScreen):
             (Translator.tr("splash_check_user_settings"), self.check_user_settings),
             (Translator.tr("splash_check_base_project"), self.check_base_project_template),
             (Translator.tr("splash_check_working_folders"), self.check_working_folders),
+            ("Controllo cartella progetti community...", self.check_community_folder),
             (Translator.tr("splash_start_completed"), lambda: None)
         ]
         self.current_step = 0
@@ -202,3 +203,8 @@ class SplashScreen(QSplashScreen):
                     self.status_label.setText(Translator.tr("version_up_to_date"))
         except Exception:
             self.status_label.setText(Translator.tr("version_check_failed"))                 
+
+    def check_community_folder(self):
+        community_path = conf.COMMUNITY_LOCAL_FOLDER
+        os.makedirs(community_path, exist_ok=True)
+        self.status_label.setText(f"Cartella community: {community_path}")

@@ -1,3 +1,8 @@
+import os
+from pathlib import Path
+
+COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
+
 APP_NAME = "ESPHomeGuiEasy"
 SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
 SPLASH_IMAGE = "assets/background_image.png"
@@ -17,7 +22,6 @@ RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
 REPO_OWNER = "TheWhiteWolf1985"
 REPO_NAME = "esphomeguieasy-projects"
 PROJECTS_PATH = "progetti"
-COMMUNITY_LOCAL_FOLDER = "community_project"
 
 # Dimensioni della finestra principale
 MAIN_WINDOW_HEIGHT = 900

@@ -186,10 +186,9 @@ class ProjectGalleryWindow(QMainWindow):
 
     def download_project(self, fields):
         nome_progetto = fields.get("name", fields.get("Name", "unknown")).strip().replace(" ", "-").lower()
-        local_folder = os.path.join(os.getcwd(), config.COMMUNITY_LOCAL_FOLDER , nome_progetto)
+        local_folder = os.path.join(config.COMMUNITY_LOCAL_FOLDER, nome_progetto)
         os.makedirs(local_folder, exist_ok=True)
 
-        from core.github_handler import GitHubHandler
         GitHubHandler.download_project_to_folder(nome_progetto, local_folder)
 
         msg = QMessageBox(self)
