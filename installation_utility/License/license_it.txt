@@ -1,0 +1,7 @@
+ESPHomeGuiEasy - Copyright (c) 2025 Juri
+
+Questo programma è software libero: puoi redistribuirlo e/o modificarlo secondo i termini della GNU Affero General Public License così come pubblicata dalla Free Software Foundation, versione 3 o successive.
+
+Questo programma è distribuito nella speranza che possa essere utile, ma SENZA ALCUNA GARANZIA; senza neppure la garanzia implicita di COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedi la GNU Affero General Public License per maggiori dettagli.
+
+Dovresti aver ricevuto una copia della GNU Affero General Public License insieme a questo programma. In caso contrario, vedi <https://www.gnu.org/licenses/>.
