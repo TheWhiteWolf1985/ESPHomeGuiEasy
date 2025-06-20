@@ -92,20 +92,45 @@ class MainMenuBar(QMenuBar):
         self.about_action.triggered.connect(self.show_about_dialog)
 
     def update_labels(self):
-        # Elimina tutti i menu e ricrea da zero
+    # Elimina tutti i menu e ricrea da zero
         self.clear()
+
+        parent = self.parent()
 
         # FILE MENU
         self.file_menu = self.addMenu(Translator.tr("menu_file"))
+
         self.new_action = QAction(Translator.tr("new_project"), self)
+        self.new_action.setShortcut("Ctrl+N")
+        self.new_action.triggered.connect(parent.nuovo_progetto)
+
         self.open_action = QAction(Translator.tr("open_project"), self)
+        self.open_action.setShortcut("Ctrl+O")
+        self.open_action.triggered.connect(lambda _: parent.open_project_dialog())
+
         self.save_action = QAction(Translator.tr("save_project"), self)
+        self.save_action.setShortcut("Ctrl+S")
+        self.save_action.triggered.connect(parent.salva_progetto)
+
         self.saveas_action = QAction(Translator.tr("save_as"), self)
+        self.saveas_action.setShortcut("Ctrl+Shift+S")
+        self.saveas_action.triggered.connect(parent.salva_con_nome)
+
         self.import_action = QAction(Translator.tr("import_yaml"), self)
+        self.import_action.triggered.connect(parent.importa_yaml)
+
         self.export_action = QAction(Translator.tr("export_yaml"), self)
+        self.export_action.triggered.connect(parent.esporta_yaml)
+
         self.import_project_action = QAction(Translator.tr("import_project"), self)
+        self.import_project_action.triggered.connect(parent.import_project)
+
         self.export_project_action = QAction(Translator.tr("export_project"), self)
+        self.export_project_action.triggered.connect(parent.export_project)
+
         self.exit_action = QAction(Translator.tr("exit"), self)
+        self.exit_action.setShortcut("Ctrl+Q")
+        self.exit_action.triggered.connect(parent.close)
 
         self.file_menu.addAction(self.new_action)
         self.file_menu.addAction(self.open_action)
@@ -138,6 +163,8 @@ class MainMenuBar(QMenuBar):
         help_menu = self.addMenu("❓")
         self.about_action.setText(Translator.tr("menu_about"))
         help_menu.addAction(self.about_action)
+        self.about_action.triggered.connect(self.show_about_dialog)
+
 
 
 

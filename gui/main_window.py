@@ -395,7 +395,7 @@ class MainWindow(QMainWindow):
         """
         Restituisce il percorso del file YAML da usare per upload/compile:
         - Se esiste un salvataggio → salva lì
-        - Altrimenti crea un file temporaneo in .temp/ dentro il progetto
+        - Altrimenti crea un file temporaneo in una cartella scrivibile
         """
         yaml_text = self.yaml_editor.toPlainText()
 
@@ -405,9 +405,14 @@ class MainWindow(QMainWindow):
             self.logger.log(f"📄 File salvato su: {self.last_save_path}", "success")
             return self.last_save_path
 
-        # Se non c'è project_dir, crea comunque qualcosa nel cwd
-        base_dir = self.project_dir or os.getcwd()
-        temp_dir = os.path.join(base_dir, ".temp")
+        # Se non c'è project_dir, usa cartella sicura in APPDATA
+        if self.project_dir:
+            base_dir = self.project_dir
+            temp_dir = os.path.join(base_dir, ".temp")
+        else:
+            base_dir = os.path.join(os.environ["APPDATA"], "ESPHomeGUIeasy")
+            temp_dir = os.path.join(base_dir, "temp")
+
         os.makedirs(temp_dir, exist_ok=True)
         temp_path = os.path.join(temp_dir, "__temp_upload.yaml")
 
@@ -417,3 +422,4 @@ class MainWindow(QMainWindow):
         self.logger.log("⚠️ Progetto non salvato. Uso file temporaneo.", "warning")
         self.logger.log(f"📄 File generato: {temp_path}", "info")
         return temp_path
+
