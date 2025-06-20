@@ -10,7 +10,6 @@ __pycache__/
 .venv/
 env/
 venv/
-installation_utility/
 
 # Mac/Linux OS files
 .DS_Store
