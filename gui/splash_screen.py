@@ -9,7 +9,6 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QTimer, QSize
 from importlib.metadata import version, PackageNotFoundError
 from core.translator import Translator
-from gui.language_selection_dialog import LanguageSelectionDialog
 from core.settings_db import init_db, get_setting, set_setting
 
 
@@ -77,7 +76,7 @@ class SplashScreen(QSplashScreen):
         self.counter = 0
 
         self.init_steps = [
-            (Translator.tr("splash_check_updates"), self.check_online_version),
+            (self.maybe_check_updates_step, self.maybe_check_online_version),
             (Translator.tr("splash_check_python"), self.check_python_version),
             (Translator.tr("splash_check_requirements"), self.check_requirements_file),
             (Translator.tr("splash_check_dependencies"), self.check_required_libraries),
@@ -208,3 +207,11 @@ class SplashScreen(QSplashScreen):
         community_path = conf.COMMUNITY_LOCAL_FOLDER
         os.makedirs(community_path, exist_ok=True)
         self.status_label.setText(f"Cartella community: {community_path}")
+
+    def maybe_check_updates_step(self):
+        return Translator.tr("splash_check_updates") if get_setting("check_updates") == "1" else "Aggiornamenti disabilitati"
+
+    def maybe_check_online_version(self):
+        if get_setting("check_updates") != "1":
+            return  # salta il controllo se disabilitato
+        self.check_online_version()

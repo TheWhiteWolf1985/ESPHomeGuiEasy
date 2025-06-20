@@ -4,7 +4,6 @@ from core.translator import Translator
 from gui.color_pantone import Pantone
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from gui.language_selection_dialog import LanguageSelectionDialog
 from core.settings_db import set_setting, get_setting
 from core.settings_db import get_recent_files
 from PyQt6.QtWidgets import QFileDialog
@@ -12,6 +11,8 @@ import config.GUIconfig as conf
 import os
 from functools import partial
 from gui.project_gallery_window import ProjectGalleryWindow
+from gui.setting_menu import SettingsDialog
+
 
 
 class MainMenuBar(QMenuBar):
@@ -79,11 +80,9 @@ class MainMenuBar(QMenuBar):
 
         self.settings_menu = self.addMenu(Translator.tr("menu_settings"))
 
-        self.language_action = QAction(Translator.tr("menu_language"), self)
-        self.language_action.triggered.connect(self.open_language_dialog)
-        self.settings_menu.addAction(self.language_action)
-
-        self.current_language = Translator.current_language()
+        self.full_settings_action = QAction(Translator.tr("menu_full_settings"), self)
+        self.full_settings_action.triggered.connect(self.open_full_settings_dialog)
+        self.settings_menu.addAction(self.full_settings_action)
 
                 # --- HELP MENU ---
         help_menu = self.addMenu("❓")
@@ -155,18 +154,16 @@ class MainMenuBar(QMenuBar):
 
         # SETTINGS MENU
         self.settings_menu = self.addMenu(Translator.tr("menu_settings"))
-        self.language_action = QAction(Translator.tr("menu_language"), self)
-        self.language_action.triggered.connect(self.open_language_dialog)
-        self.settings_menu.addAction(self.language_action)
+        self.full_settings_action = QAction(Translator.tr("menu_full_settings"), self)
+        self.full_settings_action.triggered.connect(self.open_full_settings_dialog)
+        self.settings_menu.addAction(self.full_settings_action)
+
 
         # HELP MENU
         help_menu = self.addMenu("❓")
         self.about_action.setText(Translator.tr("menu_about"))
         help_menu.addAction(self.about_action)
         self.about_action.triggered.connect(self.show_about_dialog)
-
-
-
 
     def show_about_dialog(self):
         # Prendi dati versione (da config)
@@ -209,18 +206,6 @@ class MainMenuBar(QMenuBar):
         dlg.setLayout(layout)
         dlg.exec()
 
-    def open_language_dialog(self):
-        dlg = LanguageSelectionDialog(self)
-        if dlg.exec() == QDialog.DialogCode.Accepted and dlg.get_selected_language():
-            lang = dlg.get_selected_language()
-            from core.translator import Translator
-            Translator.load_language(lang)
-            set_setting("language", lang)
-
-            # Aggiorna GUI
-            if hasattr(self.parent(), "aggiorna_tutte_le_label"):
-                self.parent().aggiorna_tutte_le_label()
-
     def open_project_gallery_window(self):
         """
         @brief Apre la finestra dei progetti della community.
@@ -256,3 +241,8 @@ class MainMenuBar(QMenuBar):
 
     def _make_open_file_handler(self, path: str):
         return lambda checked=False: self._open_recent_file(path)
+    
+    def open_full_settings_dialog(self):
+        dlg = SettingsDialog(self)
+        dlg.exec()
+

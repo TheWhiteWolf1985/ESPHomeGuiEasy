@@ -15,8 +15,6 @@ PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 APP_VERSION = "1.3.0"
 APP_RELEASE_DATE = "2025-06-18"
 
-DEBUG = False  # o False per attivare lo splash
-
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
 REPO_OWNER = "TheWhiteWolf1985"
