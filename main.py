@@ -15,6 +15,17 @@ from gui.splash_screen import SplashScreen
 import config.GUIconfig as conf
 from core.settings_db import init_db, get_setting, set_setting
 
+def should_show_splash() -> bool:
+    """
+    Restituisce True se lo splash screen deve essere mostrato.
+    Se la chiave non è ancora presente nel database, imposta il valore predefinito a '1'.
+    """
+    splash_setting = get_setting("show_splash")
+    if splash_setting is None:
+        set_setting("show_splash", "1")
+        return True
+    return splash_setting == "1"
+
 def show_main_window():
     window = MainWindow()
     window.show()
@@ -42,8 +53,8 @@ def main():
     Translator.load_language(get_setting("language") or "en")
 
     # Splash attivo solo se DEBUG è False
-    if not conf.DEBUG:
-        pixmap = QPixmap(conf.SPLASH_IMAGE)  # Sostituisci con percorso reale
+    if should_show_splash():
+        pixmap = QPixmap(conf.SPLASH_IMAGE)
         splash = SplashScreen(pixmap)
         splash.show()
         splash.start_initialization(on_complete_callback=show_main_window)

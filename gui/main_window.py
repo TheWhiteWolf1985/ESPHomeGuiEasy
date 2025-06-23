@@ -26,7 +26,7 @@ from gui.tab_modules import TabModules
 from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.project_handler import ProjectHandler
-from core.settings_db import add_recent_file
+from core.settings_db import add_recent_file, get_setting
 
 class MainWindow(QMainWindow):
     """
@@ -228,7 +228,12 @@ class MainWindow(QMainWindow):
         - Imposta la directory progetto per compilazione/output
         """
         # 1. Prompt per cartella principale
-        root_dir = QFileDialog.getExistingDirectory(self, Translator.tr("select_project_dir"))
+        default_folder = get_setting("default_project_path") or ""
+        root_dir = QFileDialog.getExistingDirectory(
+            self,
+            Translator.tr("select_project_dir"),
+            default_folder
+)
         if not root_dir:
             return  # Annullato
 
