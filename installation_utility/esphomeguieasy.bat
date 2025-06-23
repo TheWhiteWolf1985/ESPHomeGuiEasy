@@ -33,6 +33,16 @@
 ::978f952a14a936cc963da21a135fa983
 @echo off
 cd /d "%~dp0"
+
+:: Log file
 echo Avvio ESPHomeGUIeasy... > "%TEMP%\esphomeguieasy_log.txt"
-call venv\Scripts\activate.bat
-python main.py
+
+:: Lancia il programma usando il Python nel venv
+venv\Scripts\python.exe main.py >> "%TEMP%\esphomeguieasy_log.txt" 2>&1
+
+:: Se c'è stato errore, mostra messaggio
+if errorlevel 1 (
+    echo Errore durante l'esecuzione. Controlla il file di log in %TEMP%\esphomeguieasy_log.txt
+    pause
+)
+
