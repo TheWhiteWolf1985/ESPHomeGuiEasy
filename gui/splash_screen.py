@@ -99,7 +99,7 @@ class SplashScreen(QSplashScreen):
     def perform_next_step(self):
         if self.current_step < len(self.init_steps):
             message, func = self.init_steps[self.current_step]
-            self.status_label.setText(message)
+            self.status_label.setText(str(message()) if callable(message) else str(message))
             QApplication.processEvents()
             try:
                 func()

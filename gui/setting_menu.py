@@ -190,7 +190,7 @@ class SettingsDialog(QDialog):
         self.splash_checkbox = QCheckBox(Translator.tr("settings_splash"))
         layout.addWidget(self.splash_checkbox)
 
-        layout.addSpacerItem()
+        layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
 
         self.update_checkbox = QCheckBox(Translator.tr("settings_check_updates"))
         layout.addWidget(self.update_checkbox)
