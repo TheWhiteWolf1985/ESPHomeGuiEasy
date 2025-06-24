@@ -10,15 +10,15 @@ from core.settings_db import get_setting
 from PyQt6.QtWidgets import QMessageBox
 from core.translator import Translator
 from gui.splash_screen import SplashScreen
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 import config.GUIconfig as conf
-
+import os
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(Translator.tr("settings_title"))
-        self.setMinimumSize(800, 550)
+        self.setFixedSize(800, 550)
         self.setStyleSheet(Pantone.DIALOG_STYLE)
 
         self.line = QFrame()
@@ -39,6 +39,10 @@ class SettingsDialog(QDialog):
         self.category_list.addItem(Translator.tr("settings_paths"))
         self.category_list.addItem(Translator.tr("settings_startup"))
         self.category_list.addItem(Translator.tr("settings_advanced"))
+        icon_path = os.path.join(os.path.dirname(__file__), "..", "assets/icon", "esphome.png")
+        icon = QIcon(icon_path)
+        esphome_item = QListWidgetItem(icon, "ESPHome Version")
+        self.category_list.addItem(esphome_item)
         self.category_list.currentRowChanged.connect(self.switch_category)
         self.category_list.setSpacing(6)
         self.category_list.setStyleSheet(Pantone.LISTWIDGET_STYLE)
@@ -61,6 +65,8 @@ class SettingsDialog(QDialog):
         self.stack.addWidget(self.create_paths_page())
         self.stack.addWidget(self.create_startup_page())
         self.stack.addWidget(self.create_advanced_page())
+        self.stack.addWidget(self.create_esphome_page())
+
 
         content_layout.addWidget(self.stack)
         main_layout.addLayout(content_layout)
@@ -286,6 +292,66 @@ class SettingsDialog(QDialog):
         splash = SplashScreen(pixmap)
         splash.check_online_version()  # solo controllo, nessun ciclo completo
         splash.show()
+
+    def create_esphome_page(self):
+        page = QWidget()
+        layout = QVBoxLayout(page)
+
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        # Logo
+        esphome_img = os.path.join(os.path.dirname(__file__), "..", "assets/icon", "esphome.png")
+        logo = QPixmap(esphome_img).scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        logo_label = QLabel()
+        logo_label.setPixmap(logo)
+        logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(logo_label)
+
+        # Titolo
+        label_title = QLabel(Translator.tr("settings_esphome_title"))
+        label_title.setStyleSheet("font-size: 16px; font-weight: bold;")
+        layout.addWidget(label_title)
+
+        # Recupero informazioni
+        import subprocess, shutil, sys, urllib.request
+
+        # Versione ESPHome
+        try:
+            result = subprocess.run(["esphome", "version"], capture_output=True, text=True)
+            version = result.stdout.strip()
+        except Exception as e:
+            version = Translator.tr("esphome_version_error").format(error=str(e))
+
+        label_version = QLabel(f"🔢 {version}")
+        layout.addWidget(label_version)
+
+        # Percorso eseguibile
+        esphome_path = shutil.which("esphome")
+        if esphome_path:
+            label_path = QLabel(f"📁 {Translator.tr('esphome_path')}: {esphome_path}")
+            label_path.setWordWrap(True)
+            label_path.setMaximumWidth(700)
+            label_path.setToolTip(esphome_path)
+            label_path.setStyleSheet("font-family: Consolas, monospace;")
+        else:
+            label_path = QLabel(f"❌ {Translator.tr('esphome_not_found')}")
+        layout.addWidget(label_path)
+
+
+        # Versione Python
+        label_py = QLabel(f"🐍 {Translator.tr('python_version')}: {sys.version.split()[0]}")
+        layout.addWidget(label_py)
+
+        # Stato sito
+        try:
+            urllib.request.urlopen("https://esphome.io", timeout=3)
+            online_label = QLabel(f"🌐 esphome.io: ✅ {Translator.tr('online')}")
+        except:
+            online_label = QLabel(f"🌐 esphome.io: ❌ {Translator.tr('offline')}")
+        layout.addWidget(online_label)
+
+        return page
 
 
 

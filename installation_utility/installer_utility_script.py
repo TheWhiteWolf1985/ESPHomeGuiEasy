@@ -103,7 +103,8 @@ def create_venv_and_install_requirements(install_dir, base_path):
     venv_path = os.path.join(install_dir, "venv")
     print("🐍 Creo ambiente virtuale...")
 
-    subprocess.check_call([sys.executable, "-m", "venv", venv_path])
+    python_embed_exe = os.path.join(base_path, PYTHON_FOLDER, "python.exe")
+    subprocess.check_call([python_embed_exe, "-m", "venv", venv_path])
 
     pip_exe = os.path.join(venv_path, "Scripts", "pip.exe")
     python_exe = os.path.join(venv_path, "Scripts", "python.exe")

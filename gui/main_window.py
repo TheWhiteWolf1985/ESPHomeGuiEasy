@@ -143,7 +143,7 @@ class MainWindow(QMainWindow):
         self.logger = LOGHandler(self.console_output)
         self.compiler = CompileManager(self.logger.log)
         self.compiler.window = self
-        self.logger.log("Console avviata...", "info")  
+        self.logger.log(Translator.tr("console_started"), "info")  
 
         left_bottom = QHBoxLayout()
         left_bottom.addWidget(self.console_output)
@@ -407,7 +407,7 @@ class MainWindow(QMainWindow):
         if self.last_save_path:
             with open(self.last_save_path, "w", encoding="utf-8") as f:
                 f.write(yaml_text)
-            self.logger.log(f"📄 File salvato su: {self.last_save_path}", "success")
+            self.logger.log(Translator.tr("file_saved_to").format(path=self.last_save_path), "success")
             return self.last_save_path
 
         # Se non c'è project_dir, usa cartella sicura in APPDATA
@@ -424,7 +424,7 @@ class MainWindow(QMainWindow):
         with open(temp_path, "w", encoding="utf-8") as f:
             f.write(yaml_text)
 
-        self.logger.log("⚠️ Progetto non salvato. Uso file temporaneo.", "warning")
-        self.logger.log(f"📄 File generato: {temp_path}", "info")
+        self.logger.log(Translator.tr("unsaved_project_temp_warning"), "warning")
+        self.logger.log(Translator.tr("temp_file_generated").format(temp_path=temp_path), "info")
         return temp_path
 

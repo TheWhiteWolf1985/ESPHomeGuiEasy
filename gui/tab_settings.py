@@ -105,8 +105,7 @@ class TabSettings(QWidget):
         self.general_form.addRow(QLabel(Translator.tr("password")), self.wifi_pass_edit)
         self.general_data.setLayout(self.general_form)
 
-        self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
-        self.update_yaml_btn.setFixedWidth(390)
+        self.update_yaml_btn = QPushButton("🔁 " + Translator.tr("update_yaml"))
         self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)
 
         # --- Aggiungi widget a layout principale ---
@@ -114,7 +113,9 @@ class TabSettings(QWidget):
         layout.addWidget(self.show_pinout_btn, alignment=Qt.AlignmentFlag.AlignHCenter)
         layout.addWidget(divider)
         layout.addWidget(self.general_data)
+        layout.addStretch()
         layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
+
 
     # --- GETTER per accedere ai dati ---
     def get_device_name(self):
@@ -301,7 +302,8 @@ class TabSettings(QWidget):
         self.general_form.labelForField(self.wifi_ssid_edit).setText(Translator.tr("ssid"))
         self.general_form.labelForField(self.wifi_pass_edit).setText(Translator.tr("password"))
         self.general_form.labelForField(self.board_container).setText(Translator.tr("board"))
-        self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+        self.update_yaml_btn.setText("🔁 " + Translator.tr("update_yaml"))
+        
 
 
     # ----------------------------------------------------------------

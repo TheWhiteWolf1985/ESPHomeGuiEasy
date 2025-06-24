@@ -19,20 +19,7 @@ class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
         super().__init__()
         self.logger = logger
-        self.tab_settings = tab_settings
-
-        common_btn_style = """
-            QPushButton {
-                background-color: #6A9955;
-                color: white;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #4e7d44;
-            }
-        """        
+        self.tab_settings = tab_settings  
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -52,15 +39,15 @@ class TabSensori(QWidget):
         self.add_condition_btn = QPushButton("➕ " + Translator.tr("add_condition"))
         self.add_timer_btn = QPushButton("➕ " + Translator.tr("add_timer"))
         self.add_script_btn = QPushButton("➕ " + Translator.tr("add_script"))
-        self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
+        self.update_yaml_btn = QPushButton("🔁 " + Translator.tr("update_yaml"))
+        self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)
 
         # Applica stile comune e larghezza fissa
         for btn in [
             self.add_sensor_btn, self.add_action_btn, self.add_trigger_btn,
-            self.add_condition_btn, self.add_timer_btn, self.add_script_btn,
-            self.update_yaml_btn
+            self.add_condition_btn, self.add_timer_btn, self.add_script_btn
         ]:
-            btn.setStyleSheet(common_btn_style)
+            btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
             btn.setFixedWidth(180)
 
         # Connessioni ai metodi stub
@@ -84,17 +71,13 @@ class TabSensori(QWidget):
         row2.addWidget(self.add_script_btn)
 
         # --- Pulsante aggiornamento YAML centrato ---
-        yaml_row = QHBoxLayout()
-        yaml_row.addStretch()
-        yaml_row.addWidget(self.update_yaml_btn)
-        yaml_row.addStretch()
-
-        # --- Widget contenitore ---
         sensor_btn_layout = QVBoxLayout()
         sensor_btn_layout.addLayout(row1)
         sensor_btn_layout.addLayout(row2)
         sensor_btn_layout.addSpacing(10)
-        sensor_btn_layout.addLayout(yaml_row)
+        sensor_btn_layout.addStretch()
+        sensor_btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
+
 
         sensor_btn_widget = QWidget()
         sensor_btn_widget.setLayout(sensor_btn_layout)
@@ -240,7 +223,7 @@ class TabSensori(QWidget):
         from core.translator import Translator
         self.sensor_canvas.setToolTip(Translator.tr("sensors_creation"))
         self.add_sensor_btn.setText("➕ " + Translator.tr("add_sensor"))
-        self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+        self.update_yaml_btn.setText("🔁 " + Translator.tr("update_yaml"))
         # Aggiorna i blocchi già presenti nel canvas (se ce ne sono)
         for item in self.sensor_canvas.scene().items():
             if hasattr(item, "aggiorna_label"):

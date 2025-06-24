@@ -185,5 +185,15 @@
   "settings_force_refresh": "Forza aggiornamento dati community",
   "apply_button": "Applica",
   "cancel_button": "Annulla",
-  "settings_check_updates_now": "Controlla aggiornamenti adesso"
+  "settings_check_updates_now": "Controlla aggiornamenti adesso",
+  "unsaved_project_temp_warning": "⚠️ Progetto non salvato. Uso file temporaneo.",
+  "temp_file_generated": "📄 File generato: {temp_path}",
+  "file_saved_to": "📄 File salvato su: {path}",
+  "settings_esphome_title": "Informazioni su ESPHome",
+  "esphome_version_error": "Errore nel recupero versione: {error}",
+  "esphome_path": "Percorso eseguibile",
+  "esphome_not_found": "ESPHome non trovato nel PATH",
+  "python_version": "Versione Python",
+  "online": "Online",
+  "offline": "Non raggiungibile"
 }

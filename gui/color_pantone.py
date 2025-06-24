@@ -16,8 +16,8 @@ class Pantone:
     ACCORDION_HEADER_BG = "#283346"
     ACCORDION_HEADER_TEXT = "#e0eafc"
     ACCORDION_HEADER_ACCENT = "#3a9dda"
-    BTN_UPDATE_BACKGROUND = "#20c070"
-    BTN_UPDATE_TEXT = "#131414"    
+    BTN_UPDATE_BACKGROUND = "#28a745"
+    BTN_UPDATE_TEXT = "#FFFFFF"    
 
 
     GROUPBOX_STYLE = f"""
@@ -119,6 +119,7 @@ class Pantone:
         }}
     """    
     UPDATE_YAML_BTN_STYLE = f"""
+    QPushButton {{
         font-weight: bold;
         padding: 6px 18px;
         background: {BTN_UPDATE_BACKGROUND};
@@ -127,6 +128,11 @@ class Pantone:
         font-size: 12pt;
         border: none;
         margin-top: 10px;
+        width: 200px;
+        }}
+    QPushButton:hover {{
+        background-color: #218838;  /* Un po' più scuro */
+    }}        
     """
 
     SPINBOX_STYLE = """
@@ -282,6 +288,24 @@ class Pantone:
         color: #ffffff;
     }
     """
+
+    BUTTON_STYLE_GREEN =  f"""
+            QPushButton {{
+                font-weight: bold;
+                padding: 6px 18px;
+                background: {BTN_UPDATE_BACKGROUND};
+                color: {BTN_UPDATE_TEXT};
+                border-radius: 8px;
+                font-size: 12pt;
+                border: none;
+                margin-top: 10px;
+                width: 200px;
+                }}
+            QPushButton:hover {{
+                background-color: #218838;  /* Un po' più scuro */
+            }}        
+        """
+
 
     COMMON_BUTTON_STYLE = """
             QPushButton {

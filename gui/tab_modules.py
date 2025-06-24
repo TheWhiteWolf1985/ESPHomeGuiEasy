@@ -72,7 +72,7 @@ class TabModules(QWidget):
             self.sections_map[module_name] = section
 
         # 3. Pulsante in fondo
-        self.update_yaml_btn = QPushButton(Translator.tr("update_yaml"))
+        self.update_yaml_btn = QPushButton("🔁 " + Translator.tr("update_yaml"))
         self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)
         self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_moduli)
 
@@ -88,7 +88,16 @@ class TabModules(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(scroll_area)
-        layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
+
+        # Contenitore per fissare il bottone in basso a destra
+        btn_container = QWidget()
+        btn_layout = QVBoxLayout(btn_container)
+        btn_layout.addStretch()
+        btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
+        btn_layout.setContentsMargins(10, 10, 10, 10)
+
+        layout.addWidget(btn_container)
+
 
     def _editor(self):
         """
@@ -198,7 +207,7 @@ class TabModules(QWidget):
     def aggiorna_label(self):
         from core.translator import Translator
         # Aggiorna il bottone "Aggiorna YAML"
-        self.update_yaml_btn.setText(Translator.tr("update_yaml"))
+        self.update_yaml_btn.setText("🔁 " + Translator.tr("update_yaml"))
         # Aggiorna ogni modulo accordion (header/campi)
         for module_name, widget_dict in self.widget_map.items():
             section = self.sections_map.get(module_name)

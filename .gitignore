@@ -6,6 +6,10 @@ __pycache__/
 # VSCode settings
 .vscode/
 
+# Embedded Python packages
+Lib/
+Lib/site-packages/
+
 # Python environment folders
 .venv/
 env/

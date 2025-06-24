@@ -78,33 +78,11 @@ class TabCommand(QWidget):
         self.erase_btn = QPushButton("🧹 " + Translator.tr("erase_flash"))
         self.erase_btn.setFixedWidth(170)
         self.erase_btn.clicked.connect(self.erase_flash)
-        self.erase_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6A9955;
-                color: white;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #4e7d44;
-            }
-        """)
+        self.erase_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
 
         self.flash_btn = QPushButton("📤 " + Translator.tr("upload"))
         self.flash_btn.setFixedWidth(170)
-        self.flash_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6A9955;
-                color: white;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #4e7d44;
-            }
-        """)
+        self.flash_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
 
         refresh_btn.clicked.connect(self.refresh_com_ports)
         self.flash_btn.clicked.connect(self.carica_firmware)
@@ -127,18 +105,8 @@ class TabCommand(QWidget):
         scan_row = QHBoxLayout()
         self.scan_btn = QPushButton(Translator.tr("scan_network"))
         self.scan_btn.setFixedWidth(160)
-        self.scan_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #3a9dda;
-                color: white;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #2277aa;
-            }
-        """)
+        self.scan_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
+
         self.scan_btn.clicked.connect(self.scan_network_for_esp)
         self.ip_combo = QComboBox()
         self.ip_combo.setFixedWidth(230)
@@ -174,32 +142,11 @@ class TabCommand(QWidget):
         ota_btn_row = QHBoxLayout()
         self.test_ota_btn = QPushButton(Translator.tr("test_connection"))
         self.test_ota_btn.setFixedWidth(170)
-        self.test_ota_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #DCDCAA;
-                color: #1e1e1e;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #B1A91B;
-            }
-        """)
+        self.test_ota_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
+
         self.flash_ota_btn = QPushButton(Translator.tr("flash_ota"))
         self.flash_ota_btn.setFixedWidth(170)
-        self.flash_ota_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6A9955;
-                color: white;
-                border-radius: 8px;
-                font-size: 12pt;
-                padding: 6px 12px;
-            }
-            QPushButton:hover {
-                background-color: #4e7d44;
-            }
-        """)
+        self.flash_ota_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
 
         self.scan_btn.clicked.connect(self.scan_network_for_esp)
         self.ip_combo.currentIndexChanged.connect(self.on_combo_ip_selected)
@@ -221,14 +168,7 @@ class TabCommand(QWidget):
 
         # Bottone COMPILA
         self.compile_btn = QPushButton("🚀 " + Translator.tr("compile"))
-        self.compile_btn.setStyleSheet("""
-            background-color: #3a9dda;
-            color: white;
-            border-radius: 8px;
-            font-size: 13pt;
-            padding: 6px 12px;
-            font-weight: bold;
-        """ + Pantone.UPDATE_YAML_BTN_STYLE)
+        self.compile_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
         self.compile_btn.setFixedWidth(200)
         self.compile_btn.clicked.connect(self.compila_progetto)
 

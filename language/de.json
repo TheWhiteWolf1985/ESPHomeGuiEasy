@@ -180,5 +180,15 @@
   "cancel_button": "Abbrechen",
   "settings_saved_title": "Einstellungen gespeichert",
   "settings_saved_message": "Deine Einstellungen wurden erfolgreich gespeichert.",
-  "settings_check_updates_now": "Jetzt nach Updates suchen"
+  "settings_check_updates_now": "Jetzt nach Updates suchen",
+  "unsaved_project_temp_warning": "⚠️ Projekt nicht gespeichert. Temporäre Datei wird verwendet.",
+  "temp_file_generated": "📄 Datei generiert: {temp_path}",
+  "file_saved_to": "📄 Datei gespeichert unter: {path}",
+  "settings_esphome_title": "Informationen zu ESPHome",
+  "esphome_version_error": "Fehler beim Abrufen der Version: {error}",
+  "esphome_path": "Ausführbarer Pfad",
+  "esphome_not_found": "ESPHome nicht im PATH gefunden",
+  "python_version": "Python-Version",
+  "online": "Online",
+  "offline": "Offline"
 }
