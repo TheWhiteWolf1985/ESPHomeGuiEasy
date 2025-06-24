@@ -9,8 +9,7 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QTimer, QSize
 from importlib.metadata import version, PackageNotFoundError
 from core.translator import Translator
-from core.settings_db import init_db, get_setting, set_setting
-
+from core.settings_db import init_db, get_setting, set_setting, get_user_db_path
 
 class SplashScreen(QSplashScreen):
     def __init__(self, pixmap):
@@ -77,13 +76,13 @@ class SplashScreen(QSplashScreen):
 
         self.init_steps = [
             (self.maybe_check_updates_step, self.maybe_check_online_version),
+            (Translator.tr("splash_check_db"), self.check_or_create_user_config),
             (Translator.tr("splash_check_python"), self.check_python_version),
-            (Translator.tr("splash_check_requirements"), self.check_requirements_file),
-            (Translator.tr("splash_check_dependencies"), self.check_required_libraries),
+            (Translator.tr("splash_check_critical_libs"), self.check_critical_libraries),
             (Translator.tr("splash_check_user_settings"), self.check_user_settings),
             (Translator.tr("splash_check_base_project"), self.check_base_project_template),
             (Translator.tr("splash_check_working_folders"), self.check_working_folders),
-            ("Controllo cartella progetti community...", self.check_community_folder),
+            (Translator.tr("splash_check_community_folder"), self.check_community_folder),
             (Translator.tr("splash_start_completed"), lambda: None)
         ]
         self.current_step = 0
@@ -121,25 +120,6 @@ class SplashScreen(QSplashScreen):
         current = sys.version_info
         if current < min_required:
             raise Exception(f"Python >= {min_required[0]}.{min_required[1]} richiesto. Attuale: {current[0]}.{current[1]}")
-
-    def check_requirements_file(self):
-        if not os.path.exists("requirements.txt"):
-            raise Exception("File requirements.txt non trovato.")
-
-    def check_required_libraries(self):
-        with open("requirements.txt", "r", encoding="utf-8") as f:
-            libs = [
-                line.strip().split("==")[0].split(">=")[0].split("<=")[0]
-                for line in f if line.strip() and not line.startswith("#")
-            ]
-        missing = []
-        for lib in libs:
-            try:
-                _ = version(lib)
-            except PackageNotFoundError:
-                missing.append(lib)
-        if missing:
-            raise Exception("Dipendenze mancanti:\n" + "\n".join(missing))
 
     def check_user_settings(self):
         init_db()
@@ -215,3 +195,45 @@ class SplashScreen(QSplashScreen):
         if get_setting("check_updates") != "1":
             return  # salta il controllo se disabilitato
         self.check_online_version()
+
+    def check_critical_libraries(self):
+        try:
+            import PyQt6
+            import ruamel.yaml
+            import serial
+            import esphome # type: ignore
+        except ImportError as e:
+            raise Exception(f"Libreria mancante: {e.name}. L'app non può avviarsi.")
+
+    def check_or_create_user_config():
+        from config.GUIconfig import USER_DB_PATH
+        import sqlite3
+
+        if os.path.exists(USER_DB_PATH):
+            return  # già esiste, tutto ok
+
+        print("[INFO] user_config.db non trovato, lo creo da zero.")
+        try:
+            conn = sqlite3.connect(USER_DB_PATH)
+            cursor = conn.cursor()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS settings (
+                    key TEXT PRIMARY KEY,
+                    value TEXT NOT NULL
+                )
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS recent_files (
+                    path TEXT PRIMARY KEY,
+                    filename TEXT NOT NULL,
+                    last_opened TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            cursor.execute("INSERT INTO settings (key, value) VALUES ('language', 'en')")
+            cursor.execute("INSERT INTO settings (key, value) VALUES ('check_updates', '1')")
+            conn.commit()
+            conn.close()
+            print("[INFO] user_config.db creato con successo.")
+        except Exception as e:
+            print(f"[ERRORE] Creazione user_config.db fallita: {e}")
+            raise

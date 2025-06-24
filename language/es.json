@@ -191,5 +191,8 @@
   "esphome_not_found": "ESPHome no encontrado en el PATH",
   "python_version": "Versión de Python",
   "online": "En línea",
-  "offline": "Sin conexión"
+  "offline": "Sin conexión",
+  "splash_check_db": "Verificando base de datos de configuración de usuario...",
+  "splash_check_critical_libs": "Verificando bibliotecas básicas de Python...",
+  "splash_check_community_folder": "Verificando carpeta de proyectos de la comunidad..."
 }

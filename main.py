@@ -8,6 +8,7 @@ import os
 import json
 from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
+sys.path.insert(0, os.path.dirname(__file__))
 from gui.main_window import MainWindow
 from core.translator import Translator
 from gui.language_selection_dialog import LanguageSelectionDialog

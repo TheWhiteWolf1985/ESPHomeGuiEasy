@@ -9,7 +9,6 @@ import sys
 # Contenuti da includere nella cartella ESPHomeGUIeasy (installata)
 MAIN_CONTENT = [
     "main.py",
-    "docs",
     "config",
     "community_project",
     "gui",
@@ -17,7 +16,6 @@ MAIN_CONTENT = [
     "core",
     "assets",
     "language",
-    "requirements.txt",
     "installation_utility/esphomeguieasy.exe"
 ]
 
@@ -81,7 +79,7 @@ def build_installer_folder():
     copy_item(LICENSE_FOLDER, install_root, base_path)
     copy_item(LICENSE_FOLDER, install_dir, base_path)
     copy_item(SCRIPT_FOLDER, install_root, base_path)
-    create_venv_and_install_requirements(install_dir, base_path)
+    create_start_bat(install_dir)
     compile_inno_setup_script(install_root)
 
 
@@ -99,73 +97,19 @@ def copy_folder_contents(src_folder, dest_folder):
             shutil.copy2(item_path, dest_path)
             print(f"📄 Copiato file: {item}")
 
-def create_venv_and_install_requirements(install_dir, base_path):
-    venv_path = os.path.join(install_dir, "venv")
-    print("🐍 Creo ambiente virtuale...")
-
-    python_embed_exe = os.path.join(base_path, PYTHON_FOLDER, "python.exe")
-    subprocess.check_call([python_embed_exe, "-m", "venv", venv_path])
-
-    pip_exe = os.path.join(venv_path, "Scripts", "pip.exe")
-    python_exe = os.path.join(venv_path, "Scripts", "python.exe")
-    requirements_file = os.path.join(base_path, "requirements.txt")
-
-    print("⬆️ Aggiorno pip all'ultima versione...")
-    subprocess.check_call([python_exe, "-m", "pip", "install", "--upgrade", "pip"])
-
-    print("📦 Installo dipendenze da requirements.txt...")
-    subprocess.check_call([pip_exe, "install", "-r", requirements_file])
-
-    clean_venv(venv_path)
-
-
-def clean_venv(venv_path):
-    print("🧹 Pulizia del venv...")
-
-    import fnmatch
-
-    def remove_by_pattern(base, pattern):
-        for root, dirs, files in os.walk(base):
-            for filename in files:
-                if fnmatch.fnmatch(filename, pattern):
-                    try:
-                        os.remove(os.path.join(root, filename))
-                        print(f"🗑️ Rimosso: {filename}")
-                    except:
-                        pass
-
-    def remove_dirs_named(base, names):
-        for root, dirs, _ in os.walk(base):
-            for d in dirs:
-                if d.lower() in names:
-                    dirpath = os.path.join(root, d)
-                    try:
-                        shutil.rmtree(dirpath)
-                        print(f"🗑️ Rimossa cartella: {dirpath}")
-                    except:
-                        pass
-
-    site_packages = os.path.join(venv_path, "Lib", "site-packages")
-    remove_dirs_named(site_packages, ["tests", "test", "testing", "__pycache__"])
-    remove_by_pattern(site_packages, "*.pyc")
-    remove_by_pattern(site_packages, "*.pyo")
-    remove_by_pattern(site_packages, "*.egg-info")
-
-    bin_path = os.path.join(venv_path, "Scripts")
-    for name in ["pip.exe", "pip3.exe", "easy_install.exe"]:
-        path = os.path.join(bin_path, name)
-        if os.path.exists(path):
-            os.remove(path)
-            print(f"🗑️ Rimosso: {name}")
-
 def create_start_bat(install_dir):
-    bat_path = os.path.join(install_dir, "start_gui.bat")
+    bat_path = os.path.join(install_dir, "esphomeguieasy.bat")
     with open(bat_path, "w", encoding="utf-8") as f:
         f.write("@echo off\n")
         f.write("cd /d %%~dp0\n")
-        f.write("call venv\\Scripts\\activate.bat\n")
-        f.write("python main.py\n")
-    print("🚀 Creato file start_gui.bat")
+        f.write("echo Avvio ESPHomeGUIeasy... > \"%%TEMP%%\\esphomeguieasy_log.txt\"\n")
+        f.write("python\\ESPHomeRunner.exe main.py >> \"%%TEMP%%\\esphomeguieasy_log.txt\" 2>&1\n")
+        f.write("if errorlevel 1 (\n")
+        f.write("    echo Errore durante l'esecuzione. Controlla il file di log in %%TEMP%%\\esphomeguieasy_log.txt\n")
+        f.write("    pause\n")
+        f.write(")\n")
+    print("🚀 Creato file esphomeguieasy.bat")
+
 
 def compile_inno_setup_script(install_root):
     iss_path = os.path.join(install_root, "setup_builder.iss")
