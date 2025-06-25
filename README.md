@@ -48,16 +48,16 @@ You can safely click **"More info → Run anyway"** when prompted by SmartScreen
 ## 🖼 Screenshots
 
 #### 🏠 Main Interface
-![Main Interface](docs/main.png)
+![Main Interface](doc/main.png)
 
 #### 🧱 Sensor Configuration (Bricks)
-![Sensor Configuration](docs/sensors.png)
+![Sensor Configuration](doc/sensors.png)
 
 #### ⚙️ Compilation and Upload
-![Compilation and Upload](docs/compile.png)
+![Compilation and Upload](doc/compile.png)
 
 #### 🔧 Settings Panel
-![Settings](docs/settings.png)
+![Settings](doc/settings.png)
 
 ---
 
