@@ -44,6 +44,20 @@ Some antivirus (like Windows Defender) may **falsely flag** the installer or `.e
 This is a **false positive**, due to the unsigned nature and embedded Python runtime.  
 You can safely click **"More info → Run anyway"** when prompted by SmartScreen.
 
+---
+## 🖼 Screenshots
+
+#### 🏠 Main Interface
+![Main Interface](docs/images/screenshot_main.png)
+
+#### 🧱 Sensor Configuration (Bricks)
+![Sensor Configuration](docs/images/screenshot_sensors.png)
+
+#### ⚙️ Compilation and Upload
+![Compilation and Upload](docs/images/screenshot_compile.png)
+
+#### 🔧 Settings Panel
+![Settings](docs/images/screenshot_settings.png)
 
 ---
 
