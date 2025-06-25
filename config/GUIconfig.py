@@ -12,8 +12,8 @@ USER_DB_PATH = "core/user_config.db"
 ICON_PATH = "assets/icon/"
 PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
-APP_VERSION = "1.3.0"
-APP_RELEASE_DATE = "2025-06-18"
+APP_VERSION = "1.3.1"
+APP_RELEASE_DATE = "2025-06-25"
 
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
