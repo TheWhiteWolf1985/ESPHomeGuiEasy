@@ -1,28 +1,21 @@
 import sqlite3
 import os
-import shutil
 from config.GUIconfig import USER_DB_PATH
+
 
 def get_user_db_path() -> str:
     """
-    Restituisce il percorso utilizzabile per user_config.db (scrivibile).
-    Se non esiste nella cartella APPDATA, copia quello in sola lettura da /core.
+    Restituisce il percorso assoluto del file user_config.db in APPDATA.
+    Presume che il file sia già stato installato correttamente dal setup.
     """
-    appdata_path = os.path.join(os.environ["APPDATA"], "ESPHomeGUIeasy")
-    os.makedirs(appdata_path, exist_ok=True)
-
-    user_db_path = os.path.join(appdata_path, "user_config.db")
-    local_db_path = os.path.join(os.path.dirname(__file__), "user_config.db")
-
-    if not os.path.exists(user_db_path) and os.path.exists(local_db_path):
-        try:
-            shutil.copy(local_db_path, user_db_path)
-        except Exception as e:
-            print(f"[ERRORE] Impossibile copiare user_config.db: {e}")
-    return user_db_path
+    return USER_DB_PATH
 
 
 def init_db():
+    """
+    Verifica che le tabelle settings e recent_files esistano.
+    Non scrive alcun dato di default.
+    """
     conn = sqlite3.connect(get_user_db_path())
     cursor = conn.cursor()
     cursor.execute("""
@@ -61,6 +54,7 @@ def get_setting(key: str) -> str | None:
     conn.close()
     return result[0] if result else None
 
+
 def add_recent_file(path: str):
     filename = os.path.basename(path)
     conn = sqlite3.connect(get_user_db_path())
@@ -74,7 +68,6 @@ def add_recent_file(path: str):
     conn.close()
 
 
-
 def get_recent_files(limit: int = 4) -> list[tuple[str, str]]:
     conn = sqlite3.connect(get_user_db_path())
     cursor = conn.cursor()
@@ -86,5 +79,3 @@ def get_recent_files(limit: int = 4) -> list[tuple[str, str]]:
     results = cursor.fetchall()
     conn.close()
     return results
-
-

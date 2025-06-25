@@ -27,17 +27,23 @@ Designed for both beginners and power users, it features:
 
 ## 💾 Installation methods
 
-### 🔹 Option 1: Using the Windows Installer (recommended for most users)
+### 🔹 Option 1: Using the Windows Installer (recommended)
 
 1. Download the `.exe` installer from the [Releases](https://github.com/YOUR_USERNAME/esphomeGuieasy/releases) page
 2. Run the installer and follow the wizard
-3. The program will be installed in `Program Files` and added to the Start menu and optionally the Desktop
-4. On first launch, a folder will be created in your `Documents` for community projects and configuration
+3. The program will be installed in `Program Files` and added to the Start menu and Desktop
+4. On first launch:
+   - You will be prompted to select a language
+   - A user configuration database will be created in:
+     `%APPDATA%\ESPHomeGUIeasy\user_config.db`
+   - A log file will be created at:
+     `%APPDATA%\ESPHomeGUIeasy\esphomeguieasy_log.txt`
 
 ⚠️ **Security Notice:**  
-Some antivirus (like Windows Defender) may **falsely flag the installer or `.exe` file** as a potential threat (e.g. *Phonzy.A!ml*).  
-This is a **false positive**, due to the embedded Python environment and unsigned nature of the installer.  
-You can safely allow it, or run the program directly from source.
+Some antivirus (like Windows Defender) may **falsely flag** the installer or `.exe` (e.g. *Phonzy.A!ml*).  
+This is a **false positive**, due to the unsigned nature and embedded Python runtime.  
+You can safely click **"More info → Run anyway"** when prompted by SmartScreen.
+
 
 ---
 
@@ -110,12 +116,26 @@ python main.py
 ## 📁 Project Structure
 
 ```
-core/       # YAML, flash, logging logic
-gui/        # PyQt6 interface components
-assets/     # Icons and graphics
-config/     # Boards, templates
-main.py     # Entry point
+core/ # YAML, flash, logging logic
+gui/ # PyQt6 interface components
+assets/ # Icons and graphics
+config/ # Boards, templates
+main.py # Entry point (called from ESPHomeRunner.exe or .bat)
 ```
+
+---
+
+## 🗂️ Where user files are stored
+
+After installation, the application creates the following directory for configuration and logs:
+
+%APPDATA%\ESPHomeGUIeasy\
+
+- `user_config.db` — contains language and startup preferences
+- `esphomeguieasy_log.txt` — contains startup logs and crash info
+
+This folder is fully writable by the user. You can delete it to reset the application to first-launch state.
+
 
 ---
 

@@ -16,7 +16,8 @@ MAIN_CONTENT = [
     "core",
     "assets",
     "language",
-    "installation_utility/esphomeguieasy.exe"
+    "installation_utility/esphomeguieasy.exe",
+    "installation_utility/user_config.db"
 ]
 
 

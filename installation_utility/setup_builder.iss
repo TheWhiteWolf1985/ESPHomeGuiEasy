@@ -22,11 +22,20 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"; LicenseFile: "l
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "license\license_de.txt"
 
 [Files]
-Source: "ESPHomeGUIeasy\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
-; Copia progetti della community in Documenti\ESPHomeGUIeasy\community_projects
+Source: "ESPHomeGUIeasy\*"; \
+  DestDir: "{app}"; \
+  Flags: recursesubdirs createallsubdirs ignoreversion; \
+  Excludes: "installation_utility\\user_config.db"
+
 Source: "ESPHomeGUIeasy\community_project\*"; \
   DestDir: "{userdocs}\ESPHomeGUIeasy\community_projects"; \
   Flags: recursesubdirs createallsubdirs ignoreversion
+
+Source: "ESPHomeGUIeasy\user_config.db"; \
+  DestDir: "{userappdata}\ESPHomeGUIeasy"; \
+  Flags: ignoreversion
+
+
 
 
 [Icons]
