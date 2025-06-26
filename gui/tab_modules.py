@@ -92,11 +92,11 @@ class TabModules(QWidget):
         # Contenitore per fissare il bottone in basso a destra
         btn_container = QWidget()
         btn_layout = QVBoxLayout(btn_container)
-        btn_layout.addStretch()
         btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)
         btn_layout.setContentsMargins(10, 10, 10, 10)
 
-        layout.addWidget(btn_container)
+        layout.addWidget(btn_container, alignment=Qt.AlignmentFlag.AlignBottom)
+
 
 
     def _editor(self):

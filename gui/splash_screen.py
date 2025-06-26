@@ -194,9 +194,15 @@ class SplashScreen(QSplashScreen):
             import PyQt6
             import ruamel.yaml
             import serial
-            import esphome # type: ignore
         except ImportError as e:
             raise Exception(f"Libreria mancante: {e.name}. L'app non può avviarsi.")
+
+        try:
+            import esphome  # type: ignore
+        except ImportError:
+            # Log non bloccante: l'utente potrà installarlo via settings
+            print("⚠️ ESPHome non disponibile, ma non richiesto all'avvio")
+
 
     def check_or_create_user_config(self):
         """
