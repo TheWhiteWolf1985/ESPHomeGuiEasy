@@ -21,6 +21,8 @@ class Translator:
             cls._translations = cls._fallback
         else:
             path = os.path.join(cls._language_dir, f"{lang_code}.json")
+            print(f"[DEBUG] Caricamento file lingua: {path}")
+
             try:
                 with open(path, encoding="utf-8") as f:
                     cls._translations = json.load(f)
@@ -67,3 +69,16 @@ class Translator:
         except Exception:
             return "en"
 
+    @classmethod
+    def get_language_name_map(cls) -> dict[str, str]:
+        """
+        Ritorna un dizionario {codice: nome visibile} delle lingue.
+        """
+        return {
+            "en": "English",
+            "it": "Italiano",
+            "es": "Español",
+            "de": "Deutsch",
+            "br": "Brasileiro",
+            "pt": "Português"
+        }

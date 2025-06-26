@@ -213,5 +213,3 @@ class SplashScreen(QSplashScreen):
             self.status_label.setText("File user_config.db presente")
         else:
             raise Exception("File user_config.db mancante. Reinstalla o ripara l'applicazione.")
-
-

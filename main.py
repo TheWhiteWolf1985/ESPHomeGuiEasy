@@ -60,7 +60,7 @@ def main():
         init_db()
 
         language = get_setting("language")
-        if not language:
+        if not language or language.strip() == "":
             dlg = LanguageSelectionDialog()
             if dlg.exec() == QDialog.DialogCode.Accepted and dlg.get_selected_language():
                 set_setting("language", dlg.get_selected_language())

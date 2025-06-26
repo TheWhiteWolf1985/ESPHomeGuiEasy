@@ -134,26 +134,22 @@ class SettingsDialog(QDialog):
 
         layout.addWidget(QLabel(Translator.tr("settings_language_label")))
         self.language_combo = QComboBox()
-        self.language_combo.addItems(["English", "Italiano", "Español", "Deutsch"])
-        layout.addWidget(self.language_combo)
+        lang_map = Translator.get_language_name_map()
+        self.lang_code_from_name = {v: k for k, v in lang_map.items()}  # mapping inverso
+        self.language_combo.addItems(lang_map.values())
 
-        # Leggi lingua salvata dal database
+
         saved_lang_code = get_setting("language")
-        lang_map = {
-            "en": "English",
-            "it": "Italiano",
-            "es": "Español",
-            "de": "Deutsch"
-        }
-
         if saved_lang_code and saved_lang_code in lang_map:
             try:
-                idx = self.language_combo.findText(lang_map[saved_lang_code])
+                name = lang_map[saved_lang_code]
+                idx = self.language_combo.findText(name)
                 if idx != -1:
                     self.language_combo.setCurrentIndex(idx)
             except Exception as e:
                 print(f"Errore nel settaggio della lingua nella combobox: {e}")
 
+        layout.addWidget(self.language_combo)
         self.lang_prompt_checkbox = QCheckBox(Translator.tr("settings_show_lang_selector"))
         layout.addWidget(self.lang_prompt_checkbox)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)

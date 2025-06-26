@@ -9,8 +9,11 @@ def save_settings(dialog):
         "English": "en",
         "Italiano": "it",
         "Español": "es",
-        "Deutsch": "de"
+        "Deutsch": "de",
+        "Brasileiro": "br",
+        "Português": "pt"
     }
+
     selected_lang = dialog.language_combo.currentText()
     lang_code = lang_map.get(selected_lang, "en")
     set_setting("language", lang_code)

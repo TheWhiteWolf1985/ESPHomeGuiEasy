@@ -52,7 +52,7 @@ def get_setting(key: str) -> str | None:
     cursor.execute("SELECT value FROM settings WHERE key=?", (key,))
     result = cursor.fetchone()
     conn.close()
-    return result[0] if result else None
+    return result[0].strip() if result and result[0].strip() else None
 
 
 def add_recent_file(path: str):

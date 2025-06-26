@@ -30,6 +30,8 @@ class LanguageSelectionDialog(QDialog):
             ("en", "English", "en.png"),
             ("es", "Espa\u00f1ol", "es.png"),
             ("de", "Deutsch", "de.png"),
+            ("br", "Brasileiro", "br.png"),
+            ("pt", "Português", "pt.png")
         ]
 
         for code, label, icon_file in languages:
