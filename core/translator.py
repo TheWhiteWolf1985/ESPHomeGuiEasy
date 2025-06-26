@@ -57,12 +57,9 @@ class Translator:
     
     @staticmethod
     def get_current_language():
-        """
-        Restituisce la lingua salvata nel database SQLite.
-        Se non presente, ritorna 'en' come fallback.
-        """
         lang = get_setting("language")
-        return lang.strip().lower() if lang else "en"
+        # Non ritorna mai "en" se non è stato esplicitamente impostato
+        return lang.strip().lower() if lang and lang.strip().lower() in Translator.get_language_name_map() else None
 
     @classmethod
     def get_language_name_map(cls) -> dict[str, str]:

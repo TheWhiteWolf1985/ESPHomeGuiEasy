@@ -36,6 +36,10 @@ def init_db():
 
 
 def set_setting(key: str, value: str):
+    if key == "language":
+        print(f"[DEBUG] set_setting('language', '{value}') chiamato da:")
+        import traceback
+        traceback.print_stack(limit=5)
     conn = sqlite3.connect(get_user_db_path())
     cursor = conn.cursor()
     cursor.execute("""

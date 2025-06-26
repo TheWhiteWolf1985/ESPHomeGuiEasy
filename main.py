@@ -61,10 +61,15 @@ def main():
         # Inizializza il database
         init_db()
 
+        # Carica la lingua solo se già selezionata
+        lang = Translator.get_current_language()
+        if lang:
+            Translator.load_language(lang)
+
         # Controllo lingua
         language = get_setting("language")
+        print(language)
         if not language or not language.strip():
-            # Nessuna lingua -> mostra il dialog e blocca tutto
             logging.debug("[DEBUG] Creo LanguageSelectionDialog")
             dlg = LanguageSelectionDialog()
             dlg.setWindowModality(Qt.WindowModality.ApplicationModal)
@@ -80,14 +85,13 @@ def main():
                 language = dlg.get_selected_language()
                 logging.debug(f"[DEBUG] Lingua selezionata: {language}")
                 set_setting("language", language)
+                Translator.load_language(language.strip().lower())
             else:
                 logging.warning("Lingua non selezionata. Chiusura applicazione.")
                 logging.debug("[DEBUG] Lingua non selezionata, esco.")
                 return
 
-
         # A questo punto siamo sicuri che la lingua è impostata
-        Translator.load_language(language.strip().lower())
         logging.info("Lingua attiva: %s", language)
 
         # Mostra splash SOLO dopo selezione lingua
@@ -105,6 +109,7 @@ def main():
     except Exception as e:
         logging.error("Errore imprevisto: %s", str(e))
         raise
+
 
 
 
