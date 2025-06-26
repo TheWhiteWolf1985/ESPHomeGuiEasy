@@ -45,6 +45,7 @@ This is a **false positive**, due to the unsigned nature and embedded Python run
 You can safely click **"More info → Run anyway"** when prompted by SmartScreen.
 
 ---
+
 ## 🖼 Screenshots
 
 #### 🏠 Main Interface
@@ -58,6 +59,7 @@ You can safely click **"More info → Run anyway"** when prompted by SmartScreen
 
 #### 🔧 Settings Panel
 ![Settings](docs/images/screenshot_settings.png)
+
 
 ---
 
