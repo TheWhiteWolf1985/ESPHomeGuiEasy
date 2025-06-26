@@ -8,6 +8,7 @@ import os
 import json
 from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
 sys.path.insert(0, os.path.dirname(__file__))
 from gui.main_window import MainWindow
 from core.translator import Translator
@@ -57,22 +58,39 @@ def main():
     try:
         app = QApplication(sys.argv)
 
+        # Inizializza il database
         init_db()
 
+        # Controllo lingua
         language = get_setting("language")
-        if not language or language.strip() == "":
+        if not language or not language.strip():
+            # Nessuna lingua -> mostra il dialog e blocca tutto
+            logging.debug("[DEBUG] Creo LanguageSelectionDialog")
             dlg = LanguageSelectionDialog()
-            if dlg.exec() == QDialog.DialogCode.Accepted and dlg.get_selected_language():
-                set_setting("language", dlg.get_selected_language())
+            dlg.setWindowModality(Qt.WindowModality.ApplicationModal)
+            dlg.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+            dlg.resize(400, 400)
+            dlg.show()
+
+            logging.debug("[DEBUG] Apro exec() sul dialog")
+            result = dlg.exec()
+            logging.debug(f"[DEBUG] Risultato exec: {result}")
+
+            if result == QDialog.DialogCode.Accepted and dlg.get_selected_language():
+                language = dlg.get_selected_language()
+                logging.debug(f"[DEBUG] Lingua selezionata: {language}")
+                set_setting("language", language)
             else:
-                set_setting("language", "en")
+                logging.warning("Lingua non selezionata. Chiusura applicazione.")
+                logging.debug("[DEBUG] Lingua non selezionata, esco.")
+                return
 
-        language = get_setting("language")
-        logging.info("Lingua letta dal DB: %s", language)
 
-        print("Python path:", sys.executable)
-        Translator.load_language(language or "en")
+        # A questo punto siamo sicuri che la lingua è impostata
+        Translator.load_language(language.strip().lower())
+        logging.info("Lingua attiva: %s", language)
 
+        # Mostra splash SOLO dopo selezione lingua
         if should_show_splash():
             logging.info("Caricamento splash screen")
             pixmap = QPixmap(conf.SPLASH_IMAGE)
@@ -86,7 +104,8 @@ def main():
 
     except Exception as e:
         logging.error("Errore imprevisto: %s", str(e))
-        raise  # opzionale, puoi toglierlo se non vuoi mostrare traceback all'utente
+        raise
+
 
 
 if __name__ == "__main__":

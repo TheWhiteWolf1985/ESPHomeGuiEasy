@@ -47,12 +47,15 @@ def set_setting(key: str, value: str):
 
 
 def get_setting(key: str) -> str | None:
-    conn = sqlite3.connect(get_user_db_path())
-    cursor = conn.cursor()
-    cursor.execute("SELECT value FROM settings WHERE key=?", (key,))
-    result = cursor.fetchone()
-    conn.close()
-    return result[0].strip() if result and result[0].strip() else None
+    try:
+        conn = sqlite3.connect(get_user_db_path())
+        cursor = conn.cursor()
+        cursor.execute("SELECT value FROM settings WHERE key=?", (key,))
+        result = cursor.fetchone()
+        conn.close()
+        return result[0].strip() if result and result[0].strip() else None
+    except Exception:
+        return None
 
 
 def add_recent_file(path: str):

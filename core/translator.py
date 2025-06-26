@@ -1,5 +1,6 @@
 import os
 import json
+from core.settings_db import get_setting
 
 class Translator:
     _translations = {}
@@ -57,17 +58,11 @@ class Translator:
     @staticmethod
     def get_current_language():
         """
-        Restituisce la lingua salvata in user_settings.json.
-        Se il file non esiste o è malformato, restituisce 'en'.
+        Restituisce la lingua salvata nel database SQLite.
+        Se non presente, ritorna 'en' come fallback.
         """
-        try:
-            if not os.path.exists("user_settings.json"):
-                return "en"
-            with open("user_settings.json", "r", encoding="utf-8") as f:
-                data = json.load(f)
-                return data.get("language", "en")
-        except Exception:
-            return "en"
+        lang = get_setting("language")
+        return lang.strip().lower() if lang else "en"
 
     @classmethod
     def get_language_name_map(cls) -> dict[str, str]:
