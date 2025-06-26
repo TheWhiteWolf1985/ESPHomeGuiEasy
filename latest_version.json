@@ -1,9 +1,10 @@
 {
   "latest_version": "1.3.1",
   "changelog": {
-    "it": "✓ Migrazione a python 3.13. Rimosso Venv e installato pacchetti in site-package. Fix installer window. Aggiunta lingua Portoghese/Brasiliano da contributor ",
-    "en": "✓ Migrated to Python 3.13 with embedded interpreter\n✓ Removed venv, dependencies now in site-packages\n✓ Minor bug fixes and UI improvements\n✓ Improved sensor block generation from YAML",
-    "es": "✓ Migración a Python 3.13 con intérprete embebido\n✓ Eliminado el venv, dependencias en site-packages\n✓ Corrección de errores menores y mejoras visuales\n✓ Generación mejorada de bloques de sensores desde YAML",
-    "de": "✓ Umstieg auf Python 3.13 mit eingebettetem Interpreter\n✓ Venv entfernt, Abhängigkeiten in site-packages integriert\n✓ Kleinere Fehlerbehebungen und UI-Verbesserungen\n✓ Verbesserte Generierung von Sensorblöcken aus YAML"
+    "it": "✓ Migrazione a python 3.13. Rimosso Venv e installato pacchetti in site-package. Fix installer window. Aggiunta lingua Portoghese/Brasiliano da contributor",
+    "en": "✓ Migrated to Python 3.13. Removed venv and installed packages in site-packages. Fixed installer window. Added Portuguese/Brazilian language from contributor",
+    "es": "✓ Migrado a Python 3.13. Eliminado venv e instalados los paquetes en site-packages. Corregida la ventana del instalador. Añadido idioma portugués/brasileño gracias a un colaborador",
+    "de": "✓ Umstieg auf Python 3.13. Venv entfernt und Pakete in site-packages installiert. Installer-Fenster behoben. Portugiesisch/Brasilianisch durch Contributor hinzugefügt",
+    "br": "✓ Migrado para Python 3.13. Venv removido e pacotes instalados em site-packages. Correção da janela do instalador. Adicionado suporte ao idioma Português/Brasileiro por colaborador"
   }
 }
