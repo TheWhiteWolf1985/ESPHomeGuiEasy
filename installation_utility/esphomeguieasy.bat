@@ -26,7 +26,7 @@
 ::ZQ0/vhVqMQ3MEVWAtB9wSA==
 ::Zg8zqx1/OA3MEVWAtB9wSA==
 ::dhA7pRFwIByZRRnk
-::Zh4grVQjdCyDJGyX8VAjFDEadgWMOWe2B4k47fvw++WXnkgOROowdYrcz72LIfMKpED8cPY=
+::Zh4grVQjdCyDJGyX8VAjFDEadgWMOWe2B4k47fvw++WXnm4ucMNxfZfeug==
 ::YB416Ek+ZG8=
 ::
 ::
@@ -34,8 +34,8 @@
 @echo off
 cd /d "%~dp0"
 
-:: Percorso file di log in APPDATA
-set LOGDIR=%APPDATA%\ESPHomeGUIeasy
+:: Percorso file di log in LOCALAPPDATA
+set LOGDIR=%LOCALAPPDATA%\ESPHomeGUIeasy
 set LOGFILE=%LOGDIR%\esphomeguieasy_log.txt
 
 :: Crea la cartella log se non esiste

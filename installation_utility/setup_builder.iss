@@ -32,7 +32,7 @@ Source: "ESPHomeGUIeasy\community_project\*"; \
   Flags: recursesubdirs createallsubdirs ignoreversion
 
 Source: "ESPHomeGUIeasy\user_config.db"; \
-  DestDir: "{userappdata}\ESPHomeGUIeasy"; \
+  DestDir: "{localappdata}\ESPHomeGUIeasy"; \
   Flags: ignoreversion
 
 
