@@ -5,7 +5,7 @@ from config.GUIconfig import USER_DB_PATH
 
 def get_user_db_path() -> str:
     """
-    Restituisce il percorso assoluto del file user_config.db in APPDATA.
+    Restituisce il percorso assoluto del file user_config.db in LOCALAPPDATA.
     Presume che il file sia già stato installato correttamente dal setup.
     """
     return USER_DB_PATH

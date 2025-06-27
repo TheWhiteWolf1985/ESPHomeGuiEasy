@@ -410,12 +410,12 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("file_saved_to").format(path=self.last_save_path), "success")
             return self.last_save_path
 
-        # Se non c'è project_dir, usa cartella sicura in APPDATA
+        # Se non c'è project_dir, usa cartella sicura in LOCALAPPDATA
         if self.project_dir:
             base_dir = self.project_dir
             temp_dir = os.path.join(base_dir, ".temp")
         else:
-            base_dir = os.path.join(os.environ["APPDATA"], "ESPHomeGUIeasy")
+            base_dir = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
             temp_dir = os.path.join(base_dir, "temp")
 
         os.makedirs(temp_dir, exist_ok=True)

@@ -19,13 +19,13 @@ from core.settings_db import init_db, get_setting, set_setting
 import logging
 import tempfile
 
-# Tentativo di scrivere il log in APPDATA, altrimenti fallback su file temporaneo
+# Tentativo di scrivere il log in LOCALAPPDATA, altrimenti fallback su file temporaneo
 try:
-    log_path = os.path.join(os.environ["APPDATA"], "ESPHomeGUIeasy", "esphomeguieasy_log.txt")
-    os.makedirs(os.path.dirname(log_path), exist_ok=True)
-    with open(log_path, "a"): pass  # test di scrittura
+    with open(conf.LOG_PATH, "a"): pass
+    log_path = conf.LOG_PATH
 except Exception:
     log_path = tempfile.NamedTemporaryFile(prefix="esphomeguieasy_", suffix=".log", delete=False).name
+
 
 logging.basicConfig(
     level=logging.DEBUG,

@@ -206,7 +206,7 @@ class SplashScreen(QSplashScreen):
 
     def check_or_create_user_config(self):
         """
-        Verifica la presenza del file user_config.db in APPDATA.
+        Verifica la presenza del file user_config.db in LOCALAPPDATA.
         Non crea né modifica nulla. Il setup deve fornirlo.
         """
         if os.path.exists(USER_DB_PATH):
