@@ -14,6 +14,7 @@ from PyQt6.QtGui import QPixmap, QIcon
 import config.GUIconfig as conf
 import os
 import webbrowser
+from core.log_handler import GeneralLogHandler as logger
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
@@ -149,7 +150,7 @@ class SettingsDialog(QDialog):
                 if idx != -1:
                     self.language_combo.setCurrentIndex(idx)
             except Exception as e:
-                print(f"Errore nel settaggio della lingua nella combobox: {e}")
+                logger.warning(f"Errore nel settaggio della lingua nella combobox: {e}")
 
         layout.addWidget(self.language_combo)
         self.lang_prompt_checkbox = QCheckBox(Translator.tr("settings_show_lang_selector"))

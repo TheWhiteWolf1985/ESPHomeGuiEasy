@@ -27,6 +27,7 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.project_handler import ProjectHandler
 from core.settings_db import add_recent_file, get_setting
+from core.log_handler import GeneralLogHandler
 
 class MainWindow(QMainWindow):
     """
@@ -44,9 +45,10 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(conf.APP_NAME)
         self.setMinimumSize(conf.MAIN_WINDOW_WIDTH, conf.MAIN_WINDOW_HEIGHT)
-        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))   
+        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))  
+        logger = GeneralLogHandler() 
 
-        print("DEBUG SLOT:", hasattr(self, "log_from_thread"))     
+        logger.debug(f"DEBUG SLOT: {hasattr(self, 'log_from_thread')}")   
 
         self.last_save_path = None
         self.project_dir = None

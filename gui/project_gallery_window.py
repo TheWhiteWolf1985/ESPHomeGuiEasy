@@ -10,6 +10,7 @@ from core.github_handler import GitHubHandler
 import config.GUIconfig as config
 import os
 import sys
+from core.log_handler import GeneralLogHandler as logger
 
 
 class ProjectGalleryWindow(QMainWindow):
@@ -29,7 +30,7 @@ class ProjectGalleryWindow(QMainWindow):
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Icon.Warning)
             msg.setWindowTitle("Errore di rete")
-            msg.setText("Nessun progetto disponibile.\nControlla la connessione internet oppure riprova più tardi.")
+            logger.warning("Nessun progetto recuperato dalla galleria GitHub. Controllare la connessione.")
             msg.setStyleSheet("""
                 QMessageBox {
                     background-color: #2e2e2e;

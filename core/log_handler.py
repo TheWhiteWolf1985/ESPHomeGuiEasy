@@ -114,9 +114,8 @@ class GeneralLogHandler:
         tb = traceback.format_exc()
         self._logger.error(f"{context}\n{tb}")            
 
-    # Facoltativi helper per comodità
-    def debug(self, msg: str):   self.log(msg, "debug")
-    def info(self, msg: str):    self.log(msg, "info")
-    def warning(self, msg: str): self.log(msg, "warning")
-    def error(self, msg: str):   self.log(msg, "error")
-    def success(self, msg: str): self.log(msg, "success")            
+    def debug(self, msg: str):   self._logger.debug(msg)
+    def info(self, msg: str):    self._logger.info(msg)
+    def warning(self, msg: str): self._logger.warning(msg)
+    def error(self, msg: str):   self._logger.error(msg)
+    def success(self, msg: str): self._logger.info("[SUCCESS] " + msg)

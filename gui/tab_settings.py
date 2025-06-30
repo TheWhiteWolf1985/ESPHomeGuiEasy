@@ -8,6 +8,7 @@ from PyQt6.QtGui import QPixmap
 from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.yaml_handler import YAMLHandler
+from core.log_handler import GeneralLogHandler as logger
 
 class TabSettings(QWidget):
     def __init__(self, yaml_editor, logger=None):
@@ -211,7 +212,7 @@ class TabSettings(QWidget):
                 boards.sort(key=lambda x: x["label"].lower())
                 return boards
         except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"[Errore] Caricamento boards.json fallito: {e}")
+            logger.error(f"[Errore] Caricamento boards.json fallito: {e}")
             return []        
         
     def aggiorna_layout_da_dati(self):

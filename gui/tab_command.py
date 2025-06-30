@@ -9,6 +9,7 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.compile_manager import CompileManager
 from pathlib import Path
+from core.log_handler import GeneralLogHandler as logger
 
 
 class TabCommand(QWidget):
@@ -196,7 +197,7 @@ class TabCommand(QWidget):
         Carica il firmware su ESP via USB. Se il progetto non è stato salvato, salva un file temporaneo.
         """
         if self.busy:
-            print("DEBUG: comando upload ignorato perché busy = True")
+            logger.debug("DEBUG: comando upload ignorato perché busy = True")
             return
 
         self.busy = True
@@ -328,7 +329,7 @@ class TabCommand(QWidget):
 
     def compila_progetto(self):
         if self.busy:
-            print("DEBUG: comando compile ignorato perché busy = True")
+            logger.debug("DEBUG: comando compile ignorato perché busy = True")
             return
 
         self.logger.log("────────── 🚀 COMPILAZIONE ──────────", "info")
@@ -347,7 +348,7 @@ class TabCommand(QWidget):
         Cancella la memoria flash dell'ESP32 tramite esptool, solo se non ci sono operazioni in corso.
         """
         if self.busy:
-            print("DEBUG: comando erase ignorato perché busy = True")
+            logger.debug("DEBUG: comando erase ignorato perché busy = True")
             return
 
         com_port = self.com_combo.currentData() or self.com_combo.currentText()
@@ -379,7 +380,7 @@ class TabCommand(QWidget):
 
     @pyqtSlot()
     def riabilita_bottoni_qt(self):
-        print("DEBUG: SLOT Qt chiamato")
+        logger.debug("DEBUG: SLOT Qt chiamato")
         self.compile_btn.setEnabled(True)
         self.flash_btn.setEnabled(True)
         self.erase_btn.setEnabled(True)

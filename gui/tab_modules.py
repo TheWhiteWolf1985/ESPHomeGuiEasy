@@ -4,6 +4,7 @@ import json
 from .collapsible_section import CollapsibleSection
 from gui.color_pantone import Pantone 
 from core.translator import Translator
+from core.log_handler import GeneralLogHandler as logger
 
 class TabModules(QWidget):
     def __init__(self, yaml_editor, logger=None, parent=None):
@@ -136,14 +137,16 @@ class TabModules(QWidget):
                 self.logger.log(Translator.tr("yaml_updated_from_modules"), "success")
 
         except RuntimeError as e:
-            # Non usare self o editor se sono già distrutti
-            print(f"[Errore YAML TabModules] {e}")
-            # fallback log
             try:
-                if hasattr(main, "logger"):
+                if hasattr(self, "logger"):
+                    self.logger.log(f"❌ YAML update crash: {e}", "error")
+                elif hasattr(main, "logger"):
                     main.logger.log(f"❌ YAML update crash: {e}", "error")
+                else:
+                    logger.error(f"[TabModules] YAML update crash: {e}")
             except Exception:
-                pass  # se anche main è distrutto, non possiamo far nulla
+                pass  # Ultimo fallback
+
 
 
     def carica_dati_da_yaml(self, yaml_string):

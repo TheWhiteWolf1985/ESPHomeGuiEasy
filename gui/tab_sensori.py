@@ -14,6 +14,7 @@ from gui.condition_block_item import ConditionBlockItem
 from gui.timer_block_item import TimerBlockItem
 from gui.script_block_item import ScriptBlockItem
 import os
+from core.log_handler import GeneralLogHandler as logger
 
 class TabSensori(QWidget):
     def __init__(self, yaml_editor, logger, tab_settings):
@@ -126,12 +127,17 @@ class TabSensori(QWidget):
                     self.logger.log(Translator.tr("yaml_updated_from_sensors"), "success")
 
         except RuntimeError as e:
-            print(f"[Errore YAML TabSensori] {e}")
             try:
-                if hasattr(main, "logger"):
+                if hasattr(self, "logger"):
                     self.logger.log(Translator.tr("yaml_update_crash_sensors").format(error=str(e)), "error")
+                elif hasattr(main, "logger"):
+                    main.logger.log(Translator.tr("yaml_update_crash_sensors").format(error=str(e)), "error")
+                else:
+                    from core.log_handler import GeneralLogHandler as log
+                    log.error(f"[TabSensori] YAML update crash: {e}")
             except Exception:
-                pass
+                pass  # fallback assoluto
+
 
     def get_sensor_canvas(self):
         return self.sensor_canvas
