@@ -13,6 +13,7 @@ from gui.splash_screen import SplashScreen
 from PyQt6.QtGui import QPixmap, QIcon
 import config.GUIconfig as conf
 import os
+import webbrowser
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
@@ -43,6 +44,7 @@ class SettingsDialog(QDialog):
         icon = QIcon(icon_path)
         esphome_item = QListWidgetItem(icon, "ESPHome Version")
         self.category_list.addItem(esphome_item)
+        self.category_list.addItem(Translator.tr("settings_log"))
         self.category_list.currentRowChanged.connect(self.switch_category)
         self.category_list.setSpacing(6)
         self.category_list.setStyleSheet(Pantone.LISTWIDGET_STYLE)
@@ -66,7 +68,7 @@ class SettingsDialog(QDialog):
         self.stack.addWidget(self.create_startup_page())
         self.stack.addWidget(self.create_advanced_page())
         self.stack.addWidget(self.create_esphome_page())
-
+        self.stack.addWidget(self.create_log_page())
 
         content_layout.addWidget(self.stack)
         main_layout.addLayout(content_layout)
@@ -332,6 +334,11 @@ class SettingsDialog(QDialog):
             label_path.setStyleSheet("font-family: Consolas, monospace;")
         else:
             label_path = QLabel(f"❌ {Translator.tr('esphome_not_found')}")
+            download_btn = QPushButton(Translator.tr("download_esphome_button"))
+            download_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)
+            download_btn.clicked.connect(lambda: webbrowser.open("https://esphome.io/guides/installing_esphome.html"))
+            layout.addWidget(download_btn)
+        
         layout.addWidget(label_path)
 
 
@@ -348,6 +355,29 @@ class SettingsDialog(QDialog):
         layout.addWidget(online_label)
 
         return page
+    
+    def create_log_page(self):
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.open_log_btn = QPushButton(Translator.tr("open_log_button"))
+        self.open_log_btn.clicked.connect(self.open_log_file)
+        self.open_log_btn.setStyleSheet(Pantone.BUTTON_STYLE)
+
+        layout.addWidget(self.open_log_btn)
+        return page
+
+    def open_log_file(self):
+        from config.GUIconfig import LOG_PATH
+        from PyQt6.QtGui import QDesktopServices
+        from PyQt6.QtCore import QUrl
+
+        if os.path.exists(LOG_PATH):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(LOG_PATH))
+        else:
+            QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("log_file_not_found"))
 
 
 

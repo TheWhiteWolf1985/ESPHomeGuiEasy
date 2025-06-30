@@ -198,5 +198,12 @@
   "offline": "Offline",
   "splash_check_db": "Checking user settings database...",
   "splash_check_critical_libs": "Checking core Python libraries...",
-  "splash_check_community_folder": "Checking community projects folder..."
+  "splash_check_community_folder": "Checking community projects folder...",
+  "esphome_not_found_title": "ESPHome not detected",
+  "esphome_not_found_text": "ESPHome is not installed on this system. Do you want to open the official download page?",
+  "download_esphome_button": "Download ESPHome",
+  "splash_disable_updates": "Updates disabled",
+  "settings_log": "📘 System log",
+  "open_log_button": "Open log file",
+  "log_file_not_found": "Log file not found."
 }

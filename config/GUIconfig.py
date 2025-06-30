@@ -7,8 +7,7 @@ LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
 os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
 
 USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
-LOG_PATH = os.path.join(LOCALAPPDATA_FOLDER, "esphomeguieasy_log.txt")
-
+LOG_PATH = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "log.txt")
 
 APP_NAME = "ESPHomeGuiEasy"
 SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"

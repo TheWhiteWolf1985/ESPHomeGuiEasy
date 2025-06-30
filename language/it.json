@@ -198,5 +198,12 @@
   "offline": "Non raggiungibile",
   "splash_check_db": "Controllo file impostazioni utente...",
   "splash_check_critical_libs": "Controllo librerie di base...",
-  "splash_check_community_folder": "Controllo cartella progetti community..."
+  "splash_check_community_folder": "Controllo cartella progetti community...",
+  "esphome_not_found_title": "ESPHome non rilevato",
+  "esphome_not_found_text": "ESPHome non è installato sul sistema. Vuoi aprire la pagina ufficiale per scaricarlo?",
+  "download_esphome_button": "Scarica ESPHome",
+  "splash_disable_updates": "Aggiornamenti disabilitati",
+  "settings_log": "📘 Log di sistema",
+  "open_log_button": "Apri file di log",
+  "log_file_not_found": "Il file di log non è stato trovato."
 }
