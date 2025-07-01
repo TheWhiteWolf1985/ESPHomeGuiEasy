@@ -21,7 +21,9 @@ def create_new_project(data: dict, yaml_editor, logger, compiler, reset_tabs_cal
     """
     nome_proj = data["name"].strip()
     root_dir = Path(data["base_dir"]).expanduser()
-    project_dir = root_dir / nome_proj
+    categoria = data.get("category", "Other / Misc").strip().replace(" ", "_").replace("/", "_")
+    project_dir = root_dir / categoria / nome_proj
+
 
     if project_dir.exists():
         QMessageBox.warning(None, Translator.tr("warning"), Translator.tr("dir_exists"))

@@ -38,6 +38,13 @@ Source: "ESPHomeGUIeasy\user_config.db"; \
 [Dirs]
 Name: "{userdocs}\ESPHomeGUIeasy\user_project"
 Name: "{userdocs}\ESPHomeGUIeasy\community_projects"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Home_Monitoring"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Energy_Power"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Security_Alarm"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Actuators_IO"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Communication"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Automation_Logic"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Other_Misc"
 
 [Icons]
 Name: "{group}\ESPHomeGUIeasy"; Filename: "{app}\esphomeguieasy.exe"; WorkingDir: "{app}"; IconFilename: "{app}\assets\icon\esphomeguieasy.ico"
