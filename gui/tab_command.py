@@ -380,7 +380,6 @@ class TabCommand(QWidget):
 
     @pyqtSlot()
     def riabilita_bottoni_qt(self):
-        logger.debug("DEBUG: SLOT Qt chiamato")
         self.compile_btn.setEnabled(True)
         self.flash_btn.setEnabled(True)
         self.erase_btn.setEnabled(True)

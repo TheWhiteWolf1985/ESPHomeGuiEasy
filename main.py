@@ -19,6 +19,13 @@ from core.settings_db import init_db, get_setting, set_setting
 from core.log_handler import GeneralLogHandler
 import logging
 import tempfile
+from core.log_handler import GeneralLogHandler
+
+def global_exception_hook(exc_type, exc_value, exc_traceback):
+    logger = GeneralLogHandler()
+    logger.log_exception("UNCAUGHT EXCEPTION")
+
+sys.excepthook = global_exception_hook
 
 logger = GeneralLogHandler()
 

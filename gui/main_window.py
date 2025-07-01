@@ -8,6 +8,7 @@ e strumenti di creazione dei sensori, strutturato in modo modulare.
 import os, json
 import shutil
 import config.GUIconfig as conf
+from pathlib import Path
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt, QUrl, pyqtSlot
 from PyQt6.QtGui import QPalette, QColor, QIcon
@@ -301,10 +302,15 @@ class MainWindow(QMainWindow):
         self.menu_bar._update_recent_files_menu()
 
     def open_project_dialog(self):
+        # Imposta la cartella iniziale: Documenti/ESPHomeGUIeasy
+        initial_dir = Path.home() / "Documents" / "ESPHomeGUIeasy"
+        initial_dir.mkdir(parents=True, exist_ok=True)
+
+        # File dialog
         filename_tuple = QFileDialog.getOpenFileName(
             self,
             Translator.tr("open_project"),
-            "",
+            str(initial_dir),
             "YAML Files (*.yaml *.yml);;Tutti i file (*)"
         )
         if not filename_tuple or not isinstance(filename_tuple, tuple):
