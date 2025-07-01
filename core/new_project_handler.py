@@ -1,10 +1,9 @@
-import os
+import os, shutil, json, re
 import shutil
 from pathlib import Path
 from PyQt6.QtWidgets import QMessageBox
 from config import GUIconfig
 from core.translator import Translator
-import json
 from datetime import datetime
 
 def create_new_project(data: dict, yaml_editor, logger, compiler, reset_tabs_callback, update_recent_callback):
@@ -21,7 +20,8 @@ def create_new_project(data: dict, yaml_editor, logger, compiler, reset_tabs_cal
     """
     nome_proj = data["name"].strip()
     root_dir = Path(data["base_dir"]).expanduser()
-    categoria = data.get("category", "Other / Misc").strip().replace(" ", "_").replace("/", "_")
+    categoria_raw = data.get("category", "Other / Misc").strip()
+    categoria = re.sub(r'[^\w\-]', '_', categoria_raw) 
     project_dir = root_dir / categoria / nome_proj
 
 
