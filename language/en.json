@@ -205,5 +205,10 @@
   "splash_disable_updates": "Updates disabled",
   "settings_log": "📘 System log",
   "open_log_button": "Open log file",
-  "log_file_not_found": "Log file not found."
+  "log_file_not_found": "Log file not found.",
+  "project_subfolders": "Create standard subfolders (yaml/, logs/, assets/)",
+  "create": "Create",
+  "error_project_name_required": "Project name cannot be empty.",
+  "error_invalid_characters": "Project name contains invalid characters (\\ / : * ? \" < > |).",
+  "project_category": "Project category"
 }

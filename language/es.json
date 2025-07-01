@@ -201,5 +201,10 @@
   "splash_disable_updates": "Actualizaciones deshabilitadas",
   "settings_log": "📘 Registro del sistema",
   "open_log_button": "Abrir archivo de log",
-  "log_file_not_found": "Archivo de log no encontrado."
+  "log_file_not_found": "Archivo de log no encontrado.",
+  "project_subfolders": "Crear subcarpetas estándar (yaml/, logs/, assets/)",
+  "create": "Crear",
+  "error_project_name_required": "El nombre del proyecto no puede estar vacío.",
+  "error_invalid_characters": "El nombre del proyecto contiene caracteres no válidos (\\ / : * ? \" < > |).",
+  "project_category": "Categoría del proyecto"
 }

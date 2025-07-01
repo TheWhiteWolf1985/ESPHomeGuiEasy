@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 
 COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
+DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
+
 
 LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
 os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)

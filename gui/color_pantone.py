@@ -118,6 +118,15 @@ class Pantone:
             font-size: 11pt;
         }}
     """    
+
+    LABEL_TITLE_STYLE = f"""
+        QLabel {{
+            color: {TEXT_MAIN};
+            font-size: 11pt;
+            font-weight: bold;
+        }}
+    """    
+
     UPDATE_YAML_BTN_STYLE = f"""
     QPushButton {{
         font-weight: bold;
@@ -292,7 +301,7 @@ class Pantone:
     BUTTON_STYLE_GREEN =  f"""
             QPushButton {{
                 font-weight: bold;
-                padding: 6px 18px;
+                padding: 5px 6px;
                 background: {BTN_UPDATE_BACKGROUND};
                 color: {BTN_UPDATE_TEXT};
                 border-radius: 8px;
@@ -325,3 +334,14 @@ class Pantone:
             QTabBar::tab:selected { background: #23272e; color: #61dafb; }
             QTabBar::tab { background: #1e1e1e; color: #d4d4d4; font-size: 12pt; border-radius: 8px; padding: 8px 16px;}
         """
+
+    TEXTAREA_STYLE = """
+        QTextEdit {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            border: 1px solid #3c3c3c;
+            padding: 4px;
+            font-size: 16px;
+            border-radius: 6px;
+        }
+    """

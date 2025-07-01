@@ -29,6 +29,8 @@ from core.translator import Translator
 from core.project_handler import ProjectHandler
 from core.settings_db import add_recent_file, get_setting
 from core.log_handler import GeneralLogHandler
+from gui.new_project_dialog import NewProjectDialog
+from core.new_project_handler import create_new_project
 
 class MainWindow(QMainWindow):
     """
@@ -213,8 +215,7 @@ class MainWindow(QMainWindow):
 ##########################################################################
 #                          METODI MENU BAR                               #
 ##########################################################################
-
-        self.menu_bar.new_action.triggered.connect(self.nuovo_progetto)
+        # new_action gestito dentro al file new_project_dialog.py
         self.menu_bar.open_action.triggered.connect(lambda _: self.open_project_dialog())
         self.menu_bar.save_action.triggered.connect(self.salva_progetto)
         self.menu_bar.saveas_action.triggered.connect(self.salva_con_nome)
@@ -223,66 +224,34 @@ class MainWindow(QMainWindow):
         self.menu_bar.exit_action.triggered.connect(self.close)     
 
     def nuovo_progetto(self):
-        """
-        Crea un nuovo progetto in una nuova cartella:
-        - Prompt utente per la directory di destinazione
-        - Chiedi il nome del progetto
-        - Crea la cartella, copia template YAML, resetta tutto
-        - Imposta la directory progetto per compilazione/output
-        """
-        # 1. Prompt per cartella principale
-        default_folder = get_setting("default_project_path") or ""
-        root_dir = QFileDialog.getExistingDirectory(
-            self,
-            Translator.tr("select_project_dir"),
-            default_folder
-)
-        if not root_dir:
-            return  # Annullato
 
-        # 2. Chiedi nome progetto
-        nome_proj, ok = QInputDialog.getText(self, Translator.tr("project_name_title"), Translator.tr("project_name_prompt"))
-        if not ok or not nome_proj.strip():
+        dialog = NewProjectDialog(self)
+        result = dialog.exec()
+        print(f"[DEBUG] dialog.exec() returned: {result}")
+        if result != QDialog.DialogCode.Accepted:
+            GeneralLogHandler.debug("[DEBUG] Dialog chiuso con CANCEL, nessuna azione eseguita.")
             return
 
-        nome_proj = nome_proj.strip()
-        project_dir = os.path.join(root_dir, nome_proj)
-        if os.path.exists(project_dir):
-            QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("dir_exists"))
-            return
-        os.makedirs(project_dir)
 
-        # 3. (Opzionale) crea sottocartelle (decommenta se vuoi)
-        # os.makedirs(os.path.join(project_dir, "output"), exist_ok=True)
-        # os.makedirs(os.path.join(project_dir, "src"), exist_ok=True)
+        data = dialog.get_data()
+        result = create_new_project(
+            data,
+            yaml_editor=self.yaml_editor,
+            logger=self.logger,
+            compiler=self.compiler,
+            reset_tabs_callback=self._reset_tabs,
+            update_recent_callback=self.menu_bar._update_recent_files_menu
+        )
 
-        # 4. Copia il template
-        template_path = conf.YAML_TEMPLATE_PATH
-        new_yaml_path = os.path.join(project_dir, f"{nome_proj}.yaml")
-        try:
-            shutil.copy(template_path, new_yaml_path)
-        except Exception as e:
-            QMessageBox.critical(self, Translator.tr("error"), Translator.tr("copy_template_error").format(e=e))
+        if not result:
             return
 
-        # 5. Aggiorna lo YAML nell’editor e memorizza la path del progetto
-        with open(new_yaml_path, "r", encoding="utf-8") as f:
-            self.yaml_editor.setPlainText(f.read())
-        self.last_save_path = new_yaml_path
-        self.project_dir = project_dir  # <- per reference
+        project_dir, yaml_path = result
+        self.last_save_path = yaml_path
+        self.project_dir = project_dir
 
-        # 6. Log e info
-        self.logger.log(Translator.tr("new_project_created").format(project_dir=project_dir), "success")
-
-        # 7. Reset altri tab
-        self.tab_settings.reset_fields()
-        self.tab_modules.reset_fields()
-        self.tab_sensori.get_sensor_canvas().clear_blocks()
-
-        # 8. (NEW) Aggiorna la working dir del compilatore!
-        self.compiler.set_project_dir(project_dir)
-        self.menu_bar._update_recent_files_menu()
-
+        # Apri automaticamente il progetto appena creato
+        self.open_project(yaml_path)
 
     def open_project(self, yaml_path):
         with open(yaml_path, "r", encoding="utf-8") as f:
@@ -435,4 +404,10 @@ class MainWindow(QMainWindow):
         self.logger.log(Translator.tr("unsaved_project_temp_warning"), "warning")
         self.logger.log(Translator.tr("temp_file_generated").format(temp_path=temp_path), "info")
         return temp_path
+    
+    def _reset_tabs(self):
+        self.tab_settings.reset_fields()
+        self.tab_modules.reset_fields()
+        self.tab_sensori.get_sensor_canvas().clear_blocks()
+
 

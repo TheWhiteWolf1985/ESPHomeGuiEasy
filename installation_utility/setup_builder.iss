@@ -35,8 +35,9 @@ Source: "ESPHomeGUIeasy\user_config.db"; \
   DestDir: "{localappdata}\ESPHomeGUIeasy"; \
   Flags: ignoreversion
 
-
-
+[Dirs]
+Name: "{userdocs}\ESPHomeGUIeasy\user_project"
+Name: "{userdocs}\ESPHomeGUIeasy\community_projects"
 
 [Icons]
 Name: "{group}\ESPHomeGUIeasy"; Filename: "{app}\esphomeguieasy.exe"; WorkingDir: "{app}"; IconFilename: "{app}\assets\icon\esphomeguieasy.ico"

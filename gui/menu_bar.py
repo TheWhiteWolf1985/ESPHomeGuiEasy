@@ -18,6 +18,7 @@ from gui.setting_menu import SettingsDialog
 class MainMenuBar(QMenuBar):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.main_window = parent
 
         self.setStyleSheet(Pantone.MENU_BAR)
 
@@ -27,6 +28,7 @@ class MainMenuBar(QMenuBar):
         self.new_action = QAction(Translator.tr("new_project"), self)
         self.new_action.setShortcut("Ctrl+N")
         self.file_menu.addAction(self.new_action)
+        self.new_action.triggered.connect(self.main_window.nuovo_progetto)
 
         self.open_action = QAction(Translator.tr("open_project"), self)
         self.open_action.setShortcut("Ctrl+O")
@@ -101,7 +103,7 @@ class MainMenuBar(QMenuBar):
 
         self.new_action = QAction(Translator.tr("new_project"), self)
         self.new_action.setShortcut("Ctrl+N")
-        self.new_action.triggered.connect(parent.nuovo_progetto)
+        self.new_action.triggered.connect(self.main_window.nuovo_progetto)
 
         self.open_action = QAction(Translator.tr("open_project"), self)
         self.open_action.setShortcut("Ctrl+O")

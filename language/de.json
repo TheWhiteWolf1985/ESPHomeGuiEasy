@@ -200,5 +200,10 @@
   "splash_disable_updates": "Updates deaktiviert",
   "settings_log": "📘 Systemprotokoll",
   "open_log_button": "Logdatei öffnen",
-  "log_file_not_found": "Logdatei wurde nicht gefunden."
+  "log_file_not_found": "Logdatei wurde nicht gefunden.",
+  "project_subfolders": "Standard-Unterordner erstellen (yaml/, logs/, assets/)",
+  "create": "Erstellen",
+  "error_project_name_required": "Der Projektname darf nicht leer sein.",
+  "error_invalid_characters": "Der Projektname enthält ungültige Zeichen (\\ / : * ? \" < > |).",
+  "project_category": "Projektkategorie"
 }
