@@ -10,6 +10,7 @@ from core.translator import Translator
 from core.compile_manager import CompileManager
 from pathlib import Path
 from core.log_handler import GeneralLogHandler as logger
+from config.GUIconfig import DEFAULT_BUILD_DIR
 
 
 class TabCommand(QWidget):

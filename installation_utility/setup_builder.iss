@@ -27,16 +27,13 @@ Source: "ESPHomeGUIeasy\*"; \
   Flags: recursesubdirs createallsubdirs ignoreversion; \
   Excludes: "installation_utility\\user_config.db"
 
-Source: "ESPHomeGUIeasy\community_project\*"; \
-  DestDir: "{userdocs}\ESPHomeGUIeasy\community_projects"; \
-  Flags: recursesubdirs createallsubdirs ignoreversion
-
 Source: "ESPHomeGUIeasy\user_config.db"; \
   DestDir: "{localappdata}\ESPHomeGUIeasy"; \
   Flags: ignoreversion
 
 [Dirs]
-Name: "{userdocs}\ESPHomeGUIeasy\user_project"
+Name: "{userdocs}\ESPHomeGUIeasy\build"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects"
 Name: "{userdocs}\ESPHomeGUIeasy\community_projects"
 Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Home_Monitoring"
 Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Energy_Power"

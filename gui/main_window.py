@@ -387,13 +387,15 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("file_saved_to").format(path=self.last_save_path), "success")
             return self.last_save_path
 
-        # Se non c'è project_dir, usa cartella sicura in LOCALAPPDATA
+        # Se c'è un progetto, salva direttamente lì
         if self.project_dir:
             base_dir = self.project_dir
             temp_dir = os.path.join(base_dir, ".temp")
+            os.makedirs(temp_dir, exist_ok=True)
+            temp_path = os.path.join(temp_dir, "__temp_upload.yaml")
         else:
-            base_dir = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
-            temp_dir = os.path.join(base_dir, "temp")
+            # Usa la cartella build centralizzata
+            temp_path = os.path.join(conf.DEFAULT_BUILD_DIR, "__temp_upload.yaml")
 
         os.makedirs(temp_dir, exist_ok=True)
         temp_path = os.path.join(temp_dir, "__temp_upload.yaml")

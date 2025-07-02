@@ -10,7 +10,7 @@ from PyQt6.QtCore import Qt, QTimer, QSize
 from importlib.metadata import version, PackageNotFoundError
 from core.translator import Translator
 from core.settings_db import init_db, get_setting, set_setting, get_user_db_path
-from config.GUIconfig import USER_DB_PATH
+from config.GUIconfig import USER_DB_PATH, DEFAULT_BUILD_DIR
 import sqlite3
 import shutil
 from core.log_handler import GeneralLogHandler
@@ -136,7 +136,12 @@ class SplashScreen(QSplashScreen):
             self.logger.debug(f"Template base presente: {template_path}")
 
     def check_working_folders(self):
-        for folder in ["assets", "build", "core", "config", "gui", "language"]:
+        # Verifica che la cartella build esista nel percorso corretto
+        if not DEFAULT_BUILD_DIR.exists():
+            raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {DEFAULT_BUILD_DIR}")
+
+        # Crea comunque le altre cartelle locali (non la build!)
+        for folder in ["assets", "core", "config", "gui", "language"]:
             os.makedirs(folder, exist_ok=True)
 
     def check_online_version(self):

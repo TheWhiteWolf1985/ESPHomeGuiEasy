@@ -10,9 +10,7 @@ import sys
 MAIN_CONTENT = [
     "main.py",
     "config",
-    "community_project",
     "gui",
-    "build",
     "core",
     "assets",
     "language",

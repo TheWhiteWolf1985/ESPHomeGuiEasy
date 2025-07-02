@@ -3,7 +3,7 @@ from pathlib import Path
 
 COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
 DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
-
+DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
 
 LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
 os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
@@ -16,7 +16,6 @@ SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
 SPLASH_IMAGE = "assets/background_image.png"
 YAML_TEMPLATE_PATH = "config/default_template.yaml"
 DOCS_PATH = "docs/"
-#USER_DB_PATH = "core/user_config.db"   #activate for debug in vscode
 ICON_PATH = "assets/icon/"
 PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
