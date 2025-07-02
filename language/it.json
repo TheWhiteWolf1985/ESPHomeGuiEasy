@@ -210,5 +210,7 @@
   "create": "Crea",
   "error_project_name_required": "Il campo Nome progetto non può essere vuoto.",
   "error_invalid_characters": "Il nome del progetto contiene caratteri non validi (\\ / : * ? \" < > |).",
-  "project_category": "Categoria progetto"
+  "project_category": "Categoria progetto",
+  "menu_header_projects": "Progetti",
+  "menu_header_yaml": "File YAML"
 }

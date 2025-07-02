@@ -198,5 +198,7 @@
   "create": "Criar",
   "error_project_name_required": "O nome do projeto não pode estar vazio.",
   "error_invalid_characters": "O nome do projeto contém caracteres inválidos (\\ / : * ? \" < > |).",
-  "project_category": "Categoria do projeto"
+  "project_category": "Categoria do projeto",
+  "menu_header_projects": "Projetos",
+  "menu_header_yaml": "Arquivos YAML"
 }

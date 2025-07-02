@@ -345,3 +345,23 @@ class Pantone:
             border-radius: 6px;
         }
     """
+    QMESSAGE_BOX = """
+            QMessageBox {
+                background-color: #2e2e2e;
+                color: white;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 10pt;
+            }
+            QMessageBox QPushButton {
+                background-color: #444;
+                color: white;
+                padding: 6px 14px;
+                border-radius: 6px;
+            }
+            QMessageBox QPushButton:hover {
+                background-color: #555;
+            }
+        """
+

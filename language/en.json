@@ -210,5 +210,7 @@
   "create": "Create",
   "error_project_name_required": "Project name cannot be empty.",
   "error_invalid_characters": "Project name contains invalid characters (\\ / : * ? \" < > |).",
-  "project_category": "Project category"
+  "project_category": "Project category",
+  "menu_header_projects": "Projects",
+  "menu_header_yaml": "YAML Files"
 }

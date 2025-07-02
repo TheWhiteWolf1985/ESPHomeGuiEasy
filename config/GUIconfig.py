@@ -5,6 +5,16 @@ COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "com
 DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
 DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
 
+CATEGORY_TO_FOLDER = {
+    "Home Monitoring": "Home_Monitoring",
+    "Energy & Power": "Energy_Power",
+    "Security & Alarm": "Security_Alarm",
+    "Actuators & I/O": "Actuators_IO",
+    "Communication": "Communication",
+    "Automation Logic": "Automation_Logic",
+    "Other / Misc": "Other_Misc"
+}
+
 LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
 os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
 

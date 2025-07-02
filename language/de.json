@@ -205,5 +205,7 @@
   "create": "Erstellen",
   "error_project_name_required": "Der Projektname darf nicht leer sein.",
   "error_invalid_characters": "Der Projektname enthält ungültige Zeichen (\\ / : * ? \" < > |).",
-  "project_category": "Projektkategorie"
+  "project_category": "Projektkategorie",
+  "menu_header_projects": "Projekte",
+  "menu_header_yaml": "YAML-Dateien"
 }
