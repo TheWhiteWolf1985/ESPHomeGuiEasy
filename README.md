@@ -12,6 +12,10 @@
 
 ---
 
+📌 [Full changelog available here](CHANGELOG.md)
+
+---
+
 ## 📝 Description
 
 **esphomeGuieasy** is a Python desktop app with PyQt6 interface to simplify the creation, editing and flashing of ESPHome-compatible devices.
