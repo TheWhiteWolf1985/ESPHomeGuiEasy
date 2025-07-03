@@ -29,8 +29,8 @@ DOCS_PATH = "docs/"
 ICON_PATH = "assets/icon/"
 PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
-APP_VERSION = "1.3.2"
-APP_RELEASE_DATE = "2025-06-27"
+APP_VERSION = "1.4.0"
+APP_RELEASE_DATE = "2025-07-04"
 
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
