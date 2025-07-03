@@ -42,6 +42,14 @@ class NewProjectDialog(QDialog):
         self.name_input.setStyleSheet(Pantone.LINEEDIT_STYLE)
         layout.addWidget(self.name_input)
 
+        # Autore
+        self.author_input = QLineEdit()
+        author_label = QLabel(Translator.tr("project_author"))
+        author_label.setStyleSheet(Pantone.LABEL_TITLE_STYLE)
+        layout.addWidget(author_label)
+        self.author_input.setStyleSheet(Pantone.LINEEDIT_STYLE)
+        layout.addWidget(self.author_input)
+
         # Versione
         self.version_input = QLineEdit("1.0.0")
         version_label = QLabel(Translator.tr("version_label").split(" ")[0] + ":")
@@ -129,6 +137,7 @@ class NewProjectDialog(QDialog):
         return {
             "name": self.name_input.text().strip(),
             "version": self.version_input.text().strip(),
+            "author": self.author_input.text().strip(),
             "category": self.category_combo.currentText(),
             "description": self.description_input.toPlainText().strip(),
             "base_dir": self.base_dir_input.text().strip(),
