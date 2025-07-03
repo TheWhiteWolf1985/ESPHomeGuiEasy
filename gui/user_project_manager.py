@@ -3,19 +3,44 @@ from pathlib import Path
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
     QScrollArea, QListWidget, QMessageBox, QListWidgetItem, QApplication,
-    QInputDialog, QGridLayout
+    QInputDialog, QGridLayout, QDialog
 )
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
 from config.GUIconfig import DEFAULT_PROJECT_DIR
 from datetime import datetime
+from core.translator import Translator
+from gui.custom_message_dialog import CustomMessageDialog
+from gui.project_edit_dialog import ProjectEditDialog
+from core.settings_db import get_setting
+
+def format_changelog(changelog: list[dict]) -> str:
+    if not changelog:
+        return Translator.tr("no_changelog_available")  # o ""
+
+    lines = []
+    for entry in reversed(changelog):  # mostriamo prima i più recenti
+        version = entry.get("version", "?.?")
+        date = entry.get("date", "???")
+        text = entry.get("text", "").strip()
+
+        lines.append(f"🟢 Versione {version} ({date})")
+        if text:
+            lines.append(f"- {text}")
+        lines.append("")  # riga vuota tra le voci
+
+    return "\n".join(lines).strip()            
 
 class UserProjectManagerWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, main_window=None):
         super().__init__()
-        self.setWindowTitle("User Projects")
+        self.main_window = main_window
+        self.setWindowTitle(Translator.tr("user_projects_title"))
         self.setMinimumSize(1050, 600)
         self.setStyleSheet(f"background-color: {Pantone.SECONDARY_BG};")
+
+        lang = get_setting("language")
+        Translator.load_language(lang)
 
         QApplication.instance().setStyleSheet("""
             QLineEdit, QTextEdit {
@@ -107,17 +132,17 @@ class UserProjectManagerWindow(QMainWindow):
         footer_layout.setSpacing(20)
         footer_layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-        self.btn_load = QPushButton("📥 Carica")
-        self.btn_close = QPushButton("❌ Chiudi")
-        self.btn_load.setFixedWidth(140)
+        #self.btn_load = QPushButton("📥 " + Translator.tr("load_button"))
+        self.btn_close = QPushButton("❌ " + Translator.tr("close_button"))
+        #self.btn_load.setFixedWidth(140)
         self.btn_close.setFixedWidth(140)
 
-        self.btn_load.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
+        #self.btn_load.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
         self.btn_close.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
 
         self.btn_close.clicked.connect(self.close)
 
-        footer_layout.addWidget(self.btn_load)
+        #footer_layout.addWidget(self.btn_load)
         footer_layout.addWidget(self.btn_close)
 
         footer.setLayout(footer_layout)
@@ -207,13 +232,14 @@ class UserProjectManagerWindow(QMainWindow):
         button_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         button_layout.setSpacing(10)
 
-        btn_open = QPushButton("📂 Apri")
-        btn_info = QPushButton("ℹ️ Info")
-        btn_edit = QPushButton("✏️ Modifica")
-        btn_delete = QPushButton("🗑️ Elimina")
+        btn_open = QPushButton("📂 " + Translator.tr("project_open"))
+        btn_info = QPushButton("ℹ️ " + Translator.tr("project_info"))
+        btn_edit = QPushButton("✏️ " + Translator.tr("project_edit"))
+        btn_delete = QPushButton("🗑️ " + Translator.tr("project_delete"))
+
 
         for btn in [btn_open, btn_info, btn_edit, btn_delete]:
-            btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)
+            btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)
             btn.setFixedWidth(150)
             button_layout.addWidget(btn)
 
@@ -228,52 +254,98 @@ class UserProjectManagerWindow(QMainWindow):
 
 
     def apri_progetto(self, fields):
-        path = fields.get("__path", "")
-        self.show_message("Apertura", f"Apertura del progetto:\n{path}")
+        path = Path(fields.get("__path", ""))
+        print(f"[DEBUG] apri_progetto chiamato con path: {path}")
+        print(f"[DEBUG] main_window è: {repr(self.main_window)}")
+        print(f"[DEBUG] main_window.open_project esiste: {hasattr(self.main_window, 'open_project')}")
+
+        if not path.exists():
+            self.show_message(Translator.tr("error"), Translator.tr("folder_not_found"))
+            return
+
+        yaml_files = list(path.glob("*.yaml"))
+        if not yaml_files:
+            self.show_message(Translator.tr("error"), "Nessun file .yaml trovato nella cartella progetto.")
+            return
+
+        yaml_path = yaml_files[0]
+        print(f"[DEBUG] YAML trovato: {yaml_path}")
+
+        if self.main_window:
+            # Verifica se è già aperto
+            if os.path.abspath(str(self.main_window.last_save_path or "")) == os.path.abspath(str(yaml_path)):
+                print("[DEBUG] Progetto già aperto, forzo ricaricamento")
+            else:
+                print("[DEBUG] Progetto diverso, procedo con apertura")
+
+            self.main_window._reset_tabs()  # forza pulizia
+            self.main_window.open_project(str(yaml_path))
+            self.close()
+        else:
+            self.show_message("Stub", f"Apertura finta del progetto:\n{yaml_path}")
 
     def modifica_progetto(self, project_data):
         info_path = Path(project_data.get("__path", "")) / "info.json"
         if not info_path.exists():
-            self.show_message("Errore", "File info.json non trovato.")
+            self.show_message(Translator.tr("error"), "File info.json non trovato.")
             return
 
         try:
             with open(info_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except Exception as e:
-            self.show_message("Errore", f"Errore lettura info.json:\n{e}")
+            self.show_message(Translator.tr("error"), f"{Translator.tr('read_info_error')}\n{e}")
             return
 
-        version, ok1 = QInputDialog.getText(self, "Modifica versione", "Nuova versione:", text=data.get("version", ""))
-        if not ok1:
-            return
-        descrizione, ok2 = QInputDialog.getMultiLineText(self, "Modifica descrizione", "Changelog:", text=data.get("description", ""))
-        if not ok2:
+        dialog = ProjectEditDialog(
+            version=data.get("version", ""),
+            description=data.get("description", ""),
+            parent=self
+        )
+
+        if dialog.exec() != QDialog.DialogCode.Accepted:
             return
 
-        data["version"] = version.strip()
-        data["description"] = descrizione.strip()
+        version, descrizione = dialog.get_data()
+
+        # Aggiorna dati principali
+        data["version"] = version
+        data["description"] = descrizione
         data["update"] = datetime.today().strftime("%Y-%m-%d")
+
+        # Aggiorna changelog incrementale
+        changelog_entry = {
+            "date": data["update"],
+            "version": data["version"],
+            "text": data["description"]
+        }
+
+        if "changelog" not in data or not isinstance(data["changelog"], list):
+            data["changelog"] = []
+
+        data["changelog"].append(changelog_entry)
 
         try:
             with open(info_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-            self.show_message("Salvato", "Modifiche salvate con successo.")
+
+            self.show_message(Translator.tr("saved"), Translator.tr("save_success"))
             self.project_data = self.load_project_metadata()
             self.category_to_cards = self.build_category_index()
             self.load_category_cards(project_data["category"])
         except Exception as e:
-            self.show_message("Errore", f"Errore salvataggio:\n{e}")
+            self.show_message(Translator.tr("error"), Translator.tr("save_error").format(e=e))
+
 
     def elimina_progetto(self, project_data):
         path = Path(project_data.get("__path", ""))
         if not path.exists():
-            self.show_message("Errore", "Cartella progetto non trovata.")
+            self.show_message(Translator.tr("error"), Translator.tr("folder_not_found"))
             return
 
         conferma = QMessageBox.question(self,
-            "Conferma eliminazione",
-            f"Sei sicuro di voler eliminare il progetto:\n{path.name}?",
+            Translator.tr("confirm_delete"),
+            Translator.tr("delete_confirm_msg").format(name=path.name),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
@@ -283,26 +355,35 @@ class UserProjectManagerWindow(QMainWindow):
         try:
             import shutil
             shutil.rmtree(path)
-            self.show_message("Eliminato", "Progetto eliminato con successo.")            
+            self.show_message(Translator.tr("deleted"), Translator.tr("delete_success"))            
             self.project_data = self.load_project_metadata()
             self.category_to_cards = self.build_category_index()
             self.load_category_cards(project_data["category"])
         except Exception as e:
-            self.show_message("Errore", f"Errore durante l'eliminazione:\n{e}")
+            self.show_message(Translator.tr("error"), Translator.tr("delete_error").format(e=e))
 
     def mostra_descrizione(self, project_data):
-        name = project_data.get("name", "")            
-        self.show_message("Stub", f"progetto {name}")
+        description = project_data.get("description", "")
+        changelog = project_data.get("changelog", [])  # deve essere una lista
+        formatted_changelog = format_changelog(changelog)
+        self.show_message_custom(Translator.tr("descrizione"), description, formatted_changelog)
+
 
     def show_message(self, title: str, text: str, icon=QMessageBox.Icon.Information):
         box = QMessageBox(self)
         box.setWindowTitle(title)
+        box.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         box.setText(text)
         box.setIcon(icon)
-
+        box.setMinimumWidth(400)  # 👈 forza larghezza minima
         box.setStyleSheet(Pantone.QMESSAGE_BOX)
-
         box.exec()
+
+    def show_message_custom(self, title: str, text: str, changelog: str):
+        dlg = CustomMessageDialog(title, text, changelog, self)
+        dlg.exec()        
+
+
 
 
 

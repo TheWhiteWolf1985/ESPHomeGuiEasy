@@ -115,7 +115,7 @@ class MainMenuBar(QMenuBar):
         self.community_project_action.triggered.connect(self.open_project_gallery_window)
         self.project_menu.addAction(self.community_project_action)
 
-        self.user_projects_action = QAction(Translator.tr("progetti_utente"), self)
+        self.user_projects_action = QAction(Translator.tr("user_projects_title"), self)
         self.user_projects_action.triggered.connect(self.open_user_project_gallery_window)
         self.project_menu.addAction(self.user_projects_action)
 
@@ -198,11 +198,18 @@ class MainMenuBar(QMenuBar):
         self._project_gallery_window.activateWindow()
 
     def open_user_project_gallery_window(self):
+        # Se l'oggetto esiste ma è stato chiuso, lo azzero
+        if hasattr(self, "_user_project_gallery_window"):
+            if self._user_project_gallery_window is not None and not self._user_project_gallery_window.isVisible():
+                self._user_project_gallery_window = None
+
         if not hasattr(self, "_user_project_gallery_window") or self._user_project_gallery_window is None:
-            self._user_project_gallery_window = UserProjectManagerWindow()
+            self._user_project_gallery_window = UserProjectManagerWindow(main_window=self.main_window)
+
         self._user_project_gallery_window.show()
         self._user_project_gallery_window.raise_()
         self._user_project_gallery_window.activateWindow()
+
 
     def open_full_settings_dialog(self):
         dlg = SettingsDialog(self)

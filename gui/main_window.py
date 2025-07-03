@@ -210,18 +210,7 @@ class MainWindow(QMainWindow):
         main_splitter.setSizes([conf.MAIN_SPLITTER_LEFT_COLUMN, conf.MAIN_SPLITTER_RIGHT_COLUMN])
 
         # Aggiungi lo splitter al layout principale
-        main_layout.addWidget(main_splitter)
-
-##########################################################################
-#                          METODI MENU BAR                               #
-##########################################################################
-        # new_action gestito dentro al file new_project_dialog.py
-        self.menu_bar.open_action.triggered.connect(lambda _: self.open_project_dialog())
-        self.menu_bar.save_action.triggered.connect(self.salva_progetto)
-        self.menu_bar.saveas_action.triggered.connect(self.salva_con_nome)
-        self.menu_bar.import_action.triggered.connect(self.importa_yaml)
-        self.menu_bar.export_action.triggered.connect(self.esporta_yaml)
-        self.menu_bar.exit_action.triggered.connect(self.close)     
+        main_layout.addWidget(main_splitter)  
 
     def nuovo_progetto(self):
 
@@ -254,21 +243,35 @@ class MainWindow(QMainWindow):
         self.open_project(yaml_path)
 
     def open_project(self, yaml_path):
-        with open(yaml_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            self.yaml_editor.setPlainText(content)
-        # Prima aggiorna i campi settings leggendo dallo YAML!
+        yaml_path = os.path.abspath(yaml_path)
+        self._reset_tabs()
+
+        try:
+            with open(yaml_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                self.yaml_editor.setPlainText(content)
+                self.logger.log(f"Progetto caricato: {yaml_path}", "info")
+        except Exception as e:
+            self.logger.log(Translator.tr("error") + f": {e}", "error")
+            return
+
+        # 💡 PATCH CRUCIALE: forza aggiornamento come in importa_yaml()
+        print("[DEBUG] Avvio aggiornamento tab_settings")
         self.tab_settings.carica_dati_da_yaml(content)
-        # Poi aggiorna i blocchi grafici
+
+        print("[DEBUG] Avvio aggiornamento tab_sensori")
         self.tab_sensori.aggiorna_blocchi_da_yaml(content)
-        #Poi aggiorna gli accordion
+
+        print("[DEBUG] Avvio aggiornamento tab_modules")
         self.tab_modules.carica_dati_da_yaml(content)
+
+
         self.logger.log(Translator.tr("project_opened").format(path=yaml_path), "success")
-        # Salva anche la directory progetto!
         self.last_save_path = yaml_path
-        self.project_dir = os.path.dirname(os.path.abspath(yaml_path))
+        self.project_dir = os.path.dirname(yaml_path)
         add_recent_file(yaml_path)
         self.menu_bar._update_recent_files_menu()
+
 
     def open_project_dialog(self):
         # Imposta la cartella iniziale: Documenti/ESPHomeGUIeasy

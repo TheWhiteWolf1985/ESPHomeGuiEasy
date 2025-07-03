@@ -89,7 +89,8 @@ captive_portal:
         "version": data.get("version", "1.0"),
         "update": datetime.today().strftime("%Y-%m-%d"),
         "category": data.get("category", "Other / Misc"),
-        "description": data.get("description", "")
+        "description": data.get("description", ""),
+        "changelog": []  # ✅ aggiunto per supporto incrementale
     }
 
     info_path = project_dir / "info.json"
