@@ -79,7 +79,7 @@ You can safely click **"More info → Run anyway"** when prompted by SmartScreen
 
 #### 2. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/esphomeGuieasy.git
+git clone https://github.com/TheWhiteWolf1985/ESPHomeGuiEasy.git
 cd esphomeGuieasy
 ```
 
@@ -88,6 +88,7 @@ cd esphomeGuieasy
 python -m venv venv
 venv\Scripts\activate         # On Windows
 # OR
+python -m venv venv
 source venv/bin/activate      # On macOS/Linux
 ```
 
