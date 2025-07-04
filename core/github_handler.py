@@ -4,6 +4,8 @@ import io
 import os
 import json
 import config.GUIconfig as config
+from core.log_handler import GeneralLogHandler
+
 
 class GitHubHandler:
     """
@@ -33,13 +35,13 @@ class GitHubHandler:
                         info_json = info_resp.json()
                         projects.append(info_json)
                     except Exception as parse_err:
-                        print(f"Errore caricamento info.json per {entry['name']}: {parse_err}")
+                        GeneralLogHandler().error(f"Errore caricamento info.json per {entry['name']}: {parse_err}")
 
 
             return projects
 
         except Exception as e:
-            print(f"Errore nel recupero dei metadati da GitHub: {e}")
+            GeneralLogHandler().error(f"Errore nel recupero dei metadati da GitHub: {e}")
             return []
 
     @staticmethod
@@ -69,7 +71,7 @@ class GitHubHandler:
             return projects
 
         except Exception as e:
-            print(f"Errore nel recupero dei progetti da GitHub: {e}")
+            GeneralLogHandler().error(f"Errore nel recupero dei progetti da GitHub: {e}")
             return []
         
     @staticmethod
@@ -97,5 +99,5 @@ class GitHubHandler:
                 f.write(yaml_resp.text)
 
         except Exception as e:
-            print(f"❌ Errore durante il download del progetto '{name}': {e}")
+            GeneralLogHandler().error(f"Errore durante il download del progetto '{name}': {e}")
 

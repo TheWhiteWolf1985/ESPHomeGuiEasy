@@ -16,28 +16,21 @@ from gui.language_selection_dialog import LanguageSelectionDialog
 from gui.splash_screen import SplashScreen
 import config.GUIconfig as conf
 from core.settings_db import init_db, get_setting, set_setting
+from core.log_handler import GeneralLogHandler
 import logging
 import tempfile
+from core.log_handler import GeneralLogHandler
 
-# Tentativo di scrivere il log in LOCALAPPDATA, altrimenti fallback su file temporaneo
-try:
-    with open(conf.LOG_PATH, "a"): pass
-    log_path = conf.LOG_PATH
-except Exception:
-    log_path = tempfile.NamedTemporaryFile(prefix="esphomeguieasy_", suffix=".log", delete=False).name
+def global_exception_hook(exc_type, exc_value, exc_traceback):
+    logger = GeneralLogHandler()
+    logger.log_exception("UNCAUGHT EXCEPTION")
 
+sys.excepthook = global_exception_hook
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    filename=log_path,
-    filemode='a',
-    format='[%(asctime)s] %(levelname)s - %(message)s'
-)
-
-
+logger = GeneralLogHandler()
 
 # Log iniziale
-logging.info("Avvio main.py")
+logger.info("Avvio main.py")
 
 def should_show_splash() -> bool:
     """
@@ -70,33 +63,33 @@ def main():
         language = get_setting("language")
         print(language)
         if not language or not language.strip():
-            logging.debug("[DEBUG] Creo LanguageSelectionDialog")
+            logger.debug("[DEBUG] Creo LanguageSelectionDialog")
             dlg = LanguageSelectionDialog()
             dlg.setWindowModality(Qt.WindowModality.ApplicationModal)
             dlg.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
             dlg.resize(400, 400)
             dlg.show()
 
-            logging.debug("[DEBUG] Apro exec() sul dialog")
+            logger.debug("[DEBUG] Apro exec() sul dialog")
             result = dlg.exec()
-            logging.debug(f"[DEBUG] Risultato exec: {result}")
+            logger.debug(f"[DEBUG] Risultato exec: {result}")
 
             if result == QDialog.DialogCode.Accepted and dlg.get_selected_language():
                 language = dlg.get_selected_language()
-                logging.debug(f"[DEBUG] Lingua selezionata: {language}")
+                logger.debug(f"[DEBUG] Lingua selezionata: {language}")
                 set_setting("language", language)
                 Translator.load_language(language.strip().lower())
             else:
-                logging.warning("Lingua non selezionata. Chiusura applicazione.")
-                logging.debug("[DEBUG] Lingua non selezionata, esco.")
+                logger.warning("Lingua non selezionata. Chiusura applicazione.")
+                logger.debug("[DEBUG] Lingua non selezionata, esco.")
                 return
 
         # A questo punto siamo sicuri che la lingua è impostata
-        logging.info("Lingua attiva: %s", language)
+        logger.info(f"Lingua attiva: {language}")
 
         # Mostra splash SOLO dopo selezione lingua
         if should_show_splash():
-            logging.info("Caricamento splash screen")
+            logger.info("Caricamento splash screen")
             pixmap = QPixmap(conf.SPLASH_IMAGE)
             splash = SplashScreen(pixmap)
             splash.show()
@@ -106,9 +99,10 @@ def main():
 
         sys.exit(app.exec())
 
-    except Exception as e:
-        logging.error("Errore imprevisto: %s", str(e))
+    except Exception:
+        GeneralLogHandler().log_exception("Errore imprevisto in main()")
         raise
+
 
 
 

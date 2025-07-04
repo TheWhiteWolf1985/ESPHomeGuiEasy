@@ -10,9 +10,10 @@ from PyQt6.QtCore import Qt, QTimer, QSize
 from importlib.metadata import version, PackageNotFoundError
 from core.translator import Translator
 from core.settings_db import init_db, get_setting, set_setting, get_user_db_path
-from config.GUIconfig import USER_DB_PATH
+from config.GUIconfig import USER_DB_PATH, DEFAULT_BUILD_DIR
 import sqlite3
-
+import shutil
+from core.log_handler import GeneralLogHandler
 
 class SplashScreen(QSplashScreen):
     def __init__(self, pixmap):
@@ -21,6 +22,8 @@ class SplashScreen(QSplashScreen):
         self.setFixedSize(500, 500)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setFont(QFont("Arial", 10))
+
+        self.logger = GeneralLogHandler()
 
         # Settaggio stile finestra
         self.setStyleSheet("""
@@ -104,9 +107,10 @@ class SplashScreen(QSplashScreen):
             QApplication.processEvents()
             try:
                 func()
-            except Exception as e:
-                self.status_label.setText(Translator.tr("splash_error_generic").format(error=str(e)))
-                QMessageBox.critical(None, Translator.tr("splash_init_error"), str(e))
+            except Exception:
+                self.logger.log_exception("Errore durante lo step di inizializzazione splash")
+                self.status_label.setText(Translator.tr("splash_error_generic").format(error="Errore imprevisto"))
+                QMessageBox.critical(None, Translator.tr("splash_init_error"), Translator.tr("splash_error_generic"))
                 QTimer.singleShot(2000, QApplication.quit)
                 return
             self.advance()
@@ -124,11 +128,20 @@ class SplashScreen(QSplashScreen):
             raise Exception(f"Python >= {min_required[0]}.{min_required[1]} richiesto. Attuale: {current[0]}.{current[1]}")
 
     def check_base_project_template(self):
-        if not os.path.exists("config/default_template.yaml"):
-            raise Exception("File base progetto mancante: config/default_template.yaml")
+        template_path = "config/default_template.yaml"
+        if not os.path.exists(template_path):
+            self.logger.error(f"File base progetto mancante: {template_path}")
+            raise Exception(f"File base progetto mancante: {template_path}")
+        else:
+            self.logger.debug(f"Template base presente: {template_path}")
 
     def check_working_folders(self):
-        for folder in ["assets", "build", "core", "config", "gui", "language"]:
+        # Verifica che la cartella build esista nel percorso corretto
+        if not DEFAULT_BUILD_DIR.exists():
+            raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {DEFAULT_BUILD_DIR}")
+
+        # Crea comunque le altre cartelle locali (non la build!)
+        for folder in ["assets", "core", "config", "gui", "language"]:
             os.makedirs(folder, exist_ok=True)
 
     def check_online_version(self):
@@ -182,7 +195,7 @@ class SplashScreen(QSplashScreen):
         self.status_label.setText(f"Cartella community: {community_path}")
 
     def maybe_check_updates_step(self):
-        return Translator.tr("splash_check_updates") if get_setting("check_updates") == "1" else "Aggiornamenti disabilitati"
+        return Translator.tr("splash_check_updates") if get_setting("check_updates") == "1" else Translator.tr("splash_disable_updates")
 
     def maybe_check_online_version(self):
         if get_setting("check_updates") != "1":
@@ -194,15 +207,35 @@ class SplashScreen(QSplashScreen):
             import PyQt6
             import ruamel.yaml
             import serial
+            self.logger.debug("Librerie di base (PyQt6, ruamel.yaml, serial) importate correttamente.")
         except ImportError as e:
+            self.logger.error(f"Libreria mancante: {e.name}")
             raise Exception(f"Libreria mancante: {e.name}. L'app non può avviarsi.")
 
         try:
             import esphome  # type: ignore
+            self.logger.debug("Libreria esphome disponibile.")
         except ImportError:
-            # Log non bloccante: l'utente potrà installarlo via settings
-            print("⚠️ ESPHome non disponibile, ma non richiesto all'avvio")
+            if shutil.which("esphome"):
+                self.logger.debug("Modulo esphome non importabile, ma CLI rilevata nel PATH → OK")
+                return  # ESPHome CLI sufficiente → termina qui
+            else:
+                self.status_label.setText("⚠️ " + Translator.tr("esphome_not_found_title"))
+                try:
+                    self.logger.warning("ESPHome non rilevato. Prompt per download mostrato all'utente.")
+                    reply = QMessageBox.question(
+                        self,
+                        Translator.tr("esphome_not_found_title"),
+                        Translator.tr("esphome_not_found_text"),
+                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+                    )
+                    if reply == QMessageBox.StandardButton.Yes:
+                        webbrowser.open("https://esphome.io/guides/installing_esphome.html")
+                        self.logger.info("Aperta la pagina di download di ESPHome.")
+                except Exception:
+                    self.logger.log_exception("Errore durante il prompt per download ESPHome")
 
+                self.logger.warning("Fine controllo ESPHome (non installato)")
 
     def check_or_create_user_config(self):
         """
@@ -210,6 +243,9 @@ class SplashScreen(QSplashScreen):
         Non crea né modifica nulla. Il setup deve fornirlo.
         """
         if os.path.exists(USER_DB_PATH):
+            self.logger.debug(f"File user_config.db trovato in: {USER_DB_PATH}")
             self.status_label.setText("File user_config.db presente")
         else:
+            self.logger.error("File user_config.db mancante. Avvio impossibile.")
             raise Exception("File user_config.db mancante. Reinstalla o ripara l'applicazione.")
+

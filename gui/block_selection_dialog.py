@@ -6,6 +6,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
 import os, json
+from core.log_handler import GeneralLogHandler as logger
 
 # === SENSOR SELECTION DIALOG ===
 class SensorSelectionDialog(QDialog):
@@ -46,7 +47,7 @@ class SensorSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("sensors", [])
         except Exception as e:
-            print(f"Errore nel caricamento dei sensori: {e}")
+            logger.error(f"Errore nel caricamento dei sensori: {e}")
             return []
 
     def populate_list(self):
@@ -130,7 +131,7 @@ class ActionSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("actions", [])
         except Exception as e:
-            print(f"Errore nel caricamento delle azioni: {e}")
+            logger.error(f"Errore nel caricamento delle azioni: {e}")
             return []
 
     def populate_list(self):
@@ -203,7 +204,7 @@ class TriggerSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("triggers", [])
         except Exception as e:
-            print(f"Errore nel caricamento dei trigger: {e}")
+            logger.error(f"Errore nel caricamento dei trigger: {e}")
             return []
 
     def populate_list(self):
@@ -276,7 +277,7 @@ class ConditionSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("conditions", [])
         except Exception as e:
-            print(f"Errore nel caricamento delle condizioni: {e}")
+            logger.error(f"Errore nel caricamento delle condizioni: {e}")
             return []
 
     def populate_list(self):
@@ -349,7 +350,7 @@ class TimerSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("timers", [])
         except Exception as e:
-            print(f"Errore nel caricamento dei timer: {e}")
+            logger.error(f"Errore nel caricamento dei timer: {e}")
             return []
 
     def populate_list(self):
@@ -422,7 +423,7 @@ class ScriptSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("scripts", [])
         except Exception as e:
-            print(f"Errore nel caricamento degli script: {e}")
+            logger.error(f"Errore nel caricamento degli script: {e}")
             return []
 
     def populate_list(self):

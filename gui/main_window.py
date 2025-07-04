@@ -8,6 +8,7 @@ e strumenti di creazione dei sensori, strutturato in modo modulare.
 import os, json
 import shutil
 import config.GUIconfig as conf
+from pathlib import Path
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt, QUrl, pyqtSlot
 from PyQt6.QtGui import QPalette, QColor, QIcon
@@ -27,6 +28,9 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.project_handler import ProjectHandler
 from core.settings_db import add_recent_file, get_setting
+from core.log_handler import GeneralLogHandler
+from gui.new_project_dialog import NewProjectDialog
+from core.new_project_handler import create_new_project
 
 class MainWindow(QMainWindow):
     """
@@ -44,9 +48,10 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(conf.APP_NAME)
         self.setMinimumSize(conf.MAIN_WINDOW_WIDTH, conf.MAIN_WINDOW_HEIGHT)
-        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))   
+        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))  
+        logger = GeneralLogHandler() 
 
-        print("DEBUG SLOT:", hasattr(self, "log_from_thread"))     
+        logger.debug(f"DEBUG SLOT: {hasattr(self, 'log_from_thread')}")   
 
         self.last_save_path = None
         self.project_dir = None
@@ -205,104 +210,79 @@ class MainWindow(QMainWindow):
         main_splitter.setSizes([conf.MAIN_SPLITTER_LEFT_COLUMN, conf.MAIN_SPLITTER_RIGHT_COLUMN])
 
         # Aggiungi lo splitter al layout principale
-        main_layout.addWidget(main_splitter)
-
-##########################################################################
-#                          METODI MENU BAR                               #
-##########################################################################
-
-        self.menu_bar.new_action.triggered.connect(self.nuovo_progetto)
-        self.menu_bar.open_action.triggered.connect(lambda _: self.open_project_dialog())
-        self.menu_bar.save_action.triggered.connect(self.salva_progetto)
-        self.menu_bar.saveas_action.triggered.connect(self.salva_con_nome)
-        self.menu_bar.import_action.triggered.connect(self.importa_yaml)
-        self.menu_bar.export_action.triggered.connect(self.esporta_yaml)
-        self.menu_bar.exit_action.triggered.connect(self.close)     
+        main_layout.addWidget(main_splitter)  
 
     def nuovo_progetto(self):
-        """
-        Crea un nuovo progetto in una nuova cartella:
-        - Prompt utente per la directory di destinazione
-        - Chiedi il nome del progetto
-        - Crea la cartella, copia template YAML, resetta tutto
-        - Imposta la directory progetto per compilazione/output
-        """
-        # 1. Prompt per cartella principale
-        default_folder = get_setting("default_project_path") or ""
-        root_dir = QFileDialog.getExistingDirectory(
-            self,
-            Translator.tr("select_project_dir"),
-            default_folder
-)
-        if not root_dir:
-            return  # Annullato
 
-        # 2. Chiedi nome progetto
-        nome_proj, ok = QInputDialog.getText(self, Translator.tr("project_name_title"), Translator.tr("project_name_prompt"))
-        if not ok or not nome_proj.strip():
+        dialog = NewProjectDialog(self)
+        result = dialog.exec()
+        print(f"[DEBUG] dialog.exec() returned: {result}")
+        if result != QDialog.DialogCode.Accepted:
+            GeneralLogHandler.debug("[DEBUG] Dialog chiuso con CANCEL, nessuna azione eseguita.")
             return
 
-        nome_proj = nome_proj.strip()
-        project_dir = os.path.join(root_dir, nome_proj)
-        if os.path.exists(project_dir):
-            QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("dir_exists"))
-            return
-        os.makedirs(project_dir)
 
-        # 3. (Opzionale) crea sottocartelle (decommenta se vuoi)
-        # os.makedirs(os.path.join(project_dir, "output"), exist_ok=True)
-        # os.makedirs(os.path.join(project_dir, "src"), exist_ok=True)
+        data = dialog.get_data()
+        result = create_new_project(
+            data,
+            yaml_editor=self.yaml_editor,
+            logger=self.logger,
+            compiler=self.compiler,
+            reset_tabs_callback=self._reset_tabs,
+            update_recent_callback=self.menu_bar._update_recent_files_menu
+        )
 
-        # 4. Copia il template
-        template_path = conf.YAML_TEMPLATE_PATH
-        new_yaml_path = os.path.join(project_dir, f"{nome_proj}.yaml")
-        try:
-            shutil.copy(template_path, new_yaml_path)
-        except Exception as e:
-            QMessageBox.critical(self, Translator.tr("error"), Translator.tr("copy_template_error").format(e=e))
+        if not result:
             return
 
-        # 5. Aggiorna lo YAML nell’editor e memorizza la path del progetto
-        with open(new_yaml_path, "r", encoding="utf-8") as f:
-            self.yaml_editor.setPlainText(f.read())
-        self.last_save_path = new_yaml_path
-        self.project_dir = project_dir  # <- per reference
+        project_dir, yaml_path = result
+        self.last_save_path = yaml_path
+        self.project_dir = project_dir
 
-        # 6. Log e info
-        self.logger.log(Translator.tr("new_project_created").format(project_dir=project_dir), "success")
-
-        # 7. Reset altri tab
-        self.tab_settings.reset_fields()
-        self.tab_modules.reset_fields()
-        self.tab_sensori.get_sensor_canvas().clear_blocks()
-
-        # 8. (NEW) Aggiorna la working dir del compilatore!
-        self.compiler.set_project_dir(project_dir)
-        self.menu_bar._update_recent_files_menu()
-
+        # Apri automaticamente il progetto appena creato
+        self.open_project(yaml_path)
 
     def open_project(self, yaml_path):
-        with open(yaml_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            self.yaml_editor.setPlainText(content)
-        # Prima aggiorna i campi settings leggendo dallo YAML!
+        yaml_path = os.path.abspath(yaml_path)
+        self._reset_tabs()
+
+        try:
+            with open(yaml_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                self.yaml_editor.setPlainText(content)
+                self.logger.log(f"Progetto caricato: {yaml_path}", "info")
+        except Exception as e:
+            self.logger.log(Translator.tr("error") + f": {e}", "error")
+            return
+
+        # 💡 PATCH CRUCIALE: forza aggiornamento come in importa_yaml()
+        print("[DEBUG] Avvio aggiornamento tab_settings")
         self.tab_settings.carica_dati_da_yaml(content)
-        # Poi aggiorna i blocchi grafici
+
+        print("[DEBUG] Avvio aggiornamento tab_sensori")
         self.tab_sensori.aggiorna_blocchi_da_yaml(content)
-        #Poi aggiorna gli accordion
+
+        print("[DEBUG] Avvio aggiornamento tab_modules")
         self.tab_modules.carica_dati_da_yaml(content)
+
+
         self.logger.log(Translator.tr("project_opened").format(path=yaml_path), "success")
-        # Salva anche la directory progetto!
         self.last_save_path = yaml_path
-        self.project_dir = os.path.dirname(os.path.abspath(yaml_path))
+        self.project_dir = os.path.dirname(yaml_path)
         add_recent_file(yaml_path)
         self.menu_bar._update_recent_files_menu()
 
+
     def open_project_dialog(self):
+        # Imposta la cartella iniziale: Documenti/ESPHomeGUIeasy
+        initial_dir = Path.home() / "Documents" / "ESPHomeGUIeasy"
+        initial_dir.mkdir(parents=True, exist_ok=True)
+
+        # File dialog
         filename_tuple = QFileDialog.getOpenFileName(
             self,
             Translator.tr("open_project"),
-            "",
+            str(initial_dir),
             "YAML Files (*.yaml *.yml);;Tutti i file (*)"
         )
         if not filename_tuple or not isinstance(filename_tuple, tuple):
@@ -410,13 +390,15 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("file_saved_to").format(path=self.last_save_path), "success")
             return self.last_save_path
 
-        # Se non c'è project_dir, usa cartella sicura in LOCALAPPDATA
+        # Se c'è un progetto, salva direttamente lì
         if self.project_dir:
             base_dir = self.project_dir
             temp_dir = os.path.join(base_dir, ".temp")
+            os.makedirs(temp_dir, exist_ok=True)
+            temp_path = os.path.join(temp_dir, "__temp_upload.yaml")
         else:
-            base_dir = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
-            temp_dir = os.path.join(base_dir, "temp")
+            # Usa la cartella build centralizzata
+            temp_path = os.path.join(conf.DEFAULT_BUILD_DIR, "__temp_upload.yaml")
 
         os.makedirs(temp_dir, exist_ok=True)
         temp_path = os.path.join(temp_dir, "__temp_upload.yaml")
@@ -427,4 +409,10 @@ class MainWindow(QMainWindow):
         self.logger.log(Translator.tr("unsaved_project_temp_warning"), "warning")
         self.logger.log(Translator.tr("temp_file_generated").format(temp_path=temp_path), "info")
         return temp_path
+    
+    def _reset_tabs(self):
+        self.tab_settings.reset_fields()
+        self.tab_modules.reset_fields()
+        self.tab_sensori.get_sensor_canvas().clear_blocks()
+
 

@@ -1,6 +1,10 @@
 import sqlite3
 import os
 from config.GUIconfig import USER_DB_PATH
+from core.log_handler import GeneralLogHandler
+import traceback
+
+logger = GeneralLogHandler()
 
 
 def get_user_db_path() -> str:
@@ -37,9 +41,8 @@ def init_db():
 
 def set_setting(key: str, value: str):
     if key == "language":
-        print(f"[DEBUG] set_setting('language', '{value}') chiamato da:")
-        import traceback
-        traceback.print_stack(limit=5)
+        logger = GeneralLogHandler()
+        logger.debug(f"set_setting('language', '{value}') chiamato da:\n{''.join(traceback.format_stack(limit=5))}")
     conn = sqlite3.connect(get_user_db_path())
     cursor = conn.cursor()
     cursor.execute("""

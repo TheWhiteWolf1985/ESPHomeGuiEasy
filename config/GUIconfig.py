@@ -2,25 +2,35 @@ import os
 from pathlib import Path
 
 COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
+DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
+DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
+
+CATEGORY_TO_FOLDER = {
+    "Home Monitoring": "Home_Monitoring",
+    "Energy & Power": "Energy_Power",
+    "Security & Alarm": "Security_Alarm",
+    "Actuators & I/O": "Actuators_IO",
+    "Communication": "Communication",
+    "Automation Logic": "Automation_Logic",
+    "Other / Misc": "Other_Misc"
+}
 
 LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
 os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
 
 USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
-LOG_PATH = os.path.join(LOCALAPPDATA_FOLDER, "esphomeguieasy_log.txt")
-
+LOG_PATH = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "log.txt")
 
 APP_NAME = "ESPHomeGuiEasy"
 SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
 SPLASH_IMAGE = "assets/background_image.png"
 YAML_TEMPLATE_PATH = "config/default_template.yaml"
 DOCS_PATH = "docs/"
-#USER_DB_PATH = "core/user_config.db"   #activate for debug in vscode
 ICON_PATH = "assets/icon/"
 PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
-APP_VERSION = "1.3.2"
-APP_RELEASE_DATE = "2025-06-27"
+APP_VERSION = "1.4.0"
+APP_RELEASE_DATE = "2025-07-04"
 
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"

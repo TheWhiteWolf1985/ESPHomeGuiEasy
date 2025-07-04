@@ -27,16 +27,21 @@ Source: "ESPHomeGUIeasy\*"; \
   Flags: recursesubdirs createallsubdirs ignoreversion; \
   Excludes: "installation_utility\\user_config.db"
 
-Source: "ESPHomeGUIeasy\community_project\*"; \
-  DestDir: "{userdocs}\ESPHomeGUIeasy\community_projects"; \
-  Flags: recursesubdirs createallsubdirs ignoreversion
-
 Source: "ESPHomeGUIeasy\user_config.db"; \
   DestDir: "{localappdata}\ESPHomeGUIeasy"; \
   Flags: ignoreversion
 
-
-
+[Dirs]
+Name: "{userdocs}\ESPHomeGUIeasy\build"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects"
+Name: "{userdocs}\ESPHomeGUIeasy\community_projects"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Home_Monitoring"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Energy_Power"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Security_Alarm"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Actuators_IO"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Communication"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Automation_Logic"
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Other_Misc"
 
 [Icons]
 Name: "{group}\ESPHomeGUIeasy"; Filename: "{app}\esphomeguieasy.exe"; WorkingDir: "{app}"; IconFilename: "{app}\assets\icon\esphomeguieasy.ico"

@@ -1,6 +1,7 @@
 import os
 import json
 from core.settings_db import get_setting
+from core.log_handler import GeneralLogHandler
 
 class Translator:
     _translations = {}
@@ -22,7 +23,7 @@ class Translator:
             cls._translations = cls._fallback
         else:
             path = os.path.join(cls._language_dir, f"{lang_code}.json")
-            print(f"[DEBUG] Caricamento file lingua: {path}")
+            GeneralLogHandler().debug(f"Caricamento file lingua: {path}")
 
             try:
                 with open(path, encoding="utf-8") as f:
