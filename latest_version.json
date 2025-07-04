@@ -1,10 +1,10 @@
 {
-  "latest_version": "1.3.1",
+  "latest_version": "1.4.0",
   "changelog": {
-    "it": "✓ Migrazione a python 3.13. Rimosso Venv e installato pacchetti in site-package. Fix installer window. Aggiunta lingua Portoghese/Brasiliano da contributor",
-    "en": "✓ Migrated to Python 3.13. Removed venv and installed packages in site-packages. Fixed installer window. Added Portuguese/Brazilian language from contributor",
-    "es": "✓ Migrado a Python 3.13. Eliminado venv e instalados los paquetes en site-packages. Corregida la ventana del instalador. Añadido idioma portugués/brasileño gracias a un colaborador",
-    "de": "✓ Umstieg auf Python 3.13. Venv entfernt und Pakete in site-packages installiert. Installer-Fenster behoben. Portugiesisch/Brasilianisch durch Contributor hinzugefügt",
-    "br": "✓ Migrado para Python 3.13. Venv removido e pacotes instalados em site-packages. Correção da janela do instalador. Adicionado suporte ao idioma Português/Brasileiro por colaborador"
+    "it": "✓ Nuovo gestore progetti utente con card. Campo autore. Dialog modifica versione. Changelog incrementale. Accesso log da impostazioni. Migliorata UI menù File",
+    "en": "✓ New user project manager with cards. Author field. Version edit dialog. Incremental changelog. Log viewer from settings. Improved File menu UI",
+    "es": "✓ Nuevo gestor de proyectos con tarjetas. Campo autor. Diálogo de edición de versión. Registro de cambios incremental. Log accesible desde ajustes. Mejorado menú Archivo",
+    "de": "✓ Neuer Projektmanager mit Karten. Autorenfeld. Dialog zur Versionsbearbeitung. Änderungsverlauf. Log aus Einstellungen abrufbar. Datei-Menü überarbeitet",
+    "br": "✓ Novo gerenciador de projetos com cards. Campo autor. Diálogo de edição de versão. Changelog incremental. Log acessível nas configurações. Menu Arquivo melhorado"
   }
 }
