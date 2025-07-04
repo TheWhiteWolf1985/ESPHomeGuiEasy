@@ -15,17 +15,42 @@
 📌 [Full changelog available here](CHANGELOG.md)
 
 ---
+📝 Description
 
-## 📝 Description
+**ESPHomeGUIeasy** is a standalone desktop application written in Python with a modern PyQt6 interface, designed to simplify how you create, configure, and deploy firmware for **ESPHome-compatible devices** (ESP32, ESP8266, etc.).
 
-**esphomeGuieasy** is a Python desktop app with PyQt6 interface to simplify the creation, editing and flashing of ESPHome-compatible devices.
+It provides a full **visual workflow** — from device configuration to firmware flashing — with no need to write YAML manually (but you can if you want to).
 
-Designed for both beginners and power users, it features:
-- YAML editor with syntax highlighting
-- Integrated log console
-- Drag-and-drop "brick" style sensor configuration
-- Local and OTA flashing
-- Board and template management
+Whether you're a beginner in home automation or a power user managing multiple devices, ESPHomeGUIeasy makes the process easier, faster, and more organized.
+
+---
+
+### 💡 Key Features
+
+- 🧱 **Visual “block-style” editor**  
+  Drag & drop preconfigured sensor/action blocks — no YAML syntax needed
+
+- ✍️ **Live YAML preview & editing**  
+  The interface updates YAML as you go — and you can still tweak it manually
+
+- 🖥️ **Cross-platform UI**  
+  Clean and responsive PyQt6-based GUI, available in multiple languages (EN, IT, ES, DE)
+
+- 📄 **Project Manager** *(new in v1.4.0)*  
+  Organize projects by category with metadata, changelogs, and quick actions
+
+- 🔌 **Integrated Flashing**  
+  Supports USB and OTA uploads with built-in log viewer
+
+- 🧰 **Console with build logs**  
+  Real-time output while building and flashing firmware
+
+- 💾 **No external setup required**  
+  Works out of the box — no need to install Python or ESPHome manually
+
+---
+
+**ESPHomeGUIeasy is open source** and intended for users who prefer a desktop-first approach to ESPHome development, especially when dealing with multiple devices or structured project folders.
 
 ---
 
