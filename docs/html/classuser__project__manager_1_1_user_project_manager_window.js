@@ -1,0 +1,26 @@
+var classuser__project__manager_1_1_user_project_manager_window =
+[
+    [ "__init__", "classuser__project__manager_1_1_user_project_manager_window.html#ae635c50d8f5c7f42255809f2d2c74eb2", null ],
+    [ "apri_progetto", "classuser__project__manager_1_1_user_project_manager_window.html#a2ac452e040ba9d48f6d9fb589311af04", null ],
+    [ "build_category_index", "classuser__project__manager_1_1_user_project_manager_window.html#acf3978e8e0274901b07cd7e5f1d5f957", null ],
+    [ "create_project_card", "classuser__project__manager_1_1_user_project_manager_window.html#a9364dc782fe08aac423ba3499e972c57", null ],
+    [ "elimina_progetto", "classuser__project__manager_1_1_user_project_manager_window.html#a097077a2056052760e29094eddb02d4c", null ],
+    [ "load_category_cards", "classuser__project__manager_1_1_user_project_manager_window.html#aec08cc5539798b90ef8e0ab7aba68189", null ],
+    [ "load_project_metadata", "classuser__project__manager_1_1_user_project_manager_window.html#a695cd343a937814b2a1a332b4c7b688a", null ],
+    [ "modifica_progetto", "classuser__project__manager_1_1_user_project_manager_window.html#a243294528aa994e7eb56a9bb7780a564", null ],
+    [ "mostra_descrizione", "classuser__project__manager_1_1_user_project_manager_window.html#a8dbee2394dffe3e4ec02eadf1b010b74", null ],
+    [ "show_message", "classuser__project__manager_1_1_user_project_manager_window.html#a983c15e3a0ac4b2b2aa6771b89f1c88f", null ],
+    [ "show_message_custom", "classuser__project__manager_1_1_user_project_manager_window.html#a8c7f07eb13e7aacd4ba18a232effdf4e", null ],
+    [ "btn_close", "classuser__project__manager_1_1_user_project_manager_window.html#a83ff9b36a43a08edc0931ef7946c46f2", null ],
+    [ "categories", "classuser__project__manager_1_1_user_project_manager_window.html#af0c6ea010192929ae26377850ada1714", null ],
+    [ "category_list", "classuser__project__manager_1_1_user_project_manager_window.html#a20942b48fd7bba09223a1d208e663e6a", null ],
+    [ "category_to_cards", "classuser__project__manager_1_1_user_project_manager_window.html#a7b8c979540734c9e5310ced9552254bf", null ],
+    [ "close", "classuser__project__manager_1_1_user_project_manager_window.html#a8c17f71e458844f4f8e7b83a27aa7b43", null ],
+    [ "emoji_to_category", "classuser__project__manager_1_1_user_project_manager_window.html#a78f54d9ca06cb9ddd63ed26270804b19", null ],
+    [ "load_category_cards", "classuser__project__manager_1_1_user_project_manager_window.html#a7863f312960e5d0f931e47b5046bdea7", null ],
+    [ "main_window", "classuser__project__manager_1_1_user_project_manager_window.html#a12fdd06d7122b3daee1319eb432f7b7d", null ],
+    [ "project_data", "classuser__project__manager_1_1_user_project_manager_window.html#adee5065d41289a5154ec5f572ccd71f8", null ],
+    [ "scroll_area", "classuser__project__manager_1_1_user_project_manager_window.html#aba4a4a21b5a21500a477ae09d4c59ad8", null ],
+    [ "scroll_content", "classuser__project__manager_1_1_user_project_manager_window.html#a4481e0dc4ae5ddb66297b96ffe928bcb", null ],
+    [ "scroll_layout", "classuser__project__manager_1_1_user_project_manager_window.html#ad6bcb6a217b52cf676822609850b2e12", null ]
+];

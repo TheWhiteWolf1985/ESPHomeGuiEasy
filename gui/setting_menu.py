@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
     QFileDialog, QLineEdit, QSpacerItem, QSizePolicy, QFrame
 )
 from PyQt6.QtCore import Qt
-from core.save_settings import save_settings
+from core.save_settings import save_settings, set_setting
 from gui.color_pantone import Pantone
 from core.settings_db import get_setting
 from PyQt6.QtWidgets import QMessageBox
@@ -98,6 +98,10 @@ class SettingsDialog(QDialog):
 
     def save_settings(self):
         save_settings(self)
+
+        if hasattr(self, "custom_esphome_input"):
+          set_setting("custom_esphome_path", self.custom_esphome_input.text().strip())
+
 
         QMessageBox.information(
             self,
@@ -347,6 +351,28 @@ class SettingsDialog(QDialog):
         label_py = QLabel(f"🐍 {Translator.tr('python_version')}: {sys.version.split()[0]}")
         layout.addWidget(label_py)
 
+        # Percorso personalizzato eseguibile ESPHome
+        layout.addSpacing(10)
+        custom_path_label = QLabel(Translator.tr("custom_esphome_path_label"))
+        layout.addWidget(custom_path_label)
+
+        path_layout = QHBoxLayout()
+        self.custom_esphome_input = QLineEdit()
+        self.custom_esphome_input.setPlaceholderText("C:/Percorso/esp/esphome.exe")
+        self.custom_esphome_input.setStyleSheet(Pantone.LINEEDIT_STYLE)
+        path_layout.addWidget(self.custom_esphome_input)
+
+        browse_btn = QPushButton(Translator.tr("settings_browse"))
+        browse_btn.setStyleSheet(Pantone.BUTTON_STYLE)
+        browse_btn.clicked.connect(self.browse_esphome_executable)
+        path_layout.addWidget(browse_btn)
+        layout.addLayout(path_layout)
+
+        # Carica valore salvato, se esiste
+        saved_custom_path = get_setting("custom_esphome_path")
+        if saved_custom_path:
+            self.custom_esphome_input.setText(saved_custom_path)
+
         # Stato sito
         try:
             urllib.request.urlopen("https://esphome.io", timeout=3)
@@ -380,8 +406,10 @@ class SettingsDialog(QDialog):
         else:
             QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("log_file_not_found"))
 
-
-
+    def browse_esphome_executable(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, Translator.tr("settings_browse"), "", "Executables (*.exe);;All Files (*)")
+        if file_path:
+            self.custom_esphome_input.setText(file_path)
 
 if __name__ == "__main__":
     import sys

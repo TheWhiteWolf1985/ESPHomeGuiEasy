@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['main_0',['main',['../namespacemain.html',1,'main'],['../namespacemain.html#a3140e9a5b6a71ffbf498198cfc471b88',1,'main.main()']]],
+  ['main_2epy_1',['main.py',['../main_8py.html',1,'']]],
+  ['main_5fsplitter_5fleft_5fcolumn_2',['MAIN_SPLITTER_LEFT_COLUMN',['../namespace_g_u_iconfig.html#ae808f289fe981c2504646c2076d84170',1,'GUIconfig']]],
+  ['main_5fsplitter_5fright_5fcolumn_3',['MAIN_SPLITTER_RIGHT_COLUMN',['../namespace_g_u_iconfig.html#ac0afac6b33932f6f1d56ed94c1112b93',1,'GUIconfig']]],
+  ['main_5fwindow_4',['main_window',['../namespacemain__window.html',1,'main_window'],['../classmenu__bar_1_1_main_menu_bar.html#a6985e95bd875615b3f7e45f420497bd9',1,'menu_bar.MainMenuBar.main_window'],['../classuser__project__manager_1_1_user_project_manager_window.html#a12fdd06d7122b3daee1319eb432f7b7d',1,'user_project_manager.UserProjectManagerWindow.main_window']]],
+  ['main_5fwindow_2epy_5',['main_window.py',['../main__window_8py.html',1,'']]],
+  ['main_5fwindow_5fheight_6',['MAIN_WINDOW_HEIGHT',['../namespace_g_u_iconfig.html#af83557b18350ee41f67bf3b059b332d9',1,'GUIconfig']]],
+  ['main_5fwindow_5fwidth_7',['MAIN_WINDOW_WIDTH',['../namespace_g_u_iconfig.html#a37ddf33afe7ac2a043dee8f7b92d865f',1,'GUIconfig']]],
+  ['mainmenubar_8',['MainMenuBar',['../classmenu__bar_1_1_main_menu_bar.html',1,'menu_bar']]],
+  ['mainwindow_9',['MainWindow',['../classmain__window_1_1_main_window.html',1,'main_window']]],
+  ['mapping_10',['mapping',['../namespaceyaml__handler.html#a803e87a98f1aeb50965117bfefbcdba7',1,'yaml_handler']]],
+  ['maybe_5fcheck_5fonline_5fversion_11',['maybe_check_online_version',['../classsplash__screen_1_1_splash_screen.html#af5626d491d672c53d6d56837676b4d0f',1,'splash_screen::SplashScreen']]],
+  ['maybe_5fcheck_5fupdates_5fstep_12',['maybe_check_updates_step',['../classsplash__screen_1_1_splash_screen.html#af844d4b09ac83e4ad2c1ebaab472e816',1,'splash_screen::SplashScreen']]],
+  ['menu_5fbar_13',['MENU_BAR',['../classcolor__pantone_1_1_pantone.html#a1de0176d1c1cac9f600ecf34fb9025b9',1,'color_pantone::Pantone']]],
+  ['menu_5fbar_14',['menu_bar',['../namespacemenu__bar.html',1,'menu_bar'],['../classmain__window_1_1_main_window.html#a6076abb6229fb11bbc4c0c2dddd3d693',1,'main_window.MainWindow.menu_bar']]],
+  ['menu_5fbar_2epy_15',['menu_bar.py',['../menu__bar_8py.html',1,'']]],
+  ['modifica_5fprogetto_16',['modifica_progetto',['../classuser__project__manager_1_1_user_project_manager_window.html#a243294528aa994e7eb56a9bb7780a564',1,'user_project_manager::UserProjectManagerWindow']]],
+  ['mostra_5fdescrizione_17',['mostra_descrizione',['../classuser__project__manager_1_1_user_project_manager_window.html#a8dbee2394dffe3e4ec02eadf1b010b74',1,'user_project_manager::UserProjectManagerWindow']]],
+  ['mostra_5fdescrizione_5fprogetto_18',['mostra_descrizione_progetto',['../classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790',1,'project_gallery_window::ProjectGalleryWindow']]],
+  ['mostra_5fimmagine_5fgrande_19',['mostra_immagine_grande',['../classtab__settings_1_1_tab_settings.html#ac33be9e8ceff4d5c6184a10eb47befed',1,'tab_settings.TabSettings.mostra_immagine_grande'],['../classtab__settings_1_1_tab_settings.html#af8b5ba50b2506f771bd16b724e640a68',1,'tab_settings.TabSettings.mostra_immagine_grande(self)']]]
+];

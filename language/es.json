@@ -235,5 +235,6 @@
   "modifica_versione": "Editar versión",
   "nuova_versione": "Nueva versión:",
   "modifica_descrizione": "Editar descripción",
-  "inserisci_changelog": "Ingresar registro de cambios:"
+  "inserisci_changelog": "Ingresar registro de cambios:",
+  "custom_esphome_path_label": "Ruta personalizada al ejecutable de ESPHome"
 }

@@ -4,6 +4,7 @@ from pathlib import Path
 COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
 DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
 DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
+TEMPLATE_PROJECT_PATH = "config/default_template.yaml"
 
 CATEGORY_TO_FOLDER = {
     "Home Monitoring": "Home_Monitoring",
@@ -24,7 +25,6 @@ LOG_PATH = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "log.txt")
 APP_NAME = "ESPHomeGuiEasy"
 SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
 SPLASH_IMAGE = "assets/background_image.png"
-YAML_TEMPLATE_PATH = "config/default_template.yaml"
 DOCS_PATH = "docs/"
 ICON_PATH = "assets/icon/"
 PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"

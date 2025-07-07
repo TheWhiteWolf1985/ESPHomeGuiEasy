@@ -227,5 +227,6 @@
   "modifica_versione": "Editar versão",
   "nuova_versione": "Nova versão:",
   "modifica_descrizione": "Editar descrição",
-  "inserisci_changelog": "Inserir changelog:"
+  "inserisci_changelog": "Inserir changelog:",
+  "custom_esphome_path_label": "Caminho personalizado para o executável do ESPHome"
 }

@@ -234,5 +234,6 @@
   "modifica_versione": "Version bearbeiten",
   "nuova_versione": "Neue Version:",
   "modifica_descrizione": "Beschreibung bearbeiten",
-  "inserisci_changelog": "Änderungsprotokoll eingeben:"
+  "inserisci_changelog": "Änderungsprotokoll eingeben:",
+  "custom_esphome_path_label": "Benutzerdefinierter Pfad zur ESPHome-Datei"
 }
