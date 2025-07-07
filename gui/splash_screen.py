@@ -11,7 +11,7 @@ per tracciare ogni fase dell'avvio. In caso di problemi bloccanti,
 interrompe il caricamento e segnala l'errore all'utente.
 
 @author: ESPHomeGUIeasy Team
-@version: 1.4.x
+@version \ref PROJECT_NUMBER
 @date: Luglio 2025
 @license: AGPLv3 License
 """
