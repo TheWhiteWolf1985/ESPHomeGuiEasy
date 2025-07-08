@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+@file GUIconfig.py
+@brief Contains global configuration constants for ESPHomeGUIeasy.
+
+@defgroup config Configuration
+@ingroup main
+@brief Application constants, defaults, and paths.
+
+Includes:
+- Default paths (projects, builds, logs)
+- GUI dimensions and layout constants
+- Language map and application metadata
+- GitHub repository links and updater settings
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 import os
 from pathlib import Path
 
@@ -5,6 +25,15 @@ COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "com
 DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
 DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
 TEMPLATE_PROJECT_PATH = "config/default_template.yaml"
+LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
+os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
+USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
+LOG_PATH = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "log.txt")
+SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
+SPLASH_IMAGE = "assets/background_image.png"
+DOCS_PATH = "docs/"
+ICON_PATH = "assets/icon/"
+PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
 
 CATEGORY_TO_FOLDER = {
     "Home Monitoring": "Home_Monitoring",
@@ -16,19 +45,17 @@ CATEGORY_TO_FOLDER = {
     "Other / Misc": "Other_Misc"
 }
 
-LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
-os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
-
-USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
-LOG_PATH = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "log.txt")
+# Language map for available GUI translations
+LANGUAGE_MAP = {
+    "English": "en",
+    "Italiano": "it",
+    "Español": "es",
+    "Deutsch": "de",
+    "Brasileiro": "br",
+    "Português": "pt"
+}
 
 APP_NAME = "ESPHomeGuiEasy"
-SW_ICON_PATH = "assets/icon/esphomeguieasy_icon.png"
-SPLASH_IMAGE = "assets/background_image.png"
-DOCS_PATH = "docs/"
-ICON_PATH = "assets/icon/"
-PROJECT_PLACEHOLDER_IMG = "assets/project_placeholder.png"
-
 APP_VERSION = "1.4.0"
 APP_RELEASE_DATE = "2025-07-04"
 

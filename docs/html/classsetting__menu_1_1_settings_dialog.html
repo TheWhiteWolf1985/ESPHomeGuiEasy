@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -211,8 +207,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a53d852b06023cc414762faf6c9082848"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00019">19</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Main settings dialog window organizing preferences into categorized tabs.
+
+Handles UI initialization, user interactions, and saving configuration changes.
+Connects GUI controls to underlying database and application logic.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00047">47</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a414501284d032d9accc74f07fc5b6cff" name="a414501284d032d9accc74f07fc5b6cff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a414501284d032d9accc74f07fc5b6cff">&#9670;&#160;</a></span>__init__()</h2>
@@ -232,88 +232,96 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Initializes the settings dialog UI, including category list and stacked pages.
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00020">20</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>    <span class="keyword">def </span>__init__(self, parent=None):</div>
-<div class="line"><span class="lineno">   21</span>        super().__init__(parent)</div>
-<div class="line"><span class="lineno">   22</span>        self.setWindowTitle(Translator.tr(<span class="stringliteral">&quot;settings_title&quot;</span>))</div>
-<div class="line"><span class="lineno">   23</span>        self.setFixedSize(800, 550)</div>
-<div class="line"><span class="lineno">   24</span>        self.setStyleSheet(Pantone.DIALOG_STYLE)</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>        self.line = QFrame()</div>
-<div class="line"><span class="lineno">   27</span>        self.line.setFrameShape(QFrame.Shape.HLine)</div>
-<div class="line"><span class="lineno">   28</span>        self.line.setFrameShadow(QFrame.Shadow.Sunken)</div>
-<div class="line"><span class="lineno">   29</span>        self.line.setStyleSheet(<span class="stringliteral">&quot;color: #444; margin: 10px 0;&quot;</span>)</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>        main_layout = QVBoxLayout(self)</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>        content_layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   36</span>        <span class="comment"># --- Pannello laterale categorie ---</span></div>
-<div class="line"><span class="lineno">   37</span>        self.category_list = QListWidget()</div>
-<div class="line"><span class="lineno">   38</span>        self.category_list.setFixedWidth(240)</div>
-<div class="line"><span class="lineno">   39</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_ui&quot;</span>))</div>
-<div class="line"><span class="lineno">   40</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_language&quot;</span>))</div>
-<div class="line"><span class="lineno">   41</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_paths&quot;</span>))</div>
-<div class="line"><span class="lineno">   42</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_startup&quot;</span>))</div>
-<div class="line"><span class="lineno">   43</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_advanced&quot;</span>))</div>
-<div class="line"><span class="lineno">   44</span>        icon_path = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets/icon&quot;</span>, <span class="stringliteral">&quot;esphome.png&quot;</span>)</div>
-<div class="line"><span class="lineno">   45</span>        icon = QIcon(icon_path)</div>
-<div class="line"><span class="lineno">   46</span>        esphome_item = QListWidgetItem(icon, <span class="stringliteral">&quot;ESPHome Version&quot;</span>)</div>
-<div class="line"><span class="lineno">   47</span>        self.category_list.addItem(esphome_item)</div>
-<div class="line"><span class="lineno">   48</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_log&quot;</span>))</div>
-<div class="line"><span class="lineno">   49</span>        self.category_list.currentRowChanged.connect(self.switch_category)</div>
-<div class="line"><span class="lineno">   50</span>        self.category_list.setSpacing(6)</div>
-<div class="line"><span class="lineno">   51</span>        self.category_list.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>        <span class="comment"># Nasconde le barre di scorrimento</span></div>
-<div class="line"><span class="lineno">   54</span>        self.category_list.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)</div>
-<div class="line"><span class="lineno">   55</span>        self.category_list.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>        <span class="comment"># Disabilita lo scrolling manuale pur mantenendo la selezionabilità</span></div>
-<div class="line"><span class="lineno">   58</span>        self.category_list.wheelEvent = <span class="keyword">lambda</span> event: <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">   59</span>        self.category_list.setVerticalScrollMode(QListWidget.ScrollMode.ScrollPerPixel)</div>
-<div class="line"><span class="lineno">   60</span>        self.category_list.setHorizontalScrollMode(QListWidget.ScrollMode.ScrollPerPixel)</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>        content_layout.addWidget(self.category_list)</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>        <span class="comment"># --- Pannello destro con pagine ---</span></div>
-<div class="line"><span class="lineno">   65</span>        self.stack = QStackedWidget()</div>
-<div class="line"><span class="lineno">   66</span>        self.stack.addWidget(self.create_ui_page())</div>
-<div class="line"><span class="lineno">   67</span>        self.stack.addWidget(self.create_language_page())</div>
-<div class="line"><span class="lineno">   68</span>        self.stack.addWidget(self.create_paths_page())</div>
-<div class="line"><span class="lineno">   69</span>        self.stack.addWidget(self.create_startup_page())</div>
-<div class="line"><span class="lineno">   70</span>        self.stack.addWidget(self.create_advanced_page())</div>
-<div class="line"><span class="lineno">   71</span>        self.stack.addWidget(self.create_esphome_page())</div>
-<div class="line"><span class="lineno">   72</span>        self.stack.addWidget(self.create_log_page())</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>        content_layout.addWidget(self.stack)</div>
-<div class="line"><span class="lineno">   75</span>        main_layout.addLayout(content_layout)</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>        <span class="comment"># --- Pulsanti Applica e Annulla ---</span></div>
-<div class="line"><span class="lineno">   78</span>        button_layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   79</span>        button_layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>        self.apply_button = QPushButton(Translator.tr(<span class="stringliteral">&quot;apply_button&quot;</span>))</div>
-<div class="line"><span class="lineno">   82</span>        self.apply_button.clicked.connect(self.save_settings)  <span class="comment"># Salva configurazione</span></div>
-<div class="line"><span class="lineno">   83</span>        self.apply_button.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">   84</span>        button_layout.addWidget(self.apply_button)</div>
-<div class="line"><span class="lineno">   85</span>        </div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>        self.cancel_button = QPushButton(Translator.tr(<span class="stringliteral">&quot;cancel_button&quot;</span>))</div>
-<div class="line"><span class="lineno">   88</span>        self.cancel_button.clicked.connect(self.reject)</div>
-<div class="line"><span class="lineno">   89</span>        self.apply_button.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">   90</span>        button_layout.addWidget(self.cancel_button)</div>
+Sets up buttons, connects signals, and applies styling.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00054">54</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>    <span class="keyword">def </span>__init__(self, parent=None):</div>
+<div class="line"><span class="lineno">   55</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   56</span><span class="stringliteral">        @brief Initializes the settings dialog UI, including category list and stacked pages.</span></div>
+<div class="line"><span class="lineno">   57</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   58</span><span class="stringliteral">        Sets up buttons, connects signals, and applies styling.</span></div>
+<div class="line"><span class="lineno">   59</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   60</span>        super().__init__(parent)</div>
+<div class="line"><span class="lineno">   61</span>        self.setWindowTitle(Translator.tr(<span class="stringliteral">&quot;settings_title&quot;</span>))</div>
+<div class="line"><span class="lineno">   62</span>        self.setFixedSize(800, 550)</div>
+<div class="line"><span class="lineno">   63</span>        self.setStyleSheet(Pantone.DIALOG_STYLE)</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>        self.line = QFrame()</div>
+<div class="line"><span class="lineno">   66</span>        self.line.setFrameShape(QFrame.Shape.HLine)</div>
+<div class="line"><span class="lineno">   67</span>        self.line.setFrameShadow(QFrame.Shadow.Sunken)</div>
+<div class="line"><span class="lineno">   68</span>        self.line.setStyleSheet(<span class="stringliteral">&quot;color: #444; margin: 10px 0;&quot;</span>)</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>        main_layout = QVBoxLayout(self)</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>        content_layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>        <span class="comment"># --- Pannello laterale categorie ---</span></div>
+<div class="line"><span class="lineno">   76</span>        self.category_list = QListWidget()</div>
+<div class="line"><span class="lineno">   77</span>        self.category_list.setFixedWidth(240)</div>
+<div class="line"><span class="lineno">   78</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_ui&quot;</span>))</div>
+<div class="line"><span class="lineno">   79</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_language&quot;</span>))</div>
+<div class="line"><span class="lineno">   80</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_paths&quot;</span>))</div>
+<div class="line"><span class="lineno">   81</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_startup&quot;</span>))</div>
+<div class="line"><span class="lineno">   82</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_advanced&quot;</span>))</div>
+<div class="line"><span class="lineno">   83</span>        icon_path = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets/icon&quot;</span>, <span class="stringliteral">&quot;esphome.png&quot;</span>)</div>
+<div class="line"><span class="lineno">   84</span>        icon = QIcon(icon_path)</div>
+<div class="line"><span class="lineno">   85</span>        esphome_item = QListWidgetItem(icon, <span class="stringliteral">&quot;ESPHome Version&quot;</span>)</div>
+<div class="line"><span class="lineno">   86</span>        self.category_list.addItem(esphome_item)</div>
+<div class="line"><span class="lineno">   87</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_log&quot;</span>))</div>
+<div class="line"><span class="lineno">   88</span>        self.category_list.currentRowChanged.connect(self.switch_category)</div>
+<div class="line"><span class="lineno">   89</span>        self.category_list.setSpacing(6)</div>
+<div class="line"><span class="lineno">   90</span>        self.category_list.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
 <div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>        main_layout.addLayout(button_layout)</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>        self.category_list.setCurrentRow(0)</div>
+<div class="line"><span class="lineno">   92</span>        <span class="comment"># Nasconde le barre di scorrimento</span></div>
+<div class="line"><span class="lineno">   93</span>        self.category_list.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)</div>
+<div class="line"><span class="lineno">   94</span>        self.category_list.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)</div>
 <div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>        <span class="comment"># Disabilita lo scrolling manuale pur mantenendo la selezionabilità</span></div>
+<div class="line"><span class="lineno">   97</span>        self.category_list.wheelEvent = <span class="keyword">lambda</span> event: <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">   98</span>        self.category_list.setVerticalScrollMode(QListWidget.ScrollMode.ScrollPerPixel)</div>
+<div class="line"><span class="lineno">   99</span>        self.category_list.setHorizontalScrollMode(QListWidget.ScrollMode.ScrollPerPixel)</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>        content_layout.addWidget(self.category_list)</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>        <span class="comment"># --- Pannello destro con pagine ---</span></div>
+<div class="line"><span class="lineno">  104</span>        self.stack = QStackedWidget()</div>
+<div class="line"><span class="lineno">  105</span>        self.stack.addWidget(self.create_ui_page())</div>
+<div class="line"><span class="lineno">  106</span>        self.stack.addWidget(self.create_language_page())</div>
+<div class="line"><span class="lineno">  107</span>        self.stack.addWidget(self.create_paths_page())</div>
+<div class="line"><span class="lineno">  108</span>        self.stack.addWidget(self.create_startup_page())</div>
+<div class="line"><span class="lineno">  109</span>        self.stack.addWidget(self.create_advanced_page())</div>
+<div class="line"><span class="lineno">  110</span>        self.stack.addWidget(self.create_esphome_page())</div>
+<div class="line"><span class="lineno">  111</span>        self.stack.addWidget(self.create_log_page())</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>        content_layout.addWidget(self.stack)</div>
+<div class="line"><span class="lineno">  114</span>        main_layout.addLayout(content_layout)</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>        <span class="comment"># --- Pulsanti Applica e Annulla ---</span></div>
+<div class="line"><span class="lineno">  117</span>        button_layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  118</span>        button_layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>        self.apply_button = QPushButton(Translator.tr(<span class="stringliteral">&quot;apply_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  121</span>        self.apply_button.clicked.connect(self.save_settings)  <span class="comment"># Salva configurazione</span></div>
+<div class="line"><span class="lineno">  122</span>        self.apply_button.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  123</span>        button_layout.addWidget(self.apply_button)</div>
+<div class="line"><span class="lineno">  124</span>        </div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>        self.cancel_button = QPushButton(Translator.tr(<span class="stringliteral">&quot;cancel_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  127</span>        self.cancel_button.clicked.connect(self.reject)</div>
+<div class="line"><span class="lineno">  128</span>        self.apply_button.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  129</span>        button_layout.addWidget(self.cancel_button)</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>        main_layout.addLayout(button_layout)</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>        self.category_list.setCurrentRow(0)</div>
+<div class="line"><span class="lineno">  134</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00020">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00054">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00020">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00054">__init__()</a>.</p>
 
 </div>
 </div>
@@ -332,47 +340,51 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00255">255</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  255</span>    <span class="keyword">def </span>aggiorna_tutte_le_label(self):</div>
-<div class="line"><span class="lineno">  256</span>        self.setWindowTitle(Translator.tr(<span class="stringliteral">&quot;settings_title&quot;</span>))</div>
-<div class="line"><span class="lineno">  257</span> </div>
-<div class="line"><span class="lineno">  258</span>        self.category_list.clear()</div>
-<div class="line"><span class="lineno">  259</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_ui&quot;</span>))</div>
-<div class="line"><span class="lineno">  260</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_language&quot;</span>))</div>
-<div class="line"><span class="lineno">  261</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_paths&quot;</span>))</div>
-<div class="line"><span class="lineno">  262</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_startup&quot;</span>))</div>
-<div class="line"><span class="lineno">  263</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_advanced&quot;</span>))</div>
-<div class="line"><span class="lineno">  264</span> </div>
-<div class="line"><span class="lineno">  265</span>        self.apply_button.setText(Translator.tr(<span class="stringliteral">&quot;apply_button&quot;</span>))</div>
-<div class="line"><span class="lineno">  266</span>        self.cancel_button.setText(Translator.tr(<span class="stringliteral">&quot;cancel_button&quot;</span>))</div>
-<div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>        <span class="comment"># UI Page</span></div>
-<div class="line"><span class="lineno">  269</span>        self.stack.widget(0).layout().itemAt(0).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_theme&quot;</span>))</div>
-<div class="line"><span class="lineno">  270</span>        self.stack.widget(0).layout().itemAt(2).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_font_size&quot;</span>))</div>
-<div class="line"><span class="lineno">  271</span>        self.compact_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_compact_spacing&quot;</span>))</div>
-<div class="line"><span class="lineno">  272</span> </div>
-<div class="line"><span class="lineno">  273</span>        <span class="comment"># Language Page</span></div>
-<div class="line"><span class="lineno">  274</span>        self.stack.widget(1).layout().itemAt(0).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_language_label&quot;</span>))</div>
-<div class="line"><span class="lineno">  275</span>        self.lang_prompt_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_show_lang_selector&quot;</span>))</div>
-<div class="line"><span class="lineno">  276</span> </div>
-<div class="line"><span class="lineno">  277</span>        <span class="comment"># Paths Page</span></div>
-<div class="line"><span class="lineno">  278</span>        self.stack.widget(2).layout().itemAt(0).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_default_project_folder&quot;</span>))</div>
-<div class="line"><span class="lineno">  279</span>        self.stack.widget(2).layout().itemAt(3).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
-<div class="line"><span class="lineno">  280</span>        self.clear_cache_btn.setText(Translator.tr(<span class="stringliteral">&quot;settings_clear_cache&quot;</span>))</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>        <span class="comment"># Startup Page</span></div>
-<div class="line"><span class="lineno">  283</span>        self.splash_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_splash&quot;</span>))</div>
-<div class="line"><span class="lineno">  284</span>        self.update_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_check_updates&quot;</span>))</div>
-<div class="line"><span class="lineno">  285</span>        self.restore_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_open_last&quot;</span>))</div>
-<div class="line"><span class="lineno">  286</span> </div>
-<div class="line"><span class="lineno">  287</span>        <span class="comment"># Advanced Page</span></div>
-<div class="line"><span class="lineno">  288</span>        self.debug_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_enable_devlog&quot;</span>))</div>
-<div class="line"><span class="lineno">  289</span>        self.logfile_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_save_debug_log&quot;</span>))</div>
-<div class="line"><span class="lineno">  290</span>        self.force_refresh_btn.setText(Translator.tr(<span class="stringliteral">&quot;settings_force_refresh&quot;</span>))</div>
-<div class="line"><span class="lineno">  291</span> </div>
+<pre class="fragment">@brief Updates all UI text labels to reflect current language selection.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00323">323</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  323</span>    <span class="keyword">def </span>aggiorna_tutte_le_label(self):</div>
+<div class="line"><span class="lineno">  324</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  325</span><span class="stringliteral">        @brief Updates all UI text labels to reflect current language selection.</span></div>
+<div class="line"><span class="lineno">  326</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  327</span>        self.setWindowTitle(Translator.tr(<span class="stringliteral">&quot;settings_title&quot;</span>))</div>
+<div class="line"><span class="lineno">  328</span> </div>
+<div class="line"><span class="lineno">  329</span>        self.category_list.clear()</div>
+<div class="line"><span class="lineno">  330</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_ui&quot;</span>))</div>
+<div class="line"><span class="lineno">  331</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_language&quot;</span>))</div>
+<div class="line"><span class="lineno">  332</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_paths&quot;</span>))</div>
+<div class="line"><span class="lineno">  333</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_startup&quot;</span>))</div>
+<div class="line"><span class="lineno">  334</span>        self.category_list.addItem(Translator.tr(<span class="stringliteral">&quot;settings_advanced&quot;</span>))</div>
+<div class="line"><span class="lineno">  335</span> </div>
+<div class="line"><span class="lineno">  336</span>        self.apply_button.setText(Translator.tr(<span class="stringliteral">&quot;apply_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  337</span>        self.cancel_button.setText(Translator.tr(<span class="stringliteral">&quot;cancel_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  338</span> </div>
+<div class="line"><span class="lineno">  339</span>        <span class="comment"># UI Page</span></div>
+<div class="line"><span class="lineno">  340</span>        self.stack.widget(0).layout().itemAt(0).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_theme&quot;</span>))</div>
+<div class="line"><span class="lineno">  341</span>        self.stack.widget(0).layout().itemAt(2).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_font_size&quot;</span>))</div>
+<div class="line"><span class="lineno">  342</span>        self.compact_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_compact_spacing&quot;</span>))</div>
+<div class="line"><span class="lineno">  343</span> </div>
+<div class="line"><span class="lineno">  344</span>        <span class="comment"># Language Page</span></div>
+<div class="line"><span class="lineno">  345</span>        self.stack.widget(1).layout().itemAt(0).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_language_label&quot;</span>))</div>
+<div class="line"><span class="lineno">  346</span>        self.lang_prompt_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_show_lang_selector&quot;</span>))</div>
+<div class="line"><span class="lineno">  347</span> </div>
+<div class="line"><span class="lineno">  348</span>        <span class="comment"># Paths Page</span></div>
+<div class="line"><span class="lineno">  349</span>        self.stack.widget(2).layout().itemAt(0).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_default_project_folder&quot;</span>))</div>
+<div class="line"><span class="lineno">  350</span>        self.stack.widget(2).layout().itemAt(3).widget().setText(Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
+<div class="line"><span class="lineno">  351</span>        self.clear_cache_btn.setText(Translator.tr(<span class="stringliteral">&quot;settings_clear_cache&quot;</span>))</div>
+<div class="line"><span class="lineno">  352</span> </div>
+<div class="line"><span class="lineno">  353</span>        <span class="comment"># Startup Page</span></div>
+<div class="line"><span class="lineno">  354</span>        self.splash_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_splash&quot;</span>))</div>
+<div class="line"><span class="lineno">  355</span>        self.update_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_check_updates&quot;</span>))</div>
+<div class="line"><span class="lineno">  356</span>        self.restore_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_open_last&quot;</span>))</div>
+<div class="line"><span class="lineno">  357</span> </div>
+<div class="line"><span class="lineno">  358</span>        <span class="comment"># Advanced Page</span></div>
+<div class="line"><span class="lineno">  359</span>        self.debug_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_enable_devlog&quot;</span>))</div>
+<div class="line"><span class="lineno">  360</span>        self.logfile_checkbox.setText(Translator.tr(<span class="stringliteral">&quot;settings_save_debug_log&quot;</span>))</div>
+<div class="line"><span class="lineno">  361</span>        self.force_refresh_btn.setText(Translator.tr(<span class="stringliteral">&quot;settings_force_refresh&quot;</span>))</div>
+<div class="line"><span class="lineno">  362</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00081">apply_button</a>, <a class="el" href="setting__menu_8py_source.html#l00087">cancel_button</a>, <a class="el" href="project__gallery__window_8py_source.html#l00068">project_gallery_window.ProjectGalleryWindow.category_list</a>, <a class="el" href="setting__menu_8py_source.html#l00037">category_list</a>, <a class="el" href="setting__menu_8py_source.html#l00185">clear_cache_btn</a>, <a class="el" href="setting__menu_8py_source.html#l00128">compact_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00234">debug_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00240">force_refresh_btn</a>, <a class="el" href="setting__menu_8py_source.html#l00160">lang_prompt_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00237">logfile_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00213">restore_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00199">splash_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00065">stack</a>, and <a class="el" href="setting__menu_8py_source.html#l00204">update_checkbox</a>.</p>
+<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00120">apply_button</a>, <a class="el" href="setting__menu_8py_source.html#l00126">cancel_button</a>, <a class="el" href="project__gallery__window_8py_source.html#l00101">project_gallery_window.ProjectGalleryWindow.category_list</a>, <a class="el" href="setting__menu_8py_source.html#l00076">category_list</a>, <a class="el" href="setting__menu_8py_source.html#l00244">clear_cache_btn</a>, <a class="el" href="setting__menu_8py_source.html#l00181">compact_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00299">debug_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00305">force_refresh_btn</a>, <a class="el" href="setting__menu_8py_source.html#l00216">lang_prompt_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00302">logfile_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00275">restore_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00261">splash_checkbox</a>, <a class="el" href="setting__menu_8py_source.html#l00104">stack</a>, and <a class="el" href="setting__menu_8py_source.html#l00266">update_checkbox</a>.</p>
 
 </div>
 </div>
@@ -391,14 +403,13 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00409">409</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  409</span>    <span class="keyword">def </span>browse_esphome_executable(self):</div>
-<div class="line"><span class="lineno">  410</span>        file_path, _ = QFileDialog.getOpenFileName(self, Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Executables (*.exe);;All Files (*)&quot;</span>)</div>
-<div class="line"><span class="lineno">  411</span>        <span class="keywordflow">if</span> file_path:</div>
-<div class="line"><span class="lineno">  412</span>            self.custom_esphome_input.setText(file_path)</div>
-<div class="line"><span class="lineno">  413</span> </div>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00490">490</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  490</span>    <span class="keyword">def </span>browse_esphome_executable(self):</div>
+<div class="line"><span class="lineno">  491</span>        file_path, _ = QFileDialog.getOpenFileName(self, Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>), <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Executables (*.exe);;All Files (*)&quot;</span>)</div>
+<div class="line"><span class="lineno">  492</span>        <span class="keywordflow">if</span> file_path:</div>
+<div class="line"><span class="lineno">  493</span>            self.custom_esphome_input.setText(file_path)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00360">custom_esphome_input</a>.</p>
+<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00438">custom_esphome_input</a>.</p>
 
 </div>
 </div>
@@ -416,15 +427,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00250">250</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  250</span>    <span class="keyword">def </span>browse_project_folder(self):</div>
-<div class="line"><span class="lineno">  251</span>        folder = QFileDialog.getExistingDirectory(self, Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
-<div class="line"><span class="lineno">  252</span>        <span class="keywordflow">if</span> folder:</div>
-<div class="line"><span class="lineno">  253</span>            self.project_path_edit.setText(folder)</div>
-<div class="line"><span class="lineno">  254</span> </div>
+<pre class="fragment">@brief Opens a folder selection dialog to change the default project folder path.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00315">315</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  315</span>    <span class="keyword">def </span>browse_project_folder(self):</div>
+<div class="line"><span class="lineno">  316</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  317</span><span class="stringliteral">        @brief Opens a folder selection dialog to change the default project folder path.</span></div>
+<div class="line"><span class="lineno">  318</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  319</span>        folder = QFileDialog.getExistingDirectory(self, Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
+<div class="line"><span class="lineno">  320</span>        <span class="keywordflow">if</span> folder:</div>
+<div class="line"><span class="lineno">  321</span>            self.project_path_edit.setText(folder)</div>
+<div class="line"><span class="lineno">  322</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00174">project_path_edit</a>.</p>
+<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00233">project_path_edit</a>.</p>
 
 </div>
 </div>
@@ -442,15 +457,18 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00292">292</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  292</span>    <span class="keyword">def </span>check_updates_now(self):</div>
-<div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  294</span>        pixmap = QPixmap(conf.SPLASH_IMAGE)</div>
-<div class="line"><span class="lineno">  295</span>        splash = SplashScreen(pixmap)</div>
-<div class="line"><span class="lineno">  296</span>        splash.check_online_version()  <span class="comment"># solo controllo, nessun ciclo completo</span></div>
-<div class="line"><span class="lineno">  297</span>        splash.show()</div>
-<div class="line"><span class="lineno">  298</span> </div>
+<pre class="fragment">@brief Triggers an immediate online version check via the splash screen module.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00363">363</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  363</span>    <span class="keyword">def </span>check_updates_now(self):</div>
+<div class="line"><span class="lineno">  364</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  365</span><span class="stringliteral">        @brief Triggers an immediate online version check via the splash screen module.</span></div>
+<div class="line"><span class="lineno">  366</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  367</span>        pixmap = QPixmap(conf.SPLASH_IMAGE)</div>
+<div class="line"><span class="lineno">  368</span>        splash = SplashScreen(pixmap)</div>
+<div class="line"><span class="lineno">  369</span>        splash.check_online_version()  <span class="comment"># solo controllo, nessun ciclo completo</span></div>
+<div class="line"><span class="lineno">  370</span>        splash.show()</div>
+<div class="line"><span class="lineno">  371</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -468,28 +486,32 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00230">230</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  230</span>    <span class="keyword">def </span>create_advanced_page(self):</div>
-<div class="line"><span class="lineno">  231</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  232</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  234</span>        self.debug_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_enable_devlog&quot;</span>))</div>
-<div class="line"><span class="lineno">  235</span>        layout.addWidget(self.debug_checkbox)</div>
-<div class="line"><span class="lineno">  236</span> </div>
-<div class="line"><span class="lineno">  237</span>        self.logfile_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_save_debug_log&quot;</span>))</div>
-<div class="line"><span class="lineno">  238</span>        layout.addWidget(self.logfile_checkbox)</div>
-<div class="line"><span class="lineno">  239</span> </div>
-<div class="line"><span class="lineno">  240</span>        self.force_refresh_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_force_refresh&quot;</span>))</div>
-<div class="line"><span class="lineno">  241</span>        layout.addWidget(self.force_refresh_btn)</div>
-<div class="line"><span class="lineno">  242</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  243</span> </div>
-<div class="line"><span class="lineno">  244</span>        self.debug_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  245</span>        self.logfile_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  246</span>        self.force_refresh_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  247</span> </div>
-<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  249</span> </div>
+<pre class="fragment">@brief Creates the advanced options page for debug log enabling and cache refresh.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00292">292</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  292</span>    <span class="keyword">def </span>create_advanced_page(self):</div>
+<div class="line"><span class="lineno">  293</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  294</span><span class="stringliteral">        @brief Creates the advanced options page for debug log enabling and cache refresh.</span></div>
+<div class="line"><span class="lineno">  295</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  296</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  297</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  298</span> </div>
+<div class="line"><span class="lineno">  299</span>        self.debug_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_enable_devlog&quot;</span>))</div>
+<div class="line"><span class="lineno">  300</span>        layout.addWidget(self.debug_checkbox)</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  302</span>        self.logfile_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_save_debug_log&quot;</span>))</div>
+<div class="line"><span class="lineno">  303</span>        layout.addWidget(self.logfile_checkbox)</div>
+<div class="line"><span class="lineno">  304</span> </div>
+<div class="line"><span class="lineno">  305</span>        self.force_refresh_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_force_refresh&quot;</span>))</div>
+<div class="line"><span class="lineno">  306</span>        layout.addWidget(self.force_refresh_btn)</div>
+<div class="line"><span class="lineno">  307</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  308</span> </div>
+<div class="line"><span class="lineno">  309</span>        self.debug_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  310</span>        self.logfile_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  311</span>        self.force_refresh_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  312</span> </div>
+<div class="line"><span class="lineno">  313</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  314</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -507,95 +529,103 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Creates the ESPHome information page showing version, executable path, Python version, and online status.
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00299">299</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  299</span>    <span class="keyword">def </span>create_esphome_page(self):</div>
-<div class="line"><span class="lineno">  300</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  301</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  302</span> </div>
-<div class="line"><span class="lineno">  303</span>        layout.setContentsMargins(20, 20, 20, 20)</div>
-<div class="line"><span class="lineno">  304</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  306</span>        <span class="comment"># Logo</span></div>
-<div class="line"><span class="lineno">  307</span>        esphome_img = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets/icon&quot;</span>, <span class="stringliteral">&quot;esphome.png&quot;</span>)</div>
-<div class="line"><span class="lineno">  308</span>        logo = QPixmap(esphome_img).scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)</div>
-<div class="line"><span class="lineno">  309</span>        logo_label = QLabel()</div>
-<div class="line"><span class="lineno">  310</span>        logo_label.setPixmap(logo)</div>
-<div class="line"><span class="lineno">  311</span>        logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  312</span>        layout.addWidget(logo_label)</div>
-<div class="line"><span class="lineno">  313</span> </div>
-<div class="line"><span class="lineno">  314</span>        <span class="comment"># Titolo</span></div>
-<div class="line"><span class="lineno">  315</span>        label_title = QLabel(Translator.tr(<span class="stringliteral">&quot;settings_esphome_title&quot;</span>))</div>
-<div class="line"><span class="lineno">  316</span>        label_title.setStyleSheet(<span class="stringliteral">&quot;font-size: 16px; font-weight: bold;&quot;</span>)</div>
-<div class="line"><span class="lineno">  317</span>        layout.addWidget(label_title)</div>
-<div class="line"><span class="lineno">  318</span> </div>
-<div class="line"><span class="lineno">  319</span>        <span class="comment"># Recupero informazioni</span></div>
-<div class="line"><span class="lineno">  320</span>        <span class="keyword">import</span> subprocess, shutil, sys, urllib.request</div>
-<div class="line"><span class="lineno">  321</span> </div>
-<div class="line"><span class="lineno">  322</span>        <span class="comment"># Versione ESPHome</span></div>
-<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  324</span>            result = subprocess.run([<span class="stringliteral">&quot;esphome&quot;</span>, <span class="stringliteral">&quot;version&quot;</span>], capture_output=<span class="keyword">True</span>, text=<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  325</span>            version = result.stdout.strip()</div>
-<div class="line"><span class="lineno">  326</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  327</span>            version = Translator.tr(<span class="stringliteral">&quot;esphome_version_error&quot;</span>).format(error=str(e))</div>
-<div class="line"><span class="lineno">  328</span> </div>
-<div class="line"><span class="lineno">  329</span>        label_version = QLabel(f<span class="stringliteral">&quot;🔢 {version}&quot;</span>)</div>
-<div class="line"><span class="lineno">  330</span>        layout.addWidget(label_version)</div>
-<div class="line"><span class="lineno">  331</span> </div>
-<div class="line"><span class="lineno">  332</span>        <span class="comment"># Percorso eseguibile</span></div>
-<div class="line"><span class="lineno">  333</span>        esphome_path = shutil.which(<span class="stringliteral">&quot;esphome&quot;</span>)</div>
-<div class="line"><span class="lineno">  334</span>        <span class="keywordflow">if</span> esphome_path:</div>
-<div class="line"><span class="lineno">  335</span>            label_path = QLabel(f<span class="stringliteral">&quot;📁 {Translator.tr(&#39;esphome_path&#39;)}: {esphome_path}&quot;</span>)</div>
-<div class="line"><span class="lineno">  336</span>            label_path.setWordWrap(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  337</span>            label_path.setMaximumWidth(700)</div>
-<div class="line"><span class="lineno">  338</span>            label_path.setToolTip(esphome_path)</div>
-<div class="line"><span class="lineno">  339</span>            label_path.setStyleSheet(<span class="stringliteral">&quot;font-family: Consolas, monospace;&quot;</span>)</div>
-<div class="line"><span class="lineno">  340</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  341</span>            label_path = QLabel(f<span class="stringliteral">&quot;❌ {Translator.tr(&#39;esphome_not_found&#39;)}&quot;</span>)</div>
-<div class="line"><span class="lineno">  342</span>            download_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;download_esphome_button&quot;</span>))</div>
-<div class="line"><span class="lineno">  343</span>            download_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  344</span>            download_btn.clicked.connect(<span class="keyword">lambda</span>: webbrowser.open(<span class="stringliteral">&quot;https://esphome.io/guides/installing_esphome.html&quot;</span>))</div>
-<div class="line"><span class="lineno">  345</span>            layout.addWidget(download_btn)</div>
-<div class="line"><span class="lineno">  346</span>        </div>
-<div class="line"><span class="lineno">  347</span>        layout.addWidget(label_path)</div>
-<div class="line"><span class="lineno">  348</span> </div>
-<div class="line"><span class="lineno">  349</span> </div>
-<div class="line"><span class="lineno">  350</span>        <span class="comment"># Versione Python</span></div>
-<div class="line"><span class="lineno">  351</span>        label_py = QLabel(f<span class="stringliteral">&quot;🐍 {Translator.tr(&#39;python_version&#39;)}: {sys.version.split()[0]}&quot;</span>)</div>
-<div class="line"><span class="lineno">  352</span>        layout.addWidget(label_py)</div>
-<div class="line"><span class="lineno">  353</span> </div>
-<div class="line"><span class="lineno">  354</span>        <span class="comment"># Percorso personalizzato eseguibile ESPHome</span></div>
-<div class="line"><span class="lineno">  355</span>        layout.addSpacing(10)</div>
-<div class="line"><span class="lineno">  356</span>        custom_path_label = QLabel(Translator.tr(<span class="stringliteral">&quot;custom_esphome_path_label&quot;</span>))</div>
-<div class="line"><span class="lineno">  357</span>        layout.addWidget(custom_path_label)</div>
-<div class="line"><span class="lineno">  358</span> </div>
-<div class="line"><span class="lineno">  359</span>        path_layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">  360</span>        self.custom_esphome_input = QLineEdit()</div>
-<div class="line"><span class="lineno">  361</span>        self.custom_esphome_input.setPlaceholderText(<span class="stringliteral">&quot;C:/Percorso/esp/esphome.exe&quot;</span>)</div>
-<div class="line"><span class="lineno">  362</span>        self.custom_esphome_input.setStyleSheet(Pantone.LINEEDIT_STYLE)</div>
-<div class="line"><span class="lineno">  363</span>        path_layout.addWidget(self.custom_esphome_input)</div>
-<div class="line"><span class="lineno">  364</span> </div>
-<div class="line"><span class="lineno">  365</span>        browse_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
-<div class="line"><span class="lineno">  366</span>        browse_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  367</span>        browse_btn.clicked.connect(self.browse_esphome_executable)</div>
-<div class="line"><span class="lineno">  368</span>        path_layout.addWidget(browse_btn)</div>
-<div class="line"><span class="lineno">  369</span>        layout.addLayout(path_layout)</div>
-<div class="line"><span class="lineno">  370</span> </div>
-<div class="line"><span class="lineno">  371</span>        <span class="comment"># Carica valore salvato, se esiste</span></div>
-<div class="line"><span class="lineno">  372</span>        saved_custom_path = get_setting(<span class="stringliteral">&quot;custom_esphome_path&quot;</span>)</div>
-<div class="line"><span class="lineno">  373</span>        <span class="keywordflow">if</span> saved_custom_path:</div>
-<div class="line"><span class="lineno">  374</span>            self.custom_esphome_input.setText(saved_custom_path)</div>
-<div class="line"><span class="lineno">  375</span> </div>
-<div class="line"><span class="lineno">  376</span>        <span class="comment"># Stato sito</span></div>
-<div class="line"><span class="lineno">  377</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  378</span>            urllib.request.urlopen(<span class="stringliteral">&quot;https://esphome.io&quot;</span>, timeout=3)</div>
-<div class="line"><span class="lineno">  379</span>            online_label = QLabel(f<span class="stringliteral">&quot;🌐 esphome.io: ✅ {Translator.tr(&#39;online&#39;)}&quot;</span>)</div>
-<div class="line"><span class="lineno">  380</span>        <span class="keywordflow">except</span>:</div>
-<div class="line"><span class="lineno">  381</span>            online_label = QLabel(f<span class="stringliteral">&quot;🌐 esphome.io: ❌ {Translator.tr(&#39;offline&#39;)}&quot;</span>)</div>
-<div class="line"><span class="lineno">  382</span>        layout.addWidget(online_label)</div>
+Includes an input for custom ESPHome CLI path and a download button if not found.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00372">372</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  372</span>    <span class="keyword">def </span>create_esphome_page(self):</div>
+<div class="line"><span class="lineno">  373</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  374</span><span class="stringliteral">        @brief Creates the ESPHome information page showing version, executable path, Python version, and online status.</span></div>
+<div class="line"><span class="lineno">  375</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  376</span><span class="stringliteral">        Includes an input for custom ESPHome CLI path and a download button if not found.</span></div>
+<div class="line"><span class="lineno">  377</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  378</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  379</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  380</span> </div>
+<div class="line"><span class="lineno">  381</span>        layout.setContentsMargins(20, 20, 20, 20)</div>
+<div class="line"><span class="lineno">  382</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
 <div class="line"><span class="lineno">  383</span> </div>
-<div class="line"><span class="lineno">  384</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  385</span>    </div>
+<div class="line"><span class="lineno">  384</span>        <span class="comment"># Logo</span></div>
+<div class="line"><span class="lineno">  385</span>        esphome_img = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets/icon&quot;</span>, <span class="stringliteral">&quot;esphome.png&quot;</span>)</div>
+<div class="line"><span class="lineno">  386</span>        logo = QPixmap(esphome_img).scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)</div>
+<div class="line"><span class="lineno">  387</span>        logo_label = QLabel()</div>
+<div class="line"><span class="lineno">  388</span>        logo_label.setPixmap(logo)</div>
+<div class="line"><span class="lineno">  389</span>        logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  390</span>        layout.addWidget(logo_label)</div>
+<div class="line"><span class="lineno">  391</span> </div>
+<div class="line"><span class="lineno">  392</span>        <span class="comment"># Titolo</span></div>
+<div class="line"><span class="lineno">  393</span>        label_title = QLabel(Translator.tr(<span class="stringliteral">&quot;settings_esphome_title&quot;</span>))</div>
+<div class="line"><span class="lineno">  394</span>        label_title.setStyleSheet(<span class="stringliteral">&quot;font-size: 16px; font-weight: bold;&quot;</span>)</div>
+<div class="line"><span class="lineno">  395</span>        layout.addWidget(label_title)</div>
+<div class="line"><span class="lineno">  396</span> </div>
+<div class="line"><span class="lineno">  397</span>        <span class="comment"># Recupero informazioni</span></div>
+<div class="line"><span class="lineno">  398</span>        <span class="keyword">import</span> subprocess, shutil, sys, urllib.request</div>
+<div class="line"><span class="lineno">  399</span> </div>
+<div class="line"><span class="lineno">  400</span>        <span class="comment"># Versione ESPHome</span></div>
+<div class="line"><span class="lineno">  401</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  402</span>            result = subprocess.run([<span class="stringliteral">&quot;esphome&quot;</span>, <span class="stringliteral">&quot;version&quot;</span>], capture_output=<span class="keyword">True</span>, text=<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  403</span>            version = result.stdout.strip()</div>
+<div class="line"><span class="lineno">  404</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  405</span>            version = Translator.tr(<span class="stringliteral">&quot;esphome_version_error&quot;</span>).format(error=str(e))</div>
+<div class="line"><span class="lineno">  406</span> </div>
+<div class="line"><span class="lineno">  407</span>        label_version = QLabel(f<span class="stringliteral">&quot;🔢 {version}&quot;</span>)</div>
+<div class="line"><span class="lineno">  408</span>        layout.addWidget(label_version)</div>
+<div class="line"><span class="lineno">  409</span> </div>
+<div class="line"><span class="lineno">  410</span>        <span class="comment"># Percorso eseguibile</span></div>
+<div class="line"><span class="lineno">  411</span>        esphome_path = shutil.which(<span class="stringliteral">&quot;esphome&quot;</span>)</div>
+<div class="line"><span class="lineno">  412</span>        <span class="keywordflow">if</span> esphome_path:</div>
+<div class="line"><span class="lineno">  413</span>            label_path = QLabel(f<span class="stringliteral">&quot;📁 {Translator.tr(&#39;esphome_path&#39;)}: {esphome_path}&quot;</span>)</div>
+<div class="line"><span class="lineno">  414</span>            label_path.setWordWrap(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  415</span>            label_path.setMaximumWidth(700)</div>
+<div class="line"><span class="lineno">  416</span>            label_path.setToolTip(esphome_path)</div>
+<div class="line"><span class="lineno">  417</span>            label_path.setStyleSheet(<span class="stringliteral">&quot;font-family: Consolas, monospace;&quot;</span>)</div>
+<div class="line"><span class="lineno">  418</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  419</span>            label_path = QLabel(f<span class="stringliteral">&quot;❌ {Translator.tr(&#39;esphome_not_found&#39;)}&quot;</span>)</div>
+<div class="line"><span class="lineno">  420</span>            download_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;download_esphome_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  421</span>            download_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  422</span>            download_btn.clicked.connect(<span class="keyword">lambda</span>: webbrowser.open(<span class="stringliteral">&quot;https://esphome.io/guides/installing_esphome.html&quot;</span>))</div>
+<div class="line"><span class="lineno">  423</span>            layout.addWidget(download_btn)</div>
+<div class="line"><span class="lineno">  424</span>        </div>
+<div class="line"><span class="lineno">  425</span>        layout.addWidget(label_path)</div>
+<div class="line"><span class="lineno">  426</span> </div>
+<div class="line"><span class="lineno">  427</span> </div>
+<div class="line"><span class="lineno">  428</span>        <span class="comment"># Versione Python</span></div>
+<div class="line"><span class="lineno">  429</span>        label_py = QLabel(f<span class="stringliteral">&quot;🐍 {Translator.tr(&#39;python_version&#39;)}: {sys.version.split()[0]}&quot;</span>)</div>
+<div class="line"><span class="lineno">  430</span>        layout.addWidget(label_py)</div>
+<div class="line"><span class="lineno">  431</span> </div>
+<div class="line"><span class="lineno">  432</span>        <span class="comment"># Percorso personalizzato eseguibile ESPHome</span></div>
+<div class="line"><span class="lineno">  433</span>        layout.addSpacing(10)</div>
+<div class="line"><span class="lineno">  434</span>        custom_path_label = QLabel(Translator.tr(<span class="stringliteral">&quot;custom_esphome_path_label&quot;</span>))</div>
+<div class="line"><span class="lineno">  435</span>        layout.addWidget(custom_path_label)</div>
+<div class="line"><span class="lineno">  436</span> </div>
+<div class="line"><span class="lineno">  437</span>        path_layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  438</span>        self.custom_esphome_input = QLineEdit()</div>
+<div class="line"><span class="lineno">  439</span>        self.custom_esphome_input.setPlaceholderText(<span class="stringliteral">&quot;C:/Percorso/esp/esphome.exe&quot;</span>)</div>
+<div class="line"><span class="lineno">  440</span>        self.custom_esphome_input.setStyleSheet(Pantone.LINEEDIT_STYLE)</div>
+<div class="line"><span class="lineno">  441</span>        path_layout.addWidget(self.custom_esphome_input)</div>
+<div class="line"><span class="lineno">  442</span> </div>
+<div class="line"><span class="lineno">  443</span>        browse_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
+<div class="line"><span class="lineno">  444</span>        browse_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  445</span>        browse_btn.clicked.connect(self.browse_esphome_executable)</div>
+<div class="line"><span class="lineno">  446</span>        path_layout.addWidget(browse_btn)</div>
+<div class="line"><span class="lineno">  447</span>        layout.addLayout(path_layout)</div>
+<div class="line"><span class="lineno">  448</span> </div>
+<div class="line"><span class="lineno">  449</span>        <span class="comment"># Carica valore salvato, se esiste</span></div>
+<div class="line"><span class="lineno">  450</span>        saved_custom_path = get_setting(<span class="stringliteral">&quot;custom_esphome_path&quot;</span>)</div>
+<div class="line"><span class="lineno">  451</span>        <span class="keywordflow">if</span> saved_custom_path:</div>
+<div class="line"><span class="lineno">  452</span>            self.custom_esphome_input.setText(saved_custom_path)</div>
+<div class="line"><span class="lineno">  453</span> </div>
+<div class="line"><span class="lineno">  454</span>        <span class="comment"># Stato sito</span></div>
+<div class="line"><span class="lineno">  455</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  456</span>            urllib.request.urlopen(<span class="stringliteral">&quot;https://esphome.io&quot;</span>, timeout=3)</div>
+<div class="line"><span class="lineno">  457</span>            online_label = QLabel(f<span class="stringliteral">&quot;🌐 esphome.io: ✅ {Translator.tr(&#39;online&#39;)}&quot;</span>)</div>
+<div class="line"><span class="lineno">  458</span>        <span class="keywordflow">except</span>:</div>
+<div class="line"><span class="lineno">  459</span>            online_label = QLabel(f<span class="stringliteral">&quot;🌐 esphome.io: ❌ {Translator.tr(&#39;offline&#39;)}&quot;</span>)</div>
+<div class="line"><span class="lineno">  460</span>        layout.addWidget(online_label)</div>
+<div class="line"><span class="lineno">  461</span> </div>
+<div class="line"><span class="lineno">  462</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  463</span>    </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -613,39 +643,43 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00138">138</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  138</span>    <span class="keyword">def </span>create_language_page(self):</div>
-<div class="line"><span class="lineno">  139</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  140</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  141</span> </div>
-<div class="line"><span class="lineno">  142</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_language_label&quot;</span>)))</div>
-<div class="line"><span class="lineno">  143</span>        self.language_combo = QComboBox()</div>
-<div class="line"><span class="lineno">  144</span>        lang_map = Translator.get_language_name_map()</div>
-<div class="line"><span class="lineno">  145</span>        self.lang_code_from_name = {v: k <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> lang_map.items()}  <span class="comment"># mapping inverso</span></div>
-<div class="line"><span class="lineno">  146</span>        self.language_combo.addItems(lang_map.values())</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>        saved_lang_code = get_setting(<span class="stringliteral">&quot;language&quot;</span>)</div>
-<div class="line"><span class="lineno">  150</span>        <span class="keywordflow">if</span> saved_lang_code <span class="keywordflow">and</span> saved_lang_code <span class="keywordflow">in</span> lang_map:</div>
-<div class="line"><span class="lineno">  151</span>            <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  152</span>                name = lang_map[saved_lang_code]</div>
-<div class="line"><span class="lineno">  153</span>                idx = self.language_combo.findText(name)</div>
-<div class="line"><span class="lineno">  154</span>                <span class="keywordflow">if</span> idx != -1:</div>
-<div class="line"><span class="lineno">  155</span>                    self.language_combo.setCurrentIndex(idx)</div>
-<div class="line"><span class="lineno">  156</span>            <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  157</span>                logger.warning(f<span class="stringliteral">&quot;Errore nel settaggio della lingua nella combobox: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  158</span> </div>
-<div class="line"><span class="lineno">  159</span>        layout.addWidget(self.language_combo)</div>
-<div class="line"><span class="lineno">  160</span>        self.lang_prompt_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_show_lang_selector&quot;</span>))</div>
-<div class="line"><span class="lineno">  161</span>        layout.addWidget(self.lang_prompt_checkbox)</div>
-<div class="line"><span class="lineno">  162</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  163</span> </div>
-<div class="line"><span class="lineno">  164</span>        self.language_combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
-<div class="line"><span class="lineno">  165</span>        self.lang_prompt_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  168</span> </div>
+<pre class="fragment">@brief Creates the language selection page with combo box and language prompt option.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00191">191</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  191</span>    <span class="keyword">def </span>create_language_page(self):</div>
+<div class="line"><span class="lineno">  192</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  193</span><span class="stringliteral">        @brief Creates the language selection page with combo box and language prompt option.</span></div>
+<div class="line"><span class="lineno">  194</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  195</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  196</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_language_label&quot;</span>)))</div>
+<div class="line"><span class="lineno">  199</span>        self.language_combo = QComboBox()</div>
+<div class="line"><span class="lineno">  200</span>        lang_map = Translator.get_language_name_map()</div>
+<div class="line"><span class="lineno">  201</span>        self.lang_code_from_name = {v: k <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> lang_map.items()}  <span class="comment"># mapping inverso</span></div>
+<div class="line"><span class="lineno">  202</span>        self.language_combo.addItems(lang_map.values())</div>
+<div class="line"><span class="lineno">  203</span> </div>
+<div class="line"><span class="lineno">  204</span> </div>
+<div class="line"><span class="lineno">  205</span>        saved_lang_code = get_setting(<span class="stringliteral">&quot;language&quot;</span>)</div>
+<div class="line"><span class="lineno">  206</span>        <span class="keywordflow">if</span> saved_lang_code <span class="keywordflow">and</span> saved_lang_code <span class="keywordflow">in</span> lang_map:</div>
+<div class="line"><span class="lineno">  207</span>            <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  208</span>                name = lang_map[saved_lang_code]</div>
+<div class="line"><span class="lineno">  209</span>                idx = self.language_combo.findText(name)</div>
+<div class="line"><span class="lineno">  210</span>                <span class="keywordflow">if</span> idx != -1:</div>
+<div class="line"><span class="lineno">  211</span>                    self.language_combo.setCurrentIndex(idx)</div>
+<div class="line"><span class="lineno">  212</span>            <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  213</span>                logger.warning(f<span class="stringliteral">&quot;Errore nel settaggio della lingua nella combobox: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>        layout.addWidget(self.language_combo)</div>
+<div class="line"><span class="lineno">  216</span>        self.lang_prompt_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_show_lang_selector&quot;</span>))</div>
+<div class="line"><span class="lineno">  217</span>        layout.addWidget(self.lang_prompt_checkbox)</div>
+<div class="line"><span class="lineno">  218</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  219</span> </div>
+<div class="line"><span class="lineno">  220</span>        self.language_combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
+<div class="line"><span class="lineno">  221</span>        self.lang_prompt_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  222</span> </div>
+<div class="line"><span class="lineno">  223</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  224</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -663,21 +697,25 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00386">386</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  386</span>    <span class="keyword">def </span>create_log_page(self):</div>
-<div class="line"><span class="lineno">  387</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  388</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  389</span>        layout.setContentsMargins(20, 20, 20, 20)</div>
-<div class="line"><span class="lineno">  390</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  391</span> </div>
-<div class="line"><span class="lineno">  392</span>        self.open_log_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;open_log_button&quot;</span>))</div>
-<div class="line"><span class="lineno">  393</span>        self.open_log_btn.clicked.connect(self.open_log_file)</div>
-<div class="line"><span class="lineno">  394</span>        self.open_log_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  395</span> </div>
-<div class="line"><span class="lineno">  396</span>        layout.addWidget(self.open_log_btn)</div>
-<div class="line"><span class="lineno">  397</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  398</span> </div>
+<pre class="fragment">@brief Creates a page with a button to open the application log file.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00464">464</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  464</span>    <span class="keyword">def </span>create_log_page(self):</div>
+<div class="line"><span class="lineno">  465</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  466</span><span class="stringliteral">        @brief Creates a page with a button to open the application log file.</span></div>
+<div class="line"><span class="lineno">  467</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  468</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  469</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  470</span>        layout.setContentsMargins(20, 20, 20, 20)</div>
+<div class="line"><span class="lineno">  471</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  472</span> </div>
+<div class="line"><span class="lineno">  473</span>        self.open_log_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;open_log_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  474</span>        self.open_log_btn.clicked.connect(self.open_log_file)</div>
+<div class="line"><span class="lineno">  475</span>        self.open_log_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  476</span> </div>
+<div class="line"><span class="lineno">  477</span>        layout.addWidget(self.open_log_btn)</div>
+<div class="line"><span class="lineno">  478</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  479</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -695,34 +733,38 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00169">169</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  169</span>    <span class="keyword">def </span>create_paths_page(self):</div>
-<div class="line"><span class="lineno">  170</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  171</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_default_project_folder&quot;</span>)))</div>
-<div class="line"><span class="lineno">  174</span>        self.project_path_edit = QLineEdit()</div>
-<div class="line"><span class="lineno">  175</span>        <span class="comment"># Carica il path salvato dal DB, se esiste</span></div>
-<div class="line"><span class="lineno">  176</span>        saved_path = get_setting(<span class="stringliteral">&quot;default_project_path&quot;</span>)</div>
-<div class="line"><span class="lineno">  177</span>        <span class="keywordflow">if</span> saved_path:</div>
-<div class="line"><span class="lineno">  178</span>            self.project_path_edit.setText(saved_path)</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>        browse_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
-<div class="line"><span class="lineno">  181</span>        browse_btn.clicked.connect(self.browse_project_folder)</div>
-<div class="line"><span class="lineno">  182</span>        layout.addWidget(self.project_path_edit)</div>
-<div class="line"><span class="lineno">  183</span>        layout.addWidget(browse_btn)</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>        self.clear_cache_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_clear_cache&quot;</span>))</div>
-<div class="line"><span class="lineno">  186</span>        layout.addWidget(self.clear_cache_btn)</div>
-<div class="line"><span class="lineno">  187</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  188</span> </div>
-<div class="line"><span class="lineno">  189</span>        self.project_path_edit.setStyleSheet(Pantone.LINEEDIT_STYLE)</div>
-<div class="line"><span class="lineno">  190</span>        browse_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  191</span>        self.clear_cache_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  194</span> </div>
+<pre class="fragment">@brief Creates the paths page for selecting default project folder and cache clearing.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00225">225</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  225</span>    <span class="keyword">def </span>create_paths_page(self):</div>
+<div class="line"><span class="lineno">  226</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  227</span><span class="stringliteral">        @brief Creates the paths page for selecting default project folder and cache clearing.</span></div>
+<div class="line"><span class="lineno">  228</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  229</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  230</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  231</span> </div>
+<div class="line"><span class="lineno">  232</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_default_project_folder&quot;</span>)))</div>
+<div class="line"><span class="lineno">  233</span>        self.project_path_edit = QLineEdit()</div>
+<div class="line"><span class="lineno">  234</span>        <span class="comment"># Carica il path salvato dal DB, se esiste</span></div>
+<div class="line"><span class="lineno">  235</span>        saved_path = get_setting(<span class="stringliteral">&quot;default_project_path&quot;</span>)</div>
+<div class="line"><span class="lineno">  236</span>        <span class="keywordflow">if</span> saved_path:</div>
+<div class="line"><span class="lineno">  237</span>            self.project_path_edit.setText(saved_path)</div>
+<div class="line"><span class="lineno">  238</span> </div>
+<div class="line"><span class="lineno">  239</span>        browse_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_browse&quot;</span>))</div>
+<div class="line"><span class="lineno">  240</span>        browse_btn.clicked.connect(self.browse_project_folder)</div>
+<div class="line"><span class="lineno">  241</span>        layout.addWidget(self.project_path_edit)</div>
+<div class="line"><span class="lineno">  242</span>        layout.addWidget(browse_btn)</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>        self.clear_cache_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_clear_cache&quot;</span>))</div>
+<div class="line"><span class="lineno">  245</span>        layout.addWidget(self.clear_cache_btn)</div>
+<div class="line"><span class="lineno">  246</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  247</span> </div>
+<div class="line"><span class="lineno">  248</span>        self.project_path_edit.setStyleSheet(Pantone.LINEEDIT_STYLE)</div>
+<div class="line"><span class="lineno">  249</span>        browse_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  250</span>        self.clear_cache_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  253</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -740,43 +782,47 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00195">195</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  195</span>    <span class="keyword">def </span>create_startup_page(self):</div>
-<div class="line"><span class="lineno">  196</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  197</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>        self.splash_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_splash&quot;</span>))</div>
-<div class="line"><span class="lineno">  200</span>        layout.addWidget(self.splash_checkbox)</div>
-<div class="line"><span class="lineno">  201</span> </div>
-<div class="line"><span class="lineno">  202</span>        layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))</div>
-<div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  204</span>        self.update_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_check_updates&quot;</span>))</div>
-<div class="line"><span class="lineno">  205</span>        layout.addWidget(self.update_checkbox)</div>
-<div class="line"><span class="lineno">  206</span> </div>
-<div class="line"><span class="lineno">  207</span>        self.check_update_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_check_updates_now&quot;</span>))</div>
-<div class="line"><span class="lineno">  208</span>        self.check_update_btn.clicked.connect(self.check_updates_now)</div>
-<div class="line"><span class="lineno">  209</span>        layout.addWidget(self.check_update_btn)</div>
-<div class="line"><span class="lineno">  210</span>        self.check_update_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>        self.restore_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_open_last&quot;</span>))</div>
-<div class="line"><span class="lineno">  214</span>        layout.addWidget(self.restore_checkbox)</div>
-<div class="line"><span class="lineno">  215</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  216</span> </div>
-<div class="line"><span class="lineno">  217</span>        saved_splash = get_setting(<span class="stringliteral">&quot;show_splash&quot;</span>)</div>
-<div class="line"><span class="lineno">  218</span>        <span class="keywordflow">if</span> saved_splash == <span class="stringliteral">&quot;1&quot;</span>:</div>
-<div class="line"><span class="lineno">  219</span>            self.splash_checkbox.setChecked(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  220</span>        <span class="keywordflow">elif</span> saved_splash == <span class="stringliteral">&quot;0&quot;</span>:</div>
-<div class="line"><span class="lineno">  221</span>            self.splash_checkbox.setChecked(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  222</span> </div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>        self.splash_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  225</span>        self.update_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  226</span>        self.restore_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  227</span> </div>
-<div class="line"><span class="lineno">  228</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  229</span> </div>
+<pre class="fragment">@brief Creates the startup options page for splash screen and update check toggles.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00254">254</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  254</span>    <span class="keyword">def </span>create_startup_page(self):</div>
+<div class="line"><span class="lineno">  255</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  256</span><span class="stringliteral">        @brief Creates the startup options page for splash screen and update check toggles.</span></div>
+<div class="line"><span class="lineno">  257</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  258</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  259</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>        self.splash_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_splash&quot;</span>))</div>
+<div class="line"><span class="lineno">  262</span>        layout.addWidget(self.splash_checkbox)</div>
+<div class="line"><span class="lineno">  263</span> </div>
+<div class="line"><span class="lineno">  264</span>        layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))</div>
+<div class="line"><span class="lineno">  265</span> </div>
+<div class="line"><span class="lineno">  266</span>        self.update_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_check_updates&quot;</span>))</div>
+<div class="line"><span class="lineno">  267</span>        layout.addWidget(self.update_checkbox)</div>
+<div class="line"><span class="lineno">  268</span> </div>
+<div class="line"><span class="lineno">  269</span>        self.check_update_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;settings_check_updates_now&quot;</span>))</div>
+<div class="line"><span class="lineno">  270</span>        self.check_update_btn.clicked.connect(self.check_updates_now)</div>
+<div class="line"><span class="lineno">  271</span>        layout.addWidget(self.check_update_btn)</div>
+<div class="line"><span class="lineno">  272</span>        self.check_update_btn.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><span class="lineno">  273</span> </div>
+<div class="line"><span class="lineno">  274</span> </div>
+<div class="line"><span class="lineno">  275</span>        self.restore_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_open_last&quot;</span>))</div>
+<div class="line"><span class="lineno">  276</span>        layout.addWidget(self.restore_checkbox)</div>
+<div class="line"><span class="lineno">  277</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>        saved_splash = get_setting(<span class="stringliteral">&quot;show_splash&quot;</span>)</div>
+<div class="line"><span class="lineno">  280</span>        <span class="keywordflow">if</span> saved_splash == <span class="stringliteral">&quot;1&quot;</span>:</div>
+<div class="line"><span class="lineno">  281</span>            self.splash_checkbox.setChecked(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  282</span>        <span class="keywordflow">elif</span> saved_splash == <span class="stringliteral">&quot;0&quot;</span>:</div>
+<div class="line"><span class="lineno">  283</span>            self.splash_checkbox.setChecked(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>        self.splash_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  287</span>        self.update_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  288</span>        self.restore_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  290</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  291</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -794,32 +840,36 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00114">114</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  114</span>    <span class="keyword">def </span>create_ui_page(self):</div>
-<div class="line"><span class="lineno">  115</span>        page = QWidget()</div>
-<div class="line"><span class="lineno">  116</span>        layout = QVBoxLayout(page)</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_theme&quot;</span>)))</div>
-<div class="line"><span class="lineno">  119</span>        self.theme_combo = QComboBox()</div>
-<div class="line"><span class="lineno">  120</span>        self.theme_combo.addItems([<span class="stringliteral">&quot;Dark&quot;</span>, <span class="stringliteral">&quot;Light&quot;</span>, <span class="stringliteral">&quot;System Default&quot;</span>])</div>
-<div class="line"><span class="lineno">  121</span>        layout.addWidget(self.theme_combo)</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_font_size&quot;</span>)))</div>
-<div class="line"><span class="lineno">  124</span>        self.font_combo = QComboBox()</div>
-<div class="line"><span class="lineno">  125</span>        self.font_combo.addItems([<span class="stringliteral">&quot;Small&quot;</span>, <span class="stringliteral">&quot;Medium&quot;</span>, <span class="stringliteral">&quot;Large&quot;</span>])</div>
-<div class="line"><span class="lineno">  126</span>        layout.addWidget(self.font_combo)</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>        self.compact_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_compact_spacing&quot;</span>))</div>
-<div class="line"><span class="lineno">  129</span>        layout.addWidget(self.compact_checkbox)</div>
-<div class="line"><span class="lineno">  130</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>        self.theme_combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
-<div class="line"><span class="lineno">  133</span>        self.font_combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
-<div class="line"><span class="lineno">  134</span>        self.compact_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">return</span> page</div>
-<div class="line"><span class="lineno">  137</span> </div>
+<pre class="fragment">@brief Creates the UI preferences page with theme, font size, and compact spacing options.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00164">164</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  164</span>    <span class="keyword">def </span>create_ui_page(self):</div>
+<div class="line"><span class="lineno">  165</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  166</span><span class="stringliteral">        @brief Creates the UI preferences page with theme, font size, and compact spacing options.</span></div>
+<div class="line"><span class="lineno">  167</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  168</span>        page = QWidget()</div>
+<div class="line"><span class="lineno">  169</span>        layout = QVBoxLayout(page)</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_theme&quot;</span>)))</div>
+<div class="line"><span class="lineno">  172</span>        self.theme_combo = QComboBox()</div>
+<div class="line"><span class="lineno">  173</span>        self.theme_combo.addItems([<span class="stringliteral">&quot;Dark&quot;</span>, <span class="stringliteral">&quot;Light&quot;</span>, <span class="stringliteral">&quot;System Default&quot;</span>])</div>
+<div class="line"><span class="lineno">  174</span>        layout.addWidget(self.theme_combo)</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>        layout.addWidget(QLabel(Translator.tr(<span class="stringliteral">&quot;settings_font_size&quot;</span>)))</div>
+<div class="line"><span class="lineno">  177</span>        self.font_combo = QComboBox()</div>
+<div class="line"><span class="lineno">  178</span>        self.font_combo.addItems([<span class="stringliteral">&quot;Small&quot;</span>, <span class="stringliteral">&quot;Medium&quot;</span>, <span class="stringliteral">&quot;Large&quot;</span>])</div>
+<div class="line"><span class="lineno">  179</span>        layout.addWidget(self.font_combo)</div>
+<div class="line"><span class="lineno">  180</span> </div>
+<div class="line"><span class="lineno">  181</span>        self.compact_checkbox = QCheckBox(Translator.tr(<span class="stringliteral">&quot;settings_compact_spacing&quot;</span>))</div>
+<div class="line"><span class="lineno">  182</span>        layout.addWidget(self.compact_checkbox)</div>
+<div class="line"><span class="lineno">  183</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span>        self.theme_combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
+<div class="line"><span class="lineno">  186</span>        self.font_combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
+<div class="line"><span class="lineno">  187</span>        self.compact_checkbox.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">  188</span> </div>
+<div class="line"><span class="lineno">  189</span>        <span class="keywordflow">return</span> page</div>
+<div class="line"><span class="lineno">  190</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -837,18 +887,20 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00399">399</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  399</span>    <span class="keyword">def </span>open_log_file(self):</div>
-<div class="line"><span class="lineno">  400</span>        <span class="keyword">from</span> config.GUIconfig <span class="keyword">import</span> LOG_PATH</div>
-<div class="line"><span class="lineno">  401</span>        <span class="keyword">from</span> PyQt6.QtGui <span class="keyword">import</span> QDesktopServices</div>
-<div class="line"><span class="lineno">  402</span>        <span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> QUrl</div>
-<div class="line"><span class="lineno">  403</span> </div>
-<div class="line"><span class="lineno">  404</span>        <span class="keywordflow">if</span> os.path.exists(LOG_PATH):</div>
-<div class="line"><span class="lineno">  405</span>            QDesktopServices.openUrl(QUrl.fromLocalFile(LOG_PATH))</div>
-<div class="line"><span class="lineno">  406</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  407</span>            QMessageBox.warning(self, Translator.tr(<span class="stringliteral">&quot;warning&quot;</span>), Translator.tr(<span class="stringliteral">&quot;log_file_not_found&quot;</span>))</div>
-<div class="line"><span class="lineno">  408</span> </div>
+<pre class="fragment">@brief Opens the log file using the system default application if the file exists,
+otherwise shows a warning message.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00480">480</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  480</span>    <span class="keyword">def </span>open_log_file(self):</div>
+<div class="line"><span class="lineno">  481</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  482</span><span class="stringliteral">        @brief Opens the log file using the system default application if the file exists,</span></div>
+<div class="line"><span class="lineno">  483</span><span class="stringliteral">        otherwise shows a warning message.</span></div>
+<div class="line"><span class="lineno">  484</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  485</span>        <span class="keywordflow">if</span> os.path.exists(LOG_PATH):</div>
+<div class="line"><span class="lineno">  486</span>            QDesktopServices.openUrl(QUrl.fromLocalFile(LOG_PATH))</div>
+<div class="line"><span class="lineno">  487</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  488</span>            QMessageBox.warning(self, Translator.tr(<span class="stringliteral">&quot;warning&quot;</span>), Translator.tr(<span class="stringliteral">&quot;log_file_not_found&quot;</span>))</div>
+<div class="line"><span class="lineno">  489</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -866,26 +918,36 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Saves current settings from all pages to the configuration database.
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00099">99</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   99</span>    <span class="keyword">def </span><a class="code hl_namespace" href="namespacesave__settings.html">save_settings</a>(self):</div>
-<div class="line"><span class="lineno">  100</span>        <a class="code hl_namespace" href="namespacesave__settings.html">save_settings</a>(self)</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;custom_esphome_input&quot;</span>):</div>
-<div class="line"><span class="lineno">  103</span>          set_setting(<span class="stringliteral">&quot;custom_esphome_path&quot;</span>, self.custom_esphome_input.text().strip())</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>        QMessageBox.information(</div>
-<div class="line"><span class="lineno">  107</span>            self,</div>
-<div class="line"><span class="lineno">  108</span>            Translator.tr(<span class="stringliteral">&quot;settings_saved_title&quot;</span>),</div>
-<div class="line"><span class="lineno">  109</span>            Translator.tr(<span class="stringliteral">&quot;settings_saved_message&quot;</span>),</div>
-<div class="line"><span class="lineno">  110</span>            QMessageBox.StandardButton.Ok</div>
-<div class="line"><span class="lineno">  111</span>        )</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span> </div>
+Calls helper functions and sets custom ESPHome CLI path if provided.
+Shows an information message box on success.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00143">143</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  143</span>    <span class="keyword">def </span><a class="code hl_namespace" href="namespacesave__settings.html">save_settings</a>(self):</div>
+<div class="line"><span class="lineno">  144</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  145</span><span class="stringliteral">        @brief Saves current settings from all pages to the configuration database.</span></div>
+<div class="line"><span class="lineno">  146</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  147</span><span class="stringliteral">        Calls helper functions and sets custom ESPHome CLI path if provided.</span></div>
+<div class="line"><span class="lineno">  148</span><span class="stringliteral">        Shows an information message box on success.</span></div>
+<div class="line"><span class="lineno">  149</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  150</span>        <a class="code hl_namespace" href="namespacesave__settings.html">save_settings</a>(self)</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span>        <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;custom_esphome_input&quot;</span>):</div>
+<div class="line"><span class="lineno">  153</span>          set_setting(<span class="stringliteral">&quot;custom_esphome_path&quot;</span>, self.custom_esphome_input.text().strip())</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>        QMessageBox.information(</div>
+<div class="line"><span class="lineno">  157</span>            self,</div>
+<div class="line"><span class="lineno">  158</span>            Translator.tr(<span class="stringliteral">&quot;settings_saved_title&quot;</span>),</div>
+<div class="line"><span class="lineno">  159</span>            Translator.tr(<span class="stringliteral">&quot;settings_saved_message&quot;</span>),</div>
+<div class="line"><span class="lineno">  160</span>            QMessageBox.StandardButton.Ok</div>
+<div class="line"><span class="lineno">  161</span>        )</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span> </div>
 <div class="ttc" id="anamespacesave__settings_html"><div class="ttname"><a href="namespacesave__settings.html">save_settings</a></div><div class="ttdef"><b>Definition</b> <a href="save__settings_8py_source.html#l00001">save_settings.py:1</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00360">custom_esphome_input</a>.</p>
+<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00438">custom_esphome_input</a>.</p>
 
 </div>
 </div>
@@ -907,13 +969,21 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Switches the visible settings page based on category list selection.
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00096">96</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>    <span class="keyword">def </span>switch_category(self, index):</div>
-<div class="line"><span class="lineno">   97</span>        self.stack.setCurrentIndex(index)</div>
-<div class="line"><span class="lineno">   98</span> </div>
+@param index Index of the selected category.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00135">135</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  135</span>    <span class="keyword">def </span>switch_category(self, index):</div>
+<div class="line"><span class="lineno">  136</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  137</span><span class="stringliteral">        @brief Switches the visible settings page based on category list selection.</span></div>
+<div class="line"><span class="lineno">  138</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  139</span><span class="stringliteral">        @param index Index of the selected category.</span></div>
+<div class="line"><span class="lineno">  140</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  141</span>        self.stack.setCurrentIndex(index)</div>
+<div class="line"><span class="lineno">  142</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00065">stack</a>.</p>
+<p class="reference">References <a class="el" href="setting__menu_8py_source.html#l00104">stack</a>.</p>
 
 </div>
 </div>
@@ -930,9 +1000,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00081">81</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00120">120</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -948,7 +1018,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00367">367</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00445">445</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -964,7 +1034,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00181">181</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00240">240</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -980,9 +1050,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00087">87</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00126">126</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -998,9 +1068,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00037">37</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00076">76</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1016,7 +1086,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00207">207</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00269">269</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1032,7 +1102,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00208">208</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00270">270</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1048,9 +1118,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00185">185</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00244">244</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1066,9 +1136,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00128">128</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00181">181</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1084,9 +1154,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00360">360</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00438">438</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00409">browse_esphome_executable()</a>, and <a class="el" href="setting__menu_8py_source.html#l00099">save_settings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00490">browse_esphome_executable()</a>, and <a class="el" href="setting__menu_8py_source.html#l00143">save_settings()</a>.</p>
 
 </div>
 </div>
@@ -1102,9 +1172,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00234">234</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00299">299</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1120,7 +1190,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00124">124</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00177">177</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1136,9 +1206,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00240">240</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00305">305</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1154,7 +1224,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00145">145</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00201">201</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1170,9 +1240,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00160">160</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00216">216</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1188,7 +1258,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00143">143</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00199">199</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1204,7 +1274,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00026">26</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00065">65</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1220,9 +1290,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00237">237</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00302">302</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1238,7 +1308,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00392">392</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00473">473</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1254,7 +1324,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00393">393</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00474">474</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1270,9 +1340,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00174">174</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00233">233</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00250">browse_project_folder()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00315">browse_project_folder()</a>.</p>
 
 </div>
 </div>
@@ -1288,7 +1358,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00088">88</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00127">127</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1304,9 +1374,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00213">213</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00275">275</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1322,7 +1392,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00082">82</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00121">121</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1338,9 +1408,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00199">199</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00261">261</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
@@ -1356,9 +1426,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00065">65</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00104">104</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>, and <a class="el" href="setting__menu_8py_source.html#l00096">switch_category()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>, and <a class="el" href="setting__menu_8py_source.html#l00135">switch_category()</a>.</p>
 
 </div>
 </div>
@@ -1374,7 +1444,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00049">49</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00088">88</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1390,7 +1460,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00119">119</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00172">172</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
 </div>
 </div>
@@ -1406,14 +1476,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00204">204</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="setting__menu_8py_source.html#l00266">266</a> of file <a class="el" href="setting__menu_8py_source.html">setting_menu.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00255">aggiorna_tutte_le_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="setting__menu_8py_source.html#l00323">aggiorna_tutte_le_label()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="setting__menu_8py_source.html">setting_menu.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="setting__menu_8py_source.html">setting_menu.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

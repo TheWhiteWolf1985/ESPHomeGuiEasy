@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ESPHomeGUIeasy: core/new_project_handler.py Source File</title>
+<title>ESPHomeGUIeasy: C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/core/new_project_handler.py Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -105,114 +101,133 @@ $(function(){initNavTree('new__project__handler_8py_source.html',''); initResiza
   <div class="headertitle"><div class="title">new_project_handler.py</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="new__project__handler_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacenew__project__handler.html">    1</a></span><span class="keyword">import</span> os, shutil, json, re</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> shutil</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> QMessageBox</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">from</span> config.GUIconfig <span class="keyword">import</span> CATEGORY_TO_FOLDER</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> core.translator <span class="keyword">import</span> Translator</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="foldopen" id="foldopen00009" data-start="" data-end="">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="namespacenew__project__handler.html#a3afa82b110908ec2032b1ba398da44eb">    9</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacenew__project__handler.html#a3afa82b110908ec2032b1ba398da44eb">create_new_project</a>(data: dict, yaml_editor, logger, compiler, reset_tabs_callback, update_recent_callback):</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">    Crea una nuova struttura di progetto e aggiorna l&#39;interfaccia principale.</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral">    :param data: dizionario con i dati restituiti da get_data() del dialog</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral">    :param yaml_editor: riferimento all&#39;editor YAML per impostare il contenuto iniziale</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="stringliteral">    :param logger: funzione o oggetto logger con metodo .log(msg, level)</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="stringliteral">    :param compiler: oggetto con metodo set_project_dir(percorso)</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="stringliteral">    :param reset_tabs_callback: funzione da richiamare per resettare i tab</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="stringliteral">    :param update_recent_callback: funzione da richiamare per aggiornare i file recenti</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="stringliteral">    :return: project_dir, yaml_path</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    nome_proj = data[<span class="stringliteral">&quot;name&quot;</span>].strip()</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    root_dir = Path(data[<span class="stringliteral">&quot;base_dir&quot;</span>]).expanduser()</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    categoria_raw = data.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>).strip()</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    categoria = CATEGORY_TO_FOLDER.get(categoria_raw, <span class="stringliteral">&quot;Other_Misc&quot;</span>)</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    project_dir = root_dir / categoria / nome_proj</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<a href="new__project__handler_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacenew__project__handler.html">    1</a></span><span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@file new_project_handler.py</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral">@brief Creates and initializes new ESPHome projects with predefined structure and metadata.</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">@defgroup core Core Modules</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">@ingroup main</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">@brief Core logic: YAML handling, logging, settings, flashing, etc.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">This file contains the logic to:</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">- Generate a new project folder and optional subfolders</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral">- Create initial `project.yaml` and `info.json` files</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral">- Populate the editor with initial YAML</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral">- Link with logger, compiler, and UI callbacks</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="stringliteral">@version \ref PROJECT_NUMBER</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="stringliteral">@date July 2025</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="stringliteral">@license GNU Affero General Public License v3.0 (AGPLv3)</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">import</span> os, shutil, json, re, shutil</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> QMessageBox</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">from</span> config.GUIconfig <span class="keyword">import</span> CATEGORY_TO_FOLDER</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">from</span> core.translator <span class="keyword">import</span> Translator</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">if</span> project_dir.exists():</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        QMessageBox.warning(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;warning&quot;</span>), Translator.tr(<span class="stringliteral">&quot;dir_exists&quot;</span>))</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        project_dir.mkdir(parents=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">if</span> data[<span class="stringliteral">&quot;create_subfolders&quot;</span>]:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            (project_dir / <span class="stringliteral">&quot;yaml&quot;</span>).mkdir()</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            (project_dir / <span class="stringliteral">&quot;logs&quot;</span>).mkdir()</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            (project_dir / <span class="stringliteral">&quot;assets&quot;</span>).mkdir()</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        QMessageBox.critical(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;create_dir_error&quot;</span>).format(e=e))</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    yaml_path = project_dir / f<span class="stringliteral">&quot;{nome_proj}.yaml&quot;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment"># === Generazione contenuto YAML compilato ===</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        yaml_content = f<span class="stringliteral">&quot;&quot;&quot;esphome:</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="stringliteral">  name: {nome_proj}</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="stringliteral">  friendly_name: {nome_proj.replace(&quot;_&quot;, &quot; &quot;).title()}</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="stringliteral">esp32:</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="stringliteral">  board: esp32dev</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="stringliteral">  framework:</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="stringliteral">    type: arduino</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="stringliteral">logger:</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="stringliteral">api:</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="stringliteral">ota:</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="stringliteral">wifi:</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="stringliteral">  ssid: &quot;your_wifi&quot;</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="stringliteral">  password: &quot;your_password&quot;</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="stringliteral"></span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="stringliteral">captive_portal:</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keyword">with</span> open(yaml_path, <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            f.write(yaml_content)</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        QMessageBox.critical(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), f<span class="stringliteral">&quot;Errore scrittura YAML: {e}&quot;</span>)</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keyword">with</span> open(yaml_path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            yaml_editor.setPlainText(f.read())</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        QMessageBox.critical(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), f<span class="stringliteral">&quot;Errore apertura YAML: {e}&quot;</span>)</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    logger.log(Translator.tr(<span class="stringliteral">&quot;new_project_created&quot;</span>).format(project_dir=project_dir), <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    reset_tabs_callback()</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    compiler.set_project_dir(str(project_dir))</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    update_recent_callback()</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    info = {</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="stringliteral">&quot;name&quot;</span>: data[<span class="stringliteral">&quot;name&quot;</span>],</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="stringliteral">&quot;author&quot;</span>: data.get(<span class="stringliteral">&quot;author&quot;</span>, <span class="stringliteral">&quot;Unknown&quot;</span>),</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="stringliteral">&quot;version&quot;</span>: data.get(<span class="stringliteral">&quot;version&quot;</span>, <span class="stringliteral">&quot;1.0&quot;</span>),</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="stringliteral">&quot;update&quot;</span>: datetime.today().strftime(<span class="stringliteral">&quot;%Y-%m-%d&quot;</span>),</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="stringliteral">&quot;category&quot;</span>: data.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>),</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="stringliteral">&quot;description&quot;</span>: data.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="stringliteral">&quot;changelog&quot;</span>: []  <span class="comment"># ✅ aggiunto per supporto incrementale</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    info_path = project_dir / <span class="stringliteral">&quot;info.json&quot;</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            json.dump(info, f, indent=2, ensure_ascii=<span class="keyword">False</span>)</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        logger.log(f<span class="stringliteral">&quot;❌ Errore nella creazione di info.json: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">return</span> str(project_dir), str(yaml_path)</div>
+<div class="foldopen" id="foldopen00028" data-start="" data-end="">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="namespacenew__project__handler.html#a3afa82b110908ec2032b1ba398da44eb">   28</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacenew__project__handler.html#a3afa82b110908ec2032b1ba398da44eb">create_new_project</a>(data: dict, yaml_editor, logger, compiler, reset_tabs_callback, update_recent_callback):</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="stringliteral">    @brief Creates a new project folder structure and updates the main GUI interface accordingly.</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="stringliteral">    @param data Dictionary with input values from the project creation dialog.</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="stringliteral">    @param yaml_editor Reference to the YAML editor widget to populate initial content.</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="stringliteral">    @param logger Logging function or object with .log(msg, level) method.</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="stringliteral">    @param compiler Object with set_project_dir(path) method.</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral">    @param reset_tabs_callback Function to reset UI tabs.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral">    @param update_recent_callback Function to update the list of recent files.</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="stringliteral">    @return Tuple (project_dir, yaml_path) if successful, or (None, None) on error.</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    nome_proj = data[<span class="stringliteral">&quot;name&quot;</span>].strip()</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    root_dir = Path(data[<span class="stringliteral">&quot;base_dir&quot;</span>]).expanduser()</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    categoria_raw = data.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>).strip()</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    categoria = CATEGORY_TO_FOLDER.get(categoria_raw, <span class="stringliteral">&quot;Other_Misc&quot;</span>)</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    project_dir = root_dir / categoria / nome_proj</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">if</span> project_dir.exists():</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        QMessageBox.warning(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;warning&quot;</span>), Translator.tr(<span class="stringliteral">&quot;dir_exists&quot;</span>))</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        project_dir.mkdir(parents=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">if</span> data[<span class="stringliteral">&quot;create_subfolders&quot;</span>]:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            (project_dir / <span class="stringliteral">&quot;yaml&quot;</span>).mkdir()</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            (project_dir / <span class="stringliteral">&quot;logs&quot;</span>).mkdir()</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            (project_dir / <span class="stringliteral">&quot;assets&quot;</span>).mkdir()</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        QMessageBox.critical(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;create_dir_error&quot;</span>).format(e=e))</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    yaml_path = project_dir / f<span class="stringliteral">&quot;{nome_proj}.yaml&quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="comment"># === Generazione contenuto YAML compilato ===</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        yaml_content = f<span class="stringliteral">&quot;&quot;&quot;esphome:</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="stringliteral">  name: {nome_proj}</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="stringliteral">  friendly_name: {nome_proj.replace(&quot;_&quot;, &quot; &quot;).title()}</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="stringliteral">esp32:</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="stringliteral">  board: esp32dev</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="stringliteral">  framework:</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="stringliteral">    type: arduino</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="stringliteral">logger:</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="stringliteral">api:</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="stringliteral">ota:</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="stringliteral">wifi:</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="stringliteral">  ssid: &quot;your_wifi&quot;</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="stringliteral">  password: &quot;your_password&quot;</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="stringliteral">captive_portal:</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keyword">with</span> open(yaml_path, <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            f.write(yaml_content)</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        QMessageBox.critical(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), f<span class="stringliteral">&quot;Errore scrittura YAML: {e}&quot;</span>)</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keyword">with</span> open(yaml_path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            yaml_editor.setPlainText(f.read())</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        QMessageBox.critical(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), f<span class="stringliteral">&quot;Errore apertura YAML: {e}&quot;</span>)</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>, <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    logger.log(Translator.tr(<span class="stringliteral">&quot;new_project_created&quot;</span>).format(project_dir=project_dir), <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    reset_tabs_callback()</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    compiler.set_project_dir(str(project_dir))</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    update_recent_callback()</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    info = {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="stringliteral">&quot;name&quot;</span>: data[<span class="stringliteral">&quot;name&quot;</span>],</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="stringliteral">&quot;author&quot;</span>: data.get(<span class="stringliteral">&quot;author&quot;</span>, <span class="stringliteral">&quot;Unknown&quot;</span>),</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="stringliteral">&quot;version&quot;</span>: data.get(<span class="stringliteral">&quot;version&quot;</span>, <span class="stringliteral">&quot;1.0&quot;</span>),</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="stringliteral">&quot;update&quot;</span>: datetime.today().strftime(<span class="stringliteral">&quot;%Y-%m-%d&quot;</span>),</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="stringliteral">&quot;category&quot;</span>: data.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>),</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="stringliteral">&quot;description&quot;</span>: data.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="stringliteral">&quot;changelog&quot;</span>: []  <span class="comment"># ✅ aggiunto per supporto incrementale</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    info_path = project_dir / <span class="stringliteral">&quot;info.json&quot;</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            json.dump(info, f, indent=2, ensure_ascii=<span class="keyword">False</span>)</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        logger.log(f<span class="stringliteral">&quot;❌ Errore nella creazione di info.json: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">return</span> str(project_dir), str(yaml_path)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
 </div>
 <div class="ttc" id="anamespace_py_qt6_1_1_qt_widgets_html"><div class="ttname"><a href="namespace_py_qt6_1_1_qt_widgets.html">QtWidgets</a></div></div>
-<div class="ttc" id="anamespacenew__project__handler_html_a3afa82b110908ec2032b1ba398da44eb"><div class="ttname"><a href="namespacenew__project__handler.html#a3afa82b110908ec2032b1ba398da44eb">new_project_handler.create_new_project</a></div><div class="ttdeci">create_new_project(dict data, yaml_editor, logger, compiler, reset_tabs_callback, update_recent_callback)</div><div class="ttdef"><b>Definition</b> <a href="#l00009">new_project_handler.py:9</a></div></div>
+<div class="ttc" id="anamespacenew__project__handler_html_a3afa82b110908ec2032b1ba398da44eb"><div class="ttname"><a href="namespacenew__project__handler.html#a3afa82b110908ec2032b1ba398da44eb">new_project_handler.create_new_project</a></div><div class="ttdeci">create_new_project(dict data, yaml_editor, logger, compiler, reset_tabs_callback, update_recent_callback)</div><div class="ttdef"><b>Definition</b> <a href="#l00028">new_project_handler.py:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

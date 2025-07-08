@@ -1,8 +1,18 @@
+# -*- coding: utf-8 -*-
 """
 @file sensor_block_item.py
-@brief Definisce un blocco sensore compatto e riducibile nel canvas.
+@brief Defines a collapsible and expandable sensor block in the canvas.
 
-Ogni blocco può essere espanso o collassato e contiene campi configurabili.
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Represents a movable and selectable sensor block with configurable header and body,
+including dynamic parameter and output widgets.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
 from PyQt6.QtWidgets import (
@@ -18,8 +28,10 @@ import os
 
 class SensorBlockItem(QGraphicsItem):
     """
-    @class SensorBlockItem
-    @brief Blocco sensore riducibile con header e corpo configurabile.
+    @brief A collapsible sensor block with header and configurable body.
+
+    Supports dynamic UI generation from sensor parameters and outputs,
+    handles expand/collapse, and updates title dynamically based on sensor name.
     """
     def __init__(self, title="Nuovo Sensore"):
         super().__init__()
@@ -41,7 +53,10 @@ class SensorBlockItem(QGraphicsItem):
 
     def setup_ui(self):
         """
-        @brief Inizializza UI con header e corpo configurabile.
+        @brief Initializes the UI with a header and configurable body.
+
+        Creates title label, close and toggle buttons, and parameter containers,
+        including sensor type display and name input.
         """
         # HEADER: titolo
         self.title_item = QGraphicsTextItem(self.title, self)
@@ -120,7 +135,9 @@ class SensorBlockItem(QGraphicsItem):
 
     def update_title(self, text):
         """
-        @brief Aggiorna il titolo del blocco in base al campo nome.
+        @brief Updates the block title text based on the sensor name field.
+
+        If empty, sets a default placeholder title.
         """
         if text.strip():
             self.title_item.setPlainText(text)
@@ -129,7 +146,7 @@ class SensorBlockItem(QGraphicsItem):
 
     def toggle_expand(self):
         """
-        @brief Mostra o nasconde il corpo del blocco e aggiorna l'icona.
+        @brief Shows or hides the block body and updates the toggle icon accordingly.
         """
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
@@ -140,7 +157,7 @@ class SensorBlockItem(QGraphicsItem):
 
     def remove_from_scene(self):
         """
-        @brief Rimuove il blocco dalla scena.
+        @brief Removes the block from the QGraphicsScene.
         """
         scene = self.scene()
         if scene:
@@ -148,8 +165,9 @@ class SensorBlockItem(QGraphicsItem):
 
     def boundingRect(self):
         """
-        @brief Restituisce il rettangolo di delimitazione del blocco.
-        Tiene conto dell'espansione o contrazione.
+        @brief Returns the bounding rectangle of the block.
+
+        Considers whether the block is expanded or collapsed for height calculation.
         """
         if self.expanded:
             content_height = self.container.sizeHint().height()
@@ -159,13 +177,18 @@ class SensorBlockItem(QGraphicsItem):
         return QRectF(0, 0, self.width, content_height + 40)
 
     def paint(self, painter, option, widget=None):
+        """
+        @brief Paints the block with a blue background and black border.
+        """
         painter.setBrush(QBrush(QColor("#3c8dbc")))
         painter.setPen(QPen(Qt.GlobalColor.black, 2))
         height = int(self.boundingRect().height())
         painter.drawRoundedRect(0, 0, self.width, height, 10, 10)
 
     def aggiorna_label(self):
-        from core.translator import Translator
+        """
+        @brief Updates labels and placeholders of UI fields to the current language.
+        """
         # Cambia label dei campi
         self.container.layout().itemAt(0).widget().setText(Translator.tr("sensor_type"))
         self.container.layout().itemAt(2).widget().setText(Translator.tr("sensor_name"))
@@ -177,8 +200,9 @@ class SensorBlockItem(QGraphicsItem):
 
     def build_from_params(self, param_list):
         """
-        @brief Aggiunge dinamicamente i campi dal JSON al layout del blocco.
-        @param param_list Lista di dizionari con i parametri (da sensors.json)
+        @brief Dynamically adds parameter input fields to the block based on sensor JSON.
+
+        @param param_list List of parameter dictionaries from sensors.json.
         """
         self.param_widgets = {}
 
@@ -225,7 +249,9 @@ class SensorBlockItem(QGraphicsItem):
 
     def build_from_returns(self, return_list):
         """
-        @brief Crea i campi output del sensore, con nome personalizzabile.
+        @brief Creates output fields for the sensor with customizable names.
+
+        @param return_list List of output dictionaries defining keys and labels.
         """
         if not return_list:
             return
@@ -254,9 +280,11 @@ class SensorBlockItem(QGraphicsItem):
 
     def has_valid_data(self) -> bool:
         """
-        @brief Verifica che tutti i campi richiesti siano stati compilati.
-        Evidenzia i campi mancanti in rosso.
-        @return True se validi, False altrimenti.
+        @brief Checks that all required fields are filled in.
+
+        Highlights missing fields in red.
+
+        @return True if all required data is valid, False otherwise.
         """
         valid = True
 

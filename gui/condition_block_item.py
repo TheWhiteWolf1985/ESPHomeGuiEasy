@@ -1,7 +1,18 @@
-
+# -*- coding: utf-8 -*-
 """
 @file condition_block_item.py
-@brief Blocco condizione (arancione) espandibile per il canvas.
+@brief Orange expandable condition block item for the sensor canvas.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Defines the UI and logic for a condition block with toggle and close buttons,
+dynamic parameter widgets, and graphical painting.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
 from PyQt6.QtWidgets import (
@@ -16,6 +27,11 @@ import os
 
 
 class ConditionBlockItem(QGraphicsItem):
+    """
+    @brief Represents a movable and selectable condition block item in the QGraphicsScene.
+
+    Manages UI components like title, toggle and close buttons, and dynamic parameter widgets.
+    """
     def __init__(self, title="Condizione"):
         super().__init__()
         self.width = conf.BLOCK_WIDTH
@@ -32,6 +48,9 @@ class ConditionBlockItem(QGraphicsItem):
         self.setup_ui()
 
     def setup_ui(self):
+        """
+        @brief Sets up UI elements: title label, close and toggle buttons, and parameter container.
+        """
         self.title_item = QGraphicsTextItem(self.title, self)
         font = QFont("Consolas", 12, QFont.Weight.Bold)
         self.title_item.setFont(font)
@@ -89,6 +108,9 @@ class ConditionBlockItem(QGraphicsItem):
         self.proxy.setPos(0, 40)
 
     def toggle_expand(self):
+        """
+        @brief Toggles visibility of the parameter container between expanded and collapsed states.
+        """
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
         self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
@@ -98,6 +120,11 @@ class ConditionBlockItem(QGraphicsItem):
             self.scene().update()
 
     def build_from_params(self, param_list):
+        """
+        @brief Builds parameter input widgets dynamically from a list of parameter definitions.
+
+        @param param_list List of dictionaries defining keys, types, labels, defaults, and options.
+        """
         layout = self.container.layout()
         for param in param_list:
             key = param.get("key")
@@ -131,15 +158,24 @@ class ConditionBlockItem(QGraphicsItem):
             self.param_widgets[key] = field
 
     def boundingRect(self):
+        """
+        @brief Returns the bounding rectangle of the block, considering expansion state.
+        """
         return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
 
     def paint(self, painter, option, widget=None):
+        """
+        @brief Paints the block rectangle with orange background and black border.
+        """
         painter.setBrush(QBrush(QColor("#f78c1f")))  # Arancione
         painter.setPen(QPen(Qt.GlobalColor.black, 2))
         height = int(self.boundingRect().height())
         painter.drawRoundedRect(0, 0, self.width, height, 10, 10)
 
     def remove_from_scene(self):
+        """
+        @brief Removes the block item from its QGraphicsScene.
+        """
         scene = self.scene()
         if scene:
             scene.removeItem(self)

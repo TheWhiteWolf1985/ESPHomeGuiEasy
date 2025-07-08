@@ -116,7 +116,6 @@
   "menu_settings": "Configuraciones",
   "menu_language": "Idioma",
   "menu_about": "About",
-  "menu_documentation": "Documentación",
   "import_project": "Importar proyecto...",
   "export_project": "Exportar proyecto...",
   "update_available": "¡Nueva versión disponible!",
@@ -236,5 +235,7 @@
   "nuova_versione": "Nueva versión:",
   "modifica_descrizione": "Editar descripción",
   "inserisci_changelog": "Ingresar registro de cambios:",
-  "custom_esphome_path_label": "Ruta personalizada al ejecutable de ESPHome"
+  "custom_esphome_path_label": "Ruta personalizada al ejecutable de ESPHome",
+  "menu_documentation": "📘 Documentación",
+  "error_docs_not_found": "No se encontró el archivo de documentación."
 }

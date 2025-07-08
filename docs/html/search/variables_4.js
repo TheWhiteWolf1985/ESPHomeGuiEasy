@@ -7,6 +7,6 @@ var searchData=
   ['device_5fname_5fedit_4',['device_name_edit',['../classtab__settings_1_1_tab_settings.html#aee840c8f09feda3cb411383dfb1440fd',1,'tab_settings::TabSettings']]],
   ['dialog_5fstyle_5',['DIALOG_STYLE',['../classcolor__pantone_1_1_pantone.html#af25e0504c4b6e259985deb35914b73ea',1,'color_pantone::Pantone']]],
   ['dialog_5ftitle_5fstyle_6',['DIALOG_TITLE_STYLE',['../classcolor__pantone_1_1_pantone.html#aaff1127c122dc8c329031a3ade41ab37',1,'color_pantone::Pantone']]],
-  ['dlg_7',['dlg',['../namespacesetting__menu.html#a82fa8118dddcb82df5ddc37430a040e9',1,'setting_menu']]],
+  ['docs_5faction_7',['docs_action',['../classmenu__bar_1_1_main_menu_bar.html#a2e3e6c3b5be479a91774b604fe688de6',1,'menu_bar::MainMenuBar']]],
   ['docs_5fpath_8',['DOCS_PATH',['../namespace_g_u_iconfig.html#a52143101194b1c2f0f03a911a192547b',1,'GUIconfig']]]
 ];

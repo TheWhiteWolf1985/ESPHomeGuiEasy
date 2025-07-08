@@ -120,7 +120,6 @@
   "menu_settings": "Configurações",
   "menu_language": "Linguegem",
   "menu_about": "Sobre",
-  "menu_documentation": "Documentação",
   "import_project": "Importar projeto...",
   "export_project": "Exportar projeto...",
   "update_available": "Nova versão disponivel!",
@@ -228,5 +227,7 @@
   "nuova_versione": "Nova versão:",
   "modifica_descrizione": "Editar descrição",
   "inserisci_changelog": "Inserir changelog:",
-  "custom_esphome_path_label": "Caminho personalizado para o executável do ESPHome"
+  "custom_esphome_path_label": "Caminho personalizado para o executável do ESPHome",
+  "menu_documentation": "📘 Documentação",
+  "error_docs_not_found": "A data dos documentos não foi encontrada."
 }

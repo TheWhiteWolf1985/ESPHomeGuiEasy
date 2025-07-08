@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -149,8 +145,14 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:af6ad6039ae2ee244cfb32c8dcbc3bffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00009">9</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Tab widget that manages ESPHome modules configuration through a dynamic form.
+
+Handles loading modules schema, populating UI widgets, reading from and writing to YAML,
+and tracking enabled/disabled states for modules.
+
+Supports user interaction to toggle module enablement and edit parameters.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00030">30</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a50f3092fa9ce285f733516196aa522a2" name="a50f3092fa9ce285f733516196aa522a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50f3092fa9ce285f733516196aa522a2">&#9670;&#160;</a></span>__init__()</h2>
@@ -180,106 +182,114 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Initializes the modules tab, loads schema, and builds UI components.
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00010">10</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>    <span class="keyword">def </span>__init__(self, yaml_editor, logger=None, parent=None):</div>
-<div class="line"><span class="lineno">   11</span>        super().__init__(parent)</div>
-<div class="line"><span class="lineno">   12</span>        self.logger = logger</div>
-<div class="line"><span class="lineno">   13</span> </div>
-<div class="line"><span class="lineno">   14</span>        <span class="comment"># 1. Crea un container widget e il suo layout verticale</span></div>
-<div class="line"><span class="lineno">   15</span>        container = QWidget()</div>
-<div class="line"><span class="lineno">   16</span>        container_layout = QVBoxLayout(container)</div>
-<div class="line"><span class="lineno">   17</span>        container_layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">   18</span>        container_layout.setSpacing(8)</div>
-<div class="line"><span class="lineno">   19</span>        container_layout.setContentsMargins(0, 0, 0, 0)</div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>        self.widget_map = {}</div>
-<div class="line"><span class="lineno">   22</span>        self.sections_map = {}</div>
-<div class="line"><span class="lineno">   23</span> </div>
-<div class="line"><span class="lineno">   24</span>        <span class="comment"># 2. Aggiungi le sezioni accordion</span></div>
-<div class="line"><span class="lineno">   25</span>        <span class="keyword">with</span> open(<span class="stringliteral">&quot;config/modules_schema.json&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">   26</span>            modules_schema = json.load(f)</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">for</span> module_name, module_info <span class="keywordflow">in</span> modules_schema.items():</div>
-<div class="line"><span class="lineno">   29</span>            icon = module_info.get(<span class="stringliteral">&quot;icon&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   30</span>            fields = module_info[<span class="stringliteral">&quot;fields&quot;</span>]</div>
-<div class="line"><span class="lineno">   31</span>            content = QWidget()</div>
-<div class="line"><span class="lineno">   32</span>            form = QFormLayout()</div>
-<div class="line"><span class="lineno">   33</span>            form.setSpacing(4)</div>
-<div class="line"><span class="lineno">   34</span>            form.setContentsMargins(8, 0, 8, 0)</div>
-<div class="line"><span class="lineno">   35</span>            widget_dict = {}</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">for</span> field <span class="keywordflow">in</span> fields:</div>
-<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">if</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;checkbox&quot;</span>:</div>
-<div class="line"><span class="lineno">   38</span>                    cb = QCheckBox(Translator.tr(field[<span class="stringliteral">&quot;label&quot;</span>]))</div>
-<div class="line"><span class="lineno">   39</span>                    cb.setChecked(field.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="keyword">False</span>))</div>
-<div class="line"><span class="lineno">   40</span>                    cb.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
-<div class="line"><span class="lineno">   41</span>                    form.addRow(cb)</div>
-<div class="line"><span class="lineno">   42</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = cb</div>
-<div class="line"><span class="lineno">   43</span>                <span class="keywordflow">elif</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;combo&quot;</span>:</div>
-<div class="line"><span class="lineno">   44</span>                    combo = QComboBox()</div>
-<div class="line"><span class="lineno">   45</span>                    combo.addItems([Translator.tr(opt) <span class="keywordflow">for</span> opt <span class="keywordflow">in</span> field[<span class="stringliteral">&quot;options&quot;</span>]])</div>
-<div class="line"><span class="lineno">   46</span>                    combo.setCurrentText(field.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
-<div class="line"><span class="lineno">   47</span>                    combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
-<div class="line"><span class="lineno">   48</span>                    form.addRow(Translator.tr(field[<span class="stringliteral">&quot;label&quot;</span>]) + <span class="stringliteral">&quot;:&quot;</span>, combo)</div>
-<div class="line"><span class="lineno">   49</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = combo</div>
-<div class="line"><span class="lineno">   50</span>                <span class="keywordflow">elif</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;text&quot;</span>:</div>
-<div class="line"><span class="lineno">   51</span>                    line = QLineEdit()</div>
-<div class="line"><span class="lineno">   52</span>                    <span class="keywordflow">if</span> field.get(<span class="stringliteral">&quot;is_password&quot;</span>, <span class="keyword">False</span>):</div>
-<div class="line"><span class="lineno">   53</span>                        line.setEchoMode(QLineEdit.EchoMode.Password)</div>
-<div class="line"><span class="lineno">   54</span>                    <span class="keywordflow">if</span> field.get(<span class="stringliteral">&quot;placeholder&quot;</span>):</div>
-<div class="line"><span class="lineno">   55</span>                        line.setPlaceholderText(field[<span class="stringliteral">&quot;placeholder&quot;</span>])</div>
-<div class="line"><span class="lineno">   56</span>                    line.setText(field.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
-<div class="line"><span class="lineno">   57</span>                    line.setStyleSheet(Pantone.LINEEDIT_STYLE)</div>
-<div class="line"><span class="lineno">   58</span>                    form.addRow(field[<span class="stringliteral">&quot;label&quot;</span>] + <span class="stringliteral">&quot;:&quot;</span>, line)</div>
-<div class="line"><span class="lineno">   59</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = line</div>
-<div class="line"><span class="lineno">   60</span>                <span class="keywordflow">elif</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;int&quot;</span>:</div>
-<div class="line"><span class="lineno">   61</span>                    <span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> QSpinBox</div>
-<div class="line"><span class="lineno">   62</span>                    spin = QSpinBox()</div>
-<div class="line"><span class="lineno">   63</span>                    spin.setRange(field.get(<span class="stringliteral">&quot;min&quot;</span>, 1), field.get(<span class="stringliteral">&quot;max&quot;</span>, 3600))  <span class="comment"># puoi gestire min/max nel json</span></div>
-<div class="line"><span class="lineno">   64</span>                    spin.setValue(field.get(<span class="stringliteral">&quot;default&quot;</span>, 1))</div>
-<div class="line"><span class="lineno">   65</span>                    spin.setStyleSheet(Pantone.SPINBOX_STYLE)</div>
-<div class="line"><span class="lineno">   66</span>                    form.addRow(field[<span class="stringliteral">&quot;label&quot;</span>] + <span class="stringliteral">&quot;:&quot;</span>, spin)</div>
-<div class="line"><span class="lineno">   67</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = spin            </div>
-<div class="line"><span class="lineno">   68</span>            content.setLayout(form)</div>
-<div class="line"><span class="lineno">   69</span>            content.setStyleSheet(Pantone.LABEL_STYLE)</div>
-<div class="line"><span class="lineno">   70</span>            section = CollapsibleSection(Translator.tr(module_name), content, icon)</div>
-<div class="line"><span class="lineno">   71</span>            container_layout.addWidget(section)</div>
-<div class="line"><span class="lineno">   72</span>            self.widget_map[module_name] = widget_dict</div>
-<div class="line"><span class="lineno">   73</span>            self.sections_map[module_name] = section</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>        <span class="comment"># 3. Pulsante in fondo</span></div>
-<div class="line"><span class="lineno">   76</span>        self.update_yaml_btn = QPushButton(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
-<div class="line"><span class="lineno">   77</span>        self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)</div>
-<div class="line"><span class="lineno">   78</span>        self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_moduli)</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>        <span class="comment"># 4. Crea la scroll area</span></div>
-<div class="line"><span class="lineno">   81</span>        scroll_area = QScrollArea()</div>
-<div class="line"><span class="lineno">   82</span>        scroll_area.setWidgetResizable(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">   83</span>        scroll_area.setWidget(container)</div>
-<div class="line"><span class="lineno">   84</span>        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)</div>
-<div class="line"><span class="lineno">   85</span>        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)</div>
-<div class="line"><span class="lineno">   86</span>        scroll_area.setStyleSheet(<span class="stringliteral">&quot;background: transparent; border: none;&quot;</span>)</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>        <span class="comment"># 5. Aggiungi la scroll area al layout principale</span></div>
-<div class="line"><span class="lineno">   89</span>        layout = QVBoxLayout(self)</div>
-<div class="line"><span class="lineno">   90</span>        layout.setContentsMargins(0, 0, 0, 0)</div>
-<div class="line"><span class="lineno">   91</span>        layout.addWidget(scroll_area)</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>        <span class="comment"># Contenitore per fissare il bottone in basso a destra</span></div>
-<div class="line"><span class="lineno">   94</span>        btn_container = QWidget()</div>
-<div class="line"><span class="lineno">   95</span>        btn_layout = QVBoxLayout(btn_container)</div>
-<div class="line"><span class="lineno">   96</span>        btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)</div>
-<div class="line"><span class="lineno">   97</span>        btn_layout.setContentsMargins(10, 10, 10, 10)</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>        layout.addWidget(btn_container, alignment=Qt.AlignmentFlag.AlignBottom)</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span> </div>
+Connects signals for handling user interaction and state changes.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00039">39</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>    <span class="keyword">def </span>__init__(self, yaml_editor, logger=None, parent=None):</div>
+<div class="line"><span class="lineno">   40</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   41</span><span class="stringliteral">        @brief Initializes the modules tab, loads schema, and builds UI components.</span></div>
+<div class="line"><span class="lineno">   42</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   43</span><span class="stringliteral">        Connects signals for handling user interaction and state changes.</span></div>
+<div class="line"><span class="lineno">   44</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   45</span>        super().__init__(parent)</div>
+<div class="line"><span class="lineno">   46</span>        self.logger = logger</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>        <span class="comment"># 1. Crea un container widget e il suo layout verticale</span></div>
+<div class="line"><span class="lineno">   49</span>        container = QWidget()</div>
+<div class="line"><span class="lineno">   50</span>        container_layout = QVBoxLayout(container)</div>
+<div class="line"><span class="lineno">   51</span>        container_layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">   52</span>        container_layout.setSpacing(8)</div>
+<div class="line"><span class="lineno">   53</span>        container_layout.setContentsMargins(0, 0, 0, 0)</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>        self.widget_map = {}</div>
+<div class="line"><span class="lineno">   56</span>        self.sections_map = {}</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>        <span class="comment"># 2. Aggiungi le sezioni accordion</span></div>
+<div class="line"><span class="lineno">   59</span>        <span class="keyword">with</span> open(<span class="stringliteral">&quot;config/modules_schema.json&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">   60</span>            modules_schema = json.load(f)</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">for</span> module_name, module_info <span class="keywordflow">in</span> modules_schema.items():</div>
+<div class="line"><span class="lineno">   63</span>            icon = module_info.get(<span class="stringliteral">&quot;icon&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">   64</span>            fields = module_info[<span class="stringliteral">&quot;fields&quot;</span>]</div>
+<div class="line"><span class="lineno">   65</span>            content = QWidget()</div>
+<div class="line"><span class="lineno">   66</span>            form = QFormLayout()</div>
+<div class="line"><span class="lineno">   67</span>            form.setSpacing(4)</div>
+<div class="line"><span class="lineno">   68</span>            form.setContentsMargins(8, 0, 8, 0)</div>
+<div class="line"><span class="lineno">   69</span>            widget_dict = {}</div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">for</span> field <span class="keywordflow">in</span> fields:</div>
+<div class="line"><span class="lineno">   71</span>                <span class="keywordflow">if</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;checkbox&quot;</span>:</div>
+<div class="line"><span class="lineno">   72</span>                    cb = QCheckBox(Translator.tr(field[<span class="stringliteral">&quot;label&quot;</span>]))</div>
+<div class="line"><span class="lineno">   73</span>                    cb.setChecked(field.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="keyword">False</span>))</div>
+<div class="line"><span class="lineno">   74</span>                    cb.setStyleSheet(Pantone.CHECKBOX_STYLE)</div>
+<div class="line"><span class="lineno">   75</span>                    form.addRow(cb)</div>
+<div class="line"><span class="lineno">   76</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = cb</div>
+<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">elif</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;combo&quot;</span>:</div>
+<div class="line"><span class="lineno">   78</span>                    combo = QComboBox()</div>
+<div class="line"><span class="lineno">   79</span>                    combo.addItems([Translator.tr(opt) <span class="keywordflow">for</span> opt <span class="keywordflow">in</span> field[<span class="stringliteral">&quot;options&quot;</span>]])</div>
+<div class="line"><span class="lineno">   80</span>                    combo.setCurrentText(field.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
+<div class="line"><span class="lineno">   81</span>                    combo.setStyleSheet(Pantone.COMBO_STYLE)</div>
+<div class="line"><span class="lineno">   82</span>                    form.addRow(Translator.tr(field[<span class="stringliteral">&quot;label&quot;</span>]) + <span class="stringliteral">&quot;:&quot;</span>, combo)</div>
+<div class="line"><span class="lineno">   83</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = combo</div>
+<div class="line"><span class="lineno">   84</span>                <span class="keywordflow">elif</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;text&quot;</span>:</div>
+<div class="line"><span class="lineno">   85</span>                    line = QLineEdit()</div>
+<div class="line"><span class="lineno">   86</span>                    <span class="keywordflow">if</span> field.get(<span class="stringliteral">&quot;is_password&quot;</span>, <span class="keyword">False</span>):</div>
+<div class="line"><span class="lineno">   87</span>                        line.setEchoMode(QLineEdit.EchoMode.Password)</div>
+<div class="line"><span class="lineno">   88</span>                    <span class="keywordflow">if</span> field.get(<span class="stringliteral">&quot;placeholder&quot;</span>):</div>
+<div class="line"><span class="lineno">   89</span>                        line.setPlaceholderText(field[<span class="stringliteral">&quot;placeholder&quot;</span>])</div>
+<div class="line"><span class="lineno">   90</span>                    line.setText(field.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
+<div class="line"><span class="lineno">   91</span>                    line.setStyleSheet(Pantone.LINEEDIT_STYLE)</div>
+<div class="line"><span class="lineno">   92</span>                    form.addRow(field[<span class="stringliteral">&quot;label&quot;</span>] + <span class="stringliteral">&quot;:&quot;</span>, line)</div>
+<div class="line"><span class="lineno">   93</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = line</div>
+<div class="line"><span class="lineno">   94</span>                <span class="keywordflow">elif</span> field[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;int&quot;</span>:</div>
+<div class="line"><span class="lineno">   95</span>                    <span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> QSpinBox</div>
+<div class="line"><span class="lineno">   96</span>                    spin = QSpinBox()</div>
+<div class="line"><span class="lineno">   97</span>                    spin.setRange(field.get(<span class="stringliteral">&quot;min&quot;</span>, 1), field.get(<span class="stringliteral">&quot;max&quot;</span>, 3600))  <span class="comment"># puoi gestire min/max nel json</span></div>
+<div class="line"><span class="lineno">   98</span>                    spin.setValue(field.get(<span class="stringliteral">&quot;default&quot;</span>, 1))</div>
+<div class="line"><span class="lineno">   99</span>                    spin.setStyleSheet(Pantone.SPINBOX_STYLE)</div>
+<div class="line"><span class="lineno">  100</span>                    form.addRow(field[<span class="stringliteral">&quot;label&quot;</span>] + <span class="stringliteral">&quot;:&quot;</span>, spin)</div>
+<div class="line"><span class="lineno">  101</span>                    widget_dict[field[<span class="stringliteral">&quot;key&quot;</span>]] = spin            </div>
+<div class="line"><span class="lineno">  102</span>            content.setLayout(form)</div>
+<div class="line"><span class="lineno">  103</span>            content.setStyleSheet(Pantone.LABEL_STYLE)</div>
+<div class="line"><span class="lineno">  104</span>            section = CollapsibleSection(Translator.tr(module_name), content, icon)</div>
+<div class="line"><span class="lineno">  105</span>            container_layout.addWidget(section)</div>
+<div class="line"><span class="lineno">  106</span>            self.widget_map[module_name] = widget_dict</div>
+<div class="line"><span class="lineno">  107</span>            self.sections_map[module_name] = section</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>        <span class="comment"># 3. Pulsante in fondo</span></div>
+<div class="line"><span class="lineno">  110</span>        self.update_yaml_btn = QPushButton(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
+<div class="line"><span class="lineno">  111</span>        self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)</div>
+<div class="line"><span class="lineno">  112</span>        self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_moduli)</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>        <span class="comment"># 4. Crea la scroll area</span></div>
+<div class="line"><span class="lineno">  115</span>        scroll_area = QScrollArea()</div>
+<div class="line"><span class="lineno">  116</span>        scroll_area.setWidgetResizable(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  117</span>        scroll_area.setWidget(container)</div>
+<div class="line"><span class="lineno">  118</span>        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)</div>
+<div class="line"><span class="lineno">  119</span>        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)</div>
+<div class="line"><span class="lineno">  120</span>        scroll_area.setStyleSheet(<span class="stringliteral">&quot;background: transparent; border: none;&quot;</span>)</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>        <span class="comment"># 5. Aggiungi la scroll area al layout principale</span></div>
+<div class="line"><span class="lineno">  123</span>        layout = QVBoxLayout(self)</div>
+<div class="line"><span class="lineno">  124</span>        layout.setContentsMargins(0, 0, 0, 0)</div>
+<div class="line"><span class="lineno">  125</span>        layout.addWidget(scroll_area)</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>        <span class="comment"># Contenitore per fissare il bottone in basso a destra</span></div>
+<div class="line"><span class="lineno">  128</span>        btn_container = QWidget()</div>
+<div class="line"><span class="lineno">  129</span>        btn_layout = QVBoxLayout(btn_container)</div>
+<div class="line"><span class="lineno">  130</span>        btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)</div>
+<div class="line"><span class="lineno">  131</span>        btn_layout.setContentsMargins(10, 10, 10, 10)</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>        layout.addWidget(btn_container, alignment=Qt.AlignmentFlag.AlignBottom)</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span> </div>
 <div class="ttc" id="anamespace_py_qt6_1_1_qt_widgets_html"><div class="ttname"><a href="namespace_py_qt6_1_1_qt_widgets.html">QtWidgets</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00010">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00039">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00010">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00039">__init__()</a>.</p>
 
 </div>
 </div>
@@ -306,23 +316,33 @@ Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment">Restituisce l'editor YAML dalla finestra principale, se ancora valido.
-</pre> 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00103">103</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>    <span class="keyword">def </span>_editor(self):</div>
-<div class="line"><span class="lineno">  104</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  105</span><span class="stringliteral">        Restituisce l&#39;editor YAML dalla finestra principale, se ancora valido.</span></div>
-<div class="line"><span class="lineno">  106</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  107</span>        main = self.window()</div>
-<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">if</span> hasattr(main, <span class="stringliteral">&quot;yaml_editor&quot;</span>):</div>
-<div class="line"><span class="lineno">  109</span>            <span class="keywordflow">return</span> main.yaml_editor</div>
-<div class="line"><span class="lineno">  110</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>        </div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span> </div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="compile__manager_8py_source.html#l00020">compile_manager.CompileManager.window</a>.</p>
+<pre class="fragment">@brief Returns the YAML editor instance from the main window, if still valid.
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00099">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>.</p>
+This method ensures that the YAML editor has not been destroyed or detached from the main window.
+It performs a parent chain check to avoid using destroyed widgets.
+
+@return QTextEdit pointer to the YAML editor or None if not available.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00137">137</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  137</span>    <span class="keyword">def </span>_editor(self):</div>
+<div class="line"><span class="lineno">  138</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  139</span><span class="stringliteral">        @brief Returns the YAML editor instance from the main window, if still valid.</span></div>
+<div class="line"><span class="lineno">  140</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  141</span><span class="stringliteral">        This method ensures that the YAML editor has not been destroyed or detached from the main window.</span></div>
+<div class="line"><span class="lineno">  142</span><span class="stringliteral">        It performs a parent chain check to avoid using destroyed widgets.</span></div>
+<div class="line"><span class="lineno">  143</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  144</span><span class="stringliteral">        @return QTextEdit pointer to the YAML editor or None if not available.</span></div>
+<div class="line"><span class="lineno">  145</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  146</span>        main = self.window()</div>
+<div class="line"><span class="lineno">  147</span>        <span class="keywordflow">if</span> hasattr(main, <span class="stringliteral">&quot;yaml_editor&quot;</span>):</div>
+<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">return</span> main.yaml_editor</div>
+<div class="line"><span class="lineno">  149</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span>        </div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span> </div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="compile__manager_8py_source.html#l00043">compile_manager.CompileManager.window</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00147">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>.</p>
 
 </div>
 </div>
@@ -340,29 +360,48 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Updates all translatable UI labels within the Modules tab.
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00210">210</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  210</span>    <span class="keyword">def </span>aggiorna_label(self):</div>
-<div class="line"><span class="lineno">  211</span>        <span class="keyword">from</span> core.translator <span class="keyword">import</span> Translator</div>
-<div class="line"><span class="lineno">  212</span>        <span class="comment"># Aggiorna il bottone &quot;Aggiorna YAML&quot;</span></div>
-<div class="line"><span class="lineno">  213</span>        self.update_yaml_btn.setText(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
-<div class="line"><span class="lineno">  214</span>        <span class="comment"># Aggiorna ogni modulo accordion (header/campi)</span></div>
-<div class="line"><span class="lineno">  215</span>        <span class="keywordflow">for</span> module_name, widget_dict <span class="keywordflow">in</span> self.widget_map.items():</div>
-<div class="line"><span class="lineno">  216</span>            section = self.sections_map.get(module_name)</div>
-<div class="line"><span class="lineno">  217</span>            <span class="keywordflow">if</span> section:</div>
-<div class="line"><span class="lineno">  218</span>                section.set_title(Translator.tr(module_name))</div>
-<div class="line"><span class="lineno">  219</span>            <span class="comment"># Aggiorna label dei campi dentro ciascun modulo</span></div>
-<div class="line"><span class="lineno">  220</span>            <span class="keywordflow">for</span> key, widget <span class="keywordflow">in</span> widget_dict.items():</div>
-<div class="line"><span class="lineno">  221</span>                <span class="keywordflow">if</span> isinstance(widget, QCheckBox) <span class="keywordflow">or</span> isinstance(widget, QLabel):</div>
-<div class="line"><span class="lineno">  222</span>                    widget.setText(Translator.tr(key))</div>
-<div class="line"><span class="lineno">  223</span>                <span class="keywordflow">elif</span> isinstance(widget, QLineEdit):</div>
-<div class="line"><span class="lineno">  224</span>                    <span class="keywordflow">if</span> hasattr(widget, <span class="stringliteral">&quot;setPlaceholderText&quot;</span>):</div>
-<div class="line"><span class="lineno">  225</span>                        widget.setPlaceholderText(Translator.tr(key))</div>
-<div class="line"><span class="lineno">  226</span>                <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
-<div class="line"><span class="lineno">  227</span>                    <span class="comment"># Se vuoi aggiornare anche le opzioni della combo</span></div>
-<div class="line"><span class="lineno">  228</span>                    <span class="keywordflow">pass</span></div>
+This includes:
+- The "Update YAML" button
+- Titles of collapsible module sections
+- Field labels inside each module section
+- Placeholder texts where applicable
+
+The translations are pulled from the active language using `Translator.tr`.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00278">278</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  278</span>    <span class="keyword">def </span>aggiorna_label(self):</div>
+<div class="line"><span class="lineno">  279</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  280</span><span class="stringliteral">        @brief Updates all translatable UI labels within the Modules tab.</span></div>
+<div class="line"><span class="lineno">  281</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  282</span><span class="stringliteral">        This includes:</span></div>
+<div class="line"><span class="lineno">  283</span><span class="stringliteral">        - The &quot;Update YAML&quot; button</span></div>
+<div class="line"><span class="lineno">  284</span><span class="stringliteral">        - Titles of collapsible module sections</span></div>
+<div class="line"><span class="lineno">  285</span><span class="stringliteral">        - Field labels inside each module section</span></div>
+<div class="line"><span class="lineno">  286</span><span class="stringliteral">        - Placeholder texts where applicable</span></div>
+<div class="line"><span class="lineno">  287</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  288</span><span class="stringliteral">        The translations are pulled from the active language using `Translator.tr`.</span></div>
+<div class="line"><span class="lineno">  289</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  290</span>        <span class="comment"># Aggiorna il bottone &quot;Aggiorna YAML&quot;</span></div>
+<div class="line"><span class="lineno">  291</span>        self.update_yaml_btn.setText(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
+<div class="line"><span class="lineno">  292</span>        <span class="comment"># Aggiorna ogni modulo accordion (header/campi)</span></div>
+<div class="line"><span class="lineno">  293</span>        <span class="keywordflow">for</span> module_name, widget_dict <span class="keywordflow">in</span> self.widget_map.items():</div>
+<div class="line"><span class="lineno">  294</span>            section = self.sections_map.get(module_name)</div>
+<div class="line"><span class="lineno">  295</span>            <span class="keywordflow">if</span> section:</div>
+<div class="line"><span class="lineno">  296</span>                section.set_title(Translator.tr(module_name))</div>
+<div class="line"><span class="lineno">  297</span>            <span class="comment"># Aggiorna label dei campi dentro ciascun modulo</span></div>
+<div class="line"><span class="lineno">  298</span>            <span class="keywordflow">for</span> key, widget <span class="keywordflow">in</span> widget_dict.items():</div>
+<div class="line"><span class="lineno">  299</span>                <span class="keywordflow">if</span> isinstance(widget, QCheckBox) <span class="keywordflow">or</span> isinstance(widget, QLabel):</div>
+<div class="line"><span class="lineno">  300</span>                    widget.setText(Translator.tr(key))</div>
+<div class="line"><span class="lineno">  301</span>                <span class="keywordflow">elif</span> isinstance(widget, QLineEdit):</div>
+<div class="line"><span class="lineno">  302</span>                    <span class="keywordflow">if</span> hasattr(widget, <span class="stringliteral">&quot;setPlaceholderText&quot;</span>):</div>
+<div class="line"><span class="lineno">  303</span>                        widget.setPlaceholderText(Translator.tr(key))</div>
+<div class="line"><span class="lineno">  304</span>                <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
+<div class="line"><span class="lineno">  305</span>                    <span class="comment"># Se vuoi aggiornare anche le opzioni della combo</span></div>
+<div class="line"><span class="lineno">  306</span>                    <span class="keywordflow">pass</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00022">sections_map</a>, <a class="el" href="tab__modules_8py_source.html#l00076">update_yaml_btn</a>, and <a class="el" href="tab__modules_8py_source.html#l00021">widget_map</a>.</p>
+<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00056">sections_map</a>, <a class="el" href="tab__modules_8py_source.html#l00110">update_yaml_btn</a>, and <a class="el" href="tab__modules_8py_source.html#l00055">widget_map</a>.</p>
 
 </div>
 </div>
@@ -380,50 +419,66 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Aggiorna il contenuto YAML nell'editor leggendo i moduli (accordion) attivi.
+<pre class="fragment">@brief Updates the YAML content in the editor by reading the active module configurations.
+
+Extracts module values from the UI widgets (accordion form),
+generates a new YAML string using `YAMLHandler`, and replaces the current YAML in the editor.
+
+If the operation is successful, a success message is logged.
+On error, appropriate fallback logging is performed using the logger.
+
+@note This method assumes that the editor is valid and the schema file is available.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00113">113</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  113</span>    <span class="keyword">def </span>aggiorna_yaml_da_moduli(self):</div>
-<div class="line"><span class="lineno">  114</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  115</span><span class="stringliteral">        @brief Aggiorna il contenuto YAML nell&#39;editor leggendo i moduli (accordion) attivi.</span></div>
-<div class="line"><span class="lineno">  116</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  118</span>            main = self.window()</div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(main, <span class="stringliteral">&quot;yaml_editor&quot;</span>) <span class="keywordflow">or</span> main.yaml_editor <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">  120</span>                <span class="keywordflow">return</span>  <span class="comment"># editor non disponibile</span></div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>            editor = main.yaml_editor</div>
-<div class="line"><span class="lineno">  123</span>            <span class="keyword">from</span> core.yaml_handler <span class="keyword">import</span> YAMLHandler</div>
-<div class="line"><span class="lineno">  124</span>            modules_schema_path = <span class="stringliteral">&quot;config/modules_schema.json&quot;</span></div>
-<div class="line"><span class="lineno">  125</span>            current_yaml = editor.toPlainText()</div>
-<div class="line"><span class="lineno">  126</span>            modules_dict = YAMLHandler.extract_module_sections_from_widgets(</div>
-<div class="line"><span class="lineno">  127</span>                self.widget_map,</div>
-<div class="line"><span class="lineno">  128</span>                modules_schema_path</div>
-<div class="line"><span class="lineno">  129</span>            )</div>
-<div class="line"><span class="lineno">  130</span>            new_yaml = YAMLHandler.generate_yaml_with_modules(</div>
-<div class="line"><span class="lineno">  131</span>                current_yaml,</div>
-<div class="line"><span class="lineno">  132</span>                modules_dict,</div>
-<div class="line"><span class="lineno">  133</span>                modules_schema_path</div>
-<div class="line"><span class="lineno">  134</span>            )</div>
-<div class="line"><span class="lineno">  135</span>            editor.setPlainText(new_yaml)</div>
-<div class="line"><span class="lineno">  136</span>            <span class="keywordflow">if</span> self.logger:</div>
-<div class="line"><span class="lineno">  137</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_updated_from_modules&quot;</span>), <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>        <span class="keywordflow">except</span> RuntimeError <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  141</span>                <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
-<div class="line"><span class="lineno">  142</span>                    self.logger.log(f<span class="stringliteral">&quot;❌ YAML update crash: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  143</span>                <span class="keywordflow">elif</span> hasattr(main, <span class="stringliteral">&quot;logger&quot;</span>):</div>
-<div class="line"><span class="lineno">  144</span>                    main.logger.log(f<span class="stringliteral">&quot;❌ YAML update crash: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  145</span>                <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  146</span>                    logger.error(f<span class="stringliteral">&quot;[TabModules] YAML update crash: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">except</span> Exception:</div>
-<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">pass</span>  <span class="comment"># Ultimo fallback</span></div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00152">152</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  152</span>    <span class="keyword">def </span>aggiorna_yaml_da_moduli(self):</div>
+<div class="line"><span class="lineno">  153</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  154</span><span class="stringliteral">        @brief Updates the YAML content in the editor by reading the active module configurations.</span></div>
+<div class="line"><span class="lineno">  155</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  156</span><span class="stringliteral">        Extracts module values from the UI widgets (accordion form),</span></div>
+<div class="line"><span class="lineno">  157</span><span class="stringliteral">        generates a new YAML string using `YAMLHandler`, and replaces the current YAML in the editor.</span></div>
+<div class="line"><span class="lineno">  158</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  159</span><span class="stringliteral">        If the operation is successful, a success message is logged.</span></div>
+<div class="line"><span class="lineno">  160</span><span class="stringliteral">        On error, appropriate fallback logging is performed using the logger.</span></div>
+<div class="line"><span class="lineno">  161</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  162</span><span class="stringliteral">        @note This method assumes that the editor is valid and the schema file is available.</span></div>
+<div class="line"><span class="lineno">  163</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  165</span>            main = self.window()</div>
+<div class="line"><span class="lineno">  166</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(main, <span class="stringliteral">&quot;yaml_editor&quot;</span>) <span class="keywordflow">or</span> main.yaml_editor <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  167</span>                <span class="keywordflow">return</span>  <span class="comment"># editor non disponibile</span></div>
+<div class="line"><span class="lineno">  168</span> </div>
+<div class="line"><span class="lineno">  169</span>            editor = main.yaml_editor</div>
+<div class="line"><span class="lineno">  170</span>            <span class="keyword">from</span> core.yaml_handler <span class="keyword">import</span> YAMLHandler</div>
+<div class="line"><span class="lineno">  171</span>            modules_schema_path = <span class="stringliteral">&quot;config/modules_schema.json&quot;</span></div>
+<div class="line"><span class="lineno">  172</span>            current_yaml = editor.toPlainText()</div>
+<div class="line"><span class="lineno">  173</span>            modules_dict = YAMLHandler.extract_module_sections_from_widgets(</div>
+<div class="line"><span class="lineno">  174</span>                self.widget_map,</div>
+<div class="line"><span class="lineno">  175</span>                modules_schema_path</div>
+<div class="line"><span class="lineno">  176</span>            )</div>
+<div class="line"><span class="lineno">  177</span>            new_yaml = YAMLHandler.generate_yaml_with_modules(</div>
+<div class="line"><span class="lineno">  178</span>                current_yaml,</div>
+<div class="line"><span class="lineno">  179</span>                modules_dict,</div>
+<div class="line"><span class="lineno">  180</span>                modules_schema_path</div>
+<div class="line"><span class="lineno">  181</span>            )</div>
+<div class="line"><span class="lineno">  182</span>            editor.setPlainText(new_yaml)</div>
+<div class="line"><span class="lineno">  183</span>            <span class="keywordflow">if</span> self.logger:</div>
+<div class="line"><span class="lineno">  184</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_updated_from_modules&quot;</span>), <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  185</span> </div>
+<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">except</span> RuntimeError <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  188</span>                <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
+<div class="line"><span class="lineno">  189</span>                    self.logger.log(f<span class="stringliteral">&quot;❌ YAML update crash: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  190</span>                <span class="keywordflow">elif</span> hasattr(main, <span class="stringliteral">&quot;logger&quot;</span>):</div>
+<div class="line"><span class="lineno">  191</span>                    main.logger.log(f<span class="stringliteral">&quot;❌ YAML update crash: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  192</span>                <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  193</span>                    logger.error(f<span class="stringliteral">&quot;[TabModules] YAML update crash: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  194</span>            <span class="keywordflow">except</span> Exception:</div>
+<div class="line"><span class="lineno">  195</span>                <span class="keywordflow">pass</span>  <span class="comment"># Ultimo fallback</span></div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">tab_command.TabCommand.logger</a>, <a class="el" href="tab__modules_8py_source.html#l00012">logger</a>, <a class="el" href="tab__modules_8py_source.html#l00021">widget_map</a>, and <a class="el" href="compile__manager_8py_source.html#l00020">compile_manager.CompileManager.window</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">tab_command.TabCommand.logger</a>, <a class="el" href="tab__modules_8py_source.html#l00046">logger</a>, <a class="el" href="tab__modules_8py_source.html#l00055">widget_map</a>, and <a class="el" href="compile__manager_8py_source.html#l00043">compile_manager.CompileManager.window</a>.</p>
 
 </div>
 </div>
@@ -445,53 +500,72 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Loads and parses YAML content, updating the UI module widgets accordingly.
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00152">152</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  152</span>    <span class="keyword">def </span>carica_dati_da_yaml(self, yaml_string):</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keyword">from</span> core.yaml_handler <span class="keyword">import</span> YAMLHandler</div>
-<div class="line"><span class="lineno">  154</span>        modules_schema_path = <span class="stringliteral">&quot;config/modules_schema.json&quot;</span></div>
-<div class="line"><span class="lineno">  155</span>        modules_data = YAMLHandler.extract_modules_from_yaml(</div>
-<div class="line"><span class="lineno">  156</span>            yaml_string,</div>
-<div class="line"><span class="lineno">  157</span>            modules_schema_path</div>
-<div class="line"><span class="lineno">  158</span>        )</div>
-<div class="line"><span class="lineno">  159</span>        <span class="comment"># Estrai i moduli PRESENTI nel file yaml (chiavi minuscole, underscore)</span></div>
-<div class="line"><span class="lineno">  160</span>        <span class="keyword">import</span> ruamel.yaml</div>
-<div class="line"><span class="lineno">  161</span>        yaml = ruamel.yaml.YAML()</div>
-<div class="line"><span class="lineno">  162</span>        data = yaml.load(yaml_string) <span class="keywordflow">or</span> {}</div>
-<div class="line"><span class="lineno">  163</span>        yaml_moduli_presenti = set(data.keys())</div>
-<div class="line"><span class="lineno">  164</span> </div>
-<div class="line"><span class="lineno">  165</span>        <span class="keywordflow">for</span> module_name, values <span class="keywordflow">in</span> modules_data.items():</div>
-<div class="line"><span class="lineno">  166</span>            widget_dict = self.widget_map.get(module_name, {})</div>
-<div class="line"><span class="lineno">  167</span>            <span class="comment"># Ricava la chiave yaml di questo modulo (debug, logger, ...)</span></div>
-<div class="line"><span class="lineno">  168</span>            yaml_key = module_name.lower().replace(<span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;_&quot;</span>)</div>
-<div class="line"><span class="lineno">  169</span>            <span class="comment"># --- GESTIONE CHECKBOX &quot;ENABLED&quot; ---</span></div>
-<div class="line"><span class="lineno">  170</span>            enabled_checkbox = widget_dict.get(<span class="stringliteral">&quot;enabled&quot;</span>)</div>
-<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">if</span> isinstance(enabled_checkbox, QCheckBox):</div>
-<div class="line"><span class="lineno">  172</span>                enabled_checkbox.setChecked(yaml_key <span class="keywordflow">in</span> yaml_moduli_presenti)</div>
-<div class="line"><span class="lineno">  173</span>            <span class="comment"># --- Altri campi ---</span></div>
-<div class="line"><span class="lineno">  174</span>            <span class="keywordflow">for</span> key, val <span class="keywordflow">in</span> values.items():</div>
-<div class="line"><span class="lineno">  175</span>                widget = widget_dict.get(key)</div>
-<div class="line"><span class="lineno">  176</span>                <span class="keywordflow">if</span> widget <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">or</span> key == <span class="stringliteral">&quot;enabled&quot;</span>:</div>
-<div class="line"><span class="lineno">  177</span>                    <span class="keywordflow">continue</span></div>
-<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">if</span> isinstance(widget, QSpinBox):</div>
-<div class="line"><span class="lineno">  179</span>                    <span class="keywordflow">if</span> isinstance(val, str) <span class="keywordflow">and</span> val.endswith(<span class="stringliteral">&quot;s&quot;</span>):</div>
-<div class="line"><span class="lineno">  180</span>                        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  181</span>                            val = int(val.rstrip(<span class="stringliteral">&quot;s&quot;</span>))</div>
-<div class="line"><span class="lineno">  182</span>                        <span class="keywordflow">except</span> Exception:</div>
-<div class="line"><span class="lineno">  183</span>                            val = 1</div>
-<div class="line"><span class="lineno">  184</span>                    <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  185</span>                        widget.setValue(int(val))</div>
-<div class="line"><span class="lineno">  186</span>                    <span class="keywordflow">except</span> Exception:</div>
-<div class="line"><span class="lineno">  187</span>                        <span class="keywordflow">pass</span></div>
-<div class="line"><span class="lineno">  188</span>                <span class="keywordflow">elif</span> isinstance(widget, QLineEdit):</div>
-<div class="line"><span class="lineno">  189</span>                    widget.setText(str(val))</div>
-<div class="line"><span class="lineno">  190</span>                <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
-<div class="line"><span class="lineno">  191</span>                    idx = widget.findText(str(val))</div>
-<div class="line"><span class="lineno">  192</span>                    <span class="keywordflow">if</span> idx != -1:</div>
-<div class="line"><span class="lineno">  193</span>                        widget.setCurrentIndex(idx)</div>
-<div class="line"><span class="lineno">  194</span> </div>
+For each module defined in the YAML, this method:
+- Enables the module section (checkbox)
+- Sets the correct values for fields like text, combo, checkbox, or spinbox
+
+If a module is not found in the YAML, its section remains disabled.
+
+@param yaml_string YAML configuration as a string to be parsed and reflected in the UI.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00199">199</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  199</span>    <span class="keyword">def </span>carica_dati_da_yaml(self, yaml_string):</div>
+<div class="line"><span class="lineno">  200</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  201</span><span class="stringliteral">        @brief Loads and parses YAML content, updating the UI module widgets accordingly.</span></div>
+<div class="line"><span class="lineno">  202</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  203</span><span class="stringliteral">        For each module defined in the YAML, this method:</span></div>
+<div class="line"><span class="lineno">  204</span><span class="stringliteral">        - Enables the module section (checkbox)</span></div>
+<div class="line"><span class="lineno">  205</span><span class="stringliteral">        - Sets the correct values for fields like text, combo, checkbox, or spinbox</span></div>
+<div class="line"><span class="lineno">  206</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  207</span><span class="stringliteral">        If a module is not found in the YAML, its section remains disabled.</span></div>
+<div class="line"><span class="lineno">  208</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  209</span><span class="stringliteral">        @param yaml_string YAML configuration as a string to be parsed and reflected in the UI.</span></div>
+<div class="line"><span class="lineno">  210</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  211</span>        modules_schema_path = <span class="stringliteral">&quot;config/modules_schema.json&quot;</span></div>
+<div class="line"><span class="lineno">  212</span>        modules_data = YAMLHandler.extract_modules_from_yaml(</div>
+<div class="line"><span class="lineno">  213</span>            yaml_string,</div>
+<div class="line"><span class="lineno">  214</span>            modules_schema_path</div>
+<div class="line"><span class="lineno">  215</span>        )</div>
+<div class="line"><span class="lineno">  216</span>        <span class="comment"># Estrai i moduli PRESENTI nel file yaml (chiavi minuscole, underscore)</span></div>
+<div class="line"><span class="lineno">  217</span>        <span class="keyword">import</span> ruamel.yaml</div>
+<div class="line"><span class="lineno">  218</span>        yaml = ruamel.yaml.YAML()</div>
+<div class="line"><span class="lineno">  219</span>        data = yaml.load(yaml_string) <span class="keywordflow">or</span> {}</div>
+<div class="line"><span class="lineno">  220</span>        yaml_moduli_presenti = set(data.keys())</div>
+<div class="line"><span class="lineno">  221</span> </div>
+<div class="line"><span class="lineno">  222</span>        <span class="keywordflow">for</span> module_name, values <span class="keywordflow">in</span> modules_data.items():</div>
+<div class="line"><span class="lineno">  223</span>            widget_dict = self.widget_map.get(module_name, {})</div>
+<div class="line"><span class="lineno">  224</span>            <span class="comment"># Ricava la chiave yaml di questo modulo (debug, logger, ...)</span></div>
+<div class="line"><span class="lineno">  225</span>            yaml_key = module_name.lower().replace(<span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;_&quot;</span>)</div>
+<div class="line"><span class="lineno">  226</span>            <span class="comment"># --- GESTIONE CHECKBOX &quot;ENABLED&quot; ---</span></div>
+<div class="line"><span class="lineno">  227</span>            enabled_checkbox = widget_dict.get(<span class="stringliteral">&quot;enabled&quot;</span>)</div>
+<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">if</span> isinstance(enabled_checkbox, QCheckBox):</div>
+<div class="line"><span class="lineno">  229</span>                enabled_checkbox.setChecked(yaml_key <span class="keywordflow">in</span> yaml_moduli_presenti)</div>
+<div class="line"><span class="lineno">  230</span>            <span class="comment"># --- Altri campi ---</span></div>
+<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">for</span> key, val <span class="keywordflow">in</span> values.items():</div>
+<div class="line"><span class="lineno">  232</span>                widget = widget_dict.get(key)</div>
+<div class="line"><span class="lineno">  233</span>                <span class="keywordflow">if</span> widget <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">or</span> key == <span class="stringliteral">&quot;enabled&quot;</span>:</div>
+<div class="line"><span class="lineno">  234</span>                    <span class="keywordflow">continue</span></div>
+<div class="line"><span class="lineno">  235</span>                <span class="keywordflow">if</span> isinstance(widget, QSpinBox):</div>
+<div class="line"><span class="lineno">  236</span>                    <span class="keywordflow">if</span> isinstance(val, str) <span class="keywordflow">and</span> val.endswith(<span class="stringliteral">&quot;s&quot;</span>):</div>
+<div class="line"><span class="lineno">  237</span>                        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  238</span>                            val = int(val.rstrip(<span class="stringliteral">&quot;s&quot;</span>))</div>
+<div class="line"><span class="lineno">  239</span>                        <span class="keywordflow">except</span> Exception:</div>
+<div class="line"><span class="lineno">  240</span>                            val = 1</div>
+<div class="line"><span class="lineno">  241</span>                    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  242</span>                        widget.setValue(int(val))</div>
+<div class="line"><span class="lineno">  243</span>                    <span class="keywordflow">except</span> Exception:</div>
+<div class="line"><span class="lineno">  244</span>                        <span class="keywordflow">pass</span></div>
+<div class="line"><span class="lineno">  245</span>                <span class="keywordflow">elif</span> isinstance(widget, QLineEdit):</div>
+<div class="line"><span class="lineno">  246</span>                    widget.setText(str(val))</div>
+<div class="line"><span class="lineno">  247</span>                <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
+<div class="line"><span class="lineno">  248</span>                    idx = widget.findText(str(val))</div>
+<div class="line"><span class="lineno">  249</span>                    <span class="keywordflow">if</span> idx != -1:</div>
+<div class="line"><span class="lineno">  250</span>                        widget.setCurrentIndex(idx)</div>
+<div class="line"><span class="lineno">  251</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00021">widget_map</a>.</p>
+<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00055">widget_map</a>.</p>
 
 </div>
 </div>
@@ -509,25 +583,45 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Resets all module widgets in the UI to their default states.
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00195">195</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  195</span>    <span class="keyword">def </span>reset_fields(self):</div>
-<div class="line"><span class="lineno">  196</span>        <span class="keywordflow">for</span> widget_dict <span class="keywordflow">in</span> self.widget_map.values():</div>
-<div class="line"><span class="lineno">  197</span>            <span class="keywordflow">for</span> key, widget <span class="keywordflow">in</span> widget_dict.items():</div>
-<div class="line"><span class="lineno">  198</span>                <span class="keywordflow">if</span> isinstance(widget, QLineEdit):</div>
-<div class="line"><span class="lineno">  199</span>                    widget.clear()</div>
-<div class="line"><span class="lineno">  200</span>                <span class="keywordflow">elif</span> isinstance(widget, QCheckBox):</div>
-<div class="line"><span class="lineno">  201</span>                    <span class="comment"># di default, puoi mettere checked/unchecked (scegli tu)</span></div>
-<div class="line"><span class="lineno">  202</span>                    widget.setChecked(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  203</span>                <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
-<div class="line"><span class="lineno">  204</span>                    <span class="keywordflow">if</span> widget.count() &gt; 0:</div>
-<div class="line"><span class="lineno">  205</span>                        widget.setCurrentIndex(0)</div>
-<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">elif</span> isinstance(widget, QSpinBox):</div>
-<div class="line"><span class="lineno">  207</span>                    widget.setValue(widget.minimum())</div>
-<div class="line"><span class="lineno">  208</span> </div>
-<div class="line"><span class="lineno">  209</span> </div>
+This includes:
+- Clearing text fields
+- Unchecking checkboxes
+- Resetting combo boxes to the first item
+- Setting spinboxes to their minimum value
+
+It does not modify or clear the YAML editor.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00252">252</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  252</span>    <span class="keyword">def </span>reset_fields(self):</div>
+<div class="line"><span class="lineno">  253</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  254</span><span class="stringliteral">        @brief Resets all module widgets in the UI to their default states.</span></div>
+<div class="line"><span class="lineno">  255</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  256</span><span class="stringliteral">        This includes:</span></div>
+<div class="line"><span class="lineno">  257</span><span class="stringliteral">        - Clearing text fields</span></div>
+<div class="line"><span class="lineno">  258</span><span class="stringliteral">        - Unchecking checkboxes</span></div>
+<div class="line"><span class="lineno">  259</span><span class="stringliteral">        - Resetting combo boxes to the first item</span></div>
+<div class="line"><span class="lineno">  260</span><span class="stringliteral">        - Setting spinboxes to their minimum value</span></div>
+<div class="line"><span class="lineno">  261</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  262</span><span class="stringliteral">        It does not modify or clear the YAML editor.</span></div>
+<div class="line"><span class="lineno">  263</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  264</span>        <span class="keywordflow">for</span> widget_dict <span class="keywordflow">in</span> self.widget_map.values():</div>
+<div class="line"><span class="lineno">  265</span>            <span class="keywordflow">for</span> key, widget <span class="keywordflow">in</span> widget_dict.items():</div>
+<div class="line"><span class="lineno">  266</span>                <span class="keywordflow">if</span> isinstance(widget, QLineEdit):</div>
+<div class="line"><span class="lineno">  267</span>                    widget.clear()</div>
+<div class="line"><span class="lineno">  268</span>                <span class="keywordflow">elif</span> isinstance(widget, QCheckBox):</div>
+<div class="line"><span class="lineno">  269</span>                    <span class="comment"># di default, puoi mettere checked/unchecked (scegli tu)</span></div>
+<div class="line"><span class="lineno">  270</span>                    widget.setChecked(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  271</span>                <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
+<div class="line"><span class="lineno">  272</span>                    <span class="keywordflow">if</span> widget.count() &gt; 0:</div>
+<div class="line"><span class="lineno">  273</span>                        widget.setCurrentIndex(0)</div>
+<div class="line"><span class="lineno">  274</span>                <span class="keywordflow">elif</span> isinstance(widget, QSpinBox):</div>
+<div class="line"><span class="lineno">  275</span>                    widget.setValue(widget.minimum())</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00021">widget_map</a>.</p>
+<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00055">widget_map</a>.</p>
 
 </div>
 </div>
@@ -544,7 +638,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00078">78</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00112">112</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
 
 </div>
 </div>
@@ -560,9 +654,9 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00012">12</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00046">46</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00145">tab_sensori.TabSensori.aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00218">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00099">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__modules_8py_source.html#l00113">aggiorna_yaml_da_moduli()</a>, and <a class="el" href="tab__settings_8py_source.html#l00265">tab_settings.TabSettings.carica_dati_da_yaml()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00204">tab_sensori.TabSensori.aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00272">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00147">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__modules_8py_source.html#l00152">aggiorna_yaml_da_moduli()</a>, and <a class="el" href="tab__settings_8py_source.html#l00329">tab_settings.TabSettings.carica_dati_da_yaml()</a>.</p>
 
 </div>
 </div>
@@ -578,9 +672,9 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00022">22</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00056">56</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00210">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00278">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -596,9 +690,9 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00076">76</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00110">110</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00210">aggiorna_label()</a>, <a class="el" href="tab__sensori_8py_source.html#l00228">tab_sensori.TabSensori.aggiorna_label()</a>, <a class="el" href="tab__settings_8py_source.html#l00296">tab_settings.TabSettings.aggiorna_label()</a>, and <a class="el" href="tab__settings_8py_source.html#l00134">tab_settings.TabSettings.get_update_yaml_btn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00278">aggiorna_label()</a>, <a class="el" href="tab__sensori_8py_source.html#l00291">tab_sensori.TabSensori.aggiorna_label()</a>, <a class="el" href="tab__settings_8py_source.html#l00368">tab_settings.TabSettings.aggiorna_label()</a>, and <a class="el" href="tab__settings_8py_source.html#l00176">tab_settings.TabSettings.get_update_yaml_btn()</a>.</p>
 
 </div>
 </div>
@@ -614,14 +708,14 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00021">21</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__modules_8py_source.html#l00055">55</a> of file <a class="el" href="tab__modules_8py_source.html">tab_modules.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00210">aggiorna_label()</a>, <a class="el" href="tab__modules_8py_source.html#l00113">aggiorna_yaml_da_moduli()</a>, <a class="el" href="tab__modules_8py_source.html#l00152">carica_dati_da_yaml()</a>, and <a class="el" href="tab__modules_8py_source.html#l00195">reset_fields()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__modules_8py_source.html#l00278">aggiorna_label()</a>, <a class="el" href="tab__modules_8py_source.html#l00152">aggiorna_yaml_da_moduli()</a>, <a class="el" href="tab__modules_8py_source.html#l00199">carica_dati_da_yaml()</a>, and <a class="el" href="tab__modules_8py_source.html#l00252">reset_fields()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="tab__modules_8py_source.html">tab_modules.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="tab__modules_8py_source.html">tab_modules.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

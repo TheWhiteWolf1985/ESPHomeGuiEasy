@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+@file block_selection_dialog.py
+@brief Dialogs for selecting sensors, actions, triggers, conditions, timers, and scripts.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Provides multiple QDialog classes each for selecting a specific block type from JSON data,  
+including search/filter functionality and icon display.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLineEdit, QListWidget, QListWidgetItem,
     QDialogButtonBox, QLabel, QHBoxLayout, QComboBox, QSpinBox
@@ -8,8 +25,12 @@ from gui.color_pantone import Pantone
 import os, json
 from core.log_handler import GeneralLogHandler as logger
 
-# === SENSOR SELECTION DIALOG ===
 class SensorSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a sensor from the sensors JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, sensors_json_path: str, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Seleziona Sensore")
@@ -93,8 +114,13 @@ class SensorSelectionDialog(QDialog):
     def get_selected_sensor(self):
         return self.selected_sensor
 
-# === ACTION SELECTION DIALOG ===
+
 class ActionSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting an action from the actions JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, actions_json_path: str, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Seleziona Azione")
@@ -165,9 +191,12 @@ class ActionSelectionDialog(QDialog):
     def get_selected_action(self):
         return self.selected_action
 
-
-# === TRIGGER SELECTION DIALOG ===
 class TriggerSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a trigger from the triggers JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, triggers_json_path: str, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Seleziona Trigger")
@@ -238,9 +267,12 @@ class TriggerSelectionDialog(QDialog):
     def get_selected_trigger(self):
         return self.selected_trigger
 
-
-# === CONDITION SELECTION DIALOG ===
 class ConditionSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a condition from the conditions JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, conditions_json_path: str, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Seleziona Condizione")
@@ -311,9 +343,12 @@ class ConditionSelectionDialog(QDialog):
     def get_selected_condition(self):
         return self.selected_condition
 
-
-# === TIMER SELECTION DIALOG ===
 class TimerSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a timer or interval from the timers JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, timers_json_path: str, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Seleziona Timer / Interval")
@@ -385,8 +420,12 @@ class TimerSelectionDialog(QDialog):
         return self.selected_timer
 
 
-# === SCRIPT SELECTION DIALOG ===
 class ScriptSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a script from the scripts JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, scripts_json_path: str, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Seleziona Script")

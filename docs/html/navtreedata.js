@@ -25,6 +25,21 @@
 var NAVTREE =
 [
   [ "ESPHomeGUIeasy", "index.html", [
+    [ "📚 Technical Documentation", "index.html#autotoc_md7", null ],
+    [ "💾 Installation", "index.html#autotoc_md9", [
+      [ "💡 Key Features", "index.html#autotoc_md4", null ],
+      [ "🔹 Option 1: Using the Windows Installer (recommended)", "index.html#autotoc_md10", null ]
+    ] ],
+    [ "🖼 Screenshots", "index.html#autotoc_md12", null ],
+    [ "🧰 Dependencies (already bundled in embedded build)", "index.html#autotoc_md18", null ],
+    [ "🛠 Troubleshooting", "index.html#autotoc_md20", null ],
+    [ "📁 Project Structure", "index.html#autotoc_md22", null ],
+    [ "🗂️ Where user files are stored", "index.html#autotoc_md24", null ],
+    [ "📜 License", "index.html#autotoc_md26", null ],
+    [ "🤝 Contributing", "index.html#autotoc_md28", null ],
+    [ "Supported Boards", "boards.html", null ],
+    [ "Modules Schema", "modules_schema.html", null ],
+    [ "Sensors Configuration", "sensors.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -53,11 +68,11 @@ var NAVTREEINDEX =
 [
 "_g_u_iconfig_8py.html",
 "classcollapsible__section_1_1_collapsible_section.html#a99542a36323a801fa15c7e8f773f3017",
-"classmain__window_1_1_main_window.html",
-"classproject__handler_1_1_import_worker.html#a7a8dee9f66686bc246a84cf5be0ae6d8",
-"classsplash__screen_1_1_splash_screen.html#aa1ea7908b754757e7daabb69fe9d66e3",
-"classtimer__block__item_1_1_timer_block_item.html#a253340e5b81a98aa9b2c3c7f6ef370f7",
-"functions_func_c.html"
+"classlog__handler_1_1_l_o_g_handler.html#afebc405f16d7da6d40fb7a3007ca3bec",
+"classproject__handler_1_1_import_worker.html#a29a4d591d903801b9240cec0c5d7a1df",
+"classsplash__screen_1_1_splash_screen.html#a82e2d8b0bb02557edc9eed901cdfbd97",
+"classtimer__block__item_1_1_timer_block_item.html",
+"functions_d.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

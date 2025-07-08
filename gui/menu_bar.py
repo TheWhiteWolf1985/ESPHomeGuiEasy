@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+@file menu_bar.py
+@brief Main menu bar of the application, including File, Project, Settings, and Help menus.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Handles menu creation, recent files list, project galleries, settings dialog,
+and about dialog.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QAction
 from core.translator import Translator
@@ -6,13 +23,19 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from core.settings_db import get_recent_files
 import config.GUIconfig as conf
-import os
+import os, webbrowser
 from gui.project_gallery_window import ProjectGalleryWindow
 from gui.user_project_manager import UserProjectManagerWindow
 from gui.setting_menu import SettingsDialog
 
 
 class MainMenuBar(QMenuBar):
+    """
+    @brief Implements the application’s main menu bar with various menus and actions.
+
+    Creates and updates menus dynamically, manages recent files,
+    and provides dialogs for settings, project galleries, and about info.
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.main_window = parent
@@ -127,9 +150,15 @@ class MainMenuBar(QMenuBar):
 
         # HELP MENU
         help_menu = self.addMenu("❓")
+
         self.about_action = QAction(Translator.tr("menu_about"), self)
         self.about_action.triggered.connect(self.show_about_dialog)
         help_menu.addAction(self.about_action)
+
+        self.docs_action = QAction(Translator.tr("menu_documentation"), self)
+        self.docs_action.triggered.connect(self.open_docs)
+        help_menu.addAction(self.docs_action)
+
 
     def _update_recent_files_menu(self):
         for act in self.recent_file_actions:
@@ -214,3 +243,14 @@ class MainMenuBar(QMenuBar):
     def open_full_settings_dialog(self):
         dlg = SettingsDialog(self)
         dlg.exec()
+
+    def open_docs(self):
+        """
+        @brief Opens the local Doxygen documentation in the default web browser.
+        """
+        doc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../docs/html/index.html"))
+        if os.path.exists(doc_path):
+            webbrowser.open_new_tab(f"file://{doc_path}")
+        else:
+            QMessageBox.warning(None, Translator.tr("menu_documentation"), Translator.tr("error_docs_not_found"))
+

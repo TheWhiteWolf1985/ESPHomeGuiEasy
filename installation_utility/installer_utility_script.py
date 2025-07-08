@@ -11,6 +11,7 @@ MAIN_CONTENT = [
     "main.py",
     "config",
     "gui",
+    "docs",
     "core",
     "assets",
     "language",

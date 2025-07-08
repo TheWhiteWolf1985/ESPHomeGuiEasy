@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ESPHomeGUIeasy: gui/project_edit_dialog.py Source File</title>
+<title>ESPHomeGUIeasy: C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/project_edit_dialog.py Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -105,69 +101,87 @@ $(function(){initNavTree('project__edit__dialog_8py_source.html',''); initResiza
   <div class="headertitle"><div class="title">project_edit_dialog.py</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="project__edit__dialog_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespaceproject__edit__dialog.html">    1</a></span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> (</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>    QDialog, QLabel, QLineEdit, QPlainTextEdit, QDialogButtonBox,</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    QVBoxLayout</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>)</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> Qt</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> gui.color_pantone <span class="keyword">import</span> Pantone</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="foldopen" id="foldopen00009" data-start="" data-end="">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="classproject__edit__dialog_1_1_project_edit_dialog.html">ProjectEditDialog</a>(QDialog):</div>
-<div class="foldopen" id="foldopen00010" data-start="" data-end="">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">   10</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">__init__</a>(self, version: str = <span class="stringliteral">&quot;&quot;</span>, description: str = <span class="stringliteral">&quot;&quot;</span>, parent=<span class="keywordtype">None</span>):</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        super().<a class="code hl_function" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">__init__</a>(parent)</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        self.setWindowTitle(<span class="stringliteral">&quot;Modifica progetto&quot;</span>)</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        self.setMinimumSize(400, 300)</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">   15</a></span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a> = QLineEdit(version)</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a>.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="stringliteral">            color: white;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="stringliteral">            border: 1px solid #555;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="stringliteral">            font-size: 10pt;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">   23</a></span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a> = QPlainTextEdit(description)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="stringliteral">            color: white;</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="stringliteral">            border: 1px solid #555;</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="stringliteral">            font-size: 10pt;</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>.setPlaceholderText(<span class="stringliteral">&quot;Inserisci changelog...&quot;</span>)</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        layout = QVBoxLayout()</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        layout.addWidget(QLabel(<span class="stringliteral">&quot;&lt;b&gt;Versione:&lt;/b&gt;&quot;</span>))</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        layout.addWidget(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a>)</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        layout.addWidget(QLabel(<span class="stringliteral">&quot;&lt;b&gt;Changelog:&lt;/b&gt;&quot;</span>))</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        layout.addWidget(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>)</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        buttons = QDialogButtonBox(</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            parent=self</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        )</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        buttons.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a052ef11e59a4151b65e674cb1bac7134">   43</a></span>        buttons.accepted.connect(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a052ef11e59a4151b65e674cb1bac7134">accept</a>)</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#ac97ff2d55c66b462825aa9a18f7766f8">   44</a></span>        buttons.rejected.connect(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#ac97ff2d55c66b462825aa9a18f7766f8">reject</a>)</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        layout.addWidget(buttons)</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        self.setLayout(layout)</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<a href="project__edit__dialog_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespaceproject__edit__dialog.html">    1</a></span><span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@file project_edit_dialog.py</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral">@brief Dialog window to edit project metadata such as version and changelog.</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">@defgroup gui GUI Modules</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">@ingroup main</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">@brief GUI elements: windows, dialogs, blocks, and widgets.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">Provides input fields for version and multiline changelog,</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">with OK and Cancel buttons.</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> (</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    QDialog, QLabel, QLineEdit, QPlainTextEdit, QDialogButtonBox,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    QVBoxLayout</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> Qt</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">from</span> gui.color_pantone <span class="keyword">import</span> Pantone</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="" data-end="">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="classproject__edit__dialog_1_1_project_edit_dialog.html">ProjectEditDialog</a>(QDialog):</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="stringliteral">    @brief Modal dialog to edit version string and changelog text of a project.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="stringliteral">    Includes styled QLineEdit and QPlainTextEdit fields and standard dialog buttons.</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="foldopen" id="foldopen00028" data-start="" data-end="">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">   28</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">__init__</a>(self, version: str = <span class="stringliteral">&quot;&quot;</span>, description: str = <span class="stringliteral">&quot;&quot;</span>, parent=<span class="keywordtype">None</span>):</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        super().<a class="code hl_function" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">__init__</a>(parent)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        self.setWindowTitle(<span class="stringliteral">&quot;Modifica progetto&quot;</span>)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        self.setMinimumSize(400, 300)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">   33</a></span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a> = QLineEdit(version)</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a>.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral">            color: white;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral">            border: 1px solid #555;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="stringliteral">            font-size: 10pt;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">   41</a></span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a> = QPlainTextEdit(description)</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="stringliteral">            color: white;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="stringliteral">            border: 1px solid #555;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="stringliteral">            font-size: 10pt;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>.setPlaceholderText(<span class="stringliteral">&quot;Inserisci changelog...&quot;</span>)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        layout = QVBoxLayout()</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        layout.addWidget(QLabel(<span class="stringliteral">&quot;&lt;b&gt;Versione:&lt;/b&gt;&quot;</span>))</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        layout.addWidget(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a>)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        layout.addWidget(QLabel(<span class="stringliteral">&quot;&lt;b&gt;Changelog:&lt;/b&gt;&quot;</span>))</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        layout.addWidget(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        buttons = QDialogButtonBox(</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            parent=self</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        )</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        buttons.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a052ef11e59a4151b65e674cb1bac7134">   61</a></span>        buttons.accepted.connect(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a052ef11e59a4151b65e674cb1bac7134">accept</a>)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#ac97ff2d55c66b462825aa9a18f7766f8">   62</a></span>        buttons.rejected.connect(self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#ac97ff2d55c66b462825aa9a18f7766f8">reject</a>)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        layout.addWidget(buttons)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        self.setLayout(layout)</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
 </div>
-<div class="foldopen" id="foldopen00049" data-start="" data-end="">
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a4152dcc57be9fa42480e5df47a8ffb19">   49</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a4152dcc57be9fa42480e5df47a8ffb19">get_data</a>(self):</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">return</span> self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a>.text().strip(), self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>.toPlainText().strip()</div>
+<div class="foldopen" id="foldopen00067" data-start="" data-end="">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a4152dcc57be9fa42480e5df47a8ffb19">   67</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a4152dcc57be9fa42480e5df47a8ffb19">get_data</a>(self):</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">return</span> self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">version_input</a>.text().strip(), self.<a class="code hl_variable" href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">description_input</a>.toPlainText().strip()</div>
 </div>
 </div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html">project_edit_dialog.ProjectEditDialog</a></div><div class="ttdef"><b>Definition</b> <a href="#l00009">project_edit_dialog.py:9</a></div></div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a052ef11e59a4151b65e674cb1bac7134"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a052ef11e59a4151b65e674cb1bac7134">project_edit_dialog.ProjectEditDialog.accept</a></div><div class="ttdeci">accept</div><div class="ttdef"><b>Definition</b> <a href="#l00043">project_edit_dialog.py:43</a></div></div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a2f71cf1481c4124a0b5f1c5b71cde3c0"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">project_edit_dialog.ProjectEditDialog.version_input</a></div><div class="ttdeci">version_input</div><div class="ttdef"><b>Definition</b> <a href="#l00015">project_edit_dialog.py:15</a></div></div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a4152dcc57be9fa42480e5df47a8ffb19"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a4152dcc57be9fa42480e5df47a8ffb19">project_edit_dialog.ProjectEditDialog.get_data</a></div><div class="ttdeci">get_data(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00049">project_edit_dialog.py:49</a></div></div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a6adf8e25565e6ded04e6338bb70d0652"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">project_edit_dialog.ProjectEditDialog.__init__</a></div><div class="ttdeci">__init__(self, str version=&quot;&quot;, str description=&quot;&quot;, parent=None)</div><div class="ttdef"><b>Definition</b> <a href="#l00010">project_edit_dialog.py:10</a></div></div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_ac97ff2d55c66b462825aa9a18f7766f8"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#ac97ff2d55c66b462825aa9a18f7766f8">project_edit_dialog.ProjectEditDialog.reject</a></div><div class="ttdeci">reject</div><div class="ttdef"><b>Definition</b> <a href="#l00044">project_edit_dialog.py:44</a></div></div>
-<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_adf8f8f149e35eb11f585572423391cec"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">project_edit_dialog.ProjectEditDialog.description_input</a></div><div class="ttdeci">description_input</div><div class="ttdef"><b>Definition</b> <a href="#l00023">project_edit_dialog.py:23</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html">project_edit_dialog.ProjectEditDialog</a></div><div class="ttdef"><b>Definition</b> <a href="#l00022">project_edit_dialog.py:22</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a052ef11e59a4151b65e674cb1bac7134"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a052ef11e59a4151b65e674cb1bac7134">project_edit_dialog.ProjectEditDialog.accept</a></div><div class="ttdeci">accept</div><div class="ttdef"><b>Definition</b> <a href="#l00061">project_edit_dialog.py:61</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a2f71cf1481c4124a0b5f1c5b71cde3c0"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a2f71cf1481c4124a0b5f1c5b71cde3c0">project_edit_dialog.ProjectEditDialog.version_input</a></div><div class="ttdeci">version_input</div><div class="ttdef"><b>Definition</b> <a href="#l00033">project_edit_dialog.py:33</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a4152dcc57be9fa42480e5df47a8ffb19"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a4152dcc57be9fa42480e5df47a8ffb19">project_edit_dialog.ProjectEditDialog.get_data</a></div><div class="ttdeci">get_data(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00067">project_edit_dialog.py:67</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_a6adf8e25565e6ded04e6338bb70d0652"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#a6adf8e25565e6ded04e6338bb70d0652">project_edit_dialog.ProjectEditDialog.__init__</a></div><div class="ttdeci">__init__(self, str version=&quot;&quot;, str description=&quot;&quot;, parent=None)</div><div class="ttdef"><b>Definition</b> <a href="#l00028">project_edit_dialog.py:28</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_ac97ff2d55c66b462825aa9a18f7766f8"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#ac97ff2d55c66b462825aa9a18f7766f8">project_edit_dialog.ProjectEditDialog.reject</a></div><div class="ttdeci">reject</div><div class="ttdef"><b>Definition</b> <a href="#l00062">project_edit_dialog.py:62</a></div></div>
+<div class="ttc" id="aclassproject__edit__dialog_1_1_project_edit_dialog_html_adf8f8f149e35eb11f585572423391cec"><div class="ttname"><a href="classproject__edit__dialog_1_1_project_edit_dialog.html#adf8f8f149e35eb11f585572423391cec">project_edit_dialog.ProjectEditDialog.description_input</a></div><div class="ttdeci">description_input</div><div class="ttdef"><b>Definition</b> <a href="#l00041">project_edit_dialog.py:41</a></div></div>
 <div class="ttc" id="anamespace_py_qt6_1_1_qt_widgets_html"><div class="ttname"><a href="namespace_py_qt6_1_1_qt_widgets.html">QtWidgets</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

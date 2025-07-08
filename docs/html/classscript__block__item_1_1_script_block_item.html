@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -165,8 +161,11 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ab0838d6a6638a49a1b1b187c99de0c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00018">18</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Represents a draggable and expandable script block item in the QGraphicsScene.
+
+Manages UI components including title label, toggle and close buttons, and a container for parameter widgets.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00029">29</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abd129ab328c72a7f82be2753d779b453" name="abd129ab328c72a7f82be2753d779b453"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abd129ab328c72a7f82be2753d779b453">&#9670;&#160;</a></span>__init__()</h2>
@@ -187,26 +186,26 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00019">19</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>    <span class="keyword">def </span>__init__(self, title=&quot;Script&quot;):</div>
-<div class="line"><span class="lineno">   20</span>        super().__init__()</div>
-<div class="line"><span class="lineno">   21</span>        self.width = conf.BLOCK_WIDTH</div>
-<div class="line"><span class="lineno">   22</span>        self.height = conf.BLOCK_HEIGHT</div>
-<div class="line"><span class="lineno">   23</span>        self.title = title</div>
-<div class="line"><span class="lineno">   24</span>        self.expanded = <span class="keyword">True</span></div>
-<div class="line"><span class="lineno">   25</span>        self.param_widgets = {}</div>
-<div class="line"><span class="lineno">   26</span> </div>
-<div class="line"><span class="lineno">   27</span>        self.setFlags(</div>
-<div class="line"><span class="lineno">   28</span>            QGraphicsItem.GraphicsItemFlag.ItemIsMovable |</div>
-<div class="line"><span class="lineno">   29</span>            QGraphicsItem.GraphicsItemFlag.ItemIsSelectable</div>
-<div class="line"><span class="lineno">   30</span>        )</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>        self.setup_ui()</div>
-<div class="line"><span class="lineno">   33</span> </div>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00035">35</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>    <span class="keyword">def </span>__init__(self, title=&quot;Script&quot;):</div>
+<div class="line"><span class="lineno">   36</span>        super().__init__()</div>
+<div class="line"><span class="lineno">   37</span>        self.width = conf.BLOCK_WIDTH</div>
+<div class="line"><span class="lineno">   38</span>        self.height = conf.BLOCK_HEIGHT</div>
+<div class="line"><span class="lineno">   39</span>        self.title = title</div>
+<div class="line"><span class="lineno">   40</span>        self.expanded = <span class="keyword">True</span></div>
+<div class="line"><span class="lineno">   41</span>        self.param_widgets = {}</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>        self.setFlags(</div>
+<div class="line"><span class="lineno">   44</span>            QGraphicsItem.GraphicsItemFlag.ItemIsMovable |</div>
+<div class="line"><span class="lineno">   45</span>            QGraphicsItem.GraphicsItemFlag.ItemIsSelectable</div>
+<div class="line"><span class="lineno">   46</span>        )</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>        self.setup_ui()</div>
+<div class="line"><span class="lineno">   49</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="script__block__item_8py_source.html#l00019">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="script__block__item_8py_source.html#l00035">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00019">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00035">__init__()</a>.</p>
 
 </div>
 </div>
@@ -225,15 +224,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00133">133</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  133</span>    <span class="keyword">def </span>boundingRect(self):</div>
-<div class="line"><span class="lineno">  134</span>        <span class="keywordflow">return</span> QRectF(0, 0, self.width, self.height <span class="keywordflow">if</span> self.expanded <span class="keywordflow">else</span> conf.BLOCK_COLLAPSED_HEIGHT)</div>
-<div class="line"><span class="lineno">  135</span> </div>
+<pre class="fragment">@brief Returns the bounding rectangle of the block, considering its expanded or collapsed state.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00160">160</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  160</span>    <span class="keyword">def </span>boundingRect(self):</div>
+<div class="line"><span class="lineno">  161</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  162</span><span class="stringliteral">        @brief Returns the bounding rectangle of the block, considering its expanded or collapsed state.</span></div>
+<div class="line"><span class="lineno">  163</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">return</span> QRectF(0, 0, self.width, self.height <span class="keywordflow">if</span> self.expanded <span class="keywordflow">else</span> conf.BLOCK_COLLAPSED_HEIGHT)</div>
+<div class="line"><span class="lineno">  165</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00024">action_block_item.ActionBlockItem.expanded</a>, <a class="el" href="condition__block__item_8py_source.html#l00024">condition_block_item.ConditionBlockItem.expanded</a>, <a class="el" href="script__block__item_8py_source.html#l00024">expanded</a>, <a class="el" href="action__block__item_8py_source.html#l00022">action_block_item.ActionBlockItem.height</a>, <a class="el" href="condition__block__item_8py_source.html#l00022">condition_block_item.ConditionBlockItem.height</a>, <a class="el" href="script__block__item_8py_source.html#l00022">height</a>, <a class="el" href="action__block__item_8py_source.html#l00021">action_block_item.ActionBlockItem.width</a>, <a class="el" href="condition__block__item_8py_source.html#l00021">condition_block_item.ConditionBlockItem.width</a>, and <a class="el" href="script__block__item_8py_source.html#l00021">width</a>.</p>
+<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00040">action_block_item.ActionBlockItem.expanded</a>, <a class="el" href="condition__block__item_8py_source.html#l00040">condition_block_item.ConditionBlockItem.expanded</a>, <a class="el" href="script__block__item_8py_source.html#l00040">expanded</a>, <a class="el" href="action__block__item_8py_source.html#l00038">action_block_item.ActionBlockItem.height</a>, <a class="el" href="condition__block__item_8py_source.html#l00038">condition_block_item.ConditionBlockItem.height</a>, <a class="el" href="script__block__item_8py_source.html#l00038">height</a>, <a class="el" href="action__block__item_8py_source.html#l00037">action_block_item.ActionBlockItem.width</a>, <a class="el" href="condition__block__item_8py_source.html#l00037">condition_block_item.ConditionBlockItem.width</a>, and <a class="el" href="script__block__item_8py_source.html#l00037">width</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00136">paint()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00161">sensor_block_item.SensorBlockItem.paint()</a>, <a class="el" href="timer__block__item_8py_source.html#l00136">timer_block_item.TimerBlockItem.paint()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00136">trigger_block_item.TriggerBlockItem.paint()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00166">paint()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00179">sensor_block_item.SensorBlockItem.paint()</a>, <a class="el" href="timer__block__item_8py_source.html#l00212">timer_block_item.TimerBlockItem.paint()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00205">trigger_block_item.TriggerBlockItem.paint()</a>.</p>
 
 </div>
 </div>
@@ -255,43 +258,51 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Dynamically builds parameter input fields from a list of parameter definitions.
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00100">100</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>    <span class="keyword">def </span>build_from_params(self, param_list):</div>
-<div class="line"><span class="lineno">  101</span>        layout = self.container.layout()</div>
-<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">for</span> param <span class="keywordflow">in</span> param_list:</div>
-<div class="line"><span class="lineno">  103</span>            key = param.get(<span class="stringliteral">&quot;key&quot;</span>)</div>
-<div class="line"><span class="lineno">  104</span>            tipo = param.get(<span class="stringliteral">&quot;type&quot;</span>)</div>
-<div class="line"><span class="lineno">  105</span>            label_text = param.get(<span class="stringliteral">&quot;label&quot;</span>, key)</div>
-<div class="line"><span class="lineno">  106</span>            default = param.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>            label = QLabel(label_text)</div>
-<div class="line"><span class="lineno">  109</span>            layout.addWidget(label)</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>            <span class="keywordflow">if</span> tipo == <span class="stringliteral">&quot;text&quot;</span>:</div>
-<div class="line"><span class="lineno">  112</span>                field = QLineEdit()</div>
-<div class="line"><span class="lineno">  113</span>                field.setPlaceholderText(param.get(<span class="stringliteral">&quot;placeholder&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
-<div class="line"><span class="lineno">  114</span>                field.setText(str(default))</div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">elif</span> tipo == <span class="stringliteral">&quot;int&quot;</span>:</div>
-<div class="line"><span class="lineno">  116</span>                field = QSpinBox()</div>
-<div class="line"><span class="lineno">  117</span>                field.setMinimum(0)</div>
-<div class="line"><span class="lineno">  118</span>                field.setMaximum(100000)</div>
-<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">if</span> isinstance(default, int):</div>
-<div class="line"><span class="lineno">  120</span>                    field.setValue(default)</div>
-<div class="line"><span class="lineno">  121</span>            <span class="keywordflow">elif</span> tipo == <span class="stringliteral">&quot;combo&quot;</span>:</div>
-<div class="line"><span class="lineno">  122</span>                field = QComboBox()</div>
-<div class="line"><span class="lineno">  123</span>                options = param.get(<span class="stringliteral">&quot;options&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  124</span>                field.addItems(options)</div>
-<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">if</span> default <span class="keywordflow">in</span> options:</div>
-<div class="line"><span class="lineno">  126</span>                    field.setCurrentText(default)</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  128</span>                <span class="keywordflow">continue</span></div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>            layout.addWidget(field)</div>
-<div class="line"><span class="lineno">  131</span>            self.param_widgets[key] = field</div>
-<div class="line"><span class="lineno">  132</span> </div>
+@param param_list List of dictionaries defining keys, types, labels, defaults, and options.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00122">122</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  122</span>    <span class="keyword">def </span>build_from_params(self, param_list):</div>
+<div class="line"><span class="lineno">  123</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  124</span><span class="stringliteral">        @brief Dynamically builds parameter input fields from a list of parameter definitions.</span></div>
+<div class="line"><span class="lineno">  125</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  126</span><span class="stringliteral">        @param param_list List of dictionaries defining keys, types, labels, defaults, and options.</span></div>
+<div class="line"><span class="lineno">  127</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  128</span>        layout = self.container.layout()</div>
+<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">for</span> param <span class="keywordflow">in</span> param_list:</div>
+<div class="line"><span class="lineno">  130</span>            key = param.get(<span class="stringliteral">&quot;key&quot;</span>)</div>
+<div class="line"><span class="lineno">  131</span>            tipo = param.get(<span class="stringliteral">&quot;type&quot;</span>)</div>
+<div class="line"><span class="lineno">  132</span>            label_text = param.get(<span class="stringliteral">&quot;label&quot;</span>, key)</div>
+<div class="line"><span class="lineno">  133</span>            default = param.get(<span class="stringliteral">&quot;default&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>            label = QLabel(label_text)</div>
+<div class="line"><span class="lineno">  136</span>            layout.addWidget(label)</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">if</span> tipo == <span class="stringliteral">&quot;text&quot;</span>:</div>
+<div class="line"><span class="lineno">  139</span>                field = QLineEdit()</div>
+<div class="line"><span class="lineno">  140</span>                field.setPlaceholderText(param.get(<span class="stringliteral">&quot;placeholder&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
+<div class="line"><span class="lineno">  141</span>                field.setText(str(default))</div>
+<div class="line"><span class="lineno">  142</span>            <span class="keywordflow">elif</span> tipo == <span class="stringliteral">&quot;int&quot;</span>:</div>
+<div class="line"><span class="lineno">  143</span>                field = QSpinBox()</div>
+<div class="line"><span class="lineno">  144</span>                field.setMinimum(0)</div>
+<div class="line"><span class="lineno">  145</span>                field.setMaximum(100000)</div>
+<div class="line"><span class="lineno">  146</span>                <span class="keywordflow">if</span> isinstance(default, int):</div>
+<div class="line"><span class="lineno">  147</span>                    field.setValue(default)</div>
+<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">elif</span> tipo == <span class="stringliteral">&quot;combo&quot;</span>:</div>
+<div class="line"><span class="lineno">  149</span>                field = QComboBox()</div>
+<div class="line"><span class="lineno">  150</span>                options = param.get(<span class="stringliteral">&quot;options&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  151</span>                field.addItems(options)</div>
+<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">if</span> default <span class="keywordflow">in</span> options:</div>
+<div class="line"><span class="lineno">  153</span>                    field.setCurrentText(default)</div>
+<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  155</span>                <span class="keywordflow">continue</span></div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>            layout.addWidget(field)</div>
+<div class="line"><span class="lineno">  158</span>            self.param_widgets[key] = field</div>
+<div class="line"><span class="lineno">  159</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00081">action_block_item.ActionBlockItem.container</a>, <a class="el" href="condition__block__item_8py_source.html#l00081">condition_block_item.ConditionBlockItem.container</a>, <a class="el" href="script__block__item_8py_source.html#l00081">container</a>, <a class="el" href="action__block__item_8py_source.html#l00025">action_block_item.ActionBlockItem.param_widgets</a>, <a class="el" href="condition__block__item_8py_source.html#l00025">condition_block_item.ConditionBlockItem.param_widgets</a>, and <a class="el" href="script__block__item_8py_source.html#l00025">param_widgets</a>.</p>
+<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00100">action_block_item.ActionBlockItem.container</a>, <a class="el" href="condition__block__item_8py_source.html#l00100">condition_block_item.ConditionBlockItem.container</a>, <a class="el" href="script__block__item_8py_source.html#l00100">container</a>, <a class="el" href="action__block__item_8py_source.html#l00041">action_block_item.ActionBlockItem.param_widgets</a>, <a class="el" href="condition__block__item_8py_source.html#l00041">condition_block_item.ConditionBlockItem.param_widgets</a>, and <a class="el" href="script__block__item_8py_source.html#l00041">param_widgets</a>.</p>
 
 </div>
 </div>
@@ -323,16 +334,20 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00136">136</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  136</span>    <span class="keyword">def </span>paint(self, painter, option, widget=None):</div>
-<div class="line"><span class="lineno">  137</span>        painter.setBrush(QBrush(QColor(<span class="stringliteral">&quot;#b94a48&quot;</span>)))  <span class="comment"># Rosso scuro</span></div>
-<div class="line"><span class="lineno">  138</span>        painter.setPen(QPen(Qt.GlobalColor.black, 2))</div>
-<div class="line"><span class="lineno">  139</span>        height = int(self.boundingRect().height())</div>
-<div class="line"><span class="lineno">  140</span>        painter.drawRoundedRect(0, 0, self.width, height, 10, 10)</div>
-<div class="line"><span class="lineno">  141</span> </div>
+<pre class="fragment">@brief Paints the block rectangle with dark red background and black border.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00166">166</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>    <span class="keyword">def </span>paint(self, painter, option, widget=None):</div>
+<div class="line"><span class="lineno">  167</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  168</span><span class="stringliteral">        @brief Paints the block rectangle with dark red background and black border.</span></div>
+<div class="line"><span class="lineno">  169</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  170</span>        painter.setBrush(QBrush(QColor(<span class="stringliteral">&quot;#b94a48&quot;</span>)))  <span class="comment"># Rosso scuro</span></div>
+<div class="line"><span class="lineno">  171</span>        painter.setPen(QPen(Qt.GlobalColor.black, 2))</div>
+<div class="line"><span class="lineno">  172</span>        height = int(self.boundingRect().height())</div>
+<div class="line"><span class="lineno">  173</span>        painter.drawRoundedRect(0, 0, self.width, height, 10, 10)</div>
+<div class="line"><span class="lineno">  174</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00133">action_block_item.ActionBlockItem.boundingRect()</a>, <a class="el" href="condition__block__item_8py_source.html#l00133">condition_block_item.ConditionBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00133">boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00022">height</a>, <a class="el" href="action__block__item_8py_source.html#l00021">action_block_item.ActionBlockItem.width</a>, <a class="el" href="condition__block__item_8py_source.html#l00021">condition_block_item.ConditionBlockItem.width</a>, and <a class="el" href="script__block__item_8py_source.html#l00021">width</a>.</p>
+<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00160">action_block_item.ActionBlockItem.boundingRect()</a>, <a class="el" href="condition__block__item_8py_source.html#l00160">condition_block_item.ConditionBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00160">boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00038">height</a>, <a class="el" href="action__block__item_8py_source.html#l00037">action_block_item.ActionBlockItem.width</a>, <a class="el" href="condition__block__item_8py_source.html#l00037">condition_block_item.ConditionBlockItem.width</a>, and <a class="el" href="script__block__item_8py_source.html#l00037">width</a>.</p>
 
 </div>
 </div>
@@ -350,12 +365,16 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00142">142</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  142</span>    <span class="keyword">def </span>remove_from_scene(self):</div>
-<div class="line"><span class="lineno">  143</span>        scene = self.scene()</div>
-<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">if</span> scene:</div>
-<div class="line"><span class="lineno">  145</span>            scene.removeItem(self)</div>
+<pre class="fragment">@brief Removes the block item from its QGraphicsScene.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00175">175</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  175</span>    <span class="keyword">def </span>remove_from_scene(self):</div>
+<div class="line"><span class="lineno">  176</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  177</span><span class="stringliteral">        @brief Removes the block item from its QGraphicsScene.</span></div>
+<div class="line"><span class="lineno">  178</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  179</span>        scene = self.scene()</div>
+<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">if</span> scene:</div>
+<div class="line"><span class="lineno">  181</span>            scene.removeItem(self)</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -373,65 +392,69 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00034">34</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>    <span class="keyword">def </span>setup_ui(self):</div>
-<div class="line"><span class="lineno">   35</span>        self.title_item = QGraphicsTextItem(self.title, self)</div>
-<div class="line"><span class="lineno">   36</span>        font = QFont(<span class="stringliteral">&quot;Consolas&quot;</span>, 12, QFont.Weight.Bold)</div>
-<div class="line"><span class="lineno">   37</span>        self.title_item.setFont(font)</div>
-<div class="line"><span class="lineno">   38</span>        self.title_item.setDefaultTextColor(Qt.GlobalColor.white)</div>
-<div class="line"><span class="lineno">   39</span>        self.title_item.setPos(10, 7)</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>        self.close_btn = QPushButton()</div>
-<div class="line"><span class="lineno">   42</span>        self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, <span class="stringliteral">&quot;close.png&quot;</span>)))</div>
-<div class="line"><span class="lineno">   43</span>        self.close_btn.setIconSize(QSize(22, 22))</div>
-<div class="line"><span class="lineno">   44</span>        self.close_btn.setFixedSize(25, 25)</div>
-<div class="line"><span class="lineno">   45</span>        self.close_btn.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   46</span><span class="stringliteral">            QPushButton {</span></div>
-<div class="line"><span class="lineno">   47</span><span class="stringliteral">                background-color: #ff5f56;</span></div>
-<div class="line"><span class="lineno">   48</span><span class="stringliteral">                border: none;</span></div>
-<div class="line"><span class="lineno">   49</span><span class="stringliteral">                border-radius: 10px;</span></div>
-<div class="line"><span class="lineno">   50</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   51</span><span class="stringliteral">            QPushButton:hover {</span></div>
-<div class="line"><span class="lineno">   52</span><span class="stringliteral">                background-color: #ff2d20;</span></div>
-<div class="line"><span class="lineno">   53</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   54</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   55</span>        self.close_btn.clicked.connect(self.remove_from_scene)</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>        self.close_proxy = QGraphicsProxyWidget(self)</div>
-<div class="line"><span class="lineno">   58</span>        self.close_proxy.setWidget(self.close_btn)</div>
-<div class="line"><span class="lineno">   59</span>        self.close_proxy.setPos(self.width - 35, 8)</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>        self.toggle_btn = QPushButton()</div>
-<div class="line"><span class="lineno">   62</span>        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, <span class="stringliteral">&quot;expand.png&quot;</span>)))</div>
-<div class="line"><span class="lineno">   63</span>        self.toggle_btn.setIconSize(QSize(22, 22))</div>
-<div class="line"><span class="lineno">   64</span>        self.toggle_btn.setFixedSize(25, 25)</div>
-<div class="line"><span class="lineno">   65</span>        self.toggle_btn.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   66</span><span class="stringliteral">            QPushButton {</span></div>
-<div class="line"><span class="lineno">   67</span><span class="stringliteral">                background-color: #b94a48;</span></div>
-<div class="line"><span class="lineno">   68</span><span class="stringliteral">                border: none;</span></div>
-<div class="line"><span class="lineno">   69</span><span class="stringliteral">                border-radius: 11px;</span></div>
-<div class="line"><span class="lineno">   70</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   71</span><span class="stringliteral">            QPushButton:hover {</span></div>
-<div class="line"><span class="lineno">   72</span><span class="stringliteral">                background-color: #a43734;</span></div>
-<div class="line"><span class="lineno">   73</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   74</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   75</span>        self.toggle_btn.clicked.connect(self.toggle_expand)</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>        self.toggle_proxy = QGraphicsProxyWidget(self)</div>
-<div class="line"><span class="lineno">   78</span>        self.toggle_proxy.setWidget(self.toggle_btn)</div>
-<div class="line"><span class="lineno">   79</span>        self.toggle_proxy.setPos(self.width - 74, 8)</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>        self.container = QWidget()</div>
-<div class="line"><span class="lineno">   82</span>        layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">   83</span>        layout.setContentsMargins(8, 40, 8, 8)</div>
-<div class="line"><span class="lineno">   84</span>        self.container.setLayout(layout)</div>
-<div class="line"><span class="lineno">   85</span>        self.container.setFixedWidth(self.width)</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>        self.proxy = QGraphicsProxyWidget(self)</div>
-<div class="line"><span class="lineno">   88</span>        self.proxy.setWidget(self.container)</div>
-<div class="line"><span class="lineno">   89</span>        self.proxy.setPos(0, 40)</div>
-<div class="line"><span class="lineno">   90</span> </div>
+<pre class="fragment">@brief Sets up UI elements including title, toggle and close buttons, and parameter container.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00050">50</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>    <span class="keyword">def </span>setup_ui(self):</div>
+<div class="line"><span class="lineno">   51</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   52</span><span class="stringliteral">        @brief Sets up UI elements including title, toggle and close buttons, and parameter container.</span></div>
+<div class="line"><span class="lineno">   53</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   54</span>        self.title_item = QGraphicsTextItem(self.title, self)</div>
+<div class="line"><span class="lineno">   55</span>        font = QFont(<span class="stringliteral">&quot;Consolas&quot;</span>, 12, QFont.Weight.Bold)</div>
+<div class="line"><span class="lineno">   56</span>        self.title_item.setFont(font)</div>
+<div class="line"><span class="lineno">   57</span>        self.title_item.setDefaultTextColor(Qt.GlobalColor.white)</div>
+<div class="line"><span class="lineno">   58</span>        self.title_item.setPos(10, 7)</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>        self.close_btn = QPushButton()</div>
+<div class="line"><span class="lineno">   61</span>        self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, <span class="stringliteral">&quot;close.png&quot;</span>)))</div>
+<div class="line"><span class="lineno">   62</span>        self.close_btn.setIconSize(QSize(22, 22))</div>
+<div class="line"><span class="lineno">   63</span>        self.close_btn.setFixedSize(25, 25)</div>
+<div class="line"><span class="lineno">   64</span>        self.close_btn.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   65</span><span class="stringliteral">            QPushButton {</span></div>
+<div class="line"><span class="lineno">   66</span><span class="stringliteral">                background-color: #ff5f56;</span></div>
+<div class="line"><span class="lineno">   67</span><span class="stringliteral">                border: none;</span></div>
+<div class="line"><span class="lineno">   68</span><span class="stringliteral">                border-radius: 10px;</span></div>
+<div class="line"><span class="lineno">   69</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   70</span><span class="stringliteral">            QPushButton:hover {</span></div>
+<div class="line"><span class="lineno">   71</span><span class="stringliteral">                background-color: #ff2d20;</span></div>
+<div class="line"><span class="lineno">   72</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   73</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">   74</span>        self.close_btn.clicked.connect(self.remove_from_scene)</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>        self.close_proxy = QGraphicsProxyWidget(self)</div>
+<div class="line"><span class="lineno">   77</span>        self.close_proxy.setWidget(self.close_btn)</div>
+<div class="line"><span class="lineno">   78</span>        self.close_proxy.setPos(self.width - 35, 8)</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>        self.toggle_btn = QPushButton()</div>
+<div class="line"><span class="lineno">   81</span>        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, <span class="stringliteral">&quot;expand.png&quot;</span>)))</div>
+<div class="line"><span class="lineno">   82</span>        self.toggle_btn.setIconSize(QSize(22, 22))</div>
+<div class="line"><span class="lineno">   83</span>        self.toggle_btn.setFixedSize(25, 25)</div>
+<div class="line"><span class="lineno">   84</span>        self.toggle_btn.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   85</span><span class="stringliteral">            QPushButton {</span></div>
+<div class="line"><span class="lineno">   86</span><span class="stringliteral">                background-color: #b94a48;</span></div>
+<div class="line"><span class="lineno">   87</span><span class="stringliteral">                border: none;</span></div>
+<div class="line"><span class="lineno">   88</span><span class="stringliteral">                border-radius: 11px;</span></div>
+<div class="line"><span class="lineno">   89</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   90</span><span class="stringliteral">            QPushButton:hover {</span></div>
+<div class="line"><span class="lineno">   91</span><span class="stringliteral">                background-color: #a43734;</span></div>
+<div class="line"><span class="lineno">   92</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   93</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">   94</span>        self.toggle_btn.clicked.connect(self.toggle_expand)</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>        self.toggle_proxy = QGraphicsProxyWidget(self)</div>
+<div class="line"><span class="lineno">   97</span>        self.toggle_proxy.setWidget(self.toggle_btn)</div>
+<div class="line"><span class="lineno">   98</span>        self.toggle_proxy.setPos(self.width - 74, 8)</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>        self.container = QWidget()</div>
+<div class="line"><span class="lineno">  101</span>        layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  102</span>        layout.setContentsMargins(8, 40, 8, 8)</div>
+<div class="line"><span class="lineno">  103</span>        self.container.setLayout(layout)</div>
+<div class="line"><span class="lineno">  104</span>        self.container.setFixedWidth(self.width)</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>        self.proxy = QGraphicsProxyWidget(self)</div>
+<div class="line"><span class="lineno">  107</span>        self.proxy.setWidget(self.container)</div>
+<div class="line"><span class="lineno">  108</span>        self.proxy.setPos(0, 40)</div>
+<div class="line"><span class="lineno">  109</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -449,19 +472,23 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00091">91</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   91</span>    <span class="keyword">def </span>toggle_expand(self):</div>
-<div class="line"><span class="lineno">   92</span>        self.expanded = <span class="keywordflow">not</span> self.expanded</div>
-<div class="line"><span class="lineno">   93</span>        self.container.setVisible(self.expanded)</div>
-<div class="line"><span class="lineno">   94</span>        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, <span class="stringliteral">&quot;expand.png&quot;</span>)))</div>
-<div class="line"><span class="lineno">   95</span>        self.prepareGeometryChange()</div>
-<div class="line"><span class="lineno">   96</span>        self.update()</div>
-<div class="line"><span class="lineno">   97</span>        <span class="keywordflow">if</span> self.scene():</div>
-<div class="line"><span class="lineno">   98</span>            self.scene().update()</div>
-<div class="line"><span class="lineno">   99</span> </div>
+<pre class="fragment">@brief Toggles the expanded/collapsed state of the block, showing or hiding the parameter container.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00110">110</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  110</span>    <span class="keyword">def </span>toggle_expand(self):</div>
+<div class="line"><span class="lineno">  111</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  112</span><span class="stringliteral">        @brief Toggles the expanded/collapsed state of the block, showing or hiding the parameter container.</span></div>
+<div class="line"><span class="lineno">  113</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  114</span>        self.expanded = <span class="keywordflow">not</span> self.expanded</div>
+<div class="line"><span class="lineno">  115</span>        self.container.setVisible(self.expanded)</div>
+<div class="line"><span class="lineno">  116</span>        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, <span class="stringliteral">&quot;expand.png&quot;</span>)))</div>
+<div class="line"><span class="lineno">  117</span>        self.prepareGeometryChange()</div>
+<div class="line"><span class="lineno">  118</span>        self.update()</div>
+<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">if</span> self.scene():</div>
+<div class="line"><span class="lineno">  120</span>            self.scene().update()</div>
+<div class="line"><span class="lineno">  121</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00081">action_block_item.ActionBlockItem.container</a>, <a class="el" href="condition__block__item_8py_source.html#l00081">condition_block_item.ConditionBlockItem.container</a>, <a class="el" href="script__block__item_8py_source.html#l00081">container</a>, <a class="el" href="action__block__item_8py_source.html#l00024">action_block_item.ActionBlockItem.expanded</a>, <a class="el" href="condition__block__item_8py_source.html#l00024">condition_block_item.ConditionBlockItem.expanded</a>, <a class="el" href="script__block__item_8py_source.html#l00024">expanded</a>, <a class="el" href="action__block__item_8py_source.html#l00061">action_block_item.ActionBlockItem.toggle_btn</a>, <a class="el" href="condition__block__item_8py_source.html#l00061">condition_block_item.ConditionBlockItem.toggle_btn</a>, and <a class="el" href="script__block__item_8py_source.html#l00061">toggle_btn</a>.</p>
+<p class="reference">References <a class="el" href="action__block__item_8py_source.html#l00100">action_block_item.ActionBlockItem.container</a>, <a class="el" href="condition__block__item_8py_source.html#l00100">condition_block_item.ConditionBlockItem.container</a>, <a class="el" href="script__block__item_8py_source.html#l00100">container</a>, <a class="el" href="action__block__item_8py_source.html#l00040">action_block_item.ActionBlockItem.expanded</a>, <a class="el" href="condition__block__item_8py_source.html#l00040">condition_block_item.ConditionBlockItem.expanded</a>, <a class="el" href="script__block__item_8py_source.html#l00040">expanded</a>, <a class="el" href="action__block__item_8py_source.html#l00080">action_block_item.ActionBlockItem.toggle_btn</a>, <a class="el" href="condition__block__item_8py_source.html#l00080">condition_block_item.ConditionBlockItem.toggle_btn</a>, and <a class="el" href="script__block__item_8py_source.html#l00080">toggle_btn</a>.</p>
 
 </div>
 </div>
@@ -478,7 +505,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00041">41</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00060">60</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -494,7 +521,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00057">57</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00076">76</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -510,9 +537,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00081">81</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00100">100</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="sensor__block__item_8py_source.html#l00167">sensor_block_item.SensorBlockItem.aggiorna_label()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00149">sensor_block_item.SensorBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00100">build_from_params()</a>, <a class="el" href="timer__block__item_8py_source.html#l00100">timer_block_item.TimerBlockItem.build_from_params()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00100">trigger_block_item.TriggerBlockItem.build_from_params()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00226">sensor_block_item.SensorBlockItem.build_from_returns()</a>, <a class="el" href="script__block__item_8py_source.html#l00091">toggle_expand()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00130">sensor_block_item.SensorBlockItem.toggle_expand()</a>, <a class="el" href="timer__block__item_8py_source.html#l00091">timer_block_item.TimerBlockItem.toggle_expand()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00091">trigger_block_item.TriggerBlockItem.toggle_expand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="sensor__block__item_8py_source.html#l00188">sensor_block_item.SensorBlockItem.aggiorna_label()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00166">sensor_block_item.SensorBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00122">build_from_params()</a>, <a class="el" href="timer__block__item_8py_source.html#l00152">timer_block_item.TimerBlockItem.build_from_params()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00148">trigger_block_item.TriggerBlockItem.build_from_params()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00250">sensor_block_item.SensorBlockItem.build_from_returns()</a>, <a class="el" href="script__block__item_8py_source.html#l00110">toggle_expand()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00147">sensor_block_item.SensorBlockItem.toggle_expand()</a>, <a class="el" href="timer__block__item_8py_source.html#l00136">timer_block_item.TimerBlockItem.toggle_expand()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00134">trigger_block_item.TriggerBlockItem.toggle_expand()</a>.</p>
 
 </div>
 </div>
@@ -528,9 +555,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00024">24</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00040">40</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00133">boundingRect()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00149">sensor_block_item.SensorBlockItem.boundingRect()</a>, <a class="el" href="timer__block__item_8py_source.html#l00133">timer_block_item.TimerBlockItem.boundingRect()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00133">trigger_block_item.TriggerBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00091">toggle_expand()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00130">sensor_block_item.SensorBlockItem.toggle_expand()</a>, <a class="el" href="timer__block__item_8py_source.html#l00091">timer_block_item.TimerBlockItem.toggle_expand()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00091">trigger_block_item.TriggerBlockItem.toggle_expand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00160">boundingRect()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00166">sensor_block_item.SensorBlockItem.boundingRect()</a>, <a class="el" href="timer__block__item_8py_source.html#l00202">timer_block_item.TimerBlockItem.boundingRect()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00195">trigger_block_item.TriggerBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00110">toggle_expand()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00147">sensor_block_item.SensorBlockItem.toggle_expand()</a>, <a class="el" href="timer__block__item_8py_source.html#l00136">timer_block_item.TimerBlockItem.toggle_expand()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00134">trigger_block_item.TriggerBlockItem.toggle_expand()</a>.</p>
 
 </div>
 </div>
@@ -546,9 +573,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00022">22</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00038">38</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00133">boundingRect()</a>, <a class="el" href="timer__block__item_8py_source.html#l00133">timer_block_item.TimerBlockItem.boundingRect()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00133">trigger_block_item.TriggerBlockItem.boundingRect()</a>, and <a class="el" href="script__block__item_8py_source.html#l00136">paint()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00160">boundingRect()</a>, <a class="el" href="timer__block__item_8py_source.html#l00202">timer_block_item.TimerBlockItem.boundingRect()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00195">trigger_block_item.TriggerBlockItem.boundingRect()</a>, and <a class="el" href="script__block__item_8py_source.html#l00166">paint()</a>.</p>
 
 </div>
 </div>
@@ -564,9 +591,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00025">25</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00041">41</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00100">build_from_params()</a>, <a class="el" href="timer__block__item_8py_source.html#l00100">timer_block_item.TimerBlockItem.build_from_params()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00100">trigger_block_item.TriggerBlockItem.build_from_params()</a>, and <a class="el" href="sensor__block__item_8py_source.html#l00255">sensor_block_item.SensorBlockItem.has_valid_data()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00122">build_from_params()</a>, <a class="el" href="timer__block__item_8py_source.html#l00152">timer_block_item.TimerBlockItem.build_from_params()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00148">trigger_block_item.TriggerBlockItem.build_from_params()</a>, and <a class="el" href="sensor__block__item_8py_source.html#l00281">sensor_block_item.SensorBlockItem.has_valid_data()</a>.</p>
 
 </div>
 </div>
@@ -582,7 +609,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00087">87</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00106">106</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -598,7 +625,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00055">55</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00074">74</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -614,7 +641,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00023">23</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00039">39</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -630,9 +657,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00035">35</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00054">54</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="sensor__block__item_8py_source.html#l00121">sensor_block_item.SensorBlockItem.update_title()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="sensor__block__item_8py_source.html#l00136">sensor_block_item.SensorBlockItem.update_title()</a>.</p>
 
 </div>
 </div>
@@ -648,9 +675,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00061">61</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00080">80</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00091">toggle_expand()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00130">sensor_block_item.SensorBlockItem.toggle_expand()</a>, <a class="el" href="timer__block__item_8py_source.html#l00091">timer_block_item.TimerBlockItem.toggle_expand()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00091">trigger_block_item.TriggerBlockItem.toggle_expand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00110">toggle_expand()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00147">sensor_block_item.SensorBlockItem.toggle_expand()</a>, <a class="el" href="timer__block__item_8py_source.html#l00136">timer_block_item.TimerBlockItem.toggle_expand()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00134">trigger_block_item.TriggerBlockItem.toggle_expand()</a>.</p>
 
 </div>
 </div>
@@ -666,7 +693,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00075">75</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00094">94</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -682,7 +709,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00077">77</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00096">96</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
 </div>
 </div>
@@ -698,14 +725,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00021">21</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="script__block__item_8py_source.html#l00037">37</a> of file <a class="el" href="script__block__item_8py_source.html">script_block_item.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00133">boundingRect()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00149">sensor_block_item.SensorBlockItem.boundingRect()</a>, <a class="el" href="timer__block__item_8py_source.html#l00133">timer_block_item.TimerBlockItem.boundingRect()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00133">trigger_block_item.TriggerBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00136">paint()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00161">sensor_block_item.SensorBlockItem.paint()</a>, <a class="el" href="timer__block__item_8py_source.html#l00136">timer_block_item.TimerBlockItem.paint()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00136">trigger_block_item.TriggerBlockItem.paint()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="script__block__item_8py_source.html#l00160">boundingRect()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00166">sensor_block_item.SensorBlockItem.boundingRect()</a>, <a class="el" href="timer__block__item_8py_source.html#l00202">timer_block_item.TimerBlockItem.boundingRect()</a>, <a class="el" href="trigger__block__item_8py_source.html#l00195">trigger_block_item.TriggerBlockItem.boundingRect()</a>, <a class="el" href="script__block__item_8py_source.html#l00166">paint()</a>, <a class="el" href="sensor__block__item_8py_source.html#l00179">sensor_block_item.SensorBlockItem.paint()</a>, <a class="el" href="timer__block__item_8py_source.html#l00212">timer_block_item.TimerBlockItem.paint()</a>, and <a class="el" href="trigger__block__item_8py_source.html#l00205">trigger_block_item.TriggerBlockItem.paint()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="script__block__item_8py_source.html">script_block_item.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="script__block__item_8py_source.html">script_block_item.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

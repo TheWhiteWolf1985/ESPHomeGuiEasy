@@ -1,9 +1,20 @@
 
+# -*- coding: utf-8 -*-
 """
 @file trigger_block_item.py
-@brief Blocco trigger (verde) espandibile per il canvas.
-"""
+@brief Expandable canvas block (green) for ESPHome trigger logic.
 
+@defgroup canvas_blocks Visual Blocks
+@ingroup gui
+@brief Visual representation of a trigger block in the ESPHomeGuiEasy canvas.
+
+This module implements a draggable, expandable QGraphicsItem representing a
+`trigger:` block (e.g. `on_press`, `on_boot`, `on_time`) in ESPHome YAML.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
 from PyQt6.QtWidgets import (
     QGraphicsItem, QGraphicsTextItem, QGraphicsProxyWidget,
     QComboBox, QLineEdit, QSpinBox, QPushButton, QLabel, QVBoxLayout, QWidget
@@ -16,7 +27,28 @@ import os
 
 
 class TriggerBlockItem(QGraphicsItem):
+    """
+    @brief Canvas block representing a trigger section in ESPHome.
+
+    This class defines a green visual block with expandable parameter area.
+    Parameters are loaded from JSON and rendered as widgets dynamically.
+
+    Includes:
+    - Title
+    - Expand/Collapse toggle
+    - Close button
+    - Parameter widgets (text, int, combo)
+
+    @note Used inside a QGraphicsScene for visual logic configuration.
+    """    
     def __init__(self, title="Trigger"):
+        """
+        @brief Constructor initializing layout, title and buttons.
+
+        Prepares graphical flags, default dimensions, and invokes setup_ui.
+
+        @param title Displayed block title (default: "Trigger").
+        """        
         super().__init__()
         self.width = conf.BLOCK_WIDTH
         self.height = conf.BLOCK_HEIGHT
@@ -32,6 +64,17 @@ class TriggerBlockItem(QGraphicsItem):
         self.setup_ui()
 
     def setup_ui(self):
+        """
+        @brief Creates the block layout: title, buttons, and parameter container.
+
+        This method adds:
+        - Title text
+        - Close button (top right)
+        - Expand/collapse button (toggles visibility of parameters)
+        - Container for dynamic parameters
+
+        @note Widgets are wrapped in QGraphicsProxyWidgets.
+        """        
         self.title_item = QGraphicsTextItem(self.title, self)
         font = QFont("Consolas", 12, QFont.Weight.Bold)
         self.title_item.setFont(font)
@@ -89,6 +132,11 @@ class TriggerBlockItem(QGraphicsItem):
         self.proxy.setPos(0, 40)
 
     def toggle_expand(self):
+        """
+        @brief Switches the block between expanded and collapsed mode.
+
+        Hides or shows the parameter area and updates the expand button icon.
+        """        
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
         self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
@@ -98,6 +146,20 @@ class TriggerBlockItem(QGraphicsItem):
             self.scene().update()
 
     def build_from_params(self, param_list):
+        """
+        @brief Dynamically builds input widgets from a parameter metadata list.
+
+        Accepts a list of dicts defining:
+        - key: parameter identifier
+        - type: one of ["text", "int", "combo"]
+        - label: field label
+        - default: default value
+        - options (if combo): list of items
+
+        Creates corresponding PyQt6 widgets and adds them to the block layout.
+
+        @param param_list List of parameter dictionaries.
+        """        
         layout = self.container.layout()
         for param in param_list:
             key = param.get("key")
@@ -131,15 +193,36 @@ class TriggerBlockItem(QGraphicsItem):
             self.param_widgets[key] = field
 
     def boundingRect(self):
+        """
+        @brief Returns the bounding rectangle of the block.
+
+        Height depends on whether the block is expanded or collapsed.
+
+        @return QRectF with width and height.
+        """        
         return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
 
     def paint(self, painter, option, widget=None):
+        """
+        @brief Custom rendering of the block background and borders.
+
+        Paints a rounded rectangle in green with black outline.
+
+        @param painter QPainter instance
+        @param option QStyleOptionGraphicsItem options
+        @param widget Optional widget
+        """        
         painter.setBrush(QBrush(QColor("#3cb44b")))  # Verde
         painter.setPen(QPen(Qt.GlobalColor.black, 2))
         height = int(self.boundingRect().height())
         painter.drawRoundedRect(0, 0, self.width, height, 10, 10)
 
     def remove_from_scene(self):
+        """
+        @brief Removes this block from the canvas scene.
+
+        Called when the close button is pressed.
+        """        
         scene = self.scene()
         if scene:
             scene.removeItem(self)

@@ -1,5 +1,22 @@
-import os
-import json
+# -*- coding: utf-8 -*-
+"""
+@file tab_settings.py
+@brief GUI tab for configuring general ESPHome project settings (device name, board, Wi-Fi).
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief Graphical interface components for project setup.
+
+This module manages the user interface for setting basic ESPHome project details,
+such as the board type, device name, and Wi-Fi credentials. It also allows updating
+the visual pinout and synchronizing this data with the YAML editor.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import os, json
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QPushButton, QGroupBox, QFormLayout, QLineEdit, QComboBox, QDialog, QSizePolicy, QFrame
 )
@@ -9,9 +26,34 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.yaml_handler import YAMLHandler
 from core.log_handler import GeneralLogHandler as logger
+from ruamel.yaml import YAML
 
 class TabSettings(QWidget):
+    """
+    @brief Tab widget for entering general ESPHome project settings.
+
+    Provides UI elements to input the device name, select the board,
+    configure Wi-Fi credentials, and preview the controller pinout image.
+
+    Changes made in this tab can be synchronized with the YAML editor.
+
+    @note The board list is loaded from a JSON file, and images are
+          updated dynamically based on selection.
+    """    
     def __init__(self, yaml_editor, logger=None):
+        """
+        @brief Initializes the settings tab with form inputs and image preview.
+
+        Sets up the layout, including:
+        - Device name input
+        - Board search and selection combo
+        - Wi-Fi SSID and password fields
+        - Pinout image preview with zoom capability
+        - YAML update button
+
+        @param yaml_editor Reference to the shared YAML editor (QPlainTextEdit).
+        @param logger Optional logger instance for event logging.
+        """        
         super().__init__()
         self.logger = logger
         layout = QVBoxLayout(self)
@@ -140,7 +182,14 @@ class TabSettings(QWidget):
 
     def update_controller_image(self, board_value):
         """
-        @brief Aggiorna l'immagine del controller in base alla board selezionata.
+        @brief Updates the displayed controller image based on the selected board.
+
+        Loads a PNG image from the assets/pinout folder matching the board's value,
+        and scales it proportionally to fit the display area.
+
+        If the image is not found, displays a fallback text.
+
+        @param board_value The internal value of the selected board (used as filename).
         """
         image_path = os.path.join("assets", "pinout", f"{board_value}.png")
 
@@ -164,6 +213,11 @@ class TabSettings(QWidget):
             self.controller_image.setText(Translator.tr("image_not_available"))   
 
     def mostra_immagine_grande(self):
+        """
+        @brief Opens a dialog showing the enlarged version of the current controller image.
+
+        This is typically used to better inspect the pinout diagram selected in the tab.
+        """        
         # Prendi la pixmap attuale della label
         pixmap = self.controller_image.pixmap()
         if pixmap is None or pixmap.isNull():
@@ -189,17 +243,17 @@ class TabSettings(QWidget):
 
     def load_board_list(self):
         """
-        @brief Carica la lista delle board supportate da un file JSON in /config.
+        @brief Loads the list of supported boards from a JSON file in the /config directory.
 
-        Il file deve avere una struttura:
+        The expected JSON structure is:
         {
             "boards": [
-                {"label": "Nome commerciale", "value": "nome_tecnico"},
+                {"label": "Commercial Name", "value": "internal_id"},
                 ...
             ]
         }
 
-        @return lista di dizionari con chiavi 'label' e 'value'
+        @return A list of dictionaries with 'label' and 'value' keys, sorted alphabetically.
         """
         try:
             base_path = os.path.dirname(os.path.abspath(__file__))
@@ -217,9 +271,12 @@ class TabSettings(QWidget):
         
     def aggiorna_layout_da_dati(self):
         """
-        @brief Aggiorna il contenuto YAML nell'editor leggendo SOLO i dati generali
-            (nome, board, wifi, ecc) dal tab settings.
-            NON tocca la parte sensori.
+        @brief Updates the YAML content in the editor using only the general project fields.
+
+        Extracts device name, board, SSID and password from the tab inputs,
+        then regenerates the corresponding sections in the YAML editor.
+
+        @note This method does not modify the sensor section of the YAML.
         """
         main = self.window()
         if not hasattr(main, "yaml_editor"):
@@ -256,7 +313,14 @@ class TabSettings(QWidget):
                 self.logger.log(Translator.tr("yaml_editor_destroyed").format(error=str(e)), "error")
 
     def reset_fields(self):
-        """Svuota tutti i campi del tab Settings (nome, board, wifi ecc.)."""
+        """
+        @brief Clears all input fields in the Settings tab.
+
+        This includes:
+        - Device name
+        - Board combo selection
+        - Wi-Fi SSID and password fields
+        """
         self.device_name_edit.clear()
         self.board_combo.setCurrentIndex(0)
         self.wifi_ssid_edit.clear()
@@ -264,9 +328,17 @@ class TabSettings(QWidget):
 
     def carica_dati_da_yaml(self, yaml_content):
         """
-        Legge lo YAML e aggiorna i campi del tab settings di conseguenza.
+        @brief Parses the YAML content and updates the Settings tab accordingly.
+
+        Extracts values from the YAML and populates:
+        - Device name
+        - Selected board
+        - Wi-Fi SSID and password
+
+        If the YAML is invalid or fields are missing, defaults are used.
+
+        @param yaml_content YAML content as a string.
         """
-        from ruamel.yaml import YAML
         yaml = YAML(typ="safe")
         try:
             data = yaml.load(yaml_content)
@@ -294,7 +366,12 @@ class TabSettings(QWidget):
         self.wifi_pass_edit.setText(wifi.get("password", ""))
 
     def aggiorna_label(self):
-        from core.translator import Translator
+        """
+        @brief Updates all translatable labels and placeholders in the tab.
+
+        This includes the groupbox title, input placeholders, and field labels
+        based on the current selected language.
+        """
         self.general_data.setTitle(Translator.tr("general_project_data"))
         self.show_pinout_btn.setText("🔍 " + Translator.tr("zoom_pinout"))
         self.device_name_edit.setPlaceholderText(Translator.tr("device_name"))
@@ -305,15 +382,13 @@ class TabSettings(QWidget):
         self.general_form.labelForField(self.board_container).setText(Translator.tr("board"))
         self.update_yaml_btn.setText("🔁 " + Translator.tr("update_yaml"))
         
-
-
-    # ----------------------------------------------------------------
-    #  Helper: editor YAML vivo (None se la finestra è già stata chiusa)
-    # ----------------------------------------------------------------
     def _editor(self):
         """
-        Restituisce l'editor YAML attivo oppure None se non disponibile.
-        Nessun uso di 'sip', solo controllo parent-chain.
+        @brief Returns the active YAML editor instance from the main window, if valid.
+
+        This method checks if the editor is still accessible and not destroyed.
+
+        @return QTextEdit instance if valid, otherwise None.
         """
         main = self.window()
         if main is None or not hasattr(main, "yaml_editor"):

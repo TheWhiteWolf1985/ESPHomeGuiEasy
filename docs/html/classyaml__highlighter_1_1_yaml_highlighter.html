@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -145,12 +141,21 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae47eac7463b7087fd0e925ffb0f65fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">@class YamlHighlighter
-@brief Evidenziatore sintattico per YAML in stile VS Code (dark mode).
+<div class="textblock"><pre class="fragment">@brief Provides syntax highlighting for YAML in a QTextDocument using VS Code dark theme colors.
 
-Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, commenti.
+Supports detection and formatting of:
+- Keys
+- Strings
+- Numbers
+- Booleans
+- Null values
+- Lists
+- Comments
+- Indentation (optional)
+
+Uses QSyntaxHighlighter and regular expressions to parse each line of text.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00004">4</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00023">23</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6e1633081322ebf261b8f4d0cb5000fd" name="a6e1633081322ebf261b8f4d0cb5000fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e1633081322ebf261b8f4d0cb5000fd">&#9670;&#160;</a></span>__init__()</h2>
@@ -171,51 +176,51 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00011">11</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>    <span class="keyword">def </span>__init__(self, document):</div>
-<div class="line"><span class="lineno">   12</span>        super().__init__(document)</div>
-<div class="line"><span class="lineno">   13</span> </div>
-<div class="line"><span class="lineno">   14</span>        <span class="comment"># Formati base</span></div>
-<div class="line"><span class="lineno">   15</span>        self.key_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   16</span>        self.key_format.setForeground(QColor(<span class="stringliteral">&quot;#569CD6&quot;</span>))  <span class="comment"># blu chiavi</span></div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>        self.string_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   19</span>        self.string_format.setForeground(QColor(<span class="stringliteral">&quot;#CE9178&quot;</span>))  <span class="comment"># rosso stringhe</span></div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>        self.number_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   22</span>        self.number_format.setForeground(QColor(<span class="stringliteral">&quot;#B5CEA8&quot;</span>))  <span class="comment"># verde numeri</span></div>
-<div class="line"><span class="lineno">   23</span> </div>
-<div class="line"><span class="lineno">   24</span>        self.boolean_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   25</span>        self.boolean_format.setForeground(QColor(<span class="stringliteral">&quot;#DCDCAA&quot;</span>))  <span class="comment"># giallo booleani</span></div>
-<div class="line"><span class="lineno">   26</span> </div>
-<div class="line"><span class="lineno">   27</span>        self.null_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   28</span>        self.null_format.setForeground(QColor(<span class="stringliteral">&quot;#808080&quot;</span>))  <span class="comment"># grigio null</span></div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>        self.list_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   31</span>        self.list_format.setForeground(QColor(<span class="stringliteral">&quot;#9CDCFE&quot;</span>))  <span class="comment"># celeste liste</span></div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>        self.comment_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   34</span>        self.comment_format.setForeground(QColor(<span class="stringliteral">&quot;#6A9955&quot;</span>))  <span class="comment"># verde commenti</span></div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   36</span>        self.indent_format = QTextCharFormat()</div>
-<div class="line"><span class="lineno">   37</span>        self.indent_format.setForeground(QColor(<span class="stringliteral">&quot;#404040&quot;</span>))  <span class="comment"># grigio indentazione</span></div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>        <span class="comment"># Regole di evidenziazione (ordine conta!)</span></div>
-<div class="line"><span class="lineno">   40</span>        self.rules = [</div>
-<div class="line"><span class="lineno">   41</span>            (re.compile(<span class="stringliteral">r&#39;^\s*[\w\-\.]+:&#39;</span>), self.key_format),  <span class="comment"># chiavi</span></div>
-<div class="line"><span class="lineno">   42</span>            (re.compile(<span class="stringliteral">r&#39;:\s*&quot;.*?&quot;&#39;</span>), self.string_format),</div>
-<div class="line"><span class="lineno">   43</span>            (re.compile(<span class="stringliteral">r&quot;:\s*\&#39;.*?\&#39;&quot;</span>), self.string_format),</div>
-<div class="line"><span class="lineno">   44</span>            (re.compile(<span class="stringliteral">r&quot;:\s*\d+&quot;</span>), self.number_format),</div>
-<div class="line"><span class="lineno">   45</span>            (re.compile(<span class="stringliteral">r&quot;:\s*(true|false)\b&quot;</span>, re.IGNORECASE), self.boolean_format),</div>
-<div class="line"><span class="lineno">   46</span>            (re.compile(<span class="stringliteral">r&quot;:\s*null\b&quot;</span>, re.IGNORECASE), self.null_format),</div>
-<div class="line"><span class="lineno">   47</span>            (re.compile(<span class="stringliteral">r&#39;^\s*-\s.*&#39;</span>), self.list_format),  <span class="comment"># liste</span></div>
-<div class="line"><span class="lineno">   48</span>            (re.compile(<span class="stringliteral">r&#39;#.*$&#39;</span>), self.comment_format)</div>
-<div class="line"><span class="lineno">   49</span>        ]</div>
-<div class="line"><span class="lineno">   50</span> </div>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00039">39</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>    <span class="keyword">def </span>__init__(self, document):</div>
+<div class="line"><span class="lineno">   40</span>        super().__init__(document)</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>        <span class="comment"># Formati base</span></div>
+<div class="line"><span class="lineno">   43</span>        self.key_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   44</span>        self.key_format.setForeground(QColor(<span class="stringliteral">&quot;#569CD6&quot;</span>))  <span class="comment"># blu chiavi</span></div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>        self.string_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   47</span>        self.string_format.setForeground(QColor(<span class="stringliteral">&quot;#CE9178&quot;</span>))  <span class="comment"># rosso stringhe</span></div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>        self.number_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   50</span>        self.number_format.setForeground(QColor(<span class="stringliteral">&quot;#B5CEA8&quot;</span>))  <span class="comment"># verde numeri</span></div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>        self.boolean_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   53</span>        self.boolean_format.setForeground(QColor(<span class="stringliteral">&quot;#DCDCAA&quot;</span>))  <span class="comment"># giallo booleani</span></div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>        self.null_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   56</span>        self.null_format.setForeground(QColor(<span class="stringliteral">&quot;#808080&quot;</span>))  <span class="comment"># grigio null</span></div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>        self.list_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   59</span>        self.list_format.setForeground(QColor(<span class="stringliteral">&quot;#9CDCFE&quot;</span>))  <span class="comment"># celeste liste</span></div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>        self.comment_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   62</span>        self.comment_format.setForeground(QColor(<span class="stringliteral">&quot;#6A9955&quot;</span>))  <span class="comment"># verde commenti</span></div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>        self.indent_format = QTextCharFormat()</div>
+<div class="line"><span class="lineno">   65</span>        self.indent_format.setForeground(QColor(<span class="stringliteral">&quot;#404040&quot;</span>))  <span class="comment"># grigio indentazione</span></div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>        <span class="comment"># Regole di evidenziazione (ordine conta!)</span></div>
+<div class="line"><span class="lineno">   68</span>        self.rules = [</div>
+<div class="line"><span class="lineno">   69</span>            (re.compile(<span class="stringliteral">r&#39;^\s*[\w\-\.]+:&#39;</span>), self.key_format),  <span class="comment"># chiavi</span></div>
+<div class="line"><span class="lineno">   70</span>            (re.compile(<span class="stringliteral">r&#39;:\s*&quot;.*?&quot;&#39;</span>), self.string_format),</div>
+<div class="line"><span class="lineno">   71</span>            (re.compile(<span class="stringliteral">r&quot;:\s*\&#39;.*?\&#39;&quot;</span>), self.string_format),</div>
+<div class="line"><span class="lineno">   72</span>            (re.compile(<span class="stringliteral">r&quot;:\s*\d+&quot;</span>), self.number_format),</div>
+<div class="line"><span class="lineno">   73</span>            (re.compile(<span class="stringliteral">r&quot;:\s*(true|false)\b&quot;</span>, re.IGNORECASE), self.boolean_format),</div>
+<div class="line"><span class="lineno">   74</span>            (re.compile(<span class="stringliteral">r&quot;:\s*null\b&quot;</span>, re.IGNORECASE), self.null_format),</div>
+<div class="line"><span class="lineno">   75</span>            (re.compile(<span class="stringliteral">r&#39;^\s*-\s.*&#39;</span>), self.list_format),  <span class="comment"># liste</span></div>
+<div class="line"><span class="lineno">   76</span>            (re.compile(<span class="stringliteral">r&#39;#.*$&#39;</span>), self.comment_format)</div>
+<div class="line"><span class="lineno">   77</span>        ]</div>
+<div class="line"><span class="lineno">   78</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="yaml__highlighter_8py_source.html#l00011">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="yaml__highlighter_8py_source.html#l00039">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="yaml__highlighter_8py_source.html#l00011">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="yaml__highlighter_8py_source.html#l00039">__init__()</a>.</p>
 
 </div>
 </div>
@@ -238,21 +243,29 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Called by Qt for each block of text. Applies highlighting rules.
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00051">51</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>    <span class="keyword">def </span>highlightBlock(self, text):</div>
-<div class="line"><span class="lineno">   52</span>        <span class="comment"># Evidenzia indentazione (opzionale, solo spazi iniziali)</span></div>
-<div class="line"><span class="lineno">   53</span>        match_indent = re.match(<span class="stringliteral">r&#39;^(\s+)&#39;</span>, text)</div>
-<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">if</span> match_indent:</div>
-<div class="line"><span class="lineno">   55</span>            start, end = match_indent.span(1)</div>
-<div class="line"><span class="lineno">   56</span>            self.setFormat(start, end - start, self.indent_format)</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">for</span> pattern, fmt <span class="keywordflow">in</span> self.rules:</div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">for</span> match <span class="keywordflow">in</span> pattern.finditer(text):</div>
-<div class="line"><span class="lineno">   60</span>                start, end = match.span()</div>
-<div class="line"><span class="lineno">   61</span>                self.setFormat(start, end - start, fmt)</div>
+@param text The line of text being processed.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00079">79</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>    <span class="keyword">def </span>highlightBlock(self, text):</div>
+<div class="line"><span class="lineno">   80</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   81</span><span class="stringliteral">        @brief Called by Qt for each block of text. Applies highlighting rules.</span></div>
+<div class="line"><span class="lineno">   82</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   83</span><span class="stringliteral">        @param text The line of text being processed.</span></div>
+<div class="line"><span class="lineno">   84</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   85</span>        <span class="comment"># Evidenzia indentazione (opzionale, solo spazi iniziali)</span></div>
+<div class="line"><span class="lineno">   86</span>        match_indent = re.match(<span class="stringliteral">r&#39;^(\s+)&#39;</span>, text)</div>
+<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">if</span> match_indent:</div>
+<div class="line"><span class="lineno">   88</span>            start, end = match_indent.span(1)</div>
+<div class="line"><span class="lineno">   89</span>            self.setFormat(start, end - start, self.indent_format)</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">for</span> pattern, fmt <span class="keywordflow">in</span> self.rules:</div>
+<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">for</span> match <span class="keywordflow">in</span> pattern.finditer(text):</div>
+<div class="line"><span class="lineno">   93</span>                start, end = match.span()</div>
+<div class="line"><span class="lineno">   94</span>                self.setFormat(start, end - start, fmt)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="yaml__highlighter_8py_source.html#l00036">indent_format</a>, and <a class="el" href="yaml__highlighter_8py_source.html#l00040">rules</a>.</p>
+<p class="reference">References <a class="el" href="yaml__highlighter_8py_source.html#l00064">indent_format</a>, and <a class="el" href="yaml__highlighter_8py_source.html#l00068">rules</a>.</p>
 
 </div>
 </div>
@@ -269,7 +282,7 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00024">24</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00052">52</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
@@ -285,7 +298,7 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00033">33</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00061">61</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
@@ -301,9 +314,9 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00036">36</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00064">64</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="yaml__highlighter_8py_source.html#l00051">highlightBlock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="yaml__highlighter_8py_source.html#l00079">highlightBlock()</a>.</p>
 
 </div>
 </div>
@@ -319,7 +332,7 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00015">15</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00043">43</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
@@ -335,7 +348,7 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00030">30</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00058">58</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
@@ -351,7 +364,7 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00027">27</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00055">55</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
@@ -367,7 +380,7 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00021">21</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00049">49</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
@@ -393,9 +406,9 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
 <div class="line">            (re.compile(<span class="stringliteral">r&#39;#.*$&#39;</span>), self.comment_format)</div>
 <div class="line">        ]</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00040">40</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00068">68</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="yaml__highlighter_8py_source.html#l00051">highlightBlock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="yaml__highlighter_8py_source.html#l00079">highlightBlock()</a>.</p>
 
 </div>
 </div>
@@ -411,12 +424,12 @@ Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, co
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00018">18</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__highlighter_8py_source.html#l00046">46</a> of file <a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>core/<a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/core/<a class="el" href="yaml__highlighter_8py_source.html">yaml_highlighter.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

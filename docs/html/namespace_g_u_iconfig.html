@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -118,8 +114,6 @@ Variables</h2></td></tr>
 <tr class="separator:a118fe525ec1327f4c26bdb52c29e085a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03ae0ff318f4c5ccc7b36c4a8f80ea27" id="r_a03ae0ff318f4c5ccc7b36c4a8f80ea27"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03ae0ff318f4c5ccc7b36c4a8f80ea27">TEMPLATE_PROJECT_PATH</a> = &quot;config/default_template.yaml&quot;</td></tr>
 <tr class="separator:a03ae0ff318f4c5ccc7b36c4a8f80ea27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac18d71e41d9a19d5becbd870799fc14c" id="r_ac18d71e41d9a19d5becbd870799fc14c"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac18d71e41d9a19d5becbd870799fc14c">CATEGORY_TO_FOLDER</a></td></tr>
-<tr class="separator:ac18d71e41d9a19d5becbd870799fc14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e4a4cfc89de5ad5e556859fb147bc51" id="r_a0e4a4cfc89de5ad5e556859fb147bc51"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e4a4cfc89de5ad5e556859fb147bc51">LOCALAPPDATA_FOLDER</a> = os.path.join(os.environ[&quot;LOCALAPPDATA&quot;], &quot;ESPHomeGUIeasy&quot;)</td></tr>
 <tr class="separator:a0e4a4cfc89de5ad5e556859fb147bc51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee2cf0153f794d43ed4afe0b7ca5561d" id="r_aee2cf0153f794d43ed4afe0b7ca5561d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee2cf0153f794d43ed4afe0b7ca5561d">exist_ok</a></td></tr>
@@ -128,8 +122,6 @@ Variables</h2></td></tr>
 <tr class="separator:ab7741455b0b1543d0d955238959f46e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94c4d6a8fa71a2f4117d2b6e5475cb85" id="r_a94c4d6a8fa71a2f4117d2b6e5475cb85"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94c4d6a8fa71a2f4117d2b6e5475cb85">LOG_PATH</a> = str(Path.home() / &quot;Documents&quot; / &quot;ESPHomeGUIeasy&quot; / &quot;log.txt&quot;)</td></tr>
 <tr class="separator:a94c4d6a8fa71a2f4117d2b6e5475cb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84abf4f1d2446b20107f89625ff5868f" id="r_a84abf4f1d2446b20107f89625ff5868f"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84abf4f1d2446b20107f89625ff5868f">APP_NAME</a> = &quot;ESPHomeGuiEasy&quot;</td></tr>
-<tr class="separator:a84abf4f1d2446b20107f89625ff5868f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc342290d6250522997002eabf464766" id="r_abc342290d6250522997002eabf464766"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc342290d6250522997002eabf464766">SW_ICON_PATH</a> = &quot;assets/icon/esphomeguieasy_icon.png&quot;</td></tr>
 <tr class="separator:abc342290d6250522997002eabf464766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab8211d89f0046ac57cd446d11c501f5" id="r_aab8211d89f0046ac57cd446d11c501f5"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab8211d89f0046ac57cd446d11c501f5">SPLASH_IMAGE</a> = &quot;assets/background_image.png&quot;</td></tr>
@@ -140,6 +132,12 @@ Variables</h2></td></tr>
 <tr class="separator:a0d336d6ffac2c74efe1025ca86bd834f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc28f098a98e7556abdc727b78ee11e7" id="r_afc28f098a98e7556abdc727b78ee11e7"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc28f098a98e7556abdc727b78ee11e7">PROJECT_PLACEHOLDER_IMG</a> = &quot;assets/project_placeholder.png&quot;</td></tr>
 <tr class="separator:afc28f098a98e7556abdc727b78ee11e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac18d71e41d9a19d5becbd870799fc14c" id="r_ac18d71e41d9a19d5becbd870799fc14c"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac18d71e41d9a19d5becbd870799fc14c">CATEGORY_TO_FOLDER</a></td></tr>
+<tr class="separator:ac18d71e41d9a19d5becbd870799fc14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfdac18d6c85968eed42e5904a544af8" id="r_abfdac18d6c85968eed42e5904a544af8"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfdac18d6c85968eed42e5904a544af8">LANGUAGE_MAP</a></td></tr>
+<tr class="separator:abfdac18d6c85968eed42e5904a544af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84abf4f1d2446b20107f89625ff5868f" id="r_a84abf4f1d2446b20107f89625ff5868f"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84abf4f1d2446b20107f89625ff5868f">APP_NAME</a> = &quot;ESPHomeGuiEasy&quot;</td></tr>
+<tr class="separator:a84abf4f1d2446b20107f89625ff5868f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35c6f8dfaf148ab70cc1ec3fea95392c" id="r_a35c6f8dfaf148ab70cc1ec3fea95392c"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35c6f8dfaf148ab70cc1ec3fea95392c">APP_VERSION</a> = &quot;1.4.0&quot;</td></tr>
 <tr class="separator:a35c6f8dfaf148ab70cc1ec3fea95392c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ee12c8443f9c846b51ac1b72dfcf21c" id="r_a0ee12c8443f9c846b51ac1b72dfcf21c"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ee12c8443f9c846b51ac1b72dfcf21c">APP_RELEASE_DATE</a> = &quot;2025-07-04&quot;</td></tr>
@@ -169,7 +167,24 @@ Variables</h2></td></tr>
 <tr class="memitem:a9ae924d6ccde0b9dba1b887ae5b23bc9" id="r_a9ae924d6ccde0b9dba1b887ae5b23bc9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ae924d6ccde0b9dba1b887ae5b23bc9">BLOCK_COLLAPSED_HEIGHT</a> = 40</td></tr>
 <tr class="separator:a9ae924d6ccde0b9dba1b887ae5b23bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Variable Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><pre class="fragment">@file GUIconfig.py
+@brief Contains global configuration constants for ESPHomeGUIeasy.
+
+@defgroup config Configuration
+@ingroup main
+@brief Application constants, defaults, and paths.
+
+Includes:
+- Default paths (projects, builds, logs)
+- GUI dimensions and layout constants
+- Language map and application metadata
+- GitHub repository links and updater settings
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+</pre> </div><h2 class="groupheader">Variable Documentation</h2>
 <a id="a84abf4f1d2446b20107f89625ff5868f" name="a84abf4f1d2446b20107f89625ff5868f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84abf4f1d2446b20107f89625ff5868f">&#9670;&#160;</a></span>APP_NAME</h2>
 
@@ -182,7 +197,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00025">25</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00058">58</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -198,7 +213,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00033">33</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00060">60</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -214,7 +229,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00032">32</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00059">59</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -230,7 +245,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00052">52</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00079">79</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -246,7 +261,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00051">51</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00078">78</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -262,7 +277,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00050">50</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00077">77</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -287,7 +302,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">    8</span>    <span class="stringliteral">&quot;Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
 <div class="line"><span class="lineno">    9</span>}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00009">9</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00038">38</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -303,7 +318,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00004">4</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00024">24</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -319,7 +334,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00006">6</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00026">26</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -335,7 +350,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00005">5</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00025">25</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -351,7 +366,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00028">28</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00034">34</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -367,7 +382,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00020">20</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00029">29</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -383,7 +398,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00035">35</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00062">62</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -399,7 +414,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00029">29</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00035">35</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+
+</div>
+</div>
+<a id="abfdac18d6c85968eed42e5904a544af8" name="abfdac18d6c85968eed42e5904a544af8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfdac18d6c85968eed42e5904a544af8">&#9670;&#160;</a></span>LANGUAGE_MAP</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dict GUIconfig.LANGUAGE_MAP</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"><span class="lineno">    1</span>=  {</div>
+<div class="line"><span class="lineno">    2</span>    <span class="stringliteral">&quot;English&quot;</span>: <span class="stringliteral">&quot;en&quot;</span>,</div>
+<div class="line"><span class="lineno">    3</span>    <span class="stringliteral">&quot;Italiano&quot;</span>: <span class="stringliteral">&quot;it&quot;</span>,</div>
+<div class="line"><span class="lineno">    4</span>    <span class="stringliteral">&quot;Español&quot;</span>: <span class="stringliteral">&quot;es&quot;</span>,</div>
+<div class="line"><span class="lineno">    5</span>    <span class="stringliteral">&quot;Deutsch&quot;</span>: <span class="stringliteral">&quot;de&quot;</span>,</div>
+<div class="line"><span class="lineno">    6</span>    <span class="stringliteral">&quot;Brasileiro&quot;</span>: <span class="stringliteral">&quot;br&quot;</span>,</div>
+<div class="line"><span class="lineno">    7</span>    <span class="stringliteral">&quot;Português&quot;</span>: <span class="stringliteral">&quot;pt&quot;</span></div>
+<div class="line"><span class="lineno">    8</span>}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00049">49</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -415,7 +454,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00019">19</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00028">28</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -431,7 +470,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00023">23</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00031">31</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -447,7 +486,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00046">46</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00073">73</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -463,7 +502,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00047">47</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00074">74</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -479,7 +518,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00042">42</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00069">69</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -495,7 +534,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00043">43</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00070">70</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -511,7 +550,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00030">30</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00036">36</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -527,7 +566,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00039">39</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00066">66</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -543,7 +582,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00036">36</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00063">63</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -559,7 +598,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00038">38</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00065">65</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -575,7 +614,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00037">37</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00064">64</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -591,7 +630,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00027">27</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00033">33</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -607,7 +646,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00026">26</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00032">32</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -623,7 +662,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00007">7</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00027">27</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>
@@ -639,7 +678,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00022">22</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_g_u_iconfig_8py_source.html#l00030">30</a> of file <a class="el" href="_g_u_iconfig_8py_source.html">GUIconfig.py</a>.</p>
 
 </div>
 </div>

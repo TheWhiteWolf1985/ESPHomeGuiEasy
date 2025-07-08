@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+"""
+@file new_project_dialog.py
+@brief Dialog for creating a new ESPHome project with metadata and directory options.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Supports input of project name, author, version, category, description,
+base directory with folder browsing, and option for subfolders.
+
+Validates inputs and manages dialog buttons for creation and cancellation.
+"""
+
 from PyQt6.QtWidgets import QMessageBox
 import sys, os, re
 from gui.color_pantone import Pantone
@@ -21,6 +36,12 @@ CATEGORIES = [
 ]
 
 class NewProjectDialog(QDialog):
+    """
+    @brief Dialog window that collects user input for new project creation.
+
+    Includes validation for project name and base directory,
+    and populates UI controls for all required metadata fields.
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(Translator.tr("new_project"))

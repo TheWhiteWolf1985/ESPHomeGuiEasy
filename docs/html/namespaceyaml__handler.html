@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -129,10 +125,24 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">@file yaml_handler.py
-@brief Gestione avanzata del file YAML per esphomeGuieasy.
+@brief Provides high-level YAML processing for ESPHome projects.
 
-Contiene funzioni per caricare, salvare, modificare dinamicamente sezioni YAML
-senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Handles:
+- Loading YAML templates
+- Updating general sections (esphome, esp32, wifi)
+- Building sensor sections from GUI canvas
+- Inserting/removing module sections
+- Extracting module data from YAML or widgets
+
+Preserves formatting and comments using ruamel.yaml.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
 </pre> </div><h2 class="groupheader">Variable Documentation</h2>
 <a id="a803e87a98f1aeb50965117bfefbcdba7" name="a803e87a98f1aeb50965117bfefbcdba7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a803e87a98f1aeb50965117bfefbcdba7">&#9670;&#160;</a></span>mapping</h2>
@@ -146,7 +156,7 @@ senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00018">18</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00031">31</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
 
 </div>
 </div>
@@ -162,7 +172,7 @@ senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00018">18</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00031">31</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
 
 </div>
 </div>
@@ -178,7 +188,7 @@ senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00019">19</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00032">32</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
 
 </div>
 </div>
@@ -194,7 +204,7 @@ senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00018">18</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00031">31</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
 
 </div>
 </div>
@@ -210,7 +220,7 @@ senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00017">17</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="yaml__handler_8py_source.html#l00030">30</a> of file <a class="el" href="yaml__handler_8py_source.html">yaml_handler.py</a>.</p>
 
 </div>
 </div>

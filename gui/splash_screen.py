@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 """
 @file splash_screen.py
-@brief Gestisce la schermata iniziale (Splash Screen) dell'app ESPHomeGUIeasy.
+@brief Manages the ESPHomeGUIeasy application startup splash screen.
 
-Visualizza un'interfaccia grafica con barra di caricamento, stato operazioni,
-verifica requisiti minimi e file essenziali (librerie, database, cartelle, ecc.).
+Displays a GUI with loading bar, operation status,
+verifies system requirements and required files (libraries, database, folders, etc.).
 
-Il modulo utilizza PyQt6 per la GUI e integra un logger personalizzato
-per tracciare ogni fase dell'avvio. In caso di problemi bloccanti,
-interrompe il caricamento e segnala l'errore all'utente.
+This module uses PyQt6 for the GUI and integrates a custom logger
+to trace each initialization step. In case of blocking issues,
+it halts the process and notifies the user of the error.
 
 @author: ESPHomeGUIeasy Team
 @version \ref PROJECT_NUMBER
-@date: Luglio 2025
-@license: AGPLv3 License
+@date: July 2025
+@license: GNU Affero General Public License v3.0 (AGPLv3)
 """
 
 import os, sys, traceback, json, webbrowser, shutil, sqlite3, platform, socket, urllib.request
@@ -30,22 +30,22 @@ from core.log_handler import GeneralLogHandler
 
 class SplashScreen(QSplashScreen):
     """
-Inizializza la schermata di avvio (SplashScreen) con un'immagine scalata, 
-stile personalizzato, barra di avanzamento, etichette informative e passaggi di inizializzazione.
+Initializes the startup splash screen (SplashScreen) with a scaled image, 
+custom style, progress bar, informational labels and initialization steps.
 
-@param pixmap: QPixmap dell'immagine da usare come sfondo dello splash screen.
+@param pixmap: QPixmap to be used as the splash screen background image.
 """
     def __init__(self, pixmap):
         scaled_pixmap = pixmap.scaled(QSize(500, 500), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         super().__init__(scaled_pixmap)
-        self.setFixedSize(500, 500) # Imposta dimensione fissa della finestra splash (quadrata, 500x500)
+        self.setFixedSize(500, 500) # Sets a fixed size for the splash window (square, 500x500)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setFont(QFont("Arial", 10))
 
-        # Inizializza gestore log per tracciare lo stato dello splash screen
+        # Initializes the logger to track splash screen status
         self.logger = GeneralLogHandler()
 
-        # Settaggio stile finestra
+        # Sets window style
         self.setStyleSheet("""
             QSplashScreen {
                 border-radius: 20px;
@@ -54,7 +54,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
             }
         """)        
 
-        # Barra di avanzamento
+        # Progress bar
         self.progress = QProgressBar(self)
         self.progress.setGeometry(50, 430, 400, 20)
         self.progress.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -70,7 +70,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
             }
         """)
 
-        # Label della versione
+        # Version label
         self.version_label = QLabel(Translator.tr("version_label").format(version=conf.APP_VERSION), self)
         self.version_label.setFont(QFont("Arial"))
         self.version_label.setStyleSheet("""
@@ -92,15 +92,15 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
         self.status_label = QLabel(Translator.tr("splash_starting"), self)
         self.status_label.setStyleSheet("color: black; font-size: 12pt;")
         self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.status_label.setGeometry(0, 400, self.width(), 20)  # Modifica Y per spostarlo su/giù   
+        self.status_label.setGeometry(0, 400, self.width(), 20)  
 
-        # Stile generale
+        # Global style
         self.setStyleSheet("QSplashScreen { background-color: black; color: white; }")
 
-        # Contatore avanzamento
+        # Progress counter
         self.counter = 0
 
-        # Definisce i passaggi sequenziali per la procedura di avvio
+        # Defines the sequential steps for initialization procedure
         self.init_steps = [
             (self.maybe_check_updates_step, self.maybe_check_online_version),
             (Translator.tr("splash_check_db"), self.check_or_create_user_config),
@@ -115,24 +115,24 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def advance(self):
         """
-        Avanza la barra di progresso dello splash screen in base al numero di step previsti. 
-        Aggiorna anche il log con il valore corrente della barra.
+        Advances the splash screen progress bar based on the number of steps. 
+        Also updates the log with the current progress value.
         """
-        self.counter += int(100 / len(self.init_steps)) # Calcola incremento percentuale in base al numero totale di step
+        self.counter += int(100 / len(self.init_steps)) # Computes percentage increment based on total steps
         self.progress.setValue(min(self.counter, 100))
         self.logger.debug(f"Avanzamento barra splash al {self.counter}%")
 
     def start_initialization(self, on_complete_callback):
         """
-        Avvia la sequenza di inizializzazione dello splash screen, compreso il rilevamento del sistema operativo
-        e il salvataggio delle informazioni nel database. La procedura è asincrona e termina con una callback.
+        Starts the splash screen initialization sequence, including OS detection
+        and saving the information to the database. The procedure is asynchronous and ends with a callback.
 
-        @param on_complete_callback: Funzione da chiamare al termine dell'inizializzazione.
+        @param on_complete_callback: Function to be called upon completion of the initialization.
         """
         self.logger.info("Avvio sequenza inizializzazione splash screen.")
 
         # Rilevamento dettagli OS
-        os_platform = platform.system()     # Rileva e registra le informazioni sul sistema operativo
+        os_platform = platform.system()     # Detects and logs operating system information
         os_version = platform.version()
         os_release = platform.release()
 
@@ -149,11 +149,11 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def perform_next_step(self):
         """
-        Esegue il passaggio successivo della sequenza di inizializzazione. 
-        Aggiorna lo stato visivo, gestisce gli errori bloccanti e chiama la callback finale al termine.
+        Performs the next step of the initialization sequence. 
+        Updates the visual status, handles blocking errors and calls the final callback on completion.
         """
         self.logger.debug(f"Esecuzione step splash n. {self.current_step + 1} / {len(self.init_steps)}")
-        if self.current_step < len(self.init_steps):     # Se sono presenti altri step, esegue il prossimo nella lista
+        if self.current_step < len(self.init_steps):     # If more steps are present, execute the next one
             message, func = self.init_steps[self.current_step]
             self.status_label.setText(str(message()) if callable(message) else str(message))
             QApplication.processEvents()
@@ -165,24 +165,24 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
                 self.logger.log_exception("Errore durante lo step di inizializzazione splash")
                 self.logger.error(f"Errore bloccante nello step n. {self.current_step + 1}")
                 self.status_label.setText("❌ " + Translator.tr("splash_error_generic"))
-                QMessageBox.critical(self, Translator.tr("splash_init_error"), f"{Translator.tr('splash_error_generic')}\n\n{err_msg}")     # Esegue lo step corrente e gestisce eventuali eccezioni
+                QMessageBox.critical(self, Translator.tr("splash_init_error"), f"{Translator.tr('splash_error_generic')}\n\n{err_msg}")     # Executes the current step and handles any exceptions
                 QTimer.singleShot(2000, QApplication.quit)
                 return
             self.advance()
             self.current_step += 1
-            QTimer.singleShot(500, self.perform_next_step)     # Avvia il primo step della sequenza dopo un breve ritardo
+            QTimer.singleShot(500, self.perform_next_step)     # Starts the first step of the sequence after a short delay
         else:
-            self.close()     # Tutti gli step completati: chiude lo splash e chiama la funzione di completamento
+            self.close()     # All steps completed: closes splash and calls the completion function
             if self.on_complete_callback:
                 self.on_complete_callback()
 
     def check_python_version(self):
         """
-        Verifica che la versione di Python in esecuzione sia compatibile con l'applicazione.
-        Richiede almeno Python 3.10. In caso contrario, solleva un'eccezione bloccante.
+        Verifies that the running Python version is compatible with the application.
+        Requires at least Python 3.10. Otherwise, it raises a blocking exception.
         """
         self.logger.info("Avvio controllo versione Python...")
-        min_required = (3, 10)     # Versione minima di Python richiesta dall'applicazione
+        min_required = (3, 10)     # Minimum required Python version for the application
         current = sys.version_info
 
         if current < min_required:
@@ -193,13 +193,13 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def check_base_project_template(self):
         """
-        Controlla la presenza del file YAML di progetto base nella directory config/.
-        Se il file non esiste, solleva un'eccezione bloccante.
+        Checks for the presence of the base project YAML file in the config/ directory.
+        If the file does not exist, a blocking exception is raised.
         """
         self.logger.info("Avvio controllo file template di progetto base...")
 
-        template_path = conf.TEMPLATE_PROJECT_PATH      # Percorso del file template YAML di progetto base
-        if not os.path.exists(template_path):     # Verifica se il file è presente nel percorso previsto
+        template_path = conf.TEMPLATE_PROJECT_PATH      # Path to base project YAML template
+        if not os.path.exists(template_path):     # Checks if the file exists at the expected location
             self.logger.error(f"File base progetto mancante: {template_path}")
             raise Exception(f"File base progetto mancante: {template_path}")
         else:
@@ -209,19 +209,19 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def check_working_folders(self):
         """
-        Verifica l'esistenza delle cartelle di lavoro essenziali per l'applicazione.
-        Controlla che la directory di build esista e crea, se necessario, le altre cartelle standard.
-        Solleva eccezione se la cartella di build è assente.
+        Verifies the existence of the essential working folders for the application.
+        Checks that the build directory exists and creates the other standard folders if necessary.
+        Raises an exception if the build directory is missing.
         """
         self.logger.info("Avvio controllo cartelle di lavoro...")
 
         try:
-            # Verifica che la cartella build esista nel percorso corretto
-            if not DEFAULT_BUILD_DIR.exists():     # La cartella di build è essenziale e non viene creata automaticamente
+            # Checks if the build folder exists in the correct path
+            if not DEFAULT_BUILD_DIR.exists():     # Build folder is essential and not created automatically
                 self.logger.error(f"La cartella di lavoro 'build' non è stata trovata: {DEFAULT_BUILD_DIR}")
                 raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {DEFAULT_BUILD_DIR}")
 
-            for folder in ["assets", "core", "config", "gui", "language"]:     # Crea le altre cartelle standard dell'applicazione se non presenti
+            for folder in ["assets", "core", "config", "gui", "language"]:     # Creates standard application folders if missing
                 os.makedirs(folder, exist_ok=True)
                 self.logger.debug(f"Cartella verificata o creata: {folder}")
 
@@ -234,14 +234,14 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def check_online_version(self):
         """
-        Controlla se è disponibile una versione più recente dell'app su GitHub.
-        Se disponibile, mostra un messaggio all'utente con changelog e link alla pagina delle release.
-        Il controllo viene eseguito solo se la connessione è disponibile.
+        Checks whether a newer version of the app is available on GitHub.
+        If available, displays a message with changelog and link to the release page.
+        Check is only performed if an internet connection is available.
         """
         self.logger.info("Avvio controllo aggiornamenti da GitHub...")
 
         # Verifica connessione Internet
-        def is_online():     # Verifica se è disponibile una connessione a Internet
+        def is_online():     # Checks if an internet connection is available
             try:
                 socket.create_connection(("8.8.8.8", 53), timeout=2)
                 return True
@@ -254,7 +254,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
             return
 
         try:
-            req = urllib.request.Request(     # Richiesta HTTP per ottenere dati aggiornamento da GitHub
+            req = urllib.request.Request(     # HTTP request to fetch update data from GitHub
                 conf.GITHUB_URL,
                 headers={
                     "Cache-Control": "no-cache",
@@ -269,7 +269,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
                 current_lang = Translator.get_current_language()
                 changelog_text = changelog.get(current_lang, changelog.get("en", ""))
 
-                if latest and latest != conf.APP_VERSION:     # Se la versione remota è più recente, mostra dialogo di aggiornamento
+                if latest and latest != conf.APP_VERSION:     # If remote version is newer, display update dialog
                     self.logger.info(f"Nuova versione disponibile: {latest} (attuale: {conf.APP_VERSION})")
                     self.status_label.setText(Translator.tr("update_available"))
 
@@ -306,13 +306,13 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def check_community_folder(self):
         """
-        Verifica l'esistenza della cartella locale dei progetti community. 
-        Se non esiste, la crea. Mostra il percorso nella label di stato.
+        Verifies the existence of the local community projects folder. 
+        Creates it if it doesn't exist. Shows the path in the status label.
         """
         self.logger.info("Avvio controllo cartella community...")
 
         try:
-            community_path = conf.COMMUNITY_LOCAL_FOLDER     # Percorso della cartella usata per progetti condivisi dalla community
+            community_path = conf.COMMUNITY_LOCAL_FOLDER     # Path to the folder used for shared community projects
             os.makedirs(community_path, exist_ok=True)
             self.logger.info(f"Cartella community verificata o creata: {community_path}")
             self.status_label.setText(f"Cartella community: {community_path}")
@@ -324,25 +324,25 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def maybe_check_updates_step(self):
         """
-        Restituisce il messaggio da mostrare nello splash screen relativo al controllo aggiornamenti.
-        Se la funzione è disabilitata, restituisce un messaggio appropriato.
+        Returns the message to display in the splash screen for the update check.
+        If the feature is disabled, returns an appropriate message.
         
-        @return: Stringa tradotta con lo stato del controllo aggiornamenti.
+        @return: Translated string with the status of the update check.
         """
         return Translator.tr("splash_check_updates") if get_setting("check_updates") == "1" else Translator.tr("splash_disable_updates")
 
     def maybe_check_online_version(self):
         """
-        Esegue il controllo aggiornamenti solo se l'opzione è abilitata nel database.
-        In caso contrario, la funzione viene ignorata senza effetto.
+        Performs the update check only if the option is enabled in the database.
+        Otherwise, the function is skipped with no effect.
         """
-        if get_setting("check_updates") != "1":     # Controlla se il controllo aggiornamenti è attivo prima di procedere
+        if get_setting("check_updates") != "1":     # Checks if update checking is enabled before proceeding
             return  # salta il controllo se disabilitato
         self.check_online_version()
 
     def check_critical_libraries(self):
         """
-        Controlla la presenza delle librerie fondamentali per il funzionamento del programma.
+        Checks for the presence of core libraries required by the application.
 
         Verifica se sono presenti:
         - PyQt6
@@ -350,12 +350,12 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
         - serial
         - esphome (modulo o CLI)
 
-        Se una libreria è mancante, solleva un'eccezione.
-        Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso personalizzato o fallback), viene comunque considerato valido.
+        If a library is missing, an exception is raised.
+        If the esphome module is not importable but the CLI is available (PATH, custom or fallback), it is considered valid.
         """
         self.logger.info("Avvio controllo librerie critiche...")
         try:
-            # Verifica disponibilità delle librerie Python fondamentali per la GUI e il parsing YAML
+            # Checks availability of core Python libraries for GUI and YAML parsing
             import PyQt6     
             import ruamel.yaml
             import serial
@@ -366,21 +366,21 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
             raise Exception(f"Libreria mancante: {e.name}. L'app non può avviarsi.")
 
         try:
-            import esphome  # type: ignore     # Prova a importare esphome come modulo (opzionale)
+            import esphome  # type: ignore     # Tries to import esphome as a module (optional)
             self.logger.debug("Libreria esphome disponibile.")
         except ImportError:
             self.logger.warning("Modulo esphome non importabile. Verifica della CLI in corso...")
-            if shutil.which("esphome"):     # Se il modulo non è disponibile, controlla se la CLI è nel PATH
+            if shutil.which("esphome"):     # If the module is unavailable, checks if CLI is in PATH
                 self.logger.info("ESPHome CLI trovata nel PATH.")
                 self.logger.debug("Modulo esphome non importabile, ma CLI rilevata nel PATH → OK")
                 return  # ESPHome CLI sufficiente → termina qui
             
-            custom_path = get_setting("custom_esphome_path")     # Controlla se l'utente ha configurato un percorso personalizzato alla CLI
+            custom_path = get_setting("custom_esphome_path")     # Checks if the user has configured a custom path for the CLI
             if custom_path and Path(custom_path).exists():
                 self.logger.info(f"ESPHome CLI trovato nel percorso personalizzato: {custom_path}")
                 return
 
-            # Percorsi di fallback comuni su sistemi Windows per la CLI di ESPHome
+            # Common fallback paths on Windows systems for ESPHome CLI
             known_paths = [
                 Path.home() / ".esphome" / "esphome_venv" / "Scripts" / "esphome.exe",
                 Path("C:/Program Files/ESPHome/esphome.exe"),
@@ -396,7 +396,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
                 self.status_label.setText("⚠️ " + Translator.tr("esphome_not_found_title"))
                 try:
                     self.logger.warning("ESPHome non rilevato. Prompt per download mostrato all'utente.")
-                    # Se tutto fallisce, chiede all'utente se vuole aprire la pagina di installazione
+                    # If all checks fail, prompts user to open the installation page
                     reply = QMessageBox.question(
                         self,
                         Translator.tr("esphome_not_found_title"),
@@ -413,12 +413,12 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 
     def check_or_create_user_config(self):
         """
-        Controlla la presenza del file user_config.db nella cartella %LOCALAPPDATA%.
+        Checks for the presence of the user_config.db file in the %LOCALAPPDATA% folder.
 
-        Il file è essenziale per il funzionamento dell'app. 
-        Non viene creato automaticamente: deve essere presente, installato o ripristinato tramite setup.
+        The file is essential for the application's functionality. 
+        It is not created automatically: it must be provided by setup or restored.
 
-        @raises Exception: Se il file è assente, l'applicazione non può essere avviata.
+        @raises Exception: If the file is missing, the application cannot start.
         """
         self.logger.info("Avvio controllo file user_config.db...")
 

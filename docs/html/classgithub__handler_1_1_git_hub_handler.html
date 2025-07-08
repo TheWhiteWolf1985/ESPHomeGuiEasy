@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -119,10 +115,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a6db7e4afdf910cafcf179f509cae400d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">@class GitHubHandler
-@brief Gestisce il download e parsing dei progetti ESPHome dalla repo GitHub della community.
+<div class="textblock"><pre class="fragment">@brief Utility class to interact with the GitHub community projects repository.
+
+All methods are static and designed for quick access to remote files and metadata.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00010">10</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00025">25</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6db7e4afdf910cafcf179f509cae400d" name="a6db7e4afdf910cafcf179f509cae400d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6db7e4afdf910cafcf179f509cae400d">&#9670;&#160;</a></span>download_project_to_folder()</h2>
@@ -150,37 +147,39 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Scarica info.json e project.yaml in una cartella locale.
-@param name Nome del progetto (nome della cartella nel repo)
-@param local_path Percorso locale dove salvare i file
+<pre class="fragment">@brief Downloads the `info.json` and `project.yaml` files for a given project into a local folder.
+
+@param name The project folder name in the GitHub repo.
+@param local_path The local destination path where the files will be saved.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00078">78</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>    <span class="keyword">def </span>download_project_to_folder(name: str, local_path: str):</div>
-<div class="line"><span class="lineno">   79</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   80</span><span class="stringliteral">        @brief Scarica info.json e project.yaml in una cartella locale.</span></div>
-<div class="line"><span class="lineno">   81</span><span class="stringliteral">        @param name Nome del progetto (nome della cartella nel repo)</span></div>
-<div class="line"><span class="lineno">   82</span><span class="stringliteral">        @param local_path Percorso locale dove salvare i file</span></div>
-<div class="line"><span class="lineno">   83</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   84</span>        base = f<span class="stringliteral">&quot;https://raw.githubusercontent.com/{config.REPO_OWNER}/{config.REPO_NAME}/main/{config.PROJECTS_PATH}/{name}&quot;</span></div>
-<div class="line"><span class="lineno">   85</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">   86</span>            os.makedirs(local_path, exist_ok=<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>            info_url = f<span class="stringliteral">&quot;{base}/info.json&quot;</span></div>
-<div class="line"><span class="lineno">   89</span>            yaml_url = f<span class="stringliteral">&quot;{base}/project.yaml&quot;</span></div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>            info_resp = requests.get(info_url)</div>
-<div class="line"><span class="lineno">   92</span>            info_resp.raise_for_status()</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keyword">with</span> open(os.path.join(local_path, <span class="stringliteral">&quot;info.json&quot;</span>), <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">   94</span>                f.write(info_resp.text)</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>            yaml_resp = requests.get(yaml_url)</div>
-<div class="line"><span class="lineno">   97</span>            yaml_resp.raise_for_status()</div>
-<div class="line"><span class="lineno">   98</span>            <span class="keyword">with</span> open(os.path.join(local_path, <span class="stringliteral">&quot;project.yaml&quot;</span>), <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">   99</span>                f.write(yaml_resp.text)</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  102</span>            GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore durante il download del progetto &#39;{name}&#39;: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  103</span> </div>
+<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00096">96</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   96</span>    <span class="keyword">def </span>download_project_to_folder(name: str, local_path: str):</div>
+<div class="line"><span class="lineno">   97</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   98</span><span class="stringliteral">        @brief Downloads the `info.json` and `project.yaml` files for a given project into a local folder.</span></div>
+<div class="line"><span class="lineno">   99</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  100</span><span class="stringliteral">        @param name The project folder name in the GitHub repo.</span></div>
+<div class="line"><span class="lineno">  101</span><span class="stringliteral">        @param local_path The local destination path where the files will be saved.</span></div>
+<div class="line"><span class="lineno">  102</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  103</span>        base = f<span class="stringliteral">&quot;https://raw.githubusercontent.com/{config.REPO_OWNER}/{config.REPO_NAME}/main/{config.PROJECTS_PATH}/{name}&quot;</span></div>
+<div class="line"><span class="lineno">  104</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  105</span>            os.makedirs(local_path, exist_ok=<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>            info_url = f<span class="stringliteral">&quot;{base}/info.json&quot;</span></div>
+<div class="line"><span class="lineno">  108</span>            yaml_url = f<span class="stringliteral">&quot;{base}/project.yaml&quot;</span></div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>            info_resp = requests.get(info_url)</div>
+<div class="line"><span class="lineno">  111</span>            info_resp.raise_for_status()</div>
+<div class="line"><span class="lineno">  112</span>            <span class="keyword">with</span> open(os.path.join(local_path, <span class="stringliteral">&quot;info.json&quot;</span>), <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">  113</span>                f.write(info_resp.text)</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>            yaml_resp = requests.get(yaml_url)</div>
+<div class="line"><span class="lineno">  116</span>            yaml_resp.raise_for_status()</div>
+<div class="line"><span class="lineno">  117</span>            <span class="keyword">with</span> open(os.path.join(local_path, <span class="stringliteral">&quot;project.yaml&quot;</span>), <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">  118</span>                f.write(yaml_resp.text)</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  121</span>            GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore durante il download del progetto &#39;{name}&#39;: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  122</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -206,40 +205,42 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Scarica solo i file info.json da ogni progetto ZIP presente nella cartella GitHub.
-@return Lista di dict con metadata progetto (Name, Version, Author, Update, category)
+<pre class="fragment">@brief Downloads only the `info.json` metadata files from each project directory in the GitHub repository.
+
+@return A list of dictionaries containing project metadata (name, version, author, update, category).
 </pre> 
-<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00017">17</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>    <span class="keyword">def </span>fetch_project_metadata_list():</div>
-<div class="line"><span class="lineno">   18</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   19</span><span class="stringliteral">        @brief Scarica solo i file info.json da ogni progetto ZIP presente nella cartella GitHub.</span></div>
-<div class="line"><span class="lineno">   20</span><span class="stringliteral">        @return Lista di dict con metadata progetto (Name, Version, Author, Update, category)</span></div>
-<div class="line"><span class="lineno">   21</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   22</span>        url = f<span class="stringliteral">&quot;https://api.github.com/repos/{config.REPO_OWNER}/{config.REPO_NAME}/contents/{config.PROJECTS_PATH}&quot;</span></div>
-<div class="line"><span class="lineno">   23</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">   24</span>            resp = requests.get(url, headers={<span class="stringliteral">&quot;Accept&quot;</span>: <span class="stringliteral">&quot;application/vnd.github+json&quot;</span>})</div>
-<div class="line"><span class="lineno">   25</span>            resp.raise_for_status()</div>
-<div class="line"><span class="lineno">   26</span>            entries = resp.json()</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>            projects = []</div>
-<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">for</span> entry <span class="keywordflow">in</span> entries:</div>
-<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">if</span> entry[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;dir&quot;</span>:</div>
-<div class="line"><span class="lineno">   31</span>                    info_url = f<span class="stringliteral">&quot;https://raw.githubusercontent.com/{config.REPO_OWNER}/{config.REPO_NAME}/main/{config.PROJECTS_PATH}/{entry[&#39;name&#39;]}/info.json&quot;</span></div>
-<div class="line"><span class="lineno">   32</span>                    <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">   33</span>                        info_resp = requests.get(info_url)</div>
-<div class="line"><span class="lineno">   34</span>                        info_resp.raise_for_status()</div>
-<div class="line"><span class="lineno">   35</span>                        info_json = info_resp.json()</div>
-<div class="line"><span class="lineno">   36</span>                        projects.append(info_json)</div>
-<div class="line"><span class="lineno">   37</span>                    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> parse_err:</div>
-<div class="line"><span class="lineno">   38</span>                        GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore caricamento info.json per {entry[&#39;name&#39;]}: {parse_err}&quot;</span>)</div>
-<div class="line"><span class="lineno">   39</span> </div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>            <span class="keywordflow">return</span> projects</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">   44</span>            GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore nel recupero dei metadati da GitHub: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">   45</span>            <span class="keywordflow">return</span> []</div>
-<div class="line"><span class="lineno">   46</span> </div>
+<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00033">33</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>    <span class="keyword">def </span>fetch_project_metadata_list():</div>
+<div class="line"><span class="lineno">   34</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   35</span><span class="stringliteral">        @brief Downloads only the `info.json` metadata files from each project directory in the GitHub repository.</span></div>
+<div class="line"><span class="lineno">   36</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   37</span><span class="stringliteral">        @return A list of dictionaries containing project metadata (name, version, author, update, category).</span></div>
+<div class="line"><span class="lineno">   38</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   39</span>        url = f<span class="stringliteral">&quot;https://api.github.com/repos/{config.REPO_OWNER}/{config.REPO_NAME}/contents/{config.PROJECTS_PATH}&quot;</span></div>
+<div class="line"><span class="lineno">   40</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">   41</span>            resp = requests.get(url, headers={<span class="stringliteral">&quot;Accept&quot;</span>: <span class="stringliteral">&quot;application/vnd.github+json&quot;</span>})</div>
+<div class="line"><span class="lineno">   42</span>            resp.raise_for_status()</div>
+<div class="line"><span class="lineno">   43</span>            entries = resp.json()</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>            projects = []</div>
+<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">for</span> entry <span class="keywordflow">in</span> entries:</div>
+<div class="line"><span class="lineno">   47</span>                <span class="keywordflow">if</span> entry[<span class="stringliteral">&quot;type&quot;</span>] == <span class="stringliteral">&quot;dir&quot;</span>:</div>
+<div class="line"><span class="lineno">   48</span>                    info_url = f<span class="stringliteral">&quot;https://raw.githubusercontent.com/{config.REPO_OWNER}/{config.REPO_NAME}/main/{config.PROJECTS_PATH}/{entry[&#39;name&#39;]}/info.json&quot;</span></div>
+<div class="line"><span class="lineno">   49</span>                    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">   50</span>                        info_resp = requests.get(info_url)</div>
+<div class="line"><span class="lineno">   51</span>                        info_resp.raise_for_status()</div>
+<div class="line"><span class="lineno">   52</span>                        info_json = info_resp.json()</div>
+<div class="line"><span class="lineno">   53</span>                        projects.append(info_json)</div>
+<div class="line"><span class="lineno">   54</span>                    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> parse_err:</div>
+<div class="line"><span class="lineno">   55</span>                        GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore caricamento info.json per {entry[&#39;name&#39;]}: {parse_err}&quot;</span>)</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">return</span> projects</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">   61</span>            GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore nel recupero dei metadati da GitHub: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">return</span> []</div>
+<div class="line"><span class="lineno">   63</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -265,44 +266,46 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Scarica tutti i progetti ZIP dalla repo GitHub ufficiale e ne estrae info e yaml.
-@return Lista di dict: [{"info": info_dict, "yaml": yaml_string}, ...]
+<pre class="fragment">@brief Downloads all `.zip` projects from the GitHub repository and extracts metadata and YAML.
+
+@return A list of dictionaries: [{"info": info_dict, "yaml": yaml_string}, ...]
 </pre> 
-<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00048">48</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>    <span class="keyword">def </span>fetch_projects_from_github():</div>
-<div class="line"><span class="lineno">   49</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   50</span><span class="stringliteral">        @brief Scarica tutti i progetti ZIP dalla repo GitHub ufficiale e ne estrae info e yaml.</span></div>
-<div class="line"><span class="lineno">   51</span><span class="stringliteral">        @return Lista di dict: [{&quot;info&quot;: info_dict, &quot;yaml&quot;: yaml_string}, ...]</span></div>
-<div class="line"><span class="lineno">   52</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   53</span>        url = f<span class="stringliteral">&quot;https://api.github.com/repos/{config.REPO_OWNER}/{config.REPO_NAME}/contents/{config.PROJECTS_PATH}&quot;</span></div>
-<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">   55</span>            resp = requests.get(url, headers={<span class="stringliteral">&quot;Accept&quot;</span>: <span class="stringliteral">&quot;application/vnd.github+json&quot;</span>})</div>
-<div class="line"><span class="lineno">   56</span>            resp.raise_for_status()</div>
-<div class="line"><span class="lineno">   57</span>            entries = resp.json()</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            projects = []</div>
-<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">for</span> entry <span class="keywordflow">in</span> entries:</div>
-<div class="line"><span class="lineno">   61</span>                <span class="keywordflow">if</span> entry[<span class="stringliteral">&quot;name&quot;</span>].endswith(<span class="stringliteral">&quot;.zip&quot;</span>):</div>
-<div class="line"><span class="lineno">   62</span>                    zip_url = entry[<span class="stringliteral">&quot;download_url&quot;</span>]</div>
-<div class="line"><span class="lineno">   63</span>                    zip_resp = requests.get(zip_url)</div>
-<div class="line"><span class="lineno">   64</span>                    zf = zipfile.ZipFile(io.BytesIO(zip_resp.content))</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>                    info_json = json.loads(zf.read(<span class="stringliteral">&quot;info.json&quot;</span>))</div>
-<div class="line"><span class="lineno">   67</span>                    yaml_content = zf.read(<span class="stringliteral">&quot;project.yaml&quot;</span>).decode(<span class="stringliteral">&quot;utf-8&quot;</span>)</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>                    projects.append({<span class="stringliteral">&quot;info&quot;</span>: info_json, <span class="stringliteral">&quot;yaml&quot;</span>: yaml_content})</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">return</span> projects</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">   74</span>            GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore nel recupero dei progetti da GitHub: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">return</span> []</div>
-<div class="line"><span class="lineno">   76</span>        </div>
+<p class="definition">Definition at line <a class="el" href="github__handler_8py_source.html#l00065">65</a> of file <a class="el" href="github__handler_8py_source.html">github_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>    <span class="keyword">def </span>fetch_projects_from_github():</div>
+<div class="line"><span class="lineno">   66</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   67</span><span class="stringliteral">        @brief Downloads all `.zip` projects from the GitHub repository and extracts metadata and YAML.</span></div>
+<div class="line"><span class="lineno">   68</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   69</span><span class="stringliteral">        @return A list of dictionaries: [{&quot;info&quot;: info_dict, &quot;yaml&quot;: yaml_string}, ...]</span></div>
+<div class="line"><span class="lineno">   70</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   71</span>        url = f<span class="stringliteral">&quot;https://api.github.com/repos/{config.REPO_OWNER}/{config.REPO_NAME}/contents/{config.PROJECTS_PATH}&quot;</span></div>
+<div class="line"><span class="lineno">   72</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">   73</span>            resp = requests.get(url, headers={<span class="stringliteral">&quot;Accept&quot;</span>: <span class="stringliteral">&quot;application/vnd.github+json&quot;</span>})</div>
+<div class="line"><span class="lineno">   74</span>            resp.raise_for_status()</div>
+<div class="line"><span class="lineno">   75</span>            entries = resp.json()</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>            projects = []</div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">for</span> entry <span class="keywordflow">in</span> entries:</div>
+<div class="line"><span class="lineno">   79</span>                <span class="keywordflow">if</span> entry[<span class="stringliteral">&quot;name&quot;</span>].endswith(<span class="stringliteral">&quot;.zip&quot;</span>):</div>
+<div class="line"><span class="lineno">   80</span>                    zip_url = entry[<span class="stringliteral">&quot;download_url&quot;</span>]</div>
+<div class="line"><span class="lineno">   81</span>                    zip_resp = requests.get(zip_url)</div>
+<div class="line"><span class="lineno">   82</span>                    zf = zipfile.ZipFile(io.BytesIO(zip_resp.content))</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>                    info_json = json.loads(zf.read(<span class="stringliteral">&quot;info.json&quot;</span>))</div>
+<div class="line"><span class="lineno">   85</span>                    yaml_content = zf.read(<span class="stringliteral">&quot;project.yaml&quot;</span>).decode(<span class="stringliteral">&quot;utf-8&quot;</span>)</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>                    projects.append({<span class="stringliteral">&quot;info&quot;</span>: info_json, <span class="stringliteral">&quot;yaml&quot;</span>: yaml_content})</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">return</span> projects</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">   92</span>            GeneralLogHandler().error(f<span class="stringliteral">&quot;Errore nel recupero dei progetti da GitHub: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">return</span> []</div>
+<div class="line"><span class="lineno">   94</span>        </div>
 </div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>core/<a class="el" href="github__handler_8py_source.html">github_handler.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/core/<a class="el" href="github__handler_8py_source.html">github_handler.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

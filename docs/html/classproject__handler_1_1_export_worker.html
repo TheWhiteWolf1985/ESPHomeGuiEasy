@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -139,8 +135,14 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:abd4cbbd9745ae10afff2cfcdbfa87820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00046">46</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Qt worker class for exporting a project folder to a compressed `.zip` archive.
+
+Skips `.pioenvs` and emits signals for progress and completion.
+
+@signal progress(current: int, total: int): Emits progress during compression.
+@signal finished(path_zip: str): Emits the final ZIP file path.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00073">73</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6083af1e2eaa9a9e5cf261b377ce248d" name="a6083af1e2eaa9a9e5cf261b377ce248d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6083af1e2eaa9a9e5cf261b377ce248d">&#9670;&#160;</a></span>__init__()</h2>
@@ -166,16 +168,16 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00050">50</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>    <span class="keyword">def </span>__init__(self, project_dir, path_zip):</div>
-<div class="line"><span class="lineno">   51</span>        super().__init__()</div>
-<div class="line"><span class="lineno">   52</span>        self.project_dir = project_dir</div>
-<div class="line"><span class="lineno">   53</span>        self.path_zip = path_zip</div>
-<div class="line"><span class="lineno">   54</span> </div>
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00085">85</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>    <span class="keyword">def </span>__init__(self, project_dir, path_zip):</div>
+<div class="line"><span class="lineno">   86</span>        super().__init__()</div>
+<div class="line"><span class="lineno">   87</span>        self.project_dir = project_dir</div>
+<div class="line"><span class="lineno">   88</span>        self.path_zip = path_zip</div>
+<div class="line"><span class="lineno">   89</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="project__handler_8py_source.html#l00050">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="project__handler_8py_source.html#l00085">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="project__handler_8py_source.html#l00050">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="project__handler_8py_source.html#l00085">__init__()</a>.</p>
 
 </div>
 </div>
@@ -195,27 +197,27 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00055">55</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>    <span class="keyword">def </span>run(self):</div>
-<div class="line"><span class="lineno">   56</span>        filelist = []</div>
-<div class="line"><span class="lineno">   57</span>        <span class="keywordflow">for</span> root, dirs, files <span class="keywordflow">in</span> os.walk(self.project_dir):</div>
-<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">for</span> file <span class="keywordflow">in</span> files:</div>
-<div class="line"><span class="lineno">   59</span>                abs_path = os.path.join(root, file)</div>
-<div class="line"><span class="lineno">   60</span>                rel_path = os.path.relpath(abs_path, self.project_dir)</div>
-<div class="line"><span class="lineno">   61</span>                <span class="keywordflow">if</span> <span class="keywordflow">not</span> rel_path.startswith(<span class="stringliteral">&#39;.pioenvs&#39;</span>):</div>
-<div class="line"><span class="lineno">   62</span>                    filelist.append((abs_path, rel_path))</div>
-<div class="line"><span class="lineno">   63</span>        total = len(filelist)</div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keyword">with</span> zipfile.ZipFile(self.path_zip, <span class="stringliteral">&#39;w&#39;</span>, zipfile.ZIP_DEFLATED) <span class="keyword">as</span> zipf:</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">for</span> i, (abs_path, rel_path) <span class="keywordflow">in</span> enumerate(filelist, 1):</div>
-<div class="line"><span class="lineno">   67</span>                    zipf.write(abs_path, rel_path)</div>
-<div class="line"><span class="lineno">   68</span>                    self.progress.emit(i, total)</div>
-<div class="line"><span class="lineno">   69</span>            self.finished.emit(self.path_zip)</div>
-<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">except</span> Exception:</div>
-<div class="line"><span class="lineno">   71</span>            self.finished.emit(<span class="stringliteral">&quot;&quot;</span>)        </div>
-<div class="line"><span class="lineno">   72</span> </div>
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00090">90</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>    <span class="keyword">def </span>run(self):</div>
+<div class="line"><span class="lineno">   91</span>        filelist = []</div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">for</span> root, dirs, files <span class="keywordflow">in</span> os.walk(self.project_dir):</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">for</span> file <span class="keywordflow">in</span> files:</div>
+<div class="line"><span class="lineno">   94</span>                abs_path = os.path.join(root, file)</div>
+<div class="line"><span class="lineno">   95</span>                rel_path = os.path.relpath(abs_path, self.project_dir)</div>
+<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">if</span> <span class="keywordflow">not</span> rel_path.startswith(<span class="stringliteral">&#39;.pioenvs&#39;</span>):</div>
+<div class="line"><span class="lineno">   97</span>                    filelist.append((abs_path, rel_path))</div>
+<div class="line"><span class="lineno">   98</span>        total = len(filelist)</div>
+<div class="line"><span class="lineno">   99</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  100</span>            <span class="keyword">with</span> zipfile.ZipFile(self.path_zip, <span class="stringliteral">&#39;w&#39;</span>, zipfile.ZIP_DEFLATED) <span class="keyword">as</span> zipf:</div>
+<div class="line"><span class="lineno">  101</span>                <span class="keywordflow">for</span> i, (abs_path, rel_path) <span class="keywordflow">in</span> enumerate(filelist, 1):</div>
+<div class="line"><span class="lineno">  102</span>                    zipf.write(abs_path, rel_path)</div>
+<div class="line"><span class="lineno">  103</span>                    self.progress.emit(i, total)</div>
+<div class="line"><span class="lineno">  104</span>            self.finished.emit(self.path_zip)</div>
+<div class="line"><span class="lineno">  105</span>        <span class="keywordflow">except</span> Exception:</div>
+<div class="line"><span class="lineno">  106</span>            self.finished.emit(<span class="stringliteral">&quot;&quot;</span>)        </div>
+<div class="line"><span class="lineno">  107</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="project__handler_8py_source.html#l00048">finished</a>, <a class="el" href="project__handler_8py_source.html#l00010">project_handler.ImportWorker.finished</a>, <a class="el" href="project__handler_8py_source.html#l00053">path_zip</a>, <a class="el" href="project__handler_8py_source.html#l00014">project_handler.ImportWorker.path_zip</a>, <a class="el" href="project__handler_8py_source.html#l00047">progress</a>, <a class="el" href="project__handler_8py_source.html#l00009">project_handler.ImportWorker.progress</a>, <a class="el" href="compile__manager_8py_source.html#l00017">compile_manager.CompileManager.project_dir</a>, and <a class="el" href="project__handler_8py_source.html#l00052">project_dir</a>.</p>
+<p class="reference">References <a class="el" href="project__handler_8py_source.html#l00083">finished</a>, <a class="el" href="project__handler_8py_source.html#l00037">project_handler.ImportWorker.finished</a>, <a class="el" href="project__handler_8py_source.html#l00088">path_zip</a>, <a class="el" href="project__handler_8py_source.html#l00041">project_handler.ImportWorker.path_zip</a>, <a class="el" href="project__handler_8py_source.html#l00082">progress</a>, <a class="el" href="project__handler_8py_source.html#l00036">project_handler.ImportWorker.progress</a>, <a class="el" href="compile__manager_8py_source.html#l00040">compile_manager.CompileManager.project_dir</a>, and <a class="el" href="project__handler_8py_source.html#l00087">project_dir</a>.</p>
 
 </div>
 </div>
@@ -240,9 +242,9 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00048">48</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00083">83</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="project__handler_8py_source.html#l00055">run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="project__handler_8py_source.html#l00090">run()</a>.</p>
 
 </div>
 </div>
@@ -258,9 +260,9 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00053">53</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00088">88</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="project__handler_8py_source.html#l00055">run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="project__handler_8py_source.html#l00090">run()</a>.</p>
 
 </div>
 </div>
@@ -284,9 +286,9 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00047">47</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00082">82</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="splash__screen_8py_source.html#l00116">splash_screen.SplashScreen.advance()</a>, and <a class="el" href="project__handler_8py_source.html#l00055">run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="splash__screen_8py_source.html#l00116">splash_screen.SplashScreen.advance()</a>, and <a class="el" href="project__handler_8py_source.html#l00090">run()</a>.</p>
 
 </div>
 </div>
@@ -302,14 +304,14 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00052">52</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="project__handler_8py_source.html#l00087">87</a> of file <a class="el" href="project__handler_8py_source.html">project_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="main__window_8py_source.html#l00357">main_window.MainWindow.export_project()</a>, <a class="el" href="main__window_8py_source.html#l00379">main_window.MainWindow.get_or_create_yaml_path()</a>, <a class="el" href="main__window_8py_source.html#l00215">main_window.MainWindow.nuovo_progetto()</a>, <a class="el" href="main__window_8py_source.html#l00245">main_window.MainWindow.open_project()</a>, and <a class="el" href="project__handler_8py_source.html#l00055">run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="main__window_8py_source.html#l00432">main_window.MainWindow.export_project()</a>, <a class="el" href="main__window_8py_source.html#l00469">main_window.MainWindow.get_or_create_yaml_path()</a>, <a class="el" href="main__window_8py_source.html#l00233">main_window.MainWindow.nuovo_progetto()</a>, <a class="el" href="main__window_8py_source.html#l00272">main_window.MainWindow.open_project()</a>, and <a class="el" href="project__handler_8py_source.html#l00090">run()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>core/<a class="el" href="project__handler_8py_source.html">project_handler.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/core/<a class="el" href="project__handler_8py_source.html">project_handler.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -134,6 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a67fdf3d316243e1368607002589f0114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d8be824df7efeedaeaeabc6a05e5279" id="r_a7d8be824df7efeedaeaeabc6a05e5279"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d8be824df7efeedaeaeabc6a05e5279">open_full_settings_dialog</a> (self)</td></tr>
 <tr class="separator:a7d8be824df7efeedaeaeabc6a05e5279"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52a2bb4d9f138c2be3dcccf6c8815bbb" id="r_a52a2bb4d9f138c2be3dcccf6c8815bbb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52a2bb4d9f138c2be3dcccf6c8815bbb">open_docs</a> (self)</td></tr>
+<tr class="separator:a52a2bb4d9f138c2be3dcccf6c8815bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -189,6 +187,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a481de011259c6650dd979a962bad759d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25e53b097bcac7c36a9d8dc3996d750c" id="r_a25e53b097bcac7c36a9d8dc3996d750c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25e53b097bcac7c36a9d8dc3996d750c">show_about_dialog</a></td></tr>
 <tr class="separator:a25e53b097bcac7c36a9d8dc3996d750c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e3e6c3b5be479a91774b604fe688de6" id="r_a2e3e6c3b5be479a91774b604fe688de6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e3e6c3b5be479a91774b604fe688de6">docs_action</a> = QAction(Translator.tr(&quot;menu_documentation&quot;), self)</td></tr>
+<tr class="separator:a2e3e6c3b5be479a91774b604fe688de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2705e869d0764e1c39d1444d6f974b23" id="r_a2705e869d0764e1c39d1444d6f974b23"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2705e869d0764e1c39d1444d6f974b23">open_docs</a></td></tr>
+<tr class="separator:a2705e869d0764e1c39d1444d6f974b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -207,8 +209,12 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ad516f7cf11177dc8f9f306b202d19ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00015">15</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Implements the application’s main menu bar with various menus and actions.
+
+Creates and updates menus dynamically, manages recent files,
+and provides dialogs for settings, project galleries, and about info.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00032">32</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5ca625d22f2d34d681dd3149c4ab3976" name="a5ca625d22f2d34d681dd3149c4ab3976"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5ca625d22f2d34d681dd3149c4ab3976">&#9670;&#160;</a></span>__init__()</h2>
@@ -229,18 +235,18 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00016">16</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>    <span class="keyword">def </span>__init__(self, parent=None):</div>
-<div class="line"><span class="lineno">   17</span>        super().__init__(parent)</div>
-<div class="line"><span class="lineno">   18</span>        self.main_window = parent</div>
-<div class="line"><span class="lineno">   19</span>        self.setStyleSheet(Pantone.MENU_BAR)</div>
-<div class="line"><span class="lineno">   20</span>        self.recent_file_actions = []</div>
-<div class="line"><span class="lineno">   21</span>        self.create_menus()</div>
-<div class="line"><span class="lineno">   22</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00039">39</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>    <span class="keyword">def </span>__init__(self, parent=None):</div>
+<div class="line"><span class="lineno">   40</span>        super().__init__(parent)</div>
+<div class="line"><span class="lineno">   41</span>        self.main_window = parent</div>
+<div class="line"><span class="lineno">   42</span>        self.setStyleSheet(Pantone.MENU_BAR)</div>
+<div class="line"><span class="lineno">   43</span>        self.recent_file_actions = []</div>
+<div class="line"><span class="lineno">   44</span>        self.create_menus()</div>
+<div class="line"><span class="lineno">   45</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00016">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00039">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00016">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00039">__init__()</a>.</p>
 
 </div>
 </div>
@@ -272,14 +278,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00154">154</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  154</span>    <span class="keyword">def </span>_make_open_file_handler(self, path: str):</div>
-<div class="line"><span class="lineno">  155</span>        <span class="keywordflow">return</span> <span class="keyword">lambda</span> checked=<span class="keyword">False</span>: self._open_recent_file(path)</div>
-<div class="line"><span class="lineno">  156</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00183">183</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  183</span>    <span class="keyword">def </span>_make_open_file_handler(self, path: str):</div>
+<div class="line"><span class="lineno">  184</span>        <span class="keywordflow">return</span> <span class="keyword">lambda</span> checked=<span class="keyword">False</span>: self._open_recent_file(path)</div>
+<div class="line"><span class="lineno">  185</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00149">_open_recent_file()</a>.</p>
+<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00178">_open_recent_file()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00134">_update_recent_files_menu()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00163">_update_recent_files_menu()</a>.</p>
 
 </div>
 </div>
@@ -310,14 +316,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00149">149</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  149</span>    <span class="keyword">def </span>_open_recent_file(self, path: str):</div>
-<div class="line"><span class="lineno">  150</span>        parent = self.parent()</div>
-<div class="line"><span class="lineno">  151</span>        <span class="keywordflow">if</span> parent <span class="keywordflow">and</span> callable(getattr(parent, <span class="stringliteral">&quot;open_project&quot;</span>, <span class="keywordtype">None</span>)):</div>
-<div class="line"><span class="lineno">  152</span>            parent.open_project(path)</div>
-<div class="line"><span class="lineno">  153</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00178">178</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  178</span>    <span class="keyword">def </span>_open_recent_file(self, path: str):</div>
+<div class="line"><span class="lineno">  179</span>        parent = self.parent()</div>
+<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">if</span> parent <span class="keywordflow">and</span> callable(getattr(parent, <span class="stringliteral">&quot;open_project&quot;</span>, <span class="keywordtype">None</span>)):</div>
+<div class="line"><span class="lineno">  181</span>            parent.open_project(path)</div>
+<div class="line"><span class="lineno">  182</span> </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00154">_make_open_file_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00183">_make_open_file_handler()</a>.</p>
 
 </div>
 </div>
@@ -344,24 +350,24 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00134">134</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  134</span>    <span class="keyword">def </span>_update_recent_files_menu(self):</div>
-<div class="line"><span class="lineno">  135</span>        <span class="keywordflow">for</span> act <span class="keywordflow">in</span> self.recent_file_actions:</div>
-<div class="line"><span class="lineno">  136</span>            self.file_menu.removeAction(act)</div>
-<div class="line"><span class="lineno">  137</span>        self.recent_file_actions.clear()</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>        recent_files = get_recent_files(limit=4)</div>
-<div class="line"><span class="lineno">  140</span>        <span class="keywordflow">if</span> recent_files:</div>
-<div class="line"><span class="lineno">  141</span>            self.file_menu.addSeparator()</div>
-<div class="line"><span class="lineno">  142</span>            <span class="keywordflow">for</span> path, name <span class="keywordflow">in</span> recent_files:</div>
-<div class="line"><span class="lineno">  143</span>                action = QAction(name, self)</div>
-<div class="line"><span class="lineno">  144</span>                action.setToolTip(path)</div>
-<div class="line"><span class="lineno">  145</span>                action.triggered.connect(self._make_open_file_handler(path))</div>
-<div class="line"><span class="lineno">  146</span>                self.file_menu.addAction(action)</div>
-<div class="line"><span class="lineno">  147</span>                self.recent_file_actions.append(action)</div>
-<div class="line"><span class="lineno">  148</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00163">163</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  163</span>    <span class="keyword">def </span>_update_recent_files_menu(self):</div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">for</span> act <span class="keywordflow">in</span> self.recent_file_actions:</div>
+<div class="line"><span class="lineno">  165</span>            self.file_menu.removeAction(act)</div>
+<div class="line"><span class="lineno">  166</span>        self.recent_file_actions.clear()</div>
+<div class="line"><span class="lineno">  167</span> </div>
+<div class="line"><span class="lineno">  168</span>        recent_files = get_recent_files(limit=4)</div>
+<div class="line"><span class="lineno">  169</span>        <span class="keywordflow">if</span> recent_files:</div>
+<div class="line"><span class="lineno">  170</span>            self.file_menu.addSeparator()</div>
+<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">for</span> path, name <span class="keywordflow">in</span> recent_files:</div>
+<div class="line"><span class="lineno">  172</span>                action = QAction(name, self)</div>
+<div class="line"><span class="lineno">  173</span>                action.setToolTip(path)</div>
+<div class="line"><span class="lineno">  174</span>                action.triggered.connect(self._make_open_file_handler(path))</div>
+<div class="line"><span class="lineno">  175</span>                self.file_menu.addAction(action)</div>
+<div class="line"><span class="lineno">  176</span>                self.recent_file_actions.append(action)</div>
+<div class="line"><span class="lineno">  177</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00154">_make_open_file_handler()</a>, <a class="el" href="menu__bar_8py_source.html#l00031">file_menu</a>, and <a class="el" href="menu__bar_8py_source.html#l00020">recent_file_actions</a>.</p>
+<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00183">_make_open_file_handler()</a>, <a class="el" href="menu__bar_8py_source.html#l00054">file_menu</a>, and <a class="el" href="menu__bar_8py_source.html#l00043">recent_file_actions</a>.</p>
 
 </div>
 </div>
@@ -380,117 +386,153 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00027">27</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>    <span class="keyword">def </span>create_menus(self):</div>
-<div class="line"><span class="lineno">   28</span>        parent = self.parent()</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>        <span class="comment"># FILE MENU</span></div>
-<div class="line"><span class="lineno">   31</span>        self.file_menu = self.addMenu(Translator.tr(<span class="stringliteral">&quot;menu_file&quot;</span>))</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>        self.header_action_proj = QWidgetAction(self)</div>
-<div class="line"><span class="lineno">   34</span>        self.label_proj = QLabel(f<span class="stringliteral">&quot;📁 {Translator.tr(&#39;menu_header_projects&#39;)}&quot;</span>)</div>
-<div class="line"><span class="lineno">   35</span>        self.label_proj.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">   36</span>        self.label_proj.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   37</span><span class="stringliteral">            QLabel {</span></div>
-<div class="line"><span class="lineno">   38</span><span class="stringliteral">                background-color: #2c2c2c;</span></div>
-<div class="line"><span class="lineno">   39</span><span class="stringliteral">                color: #ffffff;</span></div>
-<div class="line"><span class="lineno">   40</span><span class="stringliteral">                font-weight: bold;</span></div>
-<div class="line"><span class="lineno">   41</span><span class="stringliteral">                padding: 6px;</span></div>
-<div class="line"><span class="lineno">   42</span><span class="stringliteral">                border-top: 1px solid #555;</span></div>
-<div class="line"><span class="lineno">   43</span><span class="stringliteral">                border-bottom: 1px solid #555;</span></div>
-<div class="line"><span class="lineno">   44</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   45</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   46</span>        self.header_action_proj.setDefaultWidget(self.label_proj)</div>
-<div class="line"><span class="lineno">   47</span>        self.file_menu.addAction(self.header_action_proj)</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>        self.new_action = QAction(<span class="stringliteral">&quot;🆕 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;new_project&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   50</span>        self.new_action.setShortcut(<span class="stringliteral">&quot;Ctrl+N&quot;</span>)</div>
-<div class="line"><span class="lineno">   51</span>        self.new_action.triggered.connect(self.main_window.nuovo_progetto)</div>
-<div class="line"><span class="lineno">   52</span>        self.file_menu.addAction(self.new_action)</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>        self.import_project_action = QAction(<span class="stringliteral">&quot;📂 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;import_project&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   55</span>        self.import_project_action.triggered.connect(parent.import_project)</div>
-<div class="line"><span class="lineno">   56</span>        self.file_menu.addAction(self.import_project_action)</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>        self.export_project_action = QAction(<span class="stringliteral">&quot;📄 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;export_project&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   59</span>        self.export_project_action.triggered.connect(parent.export_project)</div>
-<div class="line"><span class="lineno">   60</span>        self.file_menu.addAction(self.export_project_action)</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>        self.file_menu.addSeparator()</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>        self.header_action_yaml = QWidgetAction(self)</div>
-<div class="line"><span class="lineno">   65</span>        self.label_yaml = QLabel(f<span class="stringliteral">&quot;📄 {Translator.tr(&#39;menu_header_yaml&#39;)}&quot;</span>)</div>
-<div class="line"><span class="lineno">   66</span>        self.label_yaml.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">   67</span>        self.label_yaml.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   68</span><span class="stringliteral">            QLabel {</span></div>
-<div class="line"><span class="lineno">   69</span><span class="stringliteral">                background-color: #2c2c2c;</span></div>
-<div class="line"><span class="lineno">   70</span><span class="stringliteral">                color: #ffffff;</span></div>
-<div class="line"><span class="lineno">   71</span><span class="stringliteral">                font-weight: bold;</span></div>
-<div class="line"><span class="lineno">   72</span><span class="stringliteral">                padding: 6px;</span></div>
-<div class="line"><span class="lineno">   73</span><span class="stringliteral">                border-top: 1px solid #555;</span></div>
-<div class="line"><span class="lineno">   74</span><span class="stringliteral">                border-bottom: 1px solid #555;</span></div>
-<div class="line"><span class="lineno">   75</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   76</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   77</span>        self.header_action_yaml.setDefaultWidget(self.label_yaml)</div>
-<div class="line"><span class="lineno">   78</span>        self.file_menu.addAction(self.header_action_yaml)</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>        self.open_action = QAction(<span class="stringliteral">&quot;📁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;open_project&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   81</span>        self.open_action.setShortcut(<span class="stringliteral">&quot;Ctrl+O&quot;</span>)</div>
-<div class="line"><span class="lineno">   82</span>        self.open_action.triggered.connect(<span class="keyword">lambda</span> _: parent.open_project_dialog())</div>
-<div class="line"><span class="lineno">   83</span>        self.file_menu.addAction(self.open_action)</div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00050">50</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>    <span class="keyword">def </span>create_menus(self):</div>
+<div class="line"><span class="lineno">   51</span>        parent = self.parent()</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>        <span class="comment"># FILE MENU</span></div>
+<div class="line"><span class="lineno">   54</span>        self.file_menu = self.addMenu(Translator.tr(<span class="stringliteral">&quot;menu_file&quot;</span>))</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>        self.header_action_proj = QWidgetAction(self)</div>
+<div class="line"><span class="lineno">   57</span>        self.label_proj = QLabel(f<span class="stringliteral">&quot;📁 {Translator.tr(&#39;menu_header_projects&#39;)}&quot;</span>)</div>
+<div class="line"><span class="lineno">   58</span>        self.label_proj.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">   59</span>        self.label_proj.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   60</span><span class="stringliteral">            QLabel {</span></div>
+<div class="line"><span class="lineno">   61</span><span class="stringliteral">                background-color: #2c2c2c;</span></div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">                color: #ffffff;</span></div>
+<div class="line"><span class="lineno">   63</span><span class="stringliteral">                font-weight: bold;</span></div>
+<div class="line"><span class="lineno">   64</span><span class="stringliteral">                padding: 6px;</span></div>
+<div class="line"><span class="lineno">   65</span><span class="stringliteral">                border-top: 1px solid #555;</span></div>
+<div class="line"><span class="lineno">   66</span><span class="stringliteral">                border-bottom: 1px solid #555;</span></div>
+<div class="line"><span class="lineno">   67</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   68</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">   69</span>        self.header_action_proj.setDefaultWidget(self.label_proj)</div>
+<div class="line"><span class="lineno">   70</span>        self.file_menu.addAction(self.header_action_proj)</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>        self.new_action = QAction(<span class="stringliteral">&quot;🆕 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;new_project&quot;</span>), self)</div>
+<div class="line"><span class="lineno">   73</span>        self.new_action.setShortcut(<span class="stringliteral">&quot;Ctrl+N&quot;</span>)</div>
+<div class="line"><span class="lineno">   74</span>        self.new_action.triggered.connect(self.main_window.nuovo_progetto)</div>
+<div class="line"><span class="lineno">   75</span>        self.file_menu.addAction(self.new_action)</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>        self.import_project_action = QAction(<span class="stringliteral">&quot;📂 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;import_project&quot;</span>), self)</div>
+<div class="line"><span class="lineno">   78</span>        self.import_project_action.triggered.connect(parent.import_project)</div>
+<div class="line"><span class="lineno">   79</span>        self.file_menu.addAction(self.import_project_action)</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>        self.export_project_action = QAction(<span class="stringliteral">&quot;📄 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;export_project&quot;</span>), self)</div>
+<div class="line"><span class="lineno">   82</span>        self.export_project_action.triggered.connect(parent.export_project)</div>
+<div class="line"><span class="lineno">   83</span>        self.file_menu.addAction(self.export_project_action)</div>
 <div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>        self.save_action = QAction(<span class="stringliteral">&quot;📂 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;save_project&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   86</span>        self.save_action.setShortcut(<span class="stringliteral">&quot;Ctrl+S&quot;</span>)</div>
-<div class="line"><span class="lineno">   87</span>        self.save_action.triggered.connect(parent.salva_progetto)</div>
-<div class="line"><span class="lineno">   88</span>        self.file_menu.addAction(self.save_action)</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>        self.saveas_action = QAction(<span class="stringliteral">&quot;📁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;save_as&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   91</span>        self.saveas_action.setShortcut(<span class="stringliteral">&quot;Ctrl+Shift+S&quot;</span>)</div>
-<div class="line"><span class="lineno">   92</span>        self.saveas_action.triggered.connect(parent.salva_con_nome)</div>
-<div class="line"><span class="lineno">   93</span>        self.file_menu.addAction(self.saveas_action)</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>        self.import_action = QAction(<span class="stringliteral">&quot;📅 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;import_yaml&quot;</span>), self)</div>
-<div class="line"><span class="lineno">   96</span>        self.import_action.triggered.connect(parent.importa_yaml)</div>
-<div class="line"><span class="lineno">   97</span>        self.file_menu.addAction(self.import_action)</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>        self.export_action = QAction(<span class="stringliteral">&quot;📄 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;export_yaml&quot;</span>), self)</div>
-<div class="line"><span class="lineno">  100</span>        self.export_action.triggered.connect(parent.esporta_yaml)</div>
-<div class="line"><span class="lineno">  101</span>        self.file_menu.addAction(self.export_action)</div>
+<div class="line"><span class="lineno">   85</span>        self.file_menu.addSeparator()</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>        self.header_action_yaml = QWidgetAction(self)</div>
+<div class="line"><span class="lineno">   88</span>        self.label_yaml = QLabel(f<span class="stringliteral">&quot;📄 {Translator.tr(&#39;menu_header_yaml&#39;)}&quot;</span>)</div>
+<div class="line"><span class="lineno">   89</span>        self.label_yaml.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">   90</span>        self.label_yaml.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   91</span><span class="stringliteral">            QLabel {</span></div>
+<div class="line"><span class="lineno">   92</span><span class="stringliteral">                background-color: #2c2c2c;</span></div>
+<div class="line"><span class="lineno">   93</span><span class="stringliteral">                color: #ffffff;</span></div>
+<div class="line"><span class="lineno">   94</span><span class="stringliteral">                font-weight: bold;</span></div>
+<div class="line"><span class="lineno">   95</span><span class="stringliteral">                padding: 6px;</span></div>
+<div class="line"><span class="lineno">   96</span><span class="stringliteral">                border-top: 1px solid #555;</span></div>
+<div class="line"><span class="lineno">   97</span><span class="stringliteral">                border-bottom: 1px solid #555;</span></div>
+<div class="line"><span class="lineno">   98</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   99</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  100</span>        self.header_action_yaml.setDefaultWidget(self.label_yaml)</div>
+<div class="line"><span class="lineno">  101</span>        self.file_menu.addAction(self.header_action_yaml)</div>
 <div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>        self.file_menu.addSeparator()</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>        self.exit_action = QAction(<span class="stringliteral">&quot;❌ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;exit&quot;</span>), self)</div>
-<div class="line"><span class="lineno">  106</span>        self.exit_action.setShortcut(<span class="stringliteral">&quot;Ctrl+Q&quot;</span>)</div>
-<div class="line"><span class="lineno">  107</span>        self.exit_action.triggered.connect(parent.close)</div>
-<div class="line"><span class="lineno">  108</span>        self.file_menu.addAction(self.exit_action)</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>        self._update_recent_files_menu()</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>        <span class="comment"># PROJECT MENU</span></div>
-<div class="line"><span class="lineno">  113</span>        self.project_menu = self.addMenu(Translator.tr(<span class="stringliteral">&quot;menu_progetti&quot;</span>))</div>
-<div class="line"><span class="lineno">  114</span>        self.community_project_action = QAction(Translator.tr(<span class="stringliteral">&quot;progetti_community&quot;</span>), self)</div>
-<div class="line"><span class="lineno">  115</span>        self.community_project_action.triggered.connect(self.open_project_gallery_window)</div>
-<div class="line"><span class="lineno">  116</span>        self.project_menu.addAction(self.community_project_action)</div>
+<div class="line"><span class="lineno">  103</span>        self.open_action = QAction(<span class="stringliteral">&quot;📁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;open_project&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  104</span>        self.open_action.setShortcut(<span class="stringliteral">&quot;Ctrl+O&quot;</span>)</div>
+<div class="line"><span class="lineno">  105</span>        self.open_action.triggered.connect(<span class="keyword">lambda</span> _: parent.open_project_dialog())</div>
+<div class="line"><span class="lineno">  106</span>        self.file_menu.addAction(self.open_action)</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>        self.save_action = QAction(<span class="stringliteral">&quot;📂 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;save_project&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  109</span>        self.save_action.setShortcut(<span class="stringliteral">&quot;Ctrl+S&quot;</span>)</div>
+<div class="line"><span class="lineno">  110</span>        self.save_action.triggered.connect(parent.salva_progetto)</div>
+<div class="line"><span class="lineno">  111</span>        self.file_menu.addAction(self.save_action)</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>        self.saveas_action = QAction(<span class="stringliteral">&quot;📁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;save_as&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  114</span>        self.saveas_action.setShortcut(<span class="stringliteral">&quot;Ctrl+Shift+S&quot;</span>)</div>
+<div class="line"><span class="lineno">  115</span>        self.saveas_action.triggered.connect(parent.salva_con_nome)</div>
+<div class="line"><span class="lineno">  116</span>        self.file_menu.addAction(self.saveas_action)</div>
 <div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>        self.user_projects_action = QAction(Translator.tr(<span class="stringliteral">&quot;user_projects_title&quot;</span>), self)</div>
-<div class="line"><span class="lineno">  119</span>        self.user_projects_action.triggered.connect(self.open_user_project_gallery_window)</div>
-<div class="line"><span class="lineno">  120</span>        self.project_menu.addAction(self.user_projects_action)</div>
+<div class="line"><span class="lineno">  118</span>        self.import_action = QAction(<span class="stringliteral">&quot;📅 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;import_yaml&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  119</span>        self.import_action.triggered.connect(parent.importa_yaml)</div>
+<div class="line"><span class="lineno">  120</span>        self.file_menu.addAction(self.import_action)</div>
 <div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>        <span class="comment"># SETTINGS MENU</span></div>
-<div class="line"><span class="lineno">  123</span>        self.settings_menu = self.addMenu(Translator.tr(<span class="stringliteral">&quot;menu_settings&quot;</span>))</div>
-<div class="line"><span class="lineno">  124</span>        self.full_settings_action = QAction(Translator.tr(<span class="stringliteral">&quot;menu_full_settings&quot;</span>), self)</div>
-<div class="line"><span class="lineno">  125</span>        self.full_settings_action.triggered.connect(self.open_full_settings_dialog)</div>
-<div class="line"><span class="lineno">  126</span>        self.settings_menu.addAction(self.full_settings_action)</div>
+<div class="line"><span class="lineno">  122</span>        self.export_action = QAction(<span class="stringliteral">&quot;📄 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;export_yaml&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  123</span>        self.export_action.triggered.connect(parent.esporta_yaml)</div>
+<div class="line"><span class="lineno">  124</span>        self.file_menu.addAction(self.export_action)</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>        self.file_menu.addSeparator()</div>
 <div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>        <span class="comment"># HELP MENU</span></div>
-<div class="line"><span class="lineno">  129</span>        help_menu = self.addMenu(<span class="stringliteral">&quot;❓&quot;</span>)</div>
-<div class="line"><span class="lineno">  130</span>        self.about_action = QAction(Translator.tr(<span class="stringliteral">&quot;menu_about&quot;</span>), self)</div>
-<div class="line"><span class="lineno">  131</span>        self.about_action.triggered.connect(self.show_about_dialog)</div>
-<div class="line"><span class="lineno">  132</span>        help_menu.addAction(self.about_action)</div>
-<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  128</span>        self.exit_action = QAction(<span class="stringliteral">&quot;❌ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;exit&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  129</span>        self.exit_action.setShortcut(<span class="stringliteral">&quot;Ctrl+Q&quot;</span>)</div>
+<div class="line"><span class="lineno">  130</span>        self.exit_action.triggered.connect(parent.close)</div>
+<div class="line"><span class="lineno">  131</span>        self.file_menu.addAction(self.exit_action)</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>        self._update_recent_files_menu()</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>        <span class="comment"># PROJECT MENU</span></div>
+<div class="line"><span class="lineno">  136</span>        self.project_menu = self.addMenu(Translator.tr(<span class="stringliteral">&quot;menu_progetti&quot;</span>))</div>
+<div class="line"><span class="lineno">  137</span>        self.community_project_action = QAction(Translator.tr(<span class="stringliteral">&quot;progetti_community&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  138</span>        self.community_project_action.triggered.connect(self.open_project_gallery_window)</div>
+<div class="line"><span class="lineno">  139</span>        self.project_menu.addAction(self.community_project_action)</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>        self.user_projects_action = QAction(Translator.tr(<span class="stringliteral">&quot;user_projects_title&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  142</span>        self.user_projects_action.triggered.connect(self.open_user_project_gallery_window)</div>
+<div class="line"><span class="lineno">  143</span>        self.project_menu.addAction(self.user_projects_action)</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>        <span class="comment"># SETTINGS MENU</span></div>
+<div class="line"><span class="lineno">  146</span>        self.settings_menu = self.addMenu(Translator.tr(<span class="stringliteral">&quot;menu_settings&quot;</span>))</div>
+<div class="line"><span class="lineno">  147</span>        self.full_settings_action = QAction(Translator.tr(<span class="stringliteral">&quot;menu_full_settings&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  148</span>        self.full_settings_action.triggered.connect(self.open_full_settings_dialog)</div>
+<div class="line"><span class="lineno">  149</span>        self.settings_menu.addAction(self.full_settings_action)</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span>        <span class="comment"># HELP MENU</span></div>
+<div class="line"><span class="lineno">  152</span>        help_menu = self.addMenu(<span class="stringliteral">&quot;❓&quot;</span>)</div>
+<div class="line"><span class="lineno">  153</span> </div>
+<div class="line"><span class="lineno">  154</span>        self.about_action = QAction(Translator.tr(<span class="stringliteral">&quot;menu_about&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  155</span>        self.about_action.triggered.connect(self.show_about_dialog)</div>
+<div class="line"><span class="lineno">  156</span>        help_menu.addAction(self.about_action)</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>        self.docs_action = QAction(Translator.tr(<span class="stringliteral">&quot;menu_documentation&quot;</span>), self)</div>
+<div class="line"><span class="lineno">  159</span>        self.docs_action.triggered.connect(self.open_docs)</div>
+<div class="line"><span class="lineno">  160</span>        help_menu.addAction(self.docs_action)</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span> </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00023">update_labels()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00046">update_labels()</a>.</p>
 
+</div>
+</div>
+<a id="a52a2bb4d9f138c2be3dcccf6c8815bbb" name="a52a2bb4d9f138c2be3dcccf6c8815bbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52a2bb4d9f138c2be3dcccf6c8815bbb">&#9670;&#160;</a></span>open_docs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">menu_bar.MainMenuBar.open_docs </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Opens the local Doxygen documentation in the default web browser.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00247">247</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  247</span>    <span class="keyword">def </span>open_docs(self):</div>
+<div class="line"><span class="lineno">  248</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  249</span><span class="stringliteral">        @brief Opens the local Doxygen documentation in the default web browser.</span></div>
+<div class="line"><span class="lineno">  250</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  251</span>        doc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;../docs/html/index.html&quot;</span>))</div>
+<div class="line"><span class="lineno">  252</span>        <span class="keywordflow">if</span> os.path.exists(doc_path):</div>
+<div class="line"><span class="lineno">  253</span>            webbrowser.open_new_tab(f<span class="stringliteral">&quot;file://{doc_path}&quot;</span>)</div>
+<div class="line"><span class="lineno">  254</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  255</span>            QMessageBox.warning(<span class="keywordtype">None</span>, Translator.tr(<span class="stringliteral">&quot;menu_documentation&quot;</span>), Translator.tr(<span class="stringliteral">&quot;error_docs_not_found&quot;</span>))</div>
+<div class="line"><span class="lineno">  256</span> </div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a7d8be824df7efeedaeaeabc6a05e5279" name="a7d8be824df7efeedaeaeabc6a05e5279"></a>
@@ -508,10 +550,11 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00214">214</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  214</span>    <span class="keyword">def </span>open_full_settings_dialog(self):</div>
-<div class="line"><span class="lineno">  215</span>        dlg = SettingsDialog(self)</div>
-<div class="line"><span class="lineno">  216</span>        dlg.exec()</div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00243">243</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  243</span>    <span class="keyword">def </span>open_full_settings_dialog(self):</div>
+<div class="line"><span class="lineno">  244</span>        dlg = SettingsDialog(self)</div>
+<div class="line"><span class="lineno">  245</span>        dlg.exec()</div>
+<div class="line"><span class="lineno">  246</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -530,16 +573,16 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00193">193</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  193</span>    <span class="keyword">def </span>open_project_gallery_window(self):</div>
-<div class="line"><span class="lineno">  194</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(self, <span class="stringliteral">&quot;_project_gallery_window&quot;</span>) <span class="keywordflow">or</span> self._project_gallery_window <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">  195</span>            self._project_gallery_window = ProjectGalleryWindow()</div>
-<div class="line"><span class="lineno">  196</span>        self._project_gallery_window.show()</div>
-<div class="line"><span class="lineno">  197</span>        self._project_gallery_window.raise_()</div>
-<div class="line"><span class="lineno">  198</span>        self._project_gallery_window.activateWindow()</div>
-<div class="line"><span class="lineno">  199</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00222">222</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  222</span>    <span class="keyword">def </span>open_project_gallery_window(self):</div>
+<div class="line"><span class="lineno">  223</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(self, <span class="stringliteral">&quot;_project_gallery_window&quot;</span>) <span class="keywordflow">or</span> self._project_gallery_window <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  224</span>            self._project_gallery_window = ProjectGalleryWindow()</div>
+<div class="line"><span class="lineno">  225</span>        self._project_gallery_window.show()</div>
+<div class="line"><span class="lineno">  226</span>        self._project_gallery_window.raise_()</div>
+<div class="line"><span class="lineno">  227</span>        self._project_gallery_window.activateWindow()</div>
+<div class="line"><span class="lineno">  228</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00195">_project_gallery_window</a>.</p>
+<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00224">_project_gallery_window</a>.</p>
 
 </div>
 </div>
@@ -558,23 +601,23 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00200">200</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  200</span>    <span class="keyword">def </span>open_user_project_gallery_window(self):</div>
-<div class="line"><span class="lineno">  201</span>        <span class="comment"># Se l&#39;oggetto esiste ma è stato chiuso, lo azzero</span></div>
-<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;_user_project_gallery_window&quot;</span>):</div>
-<div class="line"><span class="lineno">  203</span>            <span class="keywordflow">if</span> self._user_project_gallery_window <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> <span class="keywordflow">not</span> self._user_project_gallery_window.isVisible():</div>
-<div class="line"><span class="lineno">  204</span>                self._user_project_gallery_window = <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(self, <span class="stringliteral">&quot;_user_project_gallery_window&quot;</span>) <span class="keywordflow">or</span> self._user_project_gallery_window <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">  207</span>            self._user_project_gallery_window = UserProjectManagerWindow(main_window=self.main_window)</div>
-<div class="line"><span class="lineno">  208</span> </div>
-<div class="line"><span class="lineno">  209</span>        self._user_project_gallery_window.show()</div>
-<div class="line"><span class="lineno">  210</span>        self._user_project_gallery_window.raise_()</div>
-<div class="line"><span class="lineno">  211</span>        self._user_project_gallery_window.activateWindow()</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00229">229</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  229</span>    <span class="keyword">def </span>open_user_project_gallery_window(self):</div>
+<div class="line"><span class="lineno">  230</span>        <span class="comment"># Se l&#39;oggetto esiste ma è stato chiuso, lo azzero</span></div>
+<div class="line"><span class="lineno">  231</span>        <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;_user_project_gallery_window&quot;</span>):</div>
+<div class="line"><span class="lineno">  232</span>            <span class="keywordflow">if</span> self._user_project_gallery_window <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> <span class="keywordflow">not</span> self._user_project_gallery_window.isVisible():</div>
+<div class="line"><span class="lineno">  233</span>                self._user_project_gallery_window = <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  234</span> </div>
+<div class="line"><span class="lineno">  235</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(self, <span class="stringliteral">&quot;_user_project_gallery_window&quot;</span>) <span class="keywordflow">or</span> self._user_project_gallery_window <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  236</span>            self._user_project_gallery_window = UserProjectManagerWindow(main_window=self.main_window)</div>
+<div class="line"><span class="lineno">  237</span> </div>
+<div class="line"><span class="lineno">  238</span>        self._user_project_gallery_window.show()</div>
+<div class="line"><span class="lineno">  239</span>        self._user_project_gallery_window.raise_()</div>
+<div class="line"><span class="lineno">  240</span>        self._user_project_gallery_window.activateWindow()</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  242</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00204">_user_project_gallery_window</a>.</p>
+<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00233">_user_project_gallery_window</a>.</p>
 
 </div>
 </div>
@@ -593,43 +636,43 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00157">157</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>    <span class="keyword">def </span>show_about_dialog(self):</div>
-<div class="line"><span class="lineno">  158</span>        version = getattr(conf, <span class="stringliteral">&quot;APP_VERSION&quot;</span>, <span class="stringliteral">&quot;1.0.0&quot;</span>)</div>
-<div class="line"><span class="lineno">  159</span>        release_date = getattr(conf, <span class="stringliteral">&quot;APP_RELEASE_DATE&quot;</span>, <span class="stringliteral">&quot;2025-05-30&quot;</span>)</div>
-<div class="line"><span class="lineno">  160</span>        icon_path = getattr(conf, <span class="stringliteral">&quot;SW_ICON_PATH&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>        dlg = QDialog(self)</div>
-<div class="line"><span class="lineno">  163</span>        dlg.setWindowTitle(<span class="stringliteral">&quot;Informazioni su ESPHomeGuiEasy&quot;</span>)</div>
-<div class="line"><span class="lineno">  164</span>        dlg.setStyleSheet(Pantone.DIALOG_STYLE)</div>
-<div class="line"><span class="lineno">  165</span>        layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>        <span class="keywordflow">if</span> os.path.exists(icon_path):</div>
-<div class="line"><span class="lineno">  168</span>            pix = QPixmap(icon_path).scaled(90, 90)</div>
-<div class="line"><span class="lineno">  169</span>            lbl_logo = QLabel()</div>
-<div class="line"><span class="lineno">  170</span>            lbl_logo.setPixmap(pix)</div>
-<div class="line"><span class="lineno">  171</span>            lbl_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  172</span>            layout.addWidget(lbl_logo)</div>
-<div class="line"><span class="lineno">  173</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  174</span>            layout.addWidget(QLabel(<span class="stringliteral">&quot;ESPHomeGuiEasy&quot;</span>))</div>
-<div class="line"><span class="lineno">  175</span> </div>
-<div class="line"><span class="lineno">  176</span>        lbl_info = QLabel(</div>
-<div class="line"><span class="lineno">  177</span>            f<span class="stringliteral">&quot;&lt;b&gt;ESPHomeGuiEasy&lt;/b&gt;&lt;br&gt;&quot;</span></div>
-<div class="line"><span class="lineno">  178</span>            f<span class="stringliteral">&quot;Versione: &lt;b&gt;{version}&lt;/b&gt;&lt;br&gt;&quot;</span></div>
-<div class="line"><span class="lineno">  179</span>            f<span class="stringliteral">&quot;Data rilascio: &lt;b&gt;{release_date}&lt;/b&gt;&lt;br&gt;&lt;br&gt;&quot;</span></div>
-<div class="line"><span class="lineno">  180</span>            f<span class="stringliteral">&quot;Copyright (c) 2025 Juri&lt;br&gt;&quot;</span></div>
-<div class="line"><span class="lineno">  181</span>            f<span class="stringliteral">&quot;Licenza: AGPLv3 - Uso non commerciale&quot;</span></div>
-<div class="line"><span class="lineno">  182</span>        )</div>
-<div class="line"><span class="lineno">  183</span>        lbl_info.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  184</span>        layout.addWidget(lbl_info)</div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span>        btn = QPushButton(<span class="stringliteral">&quot;Chiudi&quot;</span>)</div>
-<div class="line"><span class="lineno">  187</span>        btn.clicked.connect(dlg.accept)</div>
-<div class="line"><span class="lineno">  188</span>        layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>        dlg.setLayout(layout)</div>
-<div class="line"><span class="lineno">  191</span>        dlg.exec()</div>
-<div class="line"><span class="lineno">  192</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00186">186</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  186</span>    <span class="keyword">def </span>show_about_dialog(self):</div>
+<div class="line"><span class="lineno">  187</span>        version = getattr(conf, <span class="stringliteral">&quot;APP_VERSION&quot;</span>, <span class="stringliteral">&quot;1.0.0&quot;</span>)</div>
+<div class="line"><span class="lineno">  188</span>        release_date = getattr(conf, <span class="stringliteral">&quot;APP_RELEASE_DATE&quot;</span>, <span class="stringliteral">&quot;2025-05-30&quot;</span>)</div>
+<div class="line"><span class="lineno">  189</span>        icon_path = getattr(conf, <span class="stringliteral">&quot;SW_ICON_PATH&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>        dlg = QDialog(self)</div>
+<div class="line"><span class="lineno">  192</span>        dlg.setWindowTitle(<span class="stringliteral">&quot;Informazioni su ESPHomeGuiEasy&quot;</span>)</div>
+<div class="line"><span class="lineno">  193</span>        dlg.setStyleSheet(Pantone.DIALOG_STYLE)</div>
+<div class="line"><span class="lineno">  194</span>        layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  195</span> </div>
+<div class="line"><span class="lineno">  196</span>        <span class="keywordflow">if</span> os.path.exists(icon_path):</div>
+<div class="line"><span class="lineno">  197</span>            pix = QPixmap(icon_path).scaled(90, 90)</div>
+<div class="line"><span class="lineno">  198</span>            lbl_logo = QLabel()</div>
+<div class="line"><span class="lineno">  199</span>            lbl_logo.setPixmap(pix)</div>
+<div class="line"><span class="lineno">  200</span>            lbl_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  201</span>            layout.addWidget(lbl_logo)</div>
+<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  203</span>            layout.addWidget(QLabel(<span class="stringliteral">&quot;ESPHomeGuiEasy&quot;</span>))</div>
+<div class="line"><span class="lineno">  204</span> </div>
+<div class="line"><span class="lineno">  205</span>        lbl_info = QLabel(</div>
+<div class="line"><span class="lineno">  206</span>            f<span class="stringliteral">&quot;&lt;b&gt;ESPHomeGuiEasy&lt;/b&gt;&lt;br&gt;&quot;</span></div>
+<div class="line"><span class="lineno">  207</span>            f<span class="stringliteral">&quot;Versione: &lt;b&gt;{version}&lt;/b&gt;&lt;br&gt;&quot;</span></div>
+<div class="line"><span class="lineno">  208</span>            f<span class="stringliteral">&quot;Data rilascio: &lt;b&gt;{release_date}&lt;/b&gt;&lt;br&gt;&lt;br&gt;&quot;</span></div>
+<div class="line"><span class="lineno">  209</span>            f<span class="stringliteral">&quot;Copyright (c) 2025 Juri&lt;br&gt;&quot;</span></div>
+<div class="line"><span class="lineno">  210</span>            f<span class="stringliteral">&quot;Licenza: AGPLv3 - Uso non commerciale&quot;</span></div>
+<div class="line"><span class="lineno">  211</span>        )</div>
+<div class="line"><span class="lineno">  212</span>        lbl_info.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  213</span>        layout.addWidget(lbl_info)</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>        btn = QPushButton(<span class="stringliteral">&quot;Chiudi&quot;</span>)</div>
+<div class="line"><span class="lineno">  216</span>        btn.clicked.connect(dlg.accept)</div>
+<div class="line"><span class="lineno">  217</span>        layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>        dlg.setLayout(layout)</div>
+<div class="line"><span class="lineno">  220</span>        dlg.exec()</div>
+<div class="line"><span class="lineno">  221</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -648,13 +691,13 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00023">23</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>    <span class="keyword">def </span>update_labels(self):</div>
-<div class="line"><span class="lineno">   24</span>        self.clear()</div>
-<div class="line"><span class="lineno">   25</span>        self.create_menus()</div>
-<div class="line"><span class="lineno">   26</span> </div>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00046">46</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>    <span class="keyword">def </span>update_labels(self):</div>
+<div class="line"><span class="lineno">   47</span>        self.clear()</div>
+<div class="line"><span class="lineno">   48</span>        self.create_menus()</div>
+<div class="line"><span class="lineno">   49</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00027">create_menus()</a>.</p>
+<p class="reference">References <a class="el" href="menu__bar_8py_source.html#l00050">create_menus()</a>.</p>
 
 </div>
 </div>
@@ -679,9 +722,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00195">195</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00224">224</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00193">open_project_gallery_window()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00222">open_project_gallery_window()</a>.</p>
 
 </div>
 </div>
@@ -705,9 +748,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00204">204</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00233">233</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00200">open_user_project_gallery_window()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00229">open_user_project_gallery_window()</a>.</p>
 
 </div>
 </div>
@@ -723,7 +766,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00130">130</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00154">154</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -739,7 +782,23 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00114">114</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00137">137</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+
+</div>
+</div>
+<a id="a2e3e6c3b5be479a91774b604fe688de6" name="a2e3e6c3b5be479a91774b604fe688de6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e3e6c3b5be479a91774b604fe688de6">&#9670;&#160;</a></span>docs_action</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">menu_bar.MainMenuBar.docs_action = QAction(Translator.tr(&quot;menu_documentation&quot;), self)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00158">158</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -755,7 +814,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00105">105</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00128">128</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -771,7 +830,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00099">99</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00122">122</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -787,7 +846,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00058">58</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00081">81</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -803,9 +862,9 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00031">31</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00054">54</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00134">_update_recent_files_menu()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00163">_update_recent_files_menu()</a>.</p>
 
 </div>
 </div>
@@ -821,7 +880,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00124">124</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00147">147</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -837,7 +896,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00033">33</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00056">56</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -853,7 +912,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00064">64</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00087">87</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -869,7 +928,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00095">95</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00118">118</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -885,7 +944,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00054">54</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00077">77</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -901,7 +960,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00034">34</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00057">57</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -917,7 +976,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00065">65</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00088">88</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -933,9 +992,9 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00018">18</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00041">41</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00256">user_project_manager.UserProjectManagerWindow.apri_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00329">user_project_manager.UserProjectManagerWindow.apri_progetto()</a>.</p>
 
 </div>
 </div>
@@ -951,7 +1010,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00049">49</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00072">72</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -967,7 +1026,23 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00080">80</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00103">103</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+
+</div>
+</div>
+<a id="a2705e869d0764e1c39d1444d6f974b23" name="a2705e869d0764e1c39d1444d6f974b23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2705e869d0764e1c39d1444d6f974b23">&#9670;&#160;</a></span>open_docs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">menu_bar.MainMenuBar.open_docs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00159">159</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -983,7 +1058,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00125">125</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00148">148</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -999,7 +1074,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00115">115</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00138">138</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1015,7 +1090,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00119">119</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00142">142</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1031,7 +1106,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00113">113</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00136">136</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1047,9 +1122,9 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00020">20</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00043">43</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00134">_update_recent_files_menu()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="menu__bar_8py_source.html#l00163">_update_recent_files_menu()</a>.</p>
 
 </div>
 </div>
@@ -1065,7 +1140,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00085">85</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00108">108</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1081,7 +1156,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00090">90</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00113">113</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1097,7 +1172,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00123">123</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00146">146</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1113,7 +1188,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00131">131</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00155">155</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
@@ -1129,12 +1204,12 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00118">118</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="menu__bar_8py_source.html#l00141">141</a> of file <a class="el" href="menu__bar_8py_source.html">menu_bar.py</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="menu__bar_8py_source.html">menu_bar.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="menu__bar_8py_source.html">menu_bar.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

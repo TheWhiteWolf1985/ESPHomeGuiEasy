@@ -1,3 +1,28 @@
+# -*- coding: utf-8 -*-
+"""
+@file setting_menu.py
+@brief Settings dialog with multiple categorized pages for ESPHomeGUIeasy.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Implements a QDialog containing a side category list and stacked pages for:
+- UI preferences (theme, font size, spacing)
+- Language selection
+- Default project folder paths
+- Startup options (splash screen, update checks)
+- Advanced settings (debug logs, cache clearing)
+- ESPHome version and path information
+- Log file access
+
+Includes apply and cancel buttons and manages saving settings to the database.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem,
     QStackedWidget, QWidget, QLabel, QComboBox, QCheckBox, QPushButton,
@@ -15,9 +40,23 @@ import config.GUIconfig as conf
 import os
 import webbrowser
 from core.log_handler import GeneralLogHandler as logger
+from config.GUIconfig import LOG_PATH
+from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtCore import QUrl
 
 class SettingsDialog(QDialog):
+    """
+    @brief Main settings dialog window organizing preferences into categorized tabs.
+
+    Handles UI initialization, user interactions, and saving configuration changes.
+    Connects GUI controls to underlying database and application logic.
+    """
     def __init__(self, parent=None):
+        """
+        @brief Initializes the settings dialog UI, including category list and stacked pages.
+
+        Sets up buttons, connects signals, and applies styling.
+        """
         super().__init__(parent)
         self.setWindowTitle(Translator.tr("settings_title"))
         self.setFixedSize(800, 550)
@@ -94,9 +133,20 @@ class SettingsDialog(QDialog):
         self.category_list.setCurrentRow(0)
 
     def switch_category(self, index):
+        """
+        @brief Switches the visible settings page based on category list selection.
+
+        @param index Index of the selected category.
+        """
         self.stack.setCurrentIndex(index)
 
     def save_settings(self):
+        """
+        @brief Saves current settings from all pages to the configuration database.
+
+        Calls helper functions and sets custom ESPHome CLI path if provided.
+        Shows an information message box on success.
+        """
         save_settings(self)
 
         if hasattr(self, "custom_esphome_input"):
@@ -112,6 +162,9 @@ class SettingsDialog(QDialog):
 
 
     def create_ui_page(self):
+        """
+        @brief Creates the UI preferences page with theme, font size, and compact spacing options.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
 
@@ -136,6 +189,9 @@ class SettingsDialog(QDialog):
         return page
 
     def create_language_page(self):
+        """
+        @brief Creates the language selection page with combo box and language prompt option.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
 
@@ -167,6 +223,9 @@ class SettingsDialog(QDialog):
         return page
 
     def create_paths_page(self):
+        """
+        @brief Creates the paths page for selecting default project folder and cache clearing.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
 
@@ -193,6 +252,9 @@ class SettingsDialog(QDialog):
         return page
 
     def create_startup_page(self):
+        """
+        @brief Creates the startup options page for splash screen and update check toggles.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
 
@@ -228,6 +290,9 @@ class SettingsDialog(QDialog):
         return page
 
     def create_advanced_page(self):
+        """
+        @brief Creates the advanced options page for debug log enabling and cache refresh.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
 
@@ -248,11 +313,17 @@ class SettingsDialog(QDialog):
         return page
 
     def browse_project_folder(self):
+        """
+        @brief Opens a folder selection dialog to change the default project folder path.
+        """
         folder = QFileDialog.getExistingDirectory(self, Translator.tr("settings_browse"))
         if folder:
             self.project_path_edit.setText(folder)
 
     def aggiorna_tutte_le_label(self):
+        """
+        @brief Updates all UI text labels to reflect current language selection.
+        """
         self.setWindowTitle(Translator.tr("settings_title"))
 
         self.category_list.clear()
@@ -290,13 +361,20 @@ class SettingsDialog(QDialog):
         self.force_refresh_btn.setText(Translator.tr("settings_force_refresh"))
 
     def check_updates_now(self):
-
+        """
+        @brief Triggers an immediate online version check via the splash screen module.
+        """
         pixmap = QPixmap(conf.SPLASH_IMAGE)
         splash = SplashScreen(pixmap)
         splash.check_online_version()  # solo controllo, nessun ciclo completo
         splash.show()
 
     def create_esphome_page(self):
+        """
+        @brief Creates the ESPHome information page showing version, executable path, Python version, and online status.
+
+        Includes an input for custom ESPHome CLI path and a download button if not found.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
 
@@ -384,6 +462,9 @@ class SettingsDialog(QDialog):
         return page
     
     def create_log_page(self):
+        """
+        @brief Creates a page with a button to open the application log file.
+        """
         page = QWidget()
         layout = QVBoxLayout(page)
         layout.setContentsMargins(20, 20, 20, 20)
@@ -397,10 +478,10 @@ class SettingsDialog(QDialog):
         return page
 
     def open_log_file(self):
-        from config.GUIconfig import LOG_PATH
-        from PyQt6.QtGui import QDesktopServices
-        from PyQt6.QtCore import QUrl
-
+        """
+        @brief Opens the log file using the system default application if the file exists,
+        otherwise shows a warning message.
+        """
         if os.path.exists(LOG_PATH):
             QDesktopServices.openUrl(QUrl.fromLocalFile(LOG_PATH))
         else:
@@ -410,18 +491,3 @@ class SettingsDialog(QDialog):
         file_path, _ = QFileDialog.getOpenFileName(self, Translator.tr("settings_browse"), "", "Executables (*.exe);;All Files (*)")
         if file_path:
             self.custom_esphome_input.setText(file_path)
-
-if __name__ == "__main__":
-    import sys
-    from PyQt6.QtWidgets import QApplication
-
-    app = QApplication(sys.argv)
-    from core.translator import Translator
-    Translator.load_language("en")  # o "it" se vuoi forzare in italiano
-
-    from gui.color_pantone import Pantone
-    app.setStyleSheet(Pantone.DIALOG_STYLE)
-
-    dlg = SettingsDialog()
-    dlg.show()
-    sys.exit(app.exec())

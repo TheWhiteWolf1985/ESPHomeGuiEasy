@@ -116,7 +116,6 @@
   "menu_settings": "Einstellungen",
   "menu_language": "Sprache",
   "menu_about": "About",
-  "menu_documentation": "Dokumentation",
   "import_project": "Projekt importieren...",
   "export_project": "Projekt exportieren...",
   "update_available": "Neue Version verfügbar!",
@@ -235,5 +234,7 @@
   "nuova_versione": "Neue Version:",
   "modifica_descrizione": "Beschreibung bearbeiten",
   "inserisci_changelog": "Änderungsprotokoll eingeben:",
-  "custom_esphome_path_label": "Benutzerdefinierter Pfad zur ESPHome-Datei"
+  "custom_esphome_path_label": "Benutzerdefinierter Pfad zur ESPHome-Datei",
+  "menu_documentation": "📘 Dokumentation",
+  "error_docs_not_found": "Die Dokumentationsdatei wurde nicht gefunden."
 }

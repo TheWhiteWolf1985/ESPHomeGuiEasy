@@ -1,12 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+@file compile_manager.py
+@brief Manages the compilation, upload, and flashing of ESPHome YAML files via QProcess and subprocess.
+
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Implements the CompileManager class to:
+- Run `esphome compile` for selected YAML files
+- Upload via USB using `esphome run`
+- Detect connected ESP chips via `esptool`
+- Perform flash erase and output structured logs to the GUI
+
+Also emits Qt signals to synchronize with the GUI during operations.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtCore import QObject, QProcess, pyqtSignal, Qt, QMetaObject, Q_ARG
 from PyQt6.QtWidgets import QMessageBox, QApplication
 import tempfile, os, socket, threading, sys, subprocess, re
 from ruamel.yaml import YAML
 
-
 class CompileManager(QObject):
     """
-    Gestisce la compilazione di file YAML tramite ESPHome usando QProcess.
+    @brief Controls ESPHome-related build and upload operations for a given project.
+
+    Uses QProcess for asynchronous execution and emits signals to update the UI.
     """
     compile_finished = pyqtSignal(int)  # Segnale con codice di uscita
     upload_finished = pyqtSignal()
@@ -24,7 +47,9 @@ class CompileManager(QObject):
 
     def compile_yaml(self, yaml_path: str):
         """
-        Avvia la compilazione ESPHome sul file YAML specificato.
+        @brief Starts ESPHome compilation for the specified YAML file.
+
+        @param yaml_path Absolute path to the YAML file to be compiled.
         """
         try:
             self.temp_path = yaml_path
@@ -44,6 +69,9 @@ class CompileManager(QObject):
             self.log_callback(f"💥 Errore durante la compilazione: {e}")
             
     def handle_compile_output(self):
+        """
+        @brief Processes live output from the ESPHome compile command.
+        """        
         if not self.process:
             return
         output = self.process.readAllStandardOutput().data().decode()
@@ -56,6 +84,9 @@ class CompileManager(QObject):
                 self.log_callback(line.strip(), "info") 
 
     def handle_compile_finished(self, exitCode, exitStatus):
+        """
+        @brief Processes live output from the ESPHome compile command.
+        """        
         if exitCode == 0:
             self.log_callback("✅ Compilazione completata con successo.", "success")
         else:
@@ -77,6 +108,12 @@ class CompileManager(QObject):
 
 
     def upload_via_usb(self, yaml_path, com_port):
+        """
+        @brief Uploads the firmware to the board via USB using ESPHome CLI.
+
+        @param yaml_path Path to the YAML configuration file.
+        @param com_port The COM port (e.g., COM3, /dev/ttyUSB0) to which the board is connected.
+        """
         self.log_callback(f"📤 Upload in corso su {com_port}...")
 
         self.yaml_path = yaml_path
@@ -99,6 +136,11 @@ class CompileManager(QObject):
         self.process.start(self.command[0], self.command[1:])
 
     def erase_flash(self, com_port):
+        """
+        @brief Uses esptool to erase the ESP chip's flash memory.
+
+        @param com_port The COM port to use for the erase operation.
+        """
         command = [sys.executable, "-m", "esptool", "--port", com_port, "erase_flash"]
 
         if self.process:
@@ -114,6 +156,9 @@ class CompileManager(QObject):
         self.process.start(command[0], command[1:])
 
     def handle_erase_output(self):
+        """
+        @brief Processes live output from the ESPHome compile command.
+        """        
         if not self.process:
             return
 
@@ -133,6 +178,9 @@ class CompileManager(QObject):
                 self.log_callback(line, "info")
 
     def handle_erase_finished(self, exitCode, exitStatus):
+        """
+        @brief Processes live output from the ESPHome compile command.
+        """        
         if exitCode == 0:
             self.log_callback("✅ Memoria cancellata con successo", "success")
         else:
@@ -145,8 +193,10 @@ class CompileManager(QObject):
            
     def detect_connected_chip(self, com_port):
         """
-        Usa esptool per rilevare il chip connesso su COM.
-        Ritorna una stringa tipo 'ESP32-C3', oppure None in caso di errore.
+        @brief Uses esptool to detect the chip model connected via USB.
+
+        @param com_port The serial port used for communication.
+        @return Detected chip type as string (e.g., "ESP32-C3") or None if not found.
         """
         try:
             self.log_callback(f"🔍 Rilevo chip su {com_port}...")
@@ -176,6 +226,9 @@ class CompileManager(QObject):
         return None
     
     def handle_upload_output(self):
+        """
+        @brief Processes live output from the ESPHome compile command.
+        """
         if not self.process:
             return
 
@@ -191,6 +244,9 @@ class CompileManager(QObject):
             # rimuoviamo il log di successo da qui
 
     def handle_upload_finished(self, exitCode, exitStatus):
+        """
+        @brief Processes live output from the ESPHome compile command.
+        """        
         if exitCode != 0:
             self.log_callback(f"❌ Upload terminato con errore (codice: {exitCode}).", "error")
 

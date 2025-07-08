@@ -1,11 +1,38 @@
-import threading
-import os
-import zipfile
+# -*- coding: utf-8 -*-
+"""
+@file project_handler.py
+@brief Manages import/export operations for ESPHome projects as ZIP archives.
+
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Implements:
+- ExportWorker: compresses a project directory into a .zip archive
+- ImportWorker: extracts a project ZIP and locates the YAML file
+- ProjectHandler: static interface to trigger threaded import/export
+
+Integrates with Qt signals to update the GUI and uses a custom progress dialog.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import threading, os, zipfile
 from core.translator import Translator
 from PyQt6.QtCore import QObject, pyqtSignal, QThread
 from gui.progress_dialog import ProgressDialog
 
 class ImportWorker(QObject):
+    """
+    @brief Qt worker class for importing ESPHome projects from a ZIP archive.
+
+    Extracts files to a destination folder and tries to locate a `.yaml` file to open automatically.
+
+    @signal progress(current: int, total: int): Emits progress percentage during extraction.
+    @signal finished(path_yaml: str, path_zip: str): Emits the YAML path once import is complete.
+    """
     progress = pyqtSignal(int, int)   # (current, total)
     finished = pyqtSignal(str, str)   # path_yaml, path_zip
 
@@ -44,6 +71,14 @@ class ImportWorker(QObject):
 ##########################################################################        
 
 class ExportWorker(QObject):
+    """
+    @brief Qt worker class for exporting a project folder to a compressed `.zip` archive.
+
+    Skips `.pioenvs` and emits signals for progress and completion.
+
+    @signal progress(current: int, total: int): Emits progress during compression.
+    @signal finished(path_zip: str): Emits the final ZIP file path.
+    """
     progress = pyqtSignal(int, int)    # (current, total)
     finished = pyqtSignal(str)         # path_zip
 
@@ -75,8 +110,21 @@ class ExportWorker(QObject):
 ##########################################################################           
 
 class ProjectHandler:
+    """
+    @brief Static interface to import and export ESPHome projects using Qt threads.
+
+    Encapsulates creation of worker threads, signal handling, and GUI updates.
+    """
     @staticmethod
     def export_project(project_dir, save_dialog, logger, parent_gui=None):
+        """
+        @brief Launches the export process for a project folder into a `.zip` archive.
+
+        @param project_dir Path to the source project folder.
+        @param save_dialog Function to open a save dialog for ZIP destination.
+        @param logger Callable to log status messages.
+        @param parent_gui Optional parent window for progress dialog.
+        """
         # Chiedi path zip PRIMA di partire col thread!
         nome_progetto = os.path.basename(project_dir)
         path_zip, _ = save_dialog(
@@ -118,6 +166,14 @@ class ProjectHandler:
 
     @staticmethod
     def import_project(open_dialog, dir_dialog, logger, open_project_callback):
+        """
+        @brief Launches the import process for a `.zip` archive containing an ESPHome project.
+
+        @param open_dialog Function to open a file dialog for ZIP selection.
+        @param dir_dialog Function to choose the destination directory.
+        @param logger Callable to log messages.
+        @param open_project_callback Function to open the YAML file once extracted.
+        """
         path_zip, _ = open_dialog(None, "Importa progetto", "", "Archivio ZIP (*.zip)")
         if not path_zip:
             return

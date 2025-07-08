@@ -1,11 +1,31 @@
-# esphomeGuieasy - GUI editor for ESPHome
-# Copyright (c) 2025 Juri
-# Released under AGPLv3 - Non-commercial use only.
-# See LICENSE file for details.
+# -*- coding: utf-8 -*-
+"""
+@file main.py
+@brief Entry point of the ESPHomeGUIeasy application.
 
-import sys
-import os
-import json
+@mainpage ESPHomeGUIeasy
+@defgroup core_entry Entry Point
+@ingroup main
+@brief Application launcher, global initializer and exception handler.
+
+This file initializes the ESPHomeGUIeasy environment. It sets up the QApplication,
+loads the selected language (or prompts for it if not yet defined), handles
+global exception logging, manages the splash screen visibility logic, and finally
+launches the main user interface.
+
+Key responsibilities:
+- Loads application settings from the SQLite database
+- Displays a language selection dialog on first run
+- Initializes the splash screen (if enabled)
+- Ensures proper logging of uncaught exceptions
+- Launches the main application window (`MainWindow`)
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import sys, os, json, logging, tempfile
 from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
@@ -17,11 +37,20 @@ from gui.splash_screen import SplashScreen
 import config.GUIconfig as conf
 from core.settings_db import init_db, get_setting, set_setting
 from core.log_handler import GeneralLogHandler
-import logging
-import tempfile
-from core.log_handler import GeneralLogHandler
 
 def global_exception_hook(exc_type, exc_value, exc_traceback):
+    """
+    @brief Global exception handler for uncaught exceptions.
+
+    Overrides the default Python sys.excepthook to capture any uncaught
+    exceptions and forward them to the logger for persistent storage.
+
+    This ensures that unexpected crashes are properly logged for debugging.
+
+    @param exc_type The exception type (e.g., ValueError)
+    @param exc_value The exception instance
+    @param exc_traceback The traceback object
+    """    
     logger = GeneralLogHandler()
     logger.log_exception("UNCAUGHT EXCEPTION")
 
@@ -34,8 +63,12 @@ logger.info("Avvio main.py")
 
 def should_show_splash() -> bool:
     """
-    Restituisce True se lo splash screen deve essere mostrato.
-    Se la chiave non è ancora presente nel database, imposta il valore predefinito a '1'.
+    @brief Determines whether the splash screen should be displayed.
+
+    Reads the `show_splash` setting from the SQLite configuration database.
+    If not previously set, defaults to True and creates the entry.
+
+    @return True if the splash screen should be shown, False otherwise.
     """
     splash_setting = get_setting("show_splash")
     if splash_setting is None:
@@ -44,10 +77,31 @@ def should_show_splash() -> bool:
     return splash_setting == "1"
 
 def show_main_window():
+    """
+    @brief Displays the main application window (`MainWindow`).
+
+    This function is passed as a callback to the splash screen, so the main
+    window opens after the splash has finished its initialization sequence.
+    """    
     window = MainWindow()
     window.show()
 
 def main():
+    """
+    @brief Main application entry point.
+
+    This function performs all critical startup tasks in the correct order:
+
+    1. Initializes the `QApplication` instance required for the GUI.
+    2. Initializes the configuration database via `init_db()`.
+    3. Loads the current language settings or displays a language selection dialog if undefined.
+    4. Depending on configuration, displays the splash screen (`SplashScreen`) or skips it.
+    5. Starts the Qt event loop.
+
+    If any unexpected error occurs, the `GeneralLogHandler` records the exception to disk.
+
+    @throws Any unhandled exceptions will be logged and re-raised.
+    """    
     try:
         app = QApplication(sys.argv)
 
@@ -103,9 +157,11 @@ def main():
         GeneralLogHandler().log_exception("Errore imprevisto in main()")
         raise
 
-
-
-
-
 if __name__ == "__main__":
+    """
+    @brief Standard Python entry-point for standalone execution.
+
+    This ensures the main application logic is executed only when the file is run
+    directly (and not imported as a module).
+    """    
     main()

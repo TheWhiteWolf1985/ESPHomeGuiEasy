@@ -14,6 +14,7 @@ var _g_u_iconfig_8py =
     [ "GUIconfig.exist_ok", "namespace_g_u_iconfig.html#aee2cf0153f794d43ed4afe0b7ca5561d", null ],
     [ "GUIconfig.GITHUB_URL", "namespace_g_u_iconfig.html#a289a6781e9543a97c6d167d097b2e66a", null ],
     [ "GUIconfig.ICON_PATH", "namespace_g_u_iconfig.html#a0d336d6ffac2c74efe1025ca86bd834f", null ],
+    [ "GUIconfig.LANGUAGE_MAP", "namespace_g_u_iconfig.html#abfdac18d6c85968eed42e5904a544af8", null ],
     [ "GUIconfig.LOCALAPPDATA_FOLDER", "namespace_g_u_iconfig.html#a0e4a4cfc89de5ad5e556859fb147bc51", null ],
     [ "GUIconfig.LOG_PATH", "namespace_g_u_iconfig.html#a94c4d6a8fa71a2f4117d2b6e5475cb85", null ],
     [ "GUIconfig.MAIN_SPLITTER_LEFT_COLUMN", "namespace_g_u_iconfig.html#ae808f289fe981c2504646c2076d84170", null ],

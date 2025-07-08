@@ -1,23 +1,124 @@
+# -*- coding: utf-8 -*-
+"""
+@file color_pantone.py
+@brief Centralized color palette and CSS style definitions used across the GUI.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Defines the `Pantone` class containing color hex codes and stylesheets
+for consistent look & feel throughout the application.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 class Pantone:
     """
-    Palette centralizzata per tutti i colori principali e gli stili CSS della GUI.
+    @brief Contains all primary colors and CSS styles used in the GUI.
+
+    Includes styles for group boxes, line edits, combo boxes, checkboxes,
+    accordion headers, labels, buttons, menus, dialogs, tabs, and text areas.
+    """
+
+    """
+    @var PRIMARY_BG
+    Primary background color used in main windows and panels.
     """
     PRIMARY_BG = "#23272e"
+
+    """
+    @var SECONDARY_BG
+    Secondary background color, typically used for input fields and panels.
+    """
     SECONDARY_BG = "#1e1e1e"
+
+    """
+    @var ACCENT
+    Accent color used for highlights and interactive elements.
+    """
     ACCENT = "#3a9dda"
+
+    """
+    @var HIGHLIGHT
+    Highlight color used for selection and focus states.
+    """
     HIGHLIGHT = "#61dafb"
+
+    """
+    @var GROUPBOX_BG
+    Background color specifically for group boxes.
+    """
     GROUPBOX_BG = "#23272e"
+
+    """
+    @var GROUPBOX_BORDER
+    Border color used around group boxes.
+    """
     GROUPBOX_BORDER = "#2a2d2e"
+
+    """
+    @var TEXT_MAIN
+    Main text color used for standard labels and text.
+    """
     TEXT_MAIN = "#d4d4d4"
+
+    """
+    @var TEXT_ACCENT
+    Accent text color, typically used on highlighted elements.
+    """
     TEXT_ACCENT = "#fff"
+
+    """
+    @var ERROR
+    Color used to indicate error states or messages.
+    """
     ERROR = "#ff5555"
+
+    """
+    @var WARNING
+    Color used to indicate warnings or caution.
+    """
     WARNING = "#f1c40f"
+
+    """
+    @var SUCCESS
+    Color used to indicate success or confirmation states.
+    """
     SUCCESS = "#33ff99"
+
+    """
+    @var ACCORDION_HEADER_BG
+    Background color of accordion header buttons.
+    """
     ACCORDION_HEADER_BG = "#283346"
+
+    """
+    @var ACCORDION_HEADER_TEXT
+    Text color of accordion header buttons.
+    """
     ACCORDION_HEADER_TEXT = "#e0eafc"
+
+    """
+    @var ACCORDION_HEADER_ACCENT
+    Accent background color when accordion header is active or selected.
+    """
     ACCORDION_HEADER_ACCENT = "#3a9dda"
+
+    """
+    @var BTN_UPDATE_BACKGROUND
+    Background color for update buttons.
+    """
     BTN_UPDATE_BACKGROUND = "#28a745"
-    BTN_UPDATE_TEXT = "#FFFFFF"    
+
+    """
+    @var BTN_UPDATE_TEXT
+    Text color for update buttons.
+    """
+    BTN_UPDATE_TEXT = "#FFFFFF"
+
 
 
     GROUPBOX_STYLE = f"""

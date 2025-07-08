@@ -120,7 +120,6 @@
   "menu_settings": "Settings",
   "menu_language": "Language",
   "menu_about": "About",
-  "menu_documentation": "Documentation",
   "import_project": "Import Project...",
   "export_project": "Export Project...",
   "update_available": "New version available!",
@@ -240,5 +239,7 @@
   "nuova_versione": "New version:",
   "modifica_descrizione": "Edit description",
   "inserisci_changelog": "Enter changelog:",
-  "custom_esphome_path_label": "Custom path to ESPHome executable"
+  "custom_esphome_path_label": "Custom path to ESPHome executable",
+  "menu_documentation": "📘 Documentation",
+  "error_docs_not_found": "Documentation file not found."
 }

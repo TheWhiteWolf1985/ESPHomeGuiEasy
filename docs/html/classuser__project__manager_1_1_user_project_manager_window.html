@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -169,8 +165,14 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a8c17f71e458844f4f8e7b83a27aa7b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00034">34</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Main window for managing local ESPHome user projects.
+
+Displays project categories on the left and project cards on the right.
+Each card shows metadata and quick action buttons (open, edit, info, delete).
+
+@note Reads project metadata from `info.json` files and supports live updates.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00051">51</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae635c50d8f5c7f42255809f2d2c74eb2" name="ae635c50d8f5c7f42255809f2d2c74eb2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae635c50d8f5c7f42255809f2d2c74eb2">&#9670;&#160;</a></span>__init__()</h2>
@@ -190,128 +192,146 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Initializes the project manager window.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00035">35</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>    <span class="keyword">def </span>__init__(self, main_window=None):</div>
-<div class="line"><span class="lineno">   36</span>        super().__init__()</div>
-<div class="line"><span class="lineno">   37</span>        self.main_window = main_window</div>
-<div class="line"><span class="lineno">   38</span>        self.setWindowTitle(Translator.tr(<span class="stringliteral">&quot;user_projects_title&quot;</span>))</div>
-<div class="line"><span class="lineno">   39</span>        self.setMinimumSize(1050, 600)</div>
-<div class="line"><span class="lineno">   40</span>        self.setStyleSheet(f<span class="stringliteral">&quot;background-color: {Pantone.SECONDARY_BG};&quot;</span>)</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>        lang = get_setting(<span class="stringliteral">&quot;language&quot;</span>)</div>
-<div class="line"><span class="lineno">   43</span>        Translator.load_language(lang)</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span>        QApplication.instance().setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   46</span><span class="stringliteral">            QLineEdit, QTextEdit {</span></div>
-<div class="line"><span class="lineno">   47</span><span class="stringliteral">                color: white;</span></div>
-<div class="line"><span class="lineno">   48</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
-<div class="line"><span class="lineno">   49</span><span class="stringliteral">                border: 1px solid #555;</span></div>
-<div class="line"><span class="lineno">   50</span><span class="stringliteral">                border-radius: 6px;</span></div>
-<div class="line"><span class="lineno">   51</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   52</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   53</span><span class="stringliteral">            QLabel {</span></div>
-<div class="line"><span class="lineno">   54</span><span class="stringliteral">                color: white;</span></div>
-<div class="line"><span class="lineno">   55</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   56</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   57</span><span class="stringliteral">            QMessageBox {</span></div>
-<div class="line"><span class="lineno">   58</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
-<div class="line"><span class="lineno">   59</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   60</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   61</span><span class="stringliteral">            QPushButton {</span></div>
-<div class="line"><span class="lineno">   62</span><span class="stringliteral">                background-color: #444;</span></div>
-<div class="line"><span class="lineno">   63</span><span class="stringliteral">                color: white;</span></div>
-<div class="line"><span class="lineno">   64</span><span class="stringliteral">                padding: 6px 14px;</span></div>
-<div class="line"><span class="lineno">   65</span><span class="stringliteral">                border-radius: 6px;</span></div>
-<div class="line"><span class="lineno">   66</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   67</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   68</span><span class="stringliteral">            QPushButton:hover {</span></div>
-<div class="line"><span class="lineno">   69</span><span class="stringliteral">                background-color: #555;</span></div>
-<div class="line"><span class="lineno">   70</span><span class="stringliteral">            }</span></div>
-<div class="line"><span class="lineno">   71</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>        </div>
-<div class="line"><span class="lineno">   74</span>        self.categories = [</div>
-<div class="line"><span class="lineno">   75</span>            <span class="stringliteral">&quot;Home_Monitoring&quot;</span>, <span class="stringliteral">&quot;Energy_Power&quot;</span>, <span class="stringliteral">&quot;Security_Alarm&quot;</span>,</div>
-<div class="line"><span class="lineno">   76</span>            <span class="stringliteral">&quot;Actuators_IO&quot;</span>, <span class="stringliteral">&quot;Communication&quot;</span>, <span class="stringliteral">&quot;Automation_Logic&quot;</span>, <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
-<div class="line"><span class="lineno">   77</span>        ]</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>        self.emoji_to_category = {</div>
-<div class="line"><span class="lineno">   80</span>            <span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>: <span class="stringliteral">&quot;Home_Monitoring&quot;</span>,</div>
-<div class="line"><span class="lineno">   81</span>            <span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>: <span class="stringliteral">&quot;Energy_Power&quot;</span>,</div>
-<div class="line"><span class="lineno">   82</span>            <span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>: <span class="stringliteral">&quot;Security_Alarm&quot;</span>,</div>
-<div class="line"><span class="lineno">   83</span>            <span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>: <span class="stringliteral">&quot;Actuators_IO&quot;</span>,</div>
-<div class="line"><span class="lineno">   84</span>            <span class="stringliteral">&quot;🌐 Communication&quot;</span>: <span class="stringliteral">&quot;Communication&quot;</span>,</div>
-<div class="line"><span class="lineno">   85</span>            <span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>: <span class="stringliteral">&quot;Automation_Logic&quot;</span>,</div>
-<div class="line"><span class="lineno">   86</span>            <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
-<div class="line"><span class="lineno">   87</span>        }</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>        self.project_data = self.load_project_metadata()</div>
-<div class="line"><span class="lineno">   91</span>        self.category_to_cards = self.build_category_index()</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>        central_widget = QWidget()</div>
-<div class="line"><span class="lineno">   94</span>        self.setCentralWidget(central_widget)</div>
-<div class="line"><span class="lineno">   95</span>        main_layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">   96</span>        content_layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   97</span>        central_widget.setLayout(main_layout)</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>        self.category_list = QListWidget()</div>
-<div class="line"><span class="lineno">  100</span>        emoji_categories = [</div>
-<div class="line"><span class="lineno">  101</span>            <span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>, <span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>, <span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>,</div>
-<div class="line"><span class="lineno">  102</span>            <span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>, <span class="stringliteral">&quot;🌐 Communication&quot;</span>, <span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>, <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span></div>
-<div class="line"><span class="lineno">  103</span>        ]</div>
-<div class="line"><span class="lineno">  104</span>        <span class="keywordflow">for</span> label <span class="keywordflow">in</span> emoji_categories:</div>
-<div class="line"><span class="lineno">  105</span>            item = QListWidgetItem(label)</div>
-<div class="line"><span class="lineno">  106</span>            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  107</span>            self.category_list.addItem(item)</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>        self.category_list.setFixedWidth(220)</div>
-<div class="line"><span class="lineno">  110</span>        self.category_list.currentTextChanged.connect(self.load_category_cards)</div>
-<div class="line"><span class="lineno">  111</span>        self.category_list.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
-<div class="line"><span class="lineno">  112</span>        content_layout.addWidget(self.category_list)</div>
+Loads language, sets up layout with:
+- Category list on the left
+- Scrollable project card grid on the right
+- Footer with close button
+
+@param main_window Optional reference to the main application window (for callbacks).
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00060">60</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>    <span class="keyword">def </span>__init__(self, main_window=None):</div>
+<div class="line"><span class="lineno">   61</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">        @brief Initializes the project manager window.</span></div>
+<div class="line"><span class="lineno">   63</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   64</span><span class="stringliteral">        Loads language, sets up layout with:</span></div>
+<div class="line"><span class="lineno">   65</span><span class="stringliteral">        - Category list on the left</span></div>
+<div class="line"><span class="lineno">   66</span><span class="stringliteral">        - Scrollable project card grid on the right</span></div>
+<div class="line"><span class="lineno">   67</span><span class="stringliteral">        - Footer with close button</span></div>
+<div class="line"><span class="lineno">   68</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   69</span><span class="stringliteral">        @param main_window Optional reference to the main application window (for callbacks).</span></div>
+<div class="line"><span class="lineno">   70</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">   71</span>        super().__init__()</div>
+<div class="line"><span class="lineno">   72</span>        self.main_window = main_window</div>
+<div class="line"><span class="lineno">   73</span>        self.setWindowTitle(Translator.tr(<span class="stringliteral">&quot;user_projects_title&quot;</span>))</div>
+<div class="line"><span class="lineno">   74</span>        self.setMinimumSize(1050, 600)</div>
+<div class="line"><span class="lineno">   75</span>        self.setStyleSheet(f<span class="stringliteral">&quot;background-color: {Pantone.SECONDARY_BG};&quot;</span>)</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>        lang = get_setting(<span class="stringliteral">&quot;language&quot;</span>)</div>
+<div class="line"><span class="lineno">   78</span>        Translator.load_language(lang)</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>        QApplication.instance().setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   81</span><span class="stringliteral">            QLineEdit, QTextEdit {</span></div>
+<div class="line"><span class="lineno">   82</span><span class="stringliteral">                color: white;</span></div>
+<div class="line"><span class="lineno">   83</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
+<div class="line"><span class="lineno">   84</span><span class="stringliteral">                border: 1px solid #555;</span></div>
+<div class="line"><span class="lineno">   85</span><span class="stringliteral">                border-radius: 6px;</span></div>
+<div class="line"><span class="lineno">   86</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   87</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   88</span><span class="stringliteral">            QLabel {</span></div>
+<div class="line"><span class="lineno">   89</span><span class="stringliteral">                color: white;</span></div>
+<div class="line"><span class="lineno">   90</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   91</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   92</span><span class="stringliteral">            QMessageBox {</span></div>
+<div class="line"><span class="lineno">   93</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
+<div class="line"><span class="lineno">   94</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">   95</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   96</span><span class="stringliteral">            QPushButton {</span></div>
+<div class="line"><span class="lineno">   97</span><span class="stringliteral">                background-color: #444;</span></div>
+<div class="line"><span class="lineno">   98</span><span class="stringliteral">                color: white;</span></div>
+<div class="line"><span class="lineno">   99</span><span class="stringliteral">                padding: 6px 14px;</span></div>
+<div class="line"><span class="lineno">  100</span><span class="stringliteral">                border-radius: 6px;</span></div>
+<div class="line"><span class="lineno">  101</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">  102</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  103</span><span class="stringliteral">            QPushButton:hover {</span></div>
+<div class="line"><span class="lineno">  104</span><span class="stringliteral">                background-color: #555;</span></div>
+<div class="line"><span class="lineno">  105</span><span class="stringliteral">            }</span></div>
+<div class="line"><span class="lineno">  106</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>        </div>
+<div class="line"><span class="lineno">  109</span>        self.categories = [</div>
+<div class="line"><span class="lineno">  110</span>            <span class="stringliteral">&quot;Home_Monitoring&quot;</span>, <span class="stringliteral">&quot;Energy_Power&quot;</span>, <span class="stringliteral">&quot;Security_Alarm&quot;</span>,</div>
+<div class="line"><span class="lineno">  111</span>            <span class="stringliteral">&quot;Actuators_IO&quot;</span>, <span class="stringliteral">&quot;Communication&quot;</span>, <span class="stringliteral">&quot;Automation_Logic&quot;</span>, <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
+<div class="line"><span class="lineno">  112</span>        ]</div>
 <div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>        self.scroll_area = QScrollArea()</div>
-<div class="line"><span class="lineno">  115</span>        self.scroll_area.setWidgetResizable(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  116</span>        self.scroll_area.setStyleSheet(<span class="stringliteral">&quot;border: none;&quot;</span>)</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>        self.scroll_content = QWidget()</div>
-<div class="line"><span class="lineno">  119</span>        self.scroll_layout = QGridLayout()</div>
-<div class="line"><span class="lineno">  120</span>        self.scroll_layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  121</span>        self.scroll_content.setLayout(self.scroll_layout)</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>        self.scroll_area.setWidget(self.scroll_content)</div>
-<div class="line"><span class="lineno">  124</span>        content_layout.addWidget(self.scroll_area)</div>
-<div class="line"><span class="lineno">  125</span>        main_layout.addLayout(content_layout)</div>
-<div class="line"><span class="lineno">  126</span>        self.category_list.setCurrentRow(0)</div>
+<div class="line"><span class="lineno">  114</span>        self.emoji_to_category = {</div>
+<div class="line"><span class="lineno">  115</span>            <span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>: <span class="stringliteral">&quot;Home_Monitoring&quot;</span>,</div>
+<div class="line"><span class="lineno">  116</span>            <span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>: <span class="stringliteral">&quot;Energy_Power&quot;</span>,</div>
+<div class="line"><span class="lineno">  117</span>            <span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>: <span class="stringliteral">&quot;Security_Alarm&quot;</span>,</div>
+<div class="line"><span class="lineno">  118</span>            <span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>: <span class="stringliteral">&quot;Actuators_IO&quot;</span>,</div>
+<div class="line"><span class="lineno">  119</span>            <span class="stringliteral">&quot;🌐 Communication&quot;</span>: <span class="stringliteral">&quot;Communication&quot;</span>,</div>
+<div class="line"><span class="lineno">  120</span>            <span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>: <span class="stringliteral">&quot;Automation_Logic&quot;</span>,</div>
+<div class="line"><span class="lineno">  121</span>            <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
+<div class="line"><span class="lineno">  122</span>        }</div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span> </div>
+<div class="line"><span class="lineno">  125</span>        self.project_data = self.load_project_metadata()</div>
+<div class="line"><span class="lineno">  126</span>        self.category_to_cards = self.build_category_index()</div>
 <div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>        <span class="comment"># Footer con pulsanti</span></div>
-<div class="line"><span class="lineno">  129</span>        footer = QWidget()</div>
-<div class="line"><span class="lineno">  130</span>        footer_layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">  131</span>        footer_layout.setContentsMargins(10, 10, 10, 10)</div>
-<div class="line"><span class="lineno">  132</span>        footer_layout.setSpacing(20)</div>
-<div class="line"><span class="lineno">  133</span>        footer_layout.setAlignment(Qt.AlignmentFlag.AlignRight)</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>        <span class="comment">#self.btn_load = QPushButton(&quot;📥 &quot; + Translator.tr(&quot;load_button&quot;))</span></div>
-<div class="line"><span class="lineno">  136</span>        self.btn_close = QPushButton(<span class="stringliteral">&quot;❌ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;close_button&quot;</span>))</div>
-<div class="line"><span class="lineno">  137</span>        <span class="comment">#self.btn_load.setFixedWidth(140)</span></div>
-<div class="line"><span class="lineno">  138</span>        self.btn_close.setFixedWidth(140)</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>        <span class="comment">#self.btn_load.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</span></div>
-<div class="line"><span class="lineno">  141</span>        self.btn_close.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>        self.btn_close.clicked.connect(self.close)</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>        <span class="comment">#footer_layout.addWidget(self.btn_load)</span></div>
-<div class="line"><span class="lineno">  146</span>        footer_layout.addWidget(self.btn_close)</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>        footer.setLayout(footer_layout)</div>
-<div class="line"><span class="lineno">  149</span>        main_layout.addWidget(footer)</div>
-<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  128</span>        central_widget = QWidget()</div>
+<div class="line"><span class="lineno">  129</span>        self.setCentralWidget(central_widget)</div>
+<div class="line"><span class="lineno">  130</span>        main_layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  131</span>        content_layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  132</span>        central_widget.setLayout(main_layout)</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  134</span>        self.category_list = QListWidget()</div>
+<div class="line"><span class="lineno">  135</span>        emoji_categories = [</div>
+<div class="line"><span class="lineno">  136</span>            <span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>, <span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>, <span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>,</div>
+<div class="line"><span class="lineno">  137</span>            <span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>, <span class="stringliteral">&quot;🌐 Communication&quot;</span>, <span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>, <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span></div>
+<div class="line"><span class="lineno">  138</span>        ]</div>
+<div class="line"><span class="lineno">  139</span>        <span class="keywordflow">for</span> label <span class="keywordflow">in</span> emoji_categories:</div>
+<div class="line"><span class="lineno">  140</span>            item = QListWidgetItem(label)</div>
+<div class="line"><span class="lineno">  141</span>            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  142</span>            self.category_list.addItem(item)</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>        self.category_list.setFixedWidth(220)</div>
+<div class="line"><span class="lineno">  145</span>        self.category_list.currentTextChanged.connect(self.load_category_cards)</div>
+<div class="line"><span class="lineno">  146</span>        self.category_list.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
+<div class="line"><span class="lineno">  147</span>        content_layout.addWidget(self.category_list)</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>        self.scroll_area = QScrollArea()</div>
+<div class="line"><span class="lineno">  150</span>        self.scroll_area.setWidgetResizable(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  151</span>        self.scroll_area.setStyleSheet(<span class="stringliteral">&quot;border: none;&quot;</span>)</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>        self.scroll_content = QWidget()</div>
+<div class="line"><span class="lineno">  154</span>        self.scroll_layout = QGridLayout()</div>
+<div class="line"><span class="lineno">  155</span>        self.scroll_layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  156</span>        self.scroll_content.setLayout(self.scroll_layout)</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>        self.scroll_area.setWidget(self.scroll_content)</div>
+<div class="line"><span class="lineno">  159</span>        content_layout.addWidget(self.scroll_area)</div>
+<div class="line"><span class="lineno">  160</span>        main_layout.addLayout(content_layout)</div>
+<div class="line"><span class="lineno">  161</span>        self.category_list.setCurrentRow(0)</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>        <span class="comment"># Footer con pulsanti</span></div>
+<div class="line"><span class="lineno">  164</span>        footer = QWidget()</div>
+<div class="line"><span class="lineno">  165</span>        footer_layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  166</span>        footer_layout.setContentsMargins(10, 10, 10, 10)</div>
+<div class="line"><span class="lineno">  167</span>        footer_layout.setSpacing(20)</div>
+<div class="line"><span class="lineno">  168</span>        footer_layout.setAlignment(Qt.AlignmentFlag.AlignRight)</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  170</span>        <span class="comment">#self.btn_load = QPushButton(&quot;📥 &quot; + Translator.tr(&quot;load_button&quot;))</span></div>
+<div class="line"><span class="lineno">  171</span>        self.btn_close = QPushButton(<span class="stringliteral">&quot;❌ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;close_button&quot;</span>))</div>
+<div class="line"><span class="lineno">  172</span>        <span class="comment">#self.btn_load.setFixedWidth(140)</span></div>
+<div class="line"><span class="lineno">  173</span>        self.btn_close.setFixedWidth(140)</div>
+<div class="line"><span class="lineno">  174</span> </div>
+<div class="line"><span class="lineno">  175</span>        <span class="comment">#self.btn_load.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</span></div>
+<div class="line"><span class="lineno">  176</span>        self.btn_close.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>        self.btn_close.clicked.connect(self.close)</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>        <span class="comment">#footer_layout.addWidget(self.btn_load)</span></div>
+<div class="line"><span class="lineno">  181</span>        footer_layout.addWidget(self.btn_close)</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>        footer.setLayout(footer_layout)</div>
+<div class="line"><span class="lineno">  184</span>        main_layout.addWidget(footer)</div>
+<div class="line"><span class="lineno">  185</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00035">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00060">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00035">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00060">__init__()</a>.</p>
 
 </div>
 </div>
@@ -334,43 +354,57 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Opens the selected project in the main window.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00256">256</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  256</span>    <span class="keyword">def </span>apri_progetto(self, fields):</div>
-<div class="line"><span class="lineno">  257</span>        path = Path(fields.get(<span class="stringliteral">&quot;__path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
-<div class="line"><span class="lineno">  258</span>        print(f<span class="stringliteral">&quot;[DEBUG] apri_progetto chiamato con path: {path}&quot;</span>)</div>
-<div class="line"><span class="lineno">  259</span>        print(f<span class="stringliteral">&quot;[DEBUG] main_window è: {repr(self.main_window)}&quot;</span>)</div>
-<div class="line"><span class="lineno">  260</span>        print(f<span class="stringliteral">&quot;[DEBUG] main_window.open_project esiste: {hasattr(self.main_window, &#39;open_project&#39;)}&quot;</span>)</div>
-<div class="line"><span class="lineno">  261</span> </div>
-<div class="line"><span class="lineno">  262</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> path.exists():</div>
-<div class="line"><span class="lineno">  263</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;folder_not_found&quot;</span>))</div>
-<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  265</span> </div>
-<div class="line"><span class="lineno">  266</span>        yaml_files = list(path.glob(<span class="stringliteral">&quot;*.yaml&quot;</span>))</div>
-<div class="line"><span class="lineno">  267</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> yaml_files:</div>
-<div class="line"><span class="lineno">  268</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), <span class="stringliteral">&quot;Nessun file .yaml trovato nella cartella progetto.&quot;</span>)</div>
-<div class="line"><span class="lineno">  269</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  270</span> </div>
-<div class="line"><span class="lineno">  271</span>        yaml_path = yaml_files[0]</div>
-<div class="line"><span class="lineno">  272</span>        print(f<span class="stringliteral">&quot;[DEBUG] YAML trovato: {yaml_path}&quot;</span>)</div>
-<div class="line"><span class="lineno">  273</span> </div>
-<div class="line"><span class="lineno">  274</span>        <span class="keywordflow">if</span> self.main_window:</div>
-<div class="line"><span class="lineno">  275</span>            <span class="comment"># Verifica se è già aperto</span></div>
-<div class="line"><span class="lineno">  276</span>            <span class="keywordflow">if</span> os.path.abspath(str(self.main_window.last_save_path <span class="keywordflow">or</span> <span class="stringliteral">&quot;&quot;</span>)) == os.path.abspath(str(yaml_path)):</div>
-<div class="line"><span class="lineno">  277</span>                print(<span class="stringliteral">&quot;[DEBUG] Progetto già aperto, forzo ricaricamento&quot;</span>)</div>
-<div class="line"><span class="lineno">  278</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  279</span>                print(<span class="stringliteral">&quot;[DEBUG] Progetto diverso, procedo con apertura&quot;</span>)</div>
-<div class="line"><span class="lineno">  280</span> </div>
-<div class="line"><span class="lineno">  281</span>            self.main_window._reset_tabs()  <span class="comment"># forza pulizia</span></div>
-<div class="line"><span class="lineno">  282</span>            self.main_window.open_project(str(yaml_path))</div>
-<div class="line"><span class="lineno">  283</span>            self.close()</div>
-<div class="line"><span class="lineno">  284</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  285</span>            self.show_message(<span class="stringliteral">&quot;Stub&quot;</span>, f<span class="stringliteral">&quot;Apertura finta del progetto:\n{yaml_path}&quot;</span>)</div>
-<div class="line"><span class="lineno">  286</span> </div>
+Verifies the existence of the folder and YAML file,
+resets the tabs, and loads the project into the main interface.
+
+@param fields Dictionary containing `__path` and other metadata.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00329">329</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  329</span>    <span class="keyword">def </span>apri_progetto(self, fields):</div>
+<div class="line"><span class="lineno">  330</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  331</span><span class="stringliteral">        @brief Opens the selected project in the main window.</span></div>
+<div class="line"><span class="lineno">  332</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  333</span><span class="stringliteral">        Verifies the existence of the folder and YAML file,</span></div>
+<div class="line"><span class="lineno">  334</span><span class="stringliteral">        resets the tabs, and loads the project into the main interface.</span></div>
+<div class="line"><span class="lineno">  335</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  336</span><span class="stringliteral">        @param fields Dictionary containing `__path` and other metadata.</span></div>
+<div class="line"><span class="lineno">  337</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  338</span>        path = Path(fields.get(<span class="stringliteral">&quot;__path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
+<div class="line"><span class="lineno">  339</span>        print(f<span class="stringliteral">&quot;[DEBUG] apri_progetto chiamato con path: {path}&quot;</span>)</div>
+<div class="line"><span class="lineno">  340</span>        print(f<span class="stringliteral">&quot;[DEBUG] main_window è: {repr(self.main_window)}&quot;</span>)</div>
+<div class="line"><span class="lineno">  341</span>        print(f<span class="stringliteral">&quot;[DEBUG] main_window.open_project esiste: {hasattr(self.main_window, &#39;open_project&#39;)}&quot;</span>)</div>
+<div class="line"><span class="lineno">  342</span> </div>
+<div class="line"><span class="lineno">  343</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> path.exists():</div>
+<div class="line"><span class="lineno">  344</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;folder_not_found&quot;</span>))</div>
+<div class="line"><span class="lineno">  345</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  346</span> </div>
+<div class="line"><span class="lineno">  347</span>        yaml_files = list(path.glob(<span class="stringliteral">&quot;*.yaml&quot;</span>))</div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> yaml_files:</div>
+<div class="line"><span class="lineno">  349</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), <span class="stringliteral">&quot;Nessun file .yaml trovato nella cartella progetto.&quot;</span>)</div>
+<div class="line"><span class="lineno">  350</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  351</span> </div>
+<div class="line"><span class="lineno">  352</span>        yaml_path = yaml_files[0]</div>
+<div class="line"><span class="lineno">  353</span>        print(f<span class="stringliteral">&quot;[DEBUG] YAML trovato: {yaml_path}&quot;</span>)</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>        <span class="keywordflow">if</span> self.main_window:</div>
+<div class="line"><span class="lineno">  356</span>            <span class="comment"># Verifica se è già aperto</span></div>
+<div class="line"><span class="lineno">  357</span>            <span class="keywordflow">if</span> os.path.abspath(str(self.main_window.last_save_path <span class="keywordflow">or</span> <span class="stringliteral">&quot;&quot;</span>)) == os.path.abspath(str(yaml_path)):</div>
+<div class="line"><span class="lineno">  358</span>                print(<span class="stringliteral">&quot;[DEBUG] Progetto già aperto, forzo ricaricamento&quot;</span>)</div>
+<div class="line"><span class="lineno">  359</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  360</span>                print(<span class="stringliteral">&quot;[DEBUG] Progetto diverso, procedo con apertura&quot;</span>)</div>
+<div class="line"><span class="lineno">  361</span> </div>
+<div class="line"><span class="lineno">  362</span>            self.main_window._reset_tabs()  <span class="comment"># forza pulizia</span></div>
+<div class="line"><span class="lineno">  363</span>            self.main_window.open_project(str(yaml_path))</div>
+<div class="line"><span class="lineno">  364</span>            self.close()</div>
+<div class="line"><span class="lineno">  365</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  366</span>            self.show_message(<span class="stringliteral">&quot;Stub&quot;</span>, f<span class="stringliteral">&quot;Apertura finta del progetto:\n{yaml_path}&quot;</span>)</div>
+<div class="line"><span class="lineno">  367</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00143">close</a>, <a class="el" href="menu__bar_8py_source.html#l00018">menu_bar.MainMenuBar.main_window</a>, <a class="el" href="user__project__manager_8py_source.html#l00037">main_window</a>, and <a class="el" href="user__project__manager_8py_source.html#l00372">show_message()</a>.</p>
+<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00178">close</a>, <a class="el" href="menu__bar_8py_source.html#l00041">menu_bar.MainMenuBar.main_window</a>, <a class="el" href="user__project__manager_8py_source.html#l00072">main_window</a>, and <a class="el" href="user__project__manager_8py_source.html#l00477">show_message()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00199">create_project_card()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00262">create_project_card()</a>.</p>
 
 </div>
 </div>
@@ -388,19 +422,31 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Builds a dictionary mapping categories to their associated project data.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00172">172</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  172</span>    <span class="keyword">def </span>build_category_index(self):</div>
-<div class="line"><span class="lineno">  173</span>        result = {cat: [] <span class="keywordflow">for</span> cat <span class="keywordflow">in</span> self.categories}</div>
-<div class="line"><span class="lineno">  174</span>        <span class="keywordflow">for</span> proj <span class="keywordflow">in</span> self.project_data:</div>
-<div class="line"><span class="lineno">  175</span>            cat = proj.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>)</div>
-<div class="line"><span class="lineno">  176</span>            result.setdefault(cat, []).append(proj)</div>
-<div class="line"><span class="lineno">  177</span>        <span class="keywordflow">return</span> result</div>
-<div class="line"><span class="lineno">  178</span> </div>
+This helps quickly retrieve and display projects filtered by category.
+
+@return Dictionary: category -&gt; list of project metadata.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00220">220</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  220</span>    <span class="keyword">def </span>build_category_index(self):</div>
+<div class="line"><span class="lineno">  221</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  222</span><span class="stringliteral">        @brief Builds a dictionary mapping categories to their associated project data.</span></div>
+<div class="line"><span class="lineno">  223</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  224</span><span class="stringliteral">        This helps quickly retrieve and display projects filtered by category.</span></div>
+<div class="line"><span class="lineno">  225</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  226</span><span class="stringliteral">        @return Dictionary: category -&gt; list of project metadata.</span></div>
+<div class="line"><span class="lineno">  227</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  228</span>        result = {cat: [] <span class="keywordflow">for</span> cat <span class="keywordflow">in</span> self.categories}</div>
+<div class="line"><span class="lineno">  229</span>        <span class="keywordflow">for</span> proj <span class="keywordflow">in</span> self.project_data:</div>
+<div class="line"><span class="lineno">  230</span>            cat = proj.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>)</div>
+<div class="line"><span class="lineno">  231</span>            result.setdefault(cat, []).append(proj)</div>
+<div class="line"><span class="lineno">  232</span>        <span class="keywordflow">return</span> result</div>
+<div class="line"><span class="lineno">  233</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00023">project_gallery_window.ProjectGalleryWindow.categories</a>, <a class="el" href="user__project__manager_8py_source.html#l00074">categories</a>, <a class="el" href="project__gallery__window_8py_source.html#l00028">project_gallery_window.ProjectGalleryWindow.project_data</a>, and <a class="el" href="user__project__manager_8py_source.html#l00090">project_data</a>.</p>
+<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00056">project_gallery_window.ProjectGalleryWindow.categories</a>, <a class="el" href="user__project__manager_8py_source.html#l00109">categories</a>, <a class="el" href="project__gallery__window_8py_source.html#l00061">project_gallery_window.ProjectGalleryWindow.project_data</a>, and <a class="el" href="user__project__manager_8py_source.html#l00125">project_data</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>.</p>
 
 </div>
 </div>
@@ -422,69 +468,87 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Creates a QWidget representing a project card with metadata and buttons.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00199">199</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  199</span>    <span class="keyword">def </span>create_project_card(self, project_data: dict) -&gt; QWidget:</div>
-<div class="line"><span class="lineno">  200</span>        card = QWidget()</div>
-<div class="line"><span class="lineno">  201</span>        card.setFixedSize(350, 250)</div>
-<div class="line"><span class="lineno">  202</span>        card.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  203</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
-<div class="line"><span class="lineno">  204</span><span class="stringliteral">            border: 1px solid #444;</span></div>
-<div class="line"><span class="lineno">  205</span><span class="stringliteral">            border-radius: 14px;</span></div>
-<div class="line"><span class="lineno">  206</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">  207</span> </div>
-<div class="line"><span class="lineno">  208</span>        layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">  209</span>        layout.setContentsMargins(10, 10, 10, 10)</div>
-<div class="line"><span class="lineno">  210</span>        layout.setSpacing(10)</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>        <span class="comment"># --- Colonna info ---</span></div>
-<div class="line"><span class="lineno">  213</span>        info_layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">  214</span>        <span class="keywordflow">for</span> label <span class="keywordflow">in</span> [<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;version&quot;</span>, <span class="stringliteral">&quot;author&quot;</span>, <span class="stringliteral">&quot;update&quot;</span>]:</div>
-<div class="line"><span class="lineno">  215</span>            title = QLabel(f<span class="stringliteral">&quot;{label.capitalize()}:&quot;</span>)</div>
-<div class="line"><span class="lineno">  216</span>            title.setStyleSheet(<span class="stringliteral">&quot;color: #aaa; font-size: 9pt; font-weight: bold;&quot;</span>)</div>
-<div class="line"><span class="lineno">  217</span>            title.setFixedWidth(150)</div>
-<div class="line"><span class="lineno">  218</span>            value = QLabel(project_data.get(label, <span class="stringliteral">&quot;-&quot;</span>))</div>
-<div class="line"><span class="lineno">  219</span>            value.setStyleSheet(<span class="stringliteral">&quot;color: #fff; font-size: 10pt;&quot;</span>)</div>
-<div class="line"><span class="lineno">  220</span>            value.setFixedWidth(150)</div>
-<div class="line"><span class="lineno">  221</span>            value.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  222</span>            value.setWordWrap(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  223</span>            info_layout.addWidget(title)</div>
-<div class="line"><span class="lineno">  224</span>            info_layout.addWidget(value)</div>
-<div class="line"><span class="lineno">  225</span>            info_layout.addSpacing(6)</div>
-<div class="line"><span class="lineno">  226</span> </div>
-<div class="line"><span class="lineno">  227</span>        info_layout.addStretch()</div>
-<div class="line"><span class="lineno">  228</span>        layout.addLayout(info_layout)</div>
-<div class="line"><span class="lineno">  229</span> </div>
-<div class="line"><span class="lineno">  230</span>        <span class="comment"># --- Colonna pulsanti ---</span></div>
-<div class="line"><span class="lineno">  231</span>        button_layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">  232</span>        button_layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">  233</span>        button_layout.setSpacing(10)</div>
-<div class="line"><span class="lineno">  234</span> </div>
-<div class="line"><span class="lineno">  235</span>        btn_open = QPushButton(<span class="stringliteral">&quot;📂 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_open&quot;</span>))</div>
-<div class="line"><span class="lineno">  236</span>        btn_info = QPushButton(<span class="stringliteral">&quot;ℹ️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_info&quot;</span>))</div>
-<div class="line"><span class="lineno">  237</span>        btn_edit = QPushButton(<span class="stringliteral">&quot;✏️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_edit&quot;</span>))</div>
-<div class="line"><span class="lineno">  238</span>        btn_delete = QPushButton(<span class="stringliteral">&quot;🗑️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_delete&quot;</span>))</div>
-<div class="line"><span class="lineno">  239</span> </div>
-<div class="line"><span class="lineno">  240</span> </div>
-<div class="line"><span class="lineno">  241</span>        <span class="keywordflow">for</span> btn <span class="keywordflow">in</span> [btn_open, btn_info, btn_edit, btn_delete]:</div>
-<div class="line"><span class="lineno">  242</span>            btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">  243</span>            btn.setFixedWidth(150)</div>
-<div class="line"><span class="lineno">  244</span>            button_layout.addWidget(btn)</div>
-<div class="line"><span class="lineno">  245</span> </div>
-<div class="line"><span class="lineno">  246</span>        btn_open.clicked.connect(<span class="keyword">lambda</span>: self.apri_progetto(project_data))</div>
-<div class="line"><span class="lineno">  247</span>        btn_info.clicked.connect(<span class="keyword">lambda</span>: self.mostra_descrizione(project_data))</div>
-<div class="line"><span class="lineno">  248</span>        btn_edit.clicked.connect(<span class="keyword">lambda</span>: self.modifica_progetto(project_data))</div>
-<div class="line"><span class="lineno">  249</span>        btn_delete.clicked.connect(<span class="keyword">lambda</span>: self.elimina_progetto(project_data))</div>
-<div class="line"><span class="lineno">  250</span> </div>
-<div class="line"><span class="lineno">  251</span>        layout.addLayout(button_layout)</div>
-<div class="line"><span class="lineno">  252</span>        card.setLayout(layout)</div>
-<div class="line"><span class="lineno">  253</span>        <span class="keywordflow">return</span> card</div>
-<div class="line"><span class="lineno">  254</span> </div>
-<div class="line"><span class="lineno">  255</span> </div>
+Displays:
+- Project name, version, author, update date
+- Buttons for open, info, edit, delete
+
+@param project_data Dictionary with project metadata.
+@return QWidget with styled layout and connected actions.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00262">262</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  262</span>    <span class="keyword">def </span>create_project_card(self, project_data: dict) -&gt; QWidget:</div>
+<div class="line"><span class="lineno">  263</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  264</span><span class="stringliteral">        @brief Creates a QWidget representing a project card with metadata and buttons.</span></div>
+<div class="line"><span class="lineno">  265</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  266</span><span class="stringliteral">        Displays:</span></div>
+<div class="line"><span class="lineno">  267</span><span class="stringliteral">        - Project name, version, author, update date</span></div>
+<div class="line"><span class="lineno">  268</span><span class="stringliteral">        - Buttons for open, info, edit, delete</span></div>
+<div class="line"><span class="lineno">  269</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  270</span><span class="stringliteral">        @param project_data Dictionary with project metadata.</span></div>
+<div class="line"><span class="lineno">  271</span><span class="stringliteral">        @return QWidget with styled layout and connected actions.</span></div>
+<div class="line"><span class="lineno">  272</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  273</span>        card = QWidget()</div>
+<div class="line"><span class="lineno">  274</span>        card.setFixedSize(350, 250)</div>
+<div class="line"><span class="lineno">  275</span>        card.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  276</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
+<div class="line"><span class="lineno">  277</span><span class="stringliteral">            border: 1px solid #444;</span></div>
+<div class="line"><span class="lineno">  278</span><span class="stringliteral">            border-radius: 14px;</span></div>
+<div class="line"><span class="lineno">  279</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  280</span> </div>
+<div class="line"><span class="lineno">  281</span>        layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  282</span>        layout.setContentsMargins(10, 10, 10, 10)</div>
+<div class="line"><span class="lineno">  283</span>        layout.setSpacing(10)</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span>        <span class="comment"># --- Colonna info ---</span></div>
+<div class="line"><span class="lineno">  286</span>        info_layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  287</span>        <span class="keywordflow">for</span> label <span class="keywordflow">in</span> [<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;version&quot;</span>, <span class="stringliteral">&quot;author&quot;</span>, <span class="stringliteral">&quot;update&quot;</span>]:</div>
+<div class="line"><span class="lineno">  288</span>            title = QLabel(f<span class="stringliteral">&quot;{label.capitalize()}:&quot;</span>)</div>
+<div class="line"><span class="lineno">  289</span>            title.setStyleSheet(<span class="stringliteral">&quot;color: #aaa; font-size: 9pt; font-weight: bold;&quot;</span>)</div>
+<div class="line"><span class="lineno">  290</span>            title.setFixedWidth(150)</div>
+<div class="line"><span class="lineno">  291</span>            value = QLabel(project_data.get(label, <span class="stringliteral">&quot;-&quot;</span>))</div>
+<div class="line"><span class="lineno">  292</span>            value.setStyleSheet(<span class="stringliteral">&quot;color: #fff; font-size: 10pt;&quot;</span>)</div>
+<div class="line"><span class="lineno">  293</span>            value.setFixedWidth(150)</div>
+<div class="line"><span class="lineno">  294</span>            value.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  295</span>            value.setWordWrap(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  296</span>            info_layout.addWidget(title)</div>
+<div class="line"><span class="lineno">  297</span>            info_layout.addWidget(value)</div>
+<div class="line"><span class="lineno">  298</span>            info_layout.addSpacing(6)</div>
+<div class="line"><span class="lineno">  299</span> </div>
+<div class="line"><span class="lineno">  300</span>        info_layout.addStretch()</div>
+<div class="line"><span class="lineno">  301</span>        layout.addLayout(info_layout)</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  303</span>        <span class="comment"># --- Colonna pulsanti ---</span></div>
+<div class="line"><span class="lineno">  304</span>        button_layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  305</span>        button_layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">  306</span>        button_layout.setSpacing(10)</div>
+<div class="line"><span class="lineno">  307</span> </div>
+<div class="line"><span class="lineno">  308</span>        btn_open = QPushButton(<span class="stringliteral">&quot;📂 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_open&quot;</span>))</div>
+<div class="line"><span class="lineno">  309</span>        btn_info = QPushButton(<span class="stringliteral">&quot;ℹ️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_info&quot;</span>))</div>
+<div class="line"><span class="lineno">  310</span>        btn_edit = QPushButton(<span class="stringliteral">&quot;✏️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_edit&quot;</span>))</div>
+<div class="line"><span class="lineno">  311</span>        btn_delete = QPushButton(<span class="stringliteral">&quot;🗑️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;project_delete&quot;</span>))</div>
+<div class="line"><span class="lineno">  312</span> </div>
+<div class="line"><span class="lineno">  313</span> </div>
+<div class="line"><span class="lineno">  314</span>        <span class="keywordflow">for</span> btn <span class="keywordflow">in</span> [btn_open, btn_info, btn_edit, btn_delete]:</div>
+<div class="line"><span class="lineno">  315</span>            btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  316</span>            btn.setFixedWidth(150)</div>
+<div class="line"><span class="lineno">  317</span>            button_layout.addWidget(btn)</div>
+<div class="line"><span class="lineno">  318</span> </div>
+<div class="line"><span class="lineno">  319</span>        btn_open.clicked.connect(<span class="keyword">lambda</span>: self.apri_progetto(project_data))</div>
+<div class="line"><span class="lineno">  320</span>        btn_info.clicked.connect(<span class="keyword">lambda</span>: self.mostra_descrizione(project_data))</div>
+<div class="line"><span class="lineno">  321</span>        btn_edit.clicked.connect(<span class="keyword">lambda</span>: self.modifica_progetto(project_data))</div>
+<div class="line"><span class="lineno">  322</span>        btn_delete.clicked.connect(<span class="keyword">lambda</span>: self.elimina_progetto(project_data))</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>        layout.addLayout(button_layout)</div>
+<div class="line"><span class="lineno">  325</span>        card.setLayout(layout)</div>
+<div class="line"><span class="lineno">  326</span>        <span class="keywordflow">return</span> card</div>
+<div class="line"><span class="lineno">  327</span> </div>
+<div class="line"><span class="lineno">  328</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00256">apri_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00365">mostra_descrizione()</a>.</p>
+<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00329">apri_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00465">mostra_descrizione()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00179">load_category_cards()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00234">load_category_cards()</a>.</p>
 
 </div>
 </div>
@@ -506,37 +570,49 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Permanently deletes the selected project folder after user confirmation.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00340">340</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  340</span>    <span class="keyword">def </span>elimina_progetto(self, project_data):</div>
-<div class="line"><span class="lineno">  341</span>        path = Path(project_data.get(<span class="stringliteral">&quot;__path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
-<div class="line"><span class="lineno">  342</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> path.exists():</div>
-<div class="line"><span class="lineno">  343</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;folder_not_found&quot;</span>))</div>
-<div class="line"><span class="lineno">  344</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  345</span> </div>
-<div class="line"><span class="lineno">  346</span>        conferma = QMessageBox.question(self,</div>
-<div class="line"><span class="lineno">  347</span>            Translator.tr(<span class="stringliteral">&quot;confirm_delete&quot;</span>),</div>
-<div class="line"><span class="lineno">  348</span>            Translator.tr(<span class="stringliteral">&quot;delete_confirm_msg&quot;</span>).format(name=path.name),</div>
-<div class="line"><span class="lineno">  349</span>            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No</div>
-<div class="line"><span class="lineno">  350</span>        )</div>
-<div class="line"><span class="lineno">  351</span> </div>
-<div class="line"><span class="lineno">  352</span>        <span class="keywordflow">if</span> conferma != QMessageBox.StandardButton.Yes:</div>
-<div class="line"><span class="lineno">  353</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  354</span> </div>
-<div class="line"><span class="lineno">  355</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  356</span>            <span class="keyword">import</span> shutil</div>
-<div class="line"><span class="lineno">  357</span>            shutil.rmtree(path)</div>
-<div class="line"><span class="lineno">  358</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;deleted&quot;</span>), Translator.tr(<span class="stringliteral">&quot;delete_success&quot;</span>))            </div>
-<div class="line"><span class="lineno">  359</span>            self.project_data = self.load_project_metadata()</div>
-<div class="line"><span class="lineno">  360</span>            self.category_to_cards = self.build_category_index()</div>
-<div class="line"><span class="lineno">  361</span>            self.load_category_cards(project_data[<span class="stringliteral">&quot;category&quot;</span>])</div>
-<div class="line"><span class="lineno">  362</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  363</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;delete_error&quot;</span>).format(e=e))</div>
-<div class="line"><span class="lineno">  364</span> </div>
+Triggers reload of metadata and cards.
+
+@param project_data Dictionary with current project info.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00433">433</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  433</span>    <span class="keyword">def </span>elimina_progetto(self, project_data):</div>
+<div class="line"><span class="lineno">  434</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  435</span><span class="stringliteral">        @brief Permanently deletes the selected project folder after user confirmation.</span></div>
+<div class="line"><span class="lineno">  436</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  437</span><span class="stringliteral">        Triggers reload of metadata and cards.</span></div>
+<div class="line"><span class="lineno">  438</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  439</span><span class="stringliteral">        @param project_data Dictionary with current project info.</span></div>
+<div class="line"><span class="lineno">  440</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  441</span>        path = Path(project_data.get(<span class="stringliteral">&quot;__path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
+<div class="line"><span class="lineno">  442</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> path.exists():</div>
+<div class="line"><span class="lineno">  443</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;folder_not_found&quot;</span>))</div>
+<div class="line"><span class="lineno">  444</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  445</span> </div>
+<div class="line"><span class="lineno">  446</span>        conferma = QMessageBox.question(self,</div>
+<div class="line"><span class="lineno">  447</span>            Translator.tr(<span class="stringliteral">&quot;confirm_delete&quot;</span>),</div>
+<div class="line"><span class="lineno">  448</span>            Translator.tr(<span class="stringliteral">&quot;delete_confirm_msg&quot;</span>).format(name=path.name),</div>
+<div class="line"><span class="lineno">  449</span>            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No</div>
+<div class="line"><span class="lineno">  450</span>        )</div>
+<div class="line"><span class="lineno">  451</span> </div>
+<div class="line"><span class="lineno">  452</span>        <span class="keywordflow">if</span> conferma != QMessageBox.StandardButton.Yes:</div>
+<div class="line"><span class="lineno">  453</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  454</span> </div>
+<div class="line"><span class="lineno">  455</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  456</span>            <span class="keyword">import</span> shutil</div>
+<div class="line"><span class="lineno">  457</span>            shutil.rmtree(path)</div>
+<div class="line"><span class="lineno">  458</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;deleted&quot;</span>), Translator.tr(<span class="stringliteral">&quot;delete_success&quot;</span>))            </div>
+<div class="line"><span class="lineno">  459</span>            self.project_data = self.load_project_metadata()</div>
+<div class="line"><span class="lineno">  460</span>            self.category_to_cards = self.build_category_index()</div>
+<div class="line"><span class="lineno">  461</span>            self.load_category_cards(project_data[<span class="stringliteral">&quot;category&quot;</span>])</div>
+<div class="line"><span class="lineno">  462</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  463</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;delete_error&quot;</span>).format(e=e))</div>
+<div class="line"><span class="lineno">  464</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00104">project_gallery_window.ProjectGalleryWindow.build_category_index()</a>, <a class="el" href="user__project__manager_8py_source.html#l00172">build_category_index()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00058">project_gallery_window.ProjectGalleryWindow.category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00091">category_to_cards</a>, <a class="el" href="project__gallery__window_8py_source.html#l00084">project_gallery_window.ProjectGalleryWindow.load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00110">load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00151">load_project_metadata()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00028">project_gallery_window.ProjectGalleryWindow.project_data</a>, <a class="el" href="user__project__manager_8py_source.html#l00090">project_data</a>, and <a class="el" href="user__project__manager_8py_source.html#l00372">show_message()</a>.</p>
+<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00137">project_gallery_window.ProjectGalleryWindow.build_category_index()</a>, <a class="el" href="user__project__manager_8py_source.html#l00220">build_category_index()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00091">project_gallery_window.ProjectGalleryWindow.category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00126">category_to_cards</a>, <a class="el" href="project__gallery__window_8py_source.html#l00117">project_gallery_window.ProjectGalleryWindow.load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00145">load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00186">load_project_metadata()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00061">project_gallery_window.ProjectGalleryWindow.project_data</a>, <a class="el" href="user__project__manager_8py_source.html#l00125">project_data</a>, and <a class="el" href="user__project__manager_8py_source.html#l00477">show_message()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00199">create_project_card()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00262">create_project_card()</a>.</p>
 
 </div>
 </div>
@@ -558,30 +634,44 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Loads and displays all project cards for the selected category.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00179">179</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  179</span>    <span class="keyword">def </span>load_category_cards(self, category_name):</div>
-<div class="line"><span class="lineno">  180</span>        category_key = self.emoji_to_category.get(category_name, category_name)</div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>        <span class="comment"># Pulisce tutte le card esistenti</span></div>
-<div class="line"><span class="lineno">  183</span>        <span class="keywordflow">while</span> self.scroll_layout.count():</div>
-<div class="line"><span class="lineno">  184</span>            item = self.scroll_layout.takeAt(0)</div>
-<div class="line"><span class="lineno">  185</span>            widget = item.widget()</div>
-<div class="line"><span class="lineno">  186</span>            <span class="keywordflow">if</span> widget:</div>
-<div class="line"><span class="lineno">  187</span>                widget.deleteLater()</div>
-<div class="line"><span class="lineno">  188</span> </div>
-<div class="line"><span class="lineno">  189</span>        <span class="comment"># Aggiunge le card in griglia: 2 colonne</span></div>
-<div class="line"><span class="lineno">  190</span>        row, col = 0, 0</div>
-<div class="line"><span class="lineno">  191</span>        <span class="keywordflow">for</span> project <span class="keywordflow">in</span> self.category_to_cards.get(category_key, []):</div>
-<div class="line"><span class="lineno">  192</span>            card = self.create_project_card(project)</div>
-<div class="line"><span class="lineno">  193</span>            self.scroll_layout.addWidget(card, row, col)</div>
-<div class="line"><span class="lineno">  194</span>            col += 1</div>
-<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">if</span> col &gt;= 2:</div>
-<div class="line"><span class="lineno">  196</span>                col = 0</div>
-<div class="line"><span class="lineno">  197</span>                row += 1</div>
-<div class="line"><span class="lineno">  198</span> </div>
+Clears existing cards and populates the scroll area with widgets,
+arranged in a 2-column grid.
+
+@param category_name Displayed category name (with emoji).
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00234">234</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  234</span>    <span class="keyword">def </span>load_category_cards(self, category_name):</div>
+<div class="line"><span class="lineno">  235</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  236</span><span class="stringliteral">        @brief Loads and displays all project cards for the selected category.</span></div>
+<div class="line"><span class="lineno">  237</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  238</span><span class="stringliteral">        Clears existing cards and populates the scroll area with widgets,</span></div>
+<div class="line"><span class="lineno">  239</span><span class="stringliteral">        arranged in a 2-column grid.</span></div>
+<div class="line"><span class="lineno">  240</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  241</span><span class="stringliteral">        @param category_name Displayed category name (with emoji).</span></div>
+<div class="line"><span class="lineno">  242</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  243</span>        category_key = self.emoji_to_category.get(category_name, category_name)</div>
+<div class="line"><span class="lineno">  244</span> </div>
+<div class="line"><span class="lineno">  245</span>        <span class="comment"># Pulisce tutte le card esistenti</span></div>
+<div class="line"><span class="lineno">  246</span>        <span class="keywordflow">while</span> self.scroll_layout.count():</div>
+<div class="line"><span class="lineno">  247</span>            item = self.scroll_layout.takeAt(0)</div>
+<div class="line"><span class="lineno">  248</span>            widget = item.widget()</div>
+<div class="line"><span class="lineno">  249</span>            <span class="keywordflow">if</span> widget:</div>
+<div class="line"><span class="lineno">  250</span>                widget.deleteLater()</div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>        <span class="comment"># Aggiunge le card in griglia: 2 colonne</span></div>
+<div class="line"><span class="lineno">  253</span>        row, col = 0, 0</div>
+<div class="line"><span class="lineno">  254</span>        <span class="keywordflow">for</span> project <span class="keywordflow">in</span> self.category_to_cards.get(category_key, []):</div>
+<div class="line"><span class="lineno">  255</span>            card = self.create_project_card(project)</div>
+<div class="line"><span class="lineno">  256</span>            self.scroll_layout.addWidget(card, row, col)</div>
+<div class="line"><span class="lineno">  257</span>            col += 1</div>
+<div class="line"><span class="lineno">  258</span>            <span class="keywordflow">if</span> col &gt;= 2:</div>
+<div class="line"><span class="lineno">  259</span>                col = 0</div>
+<div class="line"><span class="lineno">  260</span>                row += 1</div>
+<div class="line"><span class="lineno">  261</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00058">project_gallery_window.ProjectGalleryWindow.category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00091">category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00199">create_project_card()</a>, <a class="el" href="user__project__manager_8py_source.html#l00079">emoji_to_category</a>, <a class="el" href="project__gallery__window_8py_source.html#l00095">project_gallery_window.ProjectGalleryWindow.scroll_layout</a>, and <a class="el" href="user__project__manager_8py_source.html#l00119">scroll_layout</a>.</p>
+<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00091">project_gallery_window.ProjectGalleryWindow.category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00126">category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00262">create_project_card()</a>, <a class="el" href="user__project__manager_8py_source.html#l00114">emoji_to_category</a>, <a class="el" href="project__gallery__window_8py_source.html#l00128">project_gallery_window.ProjectGalleryWindow.scroll_layout</a>, and <a class="el" href="user__project__manager_8py_source.html#l00154">scroll_layout</a>.</p>
 
 </div>
 </div>
@@ -599,31 +689,55 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Scans the user projects directory and reads metadata from each `info.json`.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00151">151</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  151</span>    <span class="keyword">def </span>load_project_metadata(self):</div>
-<div class="line"><span class="lineno">  152</span>        projects = []</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> DEFAULT_PROJECT_DIR.exists():</div>
-<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">return</span> projects</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">for</span> category <span class="keywordflow">in</span> DEFAULT_PROJECT_DIR.iterdir():</div>
-<div class="line"><span class="lineno">  157</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> category.is_dir():</div>
-<div class="line"><span class="lineno">  158</span>                <span class="keywordflow">continue</span></div>
-<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">for</span> project <span class="keywordflow">in</span> category.iterdir():</div>
-<div class="line"><span class="lineno">  160</span>                info_path = project / <span class="stringliteral">&quot;info.json&quot;</span></div>
-<div class="line"><span class="lineno">  161</span>                <span class="keywordflow">if</span> info_path.exists():</div>
-<div class="line"><span class="lineno">  162</span>                    <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  163</span>                        <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">  164</span>                            data = json.load(f)</div>
-<div class="line"><span class="lineno">  165</span>                            data[<span class="stringliteral">&quot;__path&quot;</span>] = str(project)</div>
-<div class="line"><span class="lineno">  166</span>                            data[<span class="stringliteral">&quot;category&quot;</span>] = category.name</div>
-<div class="line"><span class="lineno">  167</span>                            projects.append(data)</div>
-<div class="line"><span class="lineno">  168</span>                    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  169</span>                        print(f<span class="stringliteral">&quot;Errore caricamento {info_path}: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  170</span>        <span class="keywordflow">return</span> projects</div>
-<div class="line"><span class="lineno">  171</span> </div>
+For each subfolder under each category in `DEFAULT_PROJECT_DIR`, loads:
+- name
+- author
+- version
+- update
+- description
+- changelog (optional)
+
+@return List of dictionaries, each containing one project's metadata.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00186">186</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  186</span>    <span class="keyword">def </span>load_project_metadata(self):</div>
+<div class="line"><span class="lineno">  187</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  188</span><span class="stringliteral">        @brief Scans the user projects directory and reads metadata from each `info.json`.</span></div>
+<div class="line"><span class="lineno">  189</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  190</span><span class="stringliteral">        For each subfolder under each category in `DEFAULT_PROJECT_DIR`, loads:</span></div>
+<div class="line"><span class="lineno">  191</span><span class="stringliteral">        - name</span></div>
+<div class="line"><span class="lineno">  192</span><span class="stringliteral">        - author</span></div>
+<div class="line"><span class="lineno">  193</span><span class="stringliteral">        - version</span></div>
+<div class="line"><span class="lineno">  194</span><span class="stringliteral">        - update</span></div>
+<div class="line"><span class="lineno">  195</span><span class="stringliteral">        - description</span></div>
+<div class="line"><span class="lineno">  196</span><span class="stringliteral">        - changelog (optional)</span></div>
+<div class="line"><span class="lineno">  197</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  198</span><span class="stringliteral">        @return List of dictionaries, each containing one project&#39;s metadata.</span></div>
+<div class="line"><span class="lineno">  199</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  200</span>        projects = []</div>
+<div class="line"><span class="lineno">  201</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> DEFAULT_PROJECT_DIR.exists():</div>
+<div class="line"><span class="lineno">  202</span>            <span class="keywordflow">return</span> projects</div>
+<div class="line"><span class="lineno">  203</span> </div>
+<div class="line"><span class="lineno">  204</span>        <span class="keywordflow">for</span> category <span class="keywordflow">in</span> DEFAULT_PROJECT_DIR.iterdir():</div>
+<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> category.is_dir():</div>
+<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">continue</span></div>
+<div class="line"><span class="lineno">  207</span>            <span class="keywordflow">for</span> project <span class="keywordflow">in</span> category.iterdir():</div>
+<div class="line"><span class="lineno">  208</span>                info_path = project / <span class="stringliteral">&quot;info.json&quot;</span></div>
+<div class="line"><span class="lineno">  209</span>                <span class="keywordflow">if</span> info_path.exists():</div>
+<div class="line"><span class="lineno">  210</span>                    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  211</span>                        <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">  212</span>                            data = json.load(f)</div>
+<div class="line"><span class="lineno">  213</span>                            data[<span class="stringliteral">&quot;__path&quot;</span>] = str(project)</div>
+<div class="line"><span class="lineno">  214</span>                            data[<span class="stringliteral">&quot;category&quot;</span>] = category.name</div>
+<div class="line"><span class="lineno">  215</span>                            projects.append(data)</div>
+<div class="line"><span class="lineno">  216</span>                    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  217</span>                        print(f<span class="stringliteral">&quot;Errore caricamento {info_path}: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  218</span>        <span class="keywordflow">return</span> projects</div>
+<div class="line"><span class="lineno">  219</span> </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>.</p>
 
 </div>
 </div>
@@ -645,65 +759,87 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Opens the edit dialog to change project version and description.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00287">287</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  287</span>    <span class="keyword">def </span>modifica_progetto(self, project_data):</div>
-<div class="line"><span class="lineno">  288</span>        info_path = Path(project_data.get(<span class="stringliteral">&quot;__path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)) / <span class="stringliteral">&quot;info.json&quot;</span></div>
-<div class="line"><span class="lineno">  289</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> info_path.exists():</div>
-<div class="line"><span class="lineno">  290</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), <span class="stringliteral">&quot;File info.json non trovato.&quot;</span>)</div>
-<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  292</span> </div>
-<div class="line"><span class="lineno">  293</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  294</span>            <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">  295</span>                data = json.load(f)</div>
-<div class="line"><span class="lineno">  296</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  297</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), f<span class="stringliteral">&quot;{Translator.tr(&#39;read_info_error&#39;)}\n{e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  298</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  299</span> </div>
-<div class="line"><span class="lineno">  300</span>        dialog = ProjectEditDialog(</div>
-<div class="line"><span class="lineno">  301</span>            version=data.get(<span class="stringliteral">&quot;version&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
-<div class="line"><span class="lineno">  302</span>            description=data.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
-<div class="line"><span class="lineno">  303</span>            parent=self</div>
-<div class="line"><span class="lineno">  304</span>        )</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  306</span>        <span class="keywordflow">if</span> dialog.exec() != QDialog.DialogCode.Accepted:</div>
-<div class="line"><span class="lineno">  307</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  308</span> </div>
-<div class="line"><span class="lineno">  309</span>        version, descrizione = dialog.get_data()</div>
-<div class="line"><span class="lineno">  310</span> </div>
-<div class="line"><span class="lineno">  311</span>        <span class="comment"># Aggiorna dati principali</span></div>
-<div class="line"><span class="lineno">  312</span>        data[<span class="stringliteral">&quot;version&quot;</span>] = version</div>
-<div class="line"><span class="lineno">  313</span>        data[<span class="stringliteral">&quot;description&quot;</span>] = descrizione</div>
-<div class="line"><span class="lineno">  314</span>        data[<span class="stringliteral">&quot;update&quot;</span>] = datetime.today().strftime(<span class="stringliteral">&quot;%Y-%m-%d&quot;</span>)</div>
-<div class="line"><span class="lineno">  315</span> </div>
-<div class="line"><span class="lineno">  316</span>        <span class="comment"># Aggiorna changelog incrementale</span></div>
-<div class="line"><span class="lineno">  317</span>        changelog_entry = {</div>
-<div class="line"><span class="lineno">  318</span>            <span class="stringliteral">&quot;date&quot;</span>: data[<span class="stringliteral">&quot;update&quot;</span>],</div>
-<div class="line"><span class="lineno">  319</span>            <span class="stringliteral">&quot;version&quot;</span>: data[<span class="stringliteral">&quot;version&quot;</span>],</div>
-<div class="line"><span class="lineno">  320</span>            <span class="stringliteral">&quot;text&quot;</span>: data[<span class="stringliteral">&quot;description&quot;</span>]</div>
-<div class="line"><span class="lineno">  321</span>        }</div>
-<div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">if</span> <span class="stringliteral">&quot;changelog&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> data <span class="keywordflow">or</span> <span class="keywordflow">not</span> isinstance(data[<span class="stringliteral">&quot;changelog&quot;</span>], list):</div>
-<div class="line"><span class="lineno">  324</span>            data[<span class="stringliteral">&quot;changelog&quot;</span>] = []</div>
-<div class="line"><span class="lineno">  325</span> </div>
-<div class="line"><span class="lineno">  326</span>        data[<span class="stringliteral">&quot;changelog&quot;</span>].append(changelog_entry)</div>
-<div class="line"><span class="lineno">  327</span> </div>
-<div class="line"><span class="lineno">  328</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  329</span>            <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">  330</span>                json.dump(data, f, indent=2, ensure_ascii=<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  331</span> </div>
-<div class="line"><span class="lineno">  332</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;saved&quot;</span>), Translator.tr(<span class="stringliteral">&quot;save_success&quot;</span>))</div>
-<div class="line"><span class="lineno">  333</span>            self.project_data = self.load_project_metadata()</div>
-<div class="line"><span class="lineno">  334</span>            self.category_to_cards = self.build_category_index()</div>
-<div class="line"><span class="lineno">  335</span>            self.load_category_cards(project_data[<span class="stringliteral">&quot;category&quot;</span>])</div>
-<div class="line"><span class="lineno">  336</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  337</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;save_error&quot;</span>).format(e=e))</div>
-<div class="line"><span class="lineno">  338</span> </div>
-<div class="line"><span class="lineno">  339</span> </div>
+After confirmation, updates:
+- info.json
+- update timestamp
+- changelog array
+
+Refreshes project list and card display.
+
+@param project_data Dictionary with current project info.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00368">368</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  368</span>    <span class="keyword">def </span>modifica_progetto(self, project_data):</div>
+<div class="line"><span class="lineno">  369</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  370</span><span class="stringliteral">        @brief Opens the edit dialog to change project version and description.</span></div>
+<div class="line"><span class="lineno">  371</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  372</span><span class="stringliteral">        After confirmation, updates:</span></div>
+<div class="line"><span class="lineno">  373</span><span class="stringliteral">        - info.json</span></div>
+<div class="line"><span class="lineno">  374</span><span class="stringliteral">        - update timestamp</span></div>
+<div class="line"><span class="lineno">  375</span><span class="stringliteral">        - changelog array</span></div>
+<div class="line"><span class="lineno">  376</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  377</span><span class="stringliteral">        Refreshes project list and card display.</span></div>
+<div class="line"><span class="lineno">  378</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  379</span><span class="stringliteral">        @param project_data Dictionary with current project info.</span></div>
+<div class="line"><span class="lineno">  380</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  381</span>        info_path = Path(project_data.get(<span class="stringliteral">&quot;__path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)) / <span class="stringliteral">&quot;info.json&quot;</span></div>
+<div class="line"><span class="lineno">  382</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> info_path.exists():</div>
+<div class="line"><span class="lineno">  383</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), <span class="stringliteral">&quot;File info.json non trovato.&quot;</span>)</div>
+<div class="line"><span class="lineno">  384</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  385</span> </div>
+<div class="line"><span class="lineno">  386</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  387</span>            <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">  388</span>                data = json.load(f)</div>
+<div class="line"><span class="lineno">  389</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  390</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), f<span class="stringliteral">&quot;{Translator.tr(&#39;read_info_error&#39;)}\n{e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  391</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  392</span> </div>
+<div class="line"><span class="lineno">  393</span>        dialog = ProjectEditDialog(</div>
+<div class="line"><span class="lineno">  394</span>            version=data.get(<span class="stringliteral">&quot;version&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
+<div class="line"><span class="lineno">  395</span>            description=data.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
+<div class="line"><span class="lineno">  396</span>            parent=self</div>
+<div class="line"><span class="lineno">  397</span>        )</div>
+<div class="line"><span class="lineno">  398</span> </div>
+<div class="line"><span class="lineno">  399</span>        <span class="keywordflow">if</span> dialog.exec() != QDialog.DialogCode.Accepted:</div>
+<div class="line"><span class="lineno">  400</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  401</span> </div>
+<div class="line"><span class="lineno">  402</span>        version, descrizione = dialog.get_data()</div>
+<div class="line"><span class="lineno">  403</span> </div>
+<div class="line"><span class="lineno">  404</span>        <span class="comment"># Aggiorna dati principali</span></div>
+<div class="line"><span class="lineno">  405</span>        data[<span class="stringliteral">&quot;version&quot;</span>] = version</div>
+<div class="line"><span class="lineno">  406</span>        data[<span class="stringliteral">&quot;description&quot;</span>] = descrizione</div>
+<div class="line"><span class="lineno">  407</span>        data[<span class="stringliteral">&quot;update&quot;</span>] = datetime.today().strftime(<span class="stringliteral">&quot;%Y-%m-%d&quot;</span>)</div>
+<div class="line"><span class="lineno">  408</span> </div>
+<div class="line"><span class="lineno">  409</span>        <span class="comment"># Aggiorna changelog incrementale</span></div>
+<div class="line"><span class="lineno">  410</span>        changelog_entry = {</div>
+<div class="line"><span class="lineno">  411</span>            <span class="stringliteral">&quot;date&quot;</span>: data[<span class="stringliteral">&quot;update&quot;</span>],</div>
+<div class="line"><span class="lineno">  412</span>            <span class="stringliteral">&quot;version&quot;</span>: data[<span class="stringliteral">&quot;version&quot;</span>],</div>
+<div class="line"><span class="lineno">  413</span>            <span class="stringliteral">&quot;text&quot;</span>: data[<span class="stringliteral">&quot;description&quot;</span>]</div>
+<div class="line"><span class="lineno">  414</span>        }</div>
+<div class="line"><span class="lineno">  415</span> </div>
+<div class="line"><span class="lineno">  416</span>        <span class="keywordflow">if</span> <span class="stringliteral">&quot;changelog&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> data <span class="keywordflow">or</span> <span class="keywordflow">not</span> isinstance(data[<span class="stringliteral">&quot;changelog&quot;</span>], list):</div>
+<div class="line"><span class="lineno">  417</span>            data[<span class="stringliteral">&quot;changelog&quot;</span>] = []</div>
+<div class="line"><span class="lineno">  418</span> </div>
+<div class="line"><span class="lineno">  419</span>        data[<span class="stringliteral">&quot;changelog&quot;</span>].append(changelog_entry)</div>
+<div class="line"><span class="lineno">  420</span> </div>
+<div class="line"><span class="lineno">  421</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  422</span>            <span class="keyword">with</span> open(info_path, <span class="stringliteral">&quot;w&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">  423</span>                json.dump(data, f, indent=2, ensure_ascii=<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  424</span> </div>
+<div class="line"><span class="lineno">  425</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;saved&quot;</span>), Translator.tr(<span class="stringliteral">&quot;save_success&quot;</span>))</div>
+<div class="line"><span class="lineno">  426</span>            self.project_data = self.load_project_metadata()</div>
+<div class="line"><span class="lineno">  427</span>            self.category_to_cards = self.build_category_index()</div>
+<div class="line"><span class="lineno">  428</span>            self.load_category_cards(project_data[<span class="stringliteral">&quot;category&quot;</span>])</div>
+<div class="line"><span class="lineno">  429</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  430</span>            self.show_message(Translator.tr(<span class="stringliteral">&quot;error&quot;</span>), Translator.tr(<span class="stringliteral">&quot;save_error&quot;</span>).format(e=e))</div>
+<div class="line"><span class="lineno">  431</span> </div>
+<div class="line"><span class="lineno">  432</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00104">project_gallery_window.ProjectGalleryWindow.build_category_index()</a>, <a class="el" href="user__project__manager_8py_source.html#l00172">build_category_index()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00058">project_gallery_window.ProjectGalleryWindow.category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00091">category_to_cards</a>, <a class="el" href="project__gallery__window_8py_source.html#l00084">project_gallery_window.ProjectGalleryWindow.load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00110">load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00151">load_project_metadata()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00028">project_gallery_window.ProjectGalleryWindow.project_data</a>, <a class="el" href="user__project__manager_8py_source.html#l00090">project_data</a>, and <a class="el" href="user__project__manager_8py_source.html#l00372">show_message()</a>.</p>
+<p class="reference">References <a class="el" href="project__gallery__window_8py_source.html#l00137">project_gallery_window.ProjectGalleryWindow.build_category_index()</a>, <a class="el" href="user__project__manager_8py_source.html#l00220">build_category_index()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00091">project_gallery_window.ProjectGalleryWindow.category_to_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00126">category_to_cards</a>, <a class="el" href="project__gallery__window_8py_source.html#l00117">project_gallery_window.ProjectGalleryWindow.load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00145">load_category_cards</a>, <a class="el" href="user__project__manager_8py_source.html#l00186">load_project_metadata()</a>, <a class="el" href="project__gallery__window_8py_source.html#l00061">project_gallery_window.ProjectGalleryWindow.project_data</a>, <a class="el" href="user__project__manager_8py_source.html#l00125">project_data</a>, and <a class="el" href="user__project__manager_8py_source.html#l00477">show_message()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00199">create_project_card()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00262">create_project_card()</a>.</p>
 
 </div>
 </div>
@@ -725,19 +861,27 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Shows a dialog with the project description and formatted changelog.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00365">365</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  365</span>    <span class="keyword">def </span>mostra_descrizione(self, project_data):</div>
-<div class="line"><span class="lineno">  366</span>        description = project_data.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">  367</span>        changelog = project_data.get(<span class="stringliteral">&quot;changelog&quot;</span>, [])  <span class="comment"># deve essere una lista</span></div>
-<div class="line"><span class="lineno">  368</span>        formatted_changelog = format_changelog(changelog)</div>
-<div class="line"><span class="lineno">  369</span>        self.show_message_custom(Translator.tr(<span class="stringliteral">&quot;descrizione&quot;</span>), description, formatted_changelog)</div>
-<div class="line"><span class="lineno">  370</span> </div>
-<div class="line"><span class="lineno">  371</span> </div>
+@param project_data Dictionary with metadata and changelog.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00465">465</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  465</span>    <span class="keyword">def </span>mostra_descrizione(self, project_data):</div>
+<div class="line"><span class="lineno">  466</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  467</span><span class="stringliteral">        @brief Shows a dialog with the project description and formatted changelog.</span></div>
+<div class="line"><span class="lineno">  468</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  469</span><span class="stringliteral">        @param project_data Dictionary with metadata and changelog.</span></div>
+<div class="line"><span class="lineno">  470</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  471</span>        description = project_data.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  472</span>        changelog = project_data.get(<span class="stringliteral">&quot;changelog&quot;</span>, [])  <span class="comment"># deve essere una lista</span></div>
+<div class="line"><span class="lineno">  473</span>        formatted_changelog = format_changelog(changelog)</div>
+<div class="line"><span class="lineno">  474</span>        self.show_message_custom(Translator.tr(<span class="stringliteral">&quot;descrizione&quot;</span>), description, formatted_changelog)</div>
+<div class="line"><span class="lineno">  475</span> </div>
+<div class="line"><span class="lineno">  476</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00017">user_project_manager.format_changelog()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00382">show_message_custom()</a>.</p>
+<p class="reference">References <a class="el" href="user__project__manager_8py_source.html#l00034">user_project_manager.format_changelog()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00494">show_message_custom()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00199">create_project_card()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00262">create_project_card()</a>.</p>
 
 </div>
 </div>
@@ -769,20 +913,32 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Displays a standard modal message box.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00372">372</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  372</span>    <span class="keyword">def </span>show_message(self, title: str, text: str, icon=QMessageBox.Icon.Information):</div>
-<div class="line"><span class="lineno">  373</span>        box = QMessageBox(self)</div>
-<div class="line"><span class="lineno">  374</span>        box.setWindowTitle(title)</div>
-<div class="line"><span class="lineno">  375</span>        box.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)</div>
-<div class="line"><span class="lineno">  376</span>        box.setText(text)</div>
-<div class="line"><span class="lineno">  377</span>        box.setIcon(icon)</div>
-<div class="line"><span class="lineno">  378</span>        box.setMinimumWidth(400)  <span class="comment"># 👈 forza larghezza minima</span></div>
-<div class="line"><span class="lineno">  379</span>        box.setStyleSheet(Pantone.QMESSAGE_BOX)</div>
-<div class="line"><span class="lineno">  380</span>        box.exec()</div>
-<div class="line"><span class="lineno">  381</span> </div>
+@param title Window title of the dialog.
+@param text Message text to display.
+@param icon Icon to use (default: Information).
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00477">477</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  477</span>    <span class="keyword">def </span>show_message(self, title: str, text: str, icon=QMessageBox.Icon.Information):</div>
+<div class="line"><span class="lineno">  478</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  479</span><span class="stringliteral">        @brief Displays a standard modal message box.</span></div>
+<div class="line"><span class="lineno">  480</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  481</span><span class="stringliteral">        @param title Window title of the dialog.</span></div>
+<div class="line"><span class="lineno">  482</span><span class="stringliteral">        @param text Message text to display.</span></div>
+<div class="line"><span class="lineno">  483</span><span class="stringliteral">        @param icon Icon to use (default: Information).</span></div>
+<div class="line"><span class="lineno">  484</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  485</span>        box = QMessageBox(self)</div>
+<div class="line"><span class="lineno">  486</span>        box.setWindowTitle(title)</div>
+<div class="line"><span class="lineno">  487</span>        box.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)</div>
+<div class="line"><span class="lineno">  488</span>        box.setText(text)</div>
+<div class="line"><span class="lineno">  489</span>        box.setIcon(icon)</div>
+<div class="line"><span class="lineno">  490</span>        box.setMinimumWidth(400)  <span class="comment"># 👈 forza larghezza minima</span></div>
+<div class="line"><span class="lineno">  491</span>        box.setStyleSheet(Pantone.QMESSAGE_BOX)</div>
+<div class="line"><span class="lineno">  492</span>        box.exec()</div>
+<div class="line"><span class="lineno">  493</span> </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00256">apri_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00329">apri_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>.</p>
 
 </div>
 </div>
@@ -814,23 +970,25 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Displays a custom dialog with description and changelog formatted as Markdown.
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00382">382</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  382</span>    <span class="keyword">def </span>show_message_custom(self, title: str, text: str, changelog: str):</div>
-<div class="line"><span class="lineno">  383</span>        dlg = CustomMessageDialog(title, text, changelog, self)</div>
-<div class="line"><span class="lineno">  384</span>        dlg.exec()        </div>
-<div class="line"><span class="lineno">  385</span> </div>
-<div class="line"><span class="lineno">  386</span> </div>
-<div class="line"><span class="lineno">  387</span> </div>
-<div class="line"><span class="lineno">  388</span> </div>
-<div class="line"><span class="lineno">  389</span> </div>
-<div class="line"><span class="lineno">  390</span><span class="comment"># if __name__ == &quot;__main__&quot;:</span></div>
-<div class="line"><span class="lineno">  391</span><span class="comment">#     app = QApplication(sys.argv)</span></div>
-<div class="line"><span class="lineno">  392</span><span class="comment">#     window = UserProjectManagerWindow()</span></div>
-<div class="line"><span class="lineno">  393</span><span class="comment">#     window.show()</span></div>
-<div class="line"><span class="lineno">  394</span><span class="comment">#     sys.exit(app.exec())</span></div>
+@param title Dialog title.
+@param text Description content.
+@param changelog Changelog content formatted for display.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00494">494</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  494</span>    <span class="keyword">def </span>show_message_custom(self, title: str, text: str, changelog: str):</div>
+<div class="line"><span class="lineno">  495</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  496</span><span class="stringliteral">        @brief Displays a custom dialog with description and changelog formatted as Markdown.</span></div>
+<div class="line"><span class="lineno">  497</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  498</span><span class="stringliteral">        @param title Dialog title.</span></div>
+<div class="line"><span class="lineno">  499</span><span class="stringliteral">        @param text Description content.</span></div>
+<div class="line"><span class="lineno">  500</span><span class="stringliteral">        @param changelog Changelog content formatted for display.</span></div>
+<div class="line"><span class="lineno">  501</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  502</span>        dlg = CustomMessageDialog(title, text, changelog, self)</div>
+<div class="line"><span class="lineno">  503</span>        dlg.exec()        </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00365">mostra_descrizione()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00465">mostra_descrizione()</a>.</p>
 
 </div>
 </div>
@@ -847,7 +1005,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00136">136</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00171">171</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
 </div>
 </div>
@@ -867,9 +1025,9 @@ Public Attributes</h2></td></tr>
 <div class="line">            <span class="stringliteral">&quot;Actuators_IO&quot;</span>, <span class="stringliteral">&quot;Communication&quot;</span>, <span class="stringliteral">&quot;Automation_Logic&quot;</span>, <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
 <div class="line">        ]</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00074">74</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00109">109</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00172">build_category_index()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00220">build_category_index()</a>.</p>
 
 </div>
 </div>
@@ -885,7 +1043,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00099">99</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00134">134</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
 </div>
 </div>
@@ -901,9 +1059,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00091">91</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00126">126</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00179">load_category_cards()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, <a class="el" href="user__project__manager_8py_source.html#l00234">load_category_cards()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>.</p>
 
 </div>
 </div>
@@ -919,9 +1077,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00143">143</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00178">178</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00256">apri_progetto()</a>, and <a class="el" href="splash__screen_8py_source.html#l00150">splash_screen.SplashScreen.perform_next_step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00329">apri_progetto()</a>, and <a class="el" href="splash__screen_8py_source.html#l00150">splash_screen.SplashScreen.perform_next_step()</a>.</p>
 
 </div>
 </div>
@@ -946,9 +1104,9 @@ Public Attributes</h2></td></tr>
 <div class="line">            <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
 <div class="line">        }</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00079">79</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00114">114</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00179">load_category_cards()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00234">load_category_cards()</a>.</p>
 
 </div>
 </div>
@@ -964,9 +1122,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00110">110</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00145">145</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>.</p>
 
 </div>
 </div>
@@ -982,9 +1140,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00037">37</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00072">72</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00256">apri_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00329">apri_progetto()</a>.</p>
 
 </div>
 </div>
@@ -1000,9 +1158,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00090">90</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00125">125</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00172">build_category_index()</a>, <a class="el" href="user__project__manager_8py_source.html#l00340">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00287">modifica_progetto()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00220">build_category_index()</a>, <a class="el" href="user__project__manager_8py_source.html#l00433">elimina_progetto()</a>, and <a class="el" href="user__project__manager_8py_source.html#l00368">modifica_progetto()</a>.</p>
 
 </div>
 </div>
@@ -1018,7 +1176,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00114">114</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00149">149</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
 </div>
 </div>
@@ -1034,7 +1192,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00118">118</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00153">153</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
 </div>
 </div>
@@ -1050,14 +1208,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00119">119</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="user__project__manager_8py_source.html#l00154">154</a> of file <a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00179">load_category_cards()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="user__project__manager_8py_source.html#l00234">load_category_cards()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="user__project__manager_8py_source.html">user_project_manager.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

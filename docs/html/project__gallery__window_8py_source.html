@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ESPHomeGUIeasy: gui/project_gallery_window.py Source File</title>
+<title>ESPHomeGUIeasy: C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/project_gallery_window.py Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -105,289 +101,338 @@ $(function(){initNavTree('project__gallery__window_8py_source.html',''); initRes
   <div class="headertitle"><div class="title">project_gallery_window.py</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="project__gallery__window_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespaceproject__gallery__window.html">    1</a></span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> (</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    QScrollArea, QSizePolicy, QListWidget, QLineEdit, QApplication, QListWidgetItem, QMessageBox</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>)</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> Qt</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> PyQt6.QtGui <span class="keyword">import</span> QIcon</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">from</span> gui.color_pantone <span class="keyword">import</span> Pantone</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">from</span> core.translator <span class="keyword">import</span> Translator</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">from</span> core.github_handler <span class="keyword">import</span> GitHubHandler</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">import</span> config.GUIconfig <span class="keyword">as</span> config</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">import</span> os</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">import</span> sys</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">from</span> core.log_handler <span class="keyword">import</span> GeneralLogHandler <span class="keyword">as</span> logger</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="foldopen" id="foldopen00016" data-start="" data-end="">
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html">   16</a></span><span class="keyword">class </span><a class="code hl_class" href="classproject__gallery__window_1_1_project_gallery_window.html">ProjectGalleryWindow</a>(QMainWindow):</div>
-<div class="foldopen" id="foldopen00017" data-start="" data-end="">
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">   17</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">__init__</a>(self):</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        super().<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">__init__</a>()</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        self.setWindowTitle(<span class="stringliteral">&quot;Community Projects&quot;</span>)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        self.setMinimumSize(1050, 600)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        self.setStyleSheet(f<span class="stringliteral">&quot;background-color: {Pantone.SECONDARY_BG};&quot;</span>)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">   23</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">categories</a> = [</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <span class="stringliteral">&quot;Home Monitoring&quot;</span>, <span class="stringliteral">&quot;Energy &amp; Power&quot;</span>, <span class="stringliteral">&quot;Security &amp; Alarm&quot;</span>,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="stringliteral">&quot;Actuators &amp; I/O&quot;</span>, <span class="stringliteral">&quot;Communication&quot;</span>, <span class="stringliteral">&quot;Automation Logic&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        ]</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">   28</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_data</a> = GitHubHandler.fetch_project_metadata_list()</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_data</a>:</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            msg = QMessageBox(self)</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            msg.setIcon(QMessageBox.Icon.Warning)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            msg.setWindowTitle(<span class="stringliteral">&quot;Errore di rete&quot;</span>)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            logger.warning(<span class="stringliteral">&quot;Nessun progetto recuperato dalla galleria GitHub. Controllare la connessione.&quot;</span>)</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            msg.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="stringliteral">                QMessageBox {</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral">                    background-color: #2e2e2e;</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral">                }</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="stringliteral">                QPushButton {</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="stringliteral">                    background-color: #444;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="stringliteral">                    color: white;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="stringliteral">                    border-radius: 4px;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="stringliteral">                    padding: 4px 12px;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="stringliteral">                }</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="stringliteral">                QPushButton:hover {</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="stringliteral">                    background-color: #666;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="stringliteral">                }</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="stringliteral">            &quot;&quot;&quot;</span>)</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            <span class="comment"># 🔥 forza il colore bianco del testo QLabel interno</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">for</span> child <span class="keywordflow">in</span> msg.children():</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                <span class="keywordflow">if</span> isinstance(child, QLabel):</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                    child.setStyleSheet(<span class="stringliteral">&quot;color: white; font-size: 11pt;&quot;</span>)</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            msg.exec()</div>
+<a href="project__gallery__window_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespaceproject__gallery__window.html">    1</a></span><span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@file project_gallery_window.py</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral">@brief Main window displaying community projects from GitHub repository.</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">@defgroup gui GUI Modules</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">@ingroup main</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">@brief GUI elements: windows, dialogs, blocks, and widgets.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">Loads project metadata from GitHub, groups projects by category,</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">and displays project cards with metadata and actions such as download and description.</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral">Provides interactive UI with category selection and styled message dialogs.</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="stringliteral">@version \ref PROJECT_NUMBER</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="stringliteral">@date July 2025</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="stringliteral">@license GNU Affero General Public License v3.0 (AGPLv3)</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">import</span> os, sys</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> (</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    QScrollArea, QSizePolicy, QListWidget, QLineEdit, QApplication, QListWidgetItem, QMessageBox</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> Qt</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">from</span> PyQt6.QtGui <span class="keyword">import</span> QIcon</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">from</span> gui.color_pantone <span class="keyword">import</span> Pantone</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">from</span> core.translator <span class="keyword">import</span> Translator</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">from</span> core.github_handler <span class="keyword">import</span> GitHubHandler</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">import</span> config.GUIconfig <span class="keyword">as</span> config</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">from</span> core.log_handler <span class="keyword">import</span> GeneralLogHandler <span class="keyword">as</span> logger</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="" data-end="">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html">   34</a></span><span class="keyword">class </span><a class="code hl_class" href="classproject__gallery__window_1_1_project_gallery_window.html">ProjectGalleryWindow</a>(QMainWindow):</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral">    @brief Window showing a categorized gallery of ESPHome community projects.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="stringliteral">    Handles loading project metadata from GitHub,</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="stringliteral">    populating category lists and project cards,</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="stringliteral">    and providing download and description dialogs.</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="stringliteral">    Includes UI styling consistent with application theme.</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="foldopen" id="foldopen00044" data-start="" data-end="">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">   44</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">__init__</a>(self):</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="stringliteral">        @brief Initializes the gallery window, sets up UI components and loads project data.</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="stringliteral">        Checks for network availability and shows a warning dialog if no projects are retrieved.</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="stringliteral">        Initializes category list and scrollable project display area.</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        super().<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">__init__</a>()</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        self.setWindowTitle(<span class="stringliteral">&quot;Community Projects&quot;</span>)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        self.setMinimumSize(1050, 600)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        self.setStyleSheet(f<span class="stringliteral">&quot;background-color: {Pantone.SECONDARY_BG};&quot;</span>)</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">   58</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">category_to_cards</a> = self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">build_category_index</a>()</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="comment"># Layout principale</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        central_widget = QWidget()</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        self.setCentralWidget(central_widget)</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        main_layout = QHBoxLayout()</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        central_widget.setLayout(main_layout)</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="comment"># Lista categorie a sinistra</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">   68</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a> = QListWidget()</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        categories = [</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            (<span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>),</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            (<span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>),</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            (<span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>),</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            (<span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>),</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            (<span class="stringliteral">&quot;🌐 Communication&quot;</span>),</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            (<span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>),</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            (<span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>),</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        ]</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">for</span> label <span class="keywordflow">in</span> categories:</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            item = QListWidgetItem(label)</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.addItem(item)</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.setFixedWidth(220)</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">   84</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.currentTextChanged.connect(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">load_category_cards</a>)</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        main_layout.addWidget(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>)</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">   56</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">categories</a> = [</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="stringliteral">&quot;Home Monitoring&quot;</span>, <span class="stringliteral">&quot;Energy &amp; Power&quot;</span>, <span class="stringliteral">&quot;Security &amp; Alarm&quot;</span>,</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="stringliteral">&quot;Actuators &amp; I/O&quot;</span>, <span class="stringliteral">&quot;Communication&quot;</span>, <span class="stringliteral">&quot;Automation Logic&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        ]</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">   61</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_data</a> = GitHubHandler.fetch_project_metadata_list()</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_data</a>:</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            msg = QMessageBox(self)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            msg.setIcon(QMessageBox.Icon.Warning)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            msg.setWindowTitle(<span class="stringliteral">&quot;Errore di rete&quot;</span>)</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            logger.warning(<span class="stringliteral">&quot;Nessun progetto recuperato dalla galleria GitHub. Controllare la connessione.&quot;</span>)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            msg.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="stringliteral">                QMessageBox {</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="stringliteral">                    background-color: #2e2e2e;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="stringliteral">                }</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="stringliteral">                QPushButton {</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="stringliteral">                    background-color: #444;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="stringliteral">                    color: white;</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="stringliteral">                    border-radius: 4px;</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="stringliteral">                    padding: 4px 12px;</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="stringliteral">                }</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="stringliteral">                QPushButton:hover {</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="stringliteral">                    background-color: #666;</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="stringliteral">                }</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="stringliteral">            &quot;&quot;&quot;</span>)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <span class="comment"># 🔥 forza il colore bianco del testo QLabel interno</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keywordflow">for</span> child <span class="keywordflow">in</span> msg.children():</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                <span class="keywordflow">if</span> isinstance(child, QLabel):</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                    child.setStyleSheet(<span class="stringliteral">&quot;color: white; font-size: 11pt;&quot;</span>)</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            msg.exec()</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="comment"># Scroll area a destra</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">   90</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a> = QScrollArea()</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>.setWidgetResizable(<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>.setStyleSheet(<span class="stringliteral">&quot;border: none;&quot;</span>)</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">   94</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">scroll_content</a> = QWidget()</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">   95</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a> = QVBoxLayout()</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">scroll_content</a>.setLayout(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>)</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>.setWidget(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">scroll_content</a>)</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        main_layout.addWidget(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>)</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.setCurrentRow(0)  <span class="comment"># carica la prima categoria</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">   91</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">category_to_cards</a> = self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">build_category_index</a>()</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="comment"># Layout principale</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        central_widget = QWidget()</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        self.setCentralWidget(central_widget)</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        main_layout = QHBoxLayout()</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        central_widget.setLayout(main_layout)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment"># Lista categorie a sinistra</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">  101</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a> = QListWidget()</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        categories = [</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            (<span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>),</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            (<span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>),</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            (<span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>),</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            (<span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>),</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            (<span class="stringliteral">&quot;🌐 Communication&quot;</span>),</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            (<span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>),</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            (<span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>),</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        ]</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">for</span> label <span class="keywordflow">in</span> categories:</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            item = QListWidgetItem(label)</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.addItem(item)</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.setFixedWidth(220)</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">  117</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.currentTextChanged.connect(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">load_category_cards</a>)</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        main_layout.addWidget(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>)</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="comment"># Scroll area a destra</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">  123</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a> = QScrollArea()</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>.setWidgetResizable(<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>.setStyleSheet(<span class="stringliteral">&quot;border: none;&quot;</span>)</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">  127</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">scroll_content</a> = QWidget()</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">  128</a></span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a> = QVBoxLayout()</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">scroll_content</a>.setLayout(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>)</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>.setWidget(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">scroll_content</a>)</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        main_layout.addWidget(self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">scroll_area</a>)</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">category_list</a>.setCurrentRow(0)  <span class="comment"># carica la prima categoria</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
 </div>
-<div class="foldopen" id="foldopen00104" data-start="" data-end="">
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">  104</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">build_category_index</a>(self):</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        result = {cat: [] <span class="keywordflow">for</span> cat <span class="keywordflow">in</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">categories</a>}</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">for</span> proj <span class="keywordflow">in</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_data</a>:</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            cat = proj.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>)</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            result.setdefault(cat, []).append(proj)</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> result</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="foldopen" id="foldopen00137" data-start="" data-end="">
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">  137</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">build_category_index</a>(self):</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="stringliteral">        @brief Builds an index dictionary grouping projects by category.</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="stringliteral">        @return Dictionary with category names as keys and lists of projects as values.</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        result = {cat: [] <span class="keywordflow">for</span> cat <span class="keywordflow">in</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">categories</a>}</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="keywordflow">for</span> proj <span class="keywordflow">in</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_data</a>:</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            cat = proj.get(<span class="stringliteral">&quot;category&quot;</span>, <span class="stringliteral">&quot;Other / Misc&quot;</span>)</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            result.setdefault(cat, []).append(proj)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">return</span> result</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
 </div>
-<div class="foldopen" id="foldopen00111" data-start="" data-end="">
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a80a87e83410ec1552aa1bc8232779d53">  111</a></span>    <span class="keyword">def </span><a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">load_category_cards</a>(self, category_name):</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        emoji_to_category = {</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>: <span class="stringliteral">&quot;Home Monitoring&quot;</span>,</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>: <span class="stringliteral">&quot;Energy &amp; Power&quot;</span>,</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>: <span class="stringliteral">&quot;Security &amp; Alarm&quot;</span>,</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>: <span class="stringliteral">&quot;Actuators &amp; I/O&quot;</span>,</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            <span class="stringliteral">&quot;🌐 Communication&quot;</span>: <span class="stringliteral">&quot;Communication&quot;</span>,</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>: <span class="stringliteral">&quot;Automation Logic&quot;</span>,</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other / Misc&quot;</span>,</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        }</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        category_name = emoji_to_category.get(category_name, category_name)</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordflow">while</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.count():</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>            item = self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.takeAt(0)</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            widget = item.widget()</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordflow">if</span> widget:</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                widget.deleteLater()</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="keywordflow">for</span> project <span class="keywordflow">in</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">category_to_cards</a>.get(category_name, []):</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">add_project_card</a>(project)</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-</div>
-<div class="foldopen" id="foldopen00131" data-start="" data-end="">
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">  131</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">add_project_card</a>(self, fields):</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        card = QWidget()</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        card.setFixedHeight(100)</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        card.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="stringliteral">            border: 1px solid #555;</span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="stringliteral">            border-radius: 6px;</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        card_layout = QHBoxLayout()</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        card_layout.setContentsMargins(8, 8, 8, 8)</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        card_layout.setSpacing(4)</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="comment"># Campi visibili</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keywordflow">for</span> label_text <span class="keywordflow">in</span> [<span class="stringliteral">&quot;Name&quot;</span>, <span class="stringliteral">&quot;Version&quot;</span>, <span class="stringliteral">&quot;Author&quot;</span>, <span class="stringliteral">&quot;Update&quot;</span>]:</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            value_text = fields.get(label_text, fields.get(label_text.lower(), <span class="stringliteral">&quot;-&quot;</span>))</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            row = QVBoxLayout()</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            row.setSpacing(4)</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            label = QLabel(f<span class="stringliteral">&quot;{label_text}:&quot;</span>)</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            label.setStyleSheet(<span class="stringliteral">&quot;color: #aaa; font-size: 10pt; padding: 0px;&quot;</span>)</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            label.setFixedSize(150, 35)</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            label.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            value = QLabel(value_text)</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            value.setStyleSheet(<span class="stringliteral">&quot;color: #fff; font-size: 10pt; padding: 0px;&quot;</span>)</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            value.setWordWrap(<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            value.setFixedSize(150, 35)</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            value.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            row.addWidget(label)</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            row.addWidget(value)</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            card_layout.addLayout(row)</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            card_layout.addStretch()</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="comment"># Pulsanti</span></div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        btn = QWidget()</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        btn_layout = QVBoxLayout()</div>
+<div class="foldopen" id="foldopen00149" data-start="" data-end="">
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a80a87e83410ec1552aa1bc8232779d53">  149</a></span>    <span class="keyword">def </span><a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">load_category_cards</a>(self, category_name):</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="stringliteral">        @brief Loads project cards for the selected category into the scroll area.</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="stringliteral">        Clears existing cards and adds new widgets for each project in the category.</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        emoji_to_category = {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            <span class="stringliteral">&quot;🏠 Home Monitoring&quot;</span>: <span class="stringliteral">&quot;Home Monitoring&quot;</span>,</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="stringliteral">&quot;⚡ Energy &amp; Power&quot;</span>: <span class="stringliteral">&quot;Energy &amp; Power&quot;</span>,</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="stringliteral">&quot;🚪 Security &amp; Alarm&quot;</span>: <span class="stringliteral">&quot;Security &amp; Alarm&quot;</span>,</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            <span class="stringliteral">&quot;🔧 Actuators &amp; I/O&quot;</span>: <span class="stringliteral">&quot;Actuators &amp; I/O&quot;</span>,</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <span class="stringliteral">&quot;🌐 Communication&quot;</span>: <span class="stringliteral">&quot;Communication&quot;</span>,</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <span class="stringliteral">&quot;🧠 Automation Logic&quot;</span>: <span class="stringliteral">&quot;Automation Logic&quot;</span>,</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            <span class="stringliteral">&quot;🧪 Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other / Misc&quot;</span>,</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        }</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        category_name = emoji_to_category.get(category_name, category_name)</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">while</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.count():</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            item = self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.takeAt(0)</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            widget = item.widget()</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            <span class="keywordflow">if</span> widget:</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                widget.deleteLater()</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        download_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;download&quot;</span>))</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        download_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        download_btn.clicked.connect(<span class="keyword">lambda</span>: self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">download_project</a>(fields))</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        open_card_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;descrizione&quot;</span>))</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        open_card_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        open_card_btn.clicked.connect(<span class="keyword">lambda</span> _, f=fields: self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">mostra_descrizione_progetto</a>(f))</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        btn_layout.addWidget(download_btn)</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        btn_layout.addWidget(open_card_btn)</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        btn.setLayout(btn_layout)</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        card_layout.addWidget(btn)</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        card.setLayout(card_layout)</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.addWidget(card)</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordflow">for</span> project <span class="keywordflow">in</span> self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">category_to_cards</a>.get(category_name, []):</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">add_project_card</a>(project)</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+</div>
+<div class="foldopen" id="foldopen00174" data-start="" data-end="">
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">  174</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">add_project_card</a>(self, fields):</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="stringliteral">        @brief Creates and adds a UI card widget displaying project metadata and action buttons.</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="stringliteral">        @param fields Dictionary of project metadata fields (name, version, author, update).</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        card = QWidget()</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        card.setFixedHeight(100)</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        card.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="stringliteral">            background-color: #2e2e2e;</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="stringliteral">            border: 1px solid #555;</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="stringliteral">            border-radius: 6px;</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        card_layout = QHBoxLayout()</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        card_layout.setContentsMargins(8, 8, 8, 8)</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        card_layout.setSpacing(4)</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="comment"># Campi visibili</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        <span class="keywordflow">for</span> label_text <span class="keywordflow">in</span> [<span class="stringliteral">&quot;Name&quot;</span>, <span class="stringliteral">&quot;Version&quot;</span>, <span class="stringliteral">&quot;Author&quot;</span>, <span class="stringliteral">&quot;Update&quot;</span>]:</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            value_text = fields.get(label_text, fields.get(label_text.lower(), <span class="stringliteral">&quot;-&quot;</span>))</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            row = QVBoxLayout()</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            row.setSpacing(4)</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            label = QLabel(f<span class="stringliteral">&quot;{label_text}:&quot;</span>)</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            label.setStyleSheet(<span class="stringliteral">&quot;color: #aaa; font-size: 10pt; padding: 0px;&quot;</span>)</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            label.setFixedSize(150, 35)</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            label.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            value = QLabel(value_text)</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            value.setStyleSheet(<span class="stringliteral">&quot;color: #fff; font-size: 10pt; padding: 0px;&quot;</span>)</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            value.setWordWrap(<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            value.setFixedSize(150, 35)</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            value.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            row.addWidget(label)</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            row.addWidget(value)</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            card_layout.addLayout(row)</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            card_layout.addStretch()</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <span class="comment"># Pulsanti</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        btn = QWidget()</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        btn_layout = QVBoxLayout()</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        download_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;download&quot;</span>))</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        download_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        download_btn.clicked.connect(<span class="keyword">lambda</span>: self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">download_project</a>(fields))</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        open_card_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;descrizione&quot;</span>))</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        open_card_btn.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        open_card_btn.clicked.connect(<span class="keyword">lambda</span> _, f=fields: self.<a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">mostra_descrizione_progetto</a>(f))</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        btn_layout.addWidget(download_btn)</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        btn_layout.addWidget(open_card_btn)</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        btn.setLayout(btn_layout)</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        card_layout.addWidget(btn)</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        card.setLayout(card_layout)</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        self.<a class="code hl_variable" href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">scroll_layout</a>.addWidget(card)</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
 </div>
-<div class="foldopen" id="foldopen00188" data-start="" data-end="">
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">  188</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">download_project</a>(self, fields):</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        nome_progetto = fields.get(<span class="stringliteral">&quot;name&quot;</span>, fields.get(<span class="stringliteral">&quot;Name&quot;</span>, <span class="stringliteral">&quot;unknown&quot;</span>)).strip().replace(<span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;-&quot;</span>).lower()</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        local_folder = os.path.join(config.COMMUNITY_LOCAL_FOLDER, nome_progetto)</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        os.makedirs(local_folder, exist_ok=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        GitHubHandler.download_project_to_folder(nome_progetto, local_folder)</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        msg = QMessageBox(self)</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        msg.setIcon(QMessageBox.Icon.Information)</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        msg.setWindowTitle(<span class="stringliteral">&quot;Download completato&quot;</span>)</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        msg.setText(f<span class="stringliteral">&quot;Il progetto &#39;{nome_progetto}&#39; è stato salvato in:\n{local_folder}&quot;</span>)</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        msg.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="stringliteral">            QMessageBox {</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="stringliteral">            QPushButton {</span></div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">                background-color: #444;</span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral">                color: white;</span></div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">                border-radius: 4px;</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral">                padding: 4px 12px;</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">            QPushButton:hover {</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">                background-color: #666;</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        <span class="comment"># Forza il testo bianco nel QLabel interno</span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keywordflow">for</span> child <span class="keywordflow">in</span> msg.children():</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <span class="keywordflow">if</span> isinstance(child, QLabel):</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                child.setStyleSheet(<span class="stringliteral">&quot;color: white; font-size: 11pt;&quot;</span>)</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        msg.exec()</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
-</div>
-<div class="foldopen" id="foldopen00220" data-start="" data-end="">
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">  220</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">mostra_descrizione_progetto</a>(self, fields):</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        nome = fields.get(<span class="stringliteral">&quot;name&quot;</span>, fields.get(<span class="stringliteral">&quot;Name&quot;</span>, <span class="stringliteral">&quot;Senza nome&quot;</span>))</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        descrizione = fields.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;Nessuna descrizione disponibile.&quot;</span>)</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        msg = QMessageBox(self)</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        msg.setIcon(QMessageBox.Icon.Information)</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        msg.setWindowTitle(f<span class="stringliteral">&quot;{nome}&quot;</span>)</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        msg.setText(descrizione)</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        msg.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="stringliteral">            QMessageBox {</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="stringliteral">            QPushButton {</span></div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="stringliteral">                background-color: #444;</span></div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="stringliteral">                color: white;</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="stringliteral">                border-radius: 4px;</span></div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="stringliteral">                padding: 4px 12px;</span></div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="stringliteral">            QPushButton:hover {</span></div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="stringliteral">                background-color: #666;</span></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="stringliteral">            }</span></div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        <span class="keywordflow">for</span> child <span class="keywordflow">in</span> msg.children():</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            <span class="keywordflow">if</span> isinstance(child, QLabel):</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                child.setStyleSheet(<span class="stringliteral">&quot;color: white; font-size: 11pt;&quot;</span>)</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        msg.exec()</div>
+<div class="foldopen" id="foldopen00236" data-start="" data-end="">
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">  236</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">download_project</a>(self, fields):</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="stringliteral">        @brief Downloads the selected project from GitHub to the local community folder.</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="stringliteral">        Creates local folders if needed and triggers GitHubHandler download.</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="stringliteral">        Shows an information dialog on completion with local path.</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        nome_progetto = fields.get(<span class="stringliteral">&quot;name&quot;</span>, fields.get(<span class="stringliteral">&quot;Name&quot;</span>, <span class="stringliteral">&quot;unknown&quot;</span>)).strip().replace(<span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;-&quot;</span>).lower()</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        local_folder = os.path.join(config.COMMUNITY_LOCAL_FOLDER, nome_progetto)</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        os.makedirs(local_folder, exist_ok=<span class="keyword">True</span>)</div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        GitHubHandler.download_project_to_folder(nome_progetto, local_folder)</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="comment"># if __name__ == &quot;__main__&quot;:</span></div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="comment">#     app = QApplication(sys.argv)</span></div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="comment">#     window = ProjectGalleryWindow()</span></div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="comment">#     window.show()</span></div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="comment">#     sys.exit(app.exec())</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        msg = QMessageBox(self)</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        msg.setIcon(QMessageBox.Icon.Information)</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        msg.setWindowTitle(<span class="stringliteral">&quot;Download completato&quot;</span>)</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        msg.setText(f<span class="stringliteral">&quot;Il progetto &#39;{nome_progetto}&#39; è stato salvato in:\n{local_folder}&quot;</span>)</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        msg.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="stringliteral">            QMessageBox {</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="stringliteral">            QPushButton {</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="stringliteral">                background-color: #444;</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="stringliteral">                color: white;</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span><span class="stringliteral">                border-radius: 4px;</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="stringliteral">                padding: 4px 12px;</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span><span class="stringliteral">            QPushButton:hover {</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="stringliteral">                background-color: #666;</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        <span class="comment"># Forza il testo bianco nel QLabel interno</span></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        <span class="keywordflow">for</span> child <span class="keywordflow">in</span> msg.children():</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>            <span class="keywordflow">if</span> isinstance(child, QLabel):</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                child.setStyleSheet(<span class="stringliteral">&quot;color: white; font-size: 11pt;&quot;</span>)</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        msg.exec()</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
+</div>
+<div class="foldopen" id="foldopen00274" data-start="" data-end="">
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">  274</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">mostra_descrizione_progetto</a>(self, fields):</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="stringliteral">        @brief Shows a message dialog displaying the project description.</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="stringliteral">        @param fields Dictionary containing project metadata including description.</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        nome = fields.get(<span class="stringliteral">&quot;name&quot;</span>, fields.get(<span class="stringliteral">&quot;Name&quot;</span>, <span class="stringliteral">&quot;Senza nome&quot;</span>))</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        descrizione = fields.get(<span class="stringliteral">&quot;description&quot;</span>, <span class="stringliteral">&quot;Nessuna descrizione disponibile.&quot;</span>)</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        msg = QMessageBox(self)</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        msg.setIcon(QMessageBox.Icon.Information)</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>        msg.setWindowTitle(f<span class="stringliteral">&quot;{nome}&quot;</span>)</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        msg.setText(descrizione)</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        msg.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="stringliteral">            QMessageBox {</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="stringliteral">                background-color: #2e2e2e;</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="stringliteral">            QPushButton {</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="stringliteral">                background-color: #444;</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="stringliteral">                color: white;</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="stringliteral">                border-radius: 4px;</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="stringliteral">                padding: 4px 12px;</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="stringliteral">            QPushButton:hover {</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="stringliteral">                background-color: #666;</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="stringliteral">            }</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        <span class="keywordflow">for</span> child <span class="keywordflow">in</span> msg.children():</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            <span class="keywordflow">if</span> isinstance(child, QLabel):</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                child.setStyleSheet(<span class="stringliteral">&quot;color: white; font-size: 11pt;&quot;</span>)</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>        msg.exec()</div>
 </div>
 </div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html">project_gallery_window.ProjectGalleryWindow</a></div><div class="ttdef"><b>Definition</b> <a href="#l00016">project_gallery_window.py:16</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a05715ac1dd876c6ee30f525935a5572a"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">project_gallery_window.ProjectGalleryWindow.scroll_content</a></div><div class="ttdeci">scroll_content</div><div class="ttdef"><b>Definition</b> <a href="#l00094">project_gallery_window.py:94</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a1289f12ee64dc5893e3c1607b4bde869"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">project_gallery_window.ProjectGalleryWindow.add_project_card</a></div><div class="ttdeci">add_project_card(self, fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00131">project_gallery_window.py:131</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a205c49158505545f3e81684f1bc64be2"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">project_gallery_window.ProjectGalleryWindow.load_category_cards</a></div><div class="ttdeci">load_category_cards</div><div class="ttdef"><b>Definition</b> <a href="#l00084">project_gallery_window.py:84</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a27396e84ffe6878989bf7b3ef65e6366"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">project_gallery_window.ProjectGalleryWindow.category_to_cards</a></div><div class="ttdeci">category_to_cards</div><div class="ttdef"><b>Definition</b> <a href="#l00058">project_gallery_window.py:58</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a2e3673d4b3d82b21efb0daadcea009ed"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">project_gallery_window.ProjectGalleryWindow.category_list</a></div><div class="ttdeci">category_list</div><div class="ttdef"><b>Definition</b> <a href="#l00068">project_gallery_window.py:68</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a5086afe91d4a7db894253e9b1aafb790"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">project_gallery_window.ProjectGalleryWindow.mostra_descrizione_progetto</a></div><div class="ttdeci">mostra_descrizione_progetto(self, fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00220">project_gallery_window.py:220</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a53029a9fd0a7363a6a5f8beeb8aeb280"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">project_gallery_window.ProjectGalleryWindow.download_project</a></div><div class="ttdeci">download_project(self, fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00188">project_gallery_window.py:188</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a6437040574a7136fa01acf77ba4b20ca"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_gallery_window.ProjectGalleryWindow.project_data</a></div><div class="ttdeci">project_data</div><div class="ttdef"><b>Definition</b> <a href="#l00028">project_gallery_window.py:28</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a6649a8b87e9798c3e02eeae86cdea4f8"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">project_gallery_window.ProjectGalleryWindow.scroll_layout</a></div><div class="ttdeci">scroll_layout</div><div class="ttdef"><b>Definition</b> <a href="#l00095">project_gallery_window.py:95</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a8a404e1749f32ff7dd2d898c91459b6d"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">project_gallery_window.ProjectGalleryWindow.__init__</a></div><div class="ttdeci">__init__(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00017">project_gallery_window.py:17</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_aa25524b0d843920792167d480f57a60d"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">project_gallery_window.ProjectGalleryWindow.scroll_area</a></div><div class="ttdeci">scroll_area</div><div class="ttdef"><b>Definition</b> <a href="#l00090">project_gallery_window.py:90</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_ac3fde83eea3da404c01e9f880a5f607f"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">project_gallery_window.ProjectGalleryWindow.categories</a></div><div class="ttdeci">list categories</div><div class="ttdef"><b>Definition</b> <a href="#l00023">project_gallery_window.py:23</a></div></div>
-<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_aefc1df57e47d758a3ad6ead30eaa7733"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">project_gallery_window.ProjectGalleryWindow.build_category_index</a></div><div class="ttdeci">build_category_index(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00104">project_gallery_window.py:104</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html">project_gallery_window.ProjectGalleryWindow</a></div><div class="ttdef"><b>Definition</b> <a href="#l00034">project_gallery_window.py:34</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a05715ac1dd876c6ee30f525935a5572a"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a05715ac1dd876c6ee30f525935a5572a">project_gallery_window.ProjectGalleryWindow.scroll_content</a></div><div class="ttdeci">scroll_content</div><div class="ttdef"><b>Definition</b> <a href="#l00127">project_gallery_window.py:127</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a1289f12ee64dc5893e3c1607b4bde869"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a1289f12ee64dc5893e3c1607b4bde869">project_gallery_window.ProjectGalleryWindow.add_project_card</a></div><div class="ttdeci">add_project_card(self, fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00174">project_gallery_window.py:174</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a205c49158505545f3e81684f1bc64be2"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a205c49158505545f3e81684f1bc64be2">project_gallery_window.ProjectGalleryWindow.load_category_cards</a></div><div class="ttdeci">load_category_cards</div><div class="ttdef"><b>Definition</b> <a href="#l00117">project_gallery_window.py:117</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a27396e84ffe6878989bf7b3ef65e6366"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a27396e84ffe6878989bf7b3ef65e6366">project_gallery_window.ProjectGalleryWindow.category_to_cards</a></div><div class="ttdeci">category_to_cards</div><div class="ttdef"><b>Definition</b> <a href="#l00091">project_gallery_window.py:91</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a2e3673d4b3d82b21efb0daadcea009ed"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a2e3673d4b3d82b21efb0daadcea009ed">project_gallery_window.ProjectGalleryWindow.category_list</a></div><div class="ttdeci">category_list</div><div class="ttdef"><b>Definition</b> <a href="#l00101">project_gallery_window.py:101</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a5086afe91d4a7db894253e9b1aafb790"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a5086afe91d4a7db894253e9b1aafb790">project_gallery_window.ProjectGalleryWindow.mostra_descrizione_progetto</a></div><div class="ttdeci">mostra_descrizione_progetto(self, fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00274">project_gallery_window.py:274</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a53029a9fd0a7363a6a5f8beeb8aeb280"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a53029a9fd0a7363a6a5f8beeb8aeb280">project_gallery_window.ProjectGalleryWindow.download_project</a></div><div class="ttdeci">download_project(self, fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00236">project_gallery_window.py:236</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a6437040574a7136fa01acf77ba4b20ca"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a6437040574a7136fa01acf77ba4b20ca">project_gallery_window.ProjectGalleryWindow.project_data</a></div><div class="ttdeci">project_data</div><div class="ttdef"><b>Definition</b> <a href="#l00061">project_gallery_window.py:61</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a6649a8b87e9798c3e02eeae86cdea4f8"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a6649a8b87e9798c3e02eeae86cdea4f8">project_gallery_window.ProjectGalleryWindow.scroll_layout</a></div><div class="ttdeci">scroll_layout</div><div class="ttdef"><b>Definition</b> <a href="#l00128">project_gallery_window.py:128</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_a8a404e1749f32ff7dd2d898c91459b6d"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#a8a404e1749f32ff7dd2d898c91459b6d">project_gallery_window.ProjectGalleryWindow.__init__</a></div><div class="ttdeci">__init__(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00044">project_gallery_window.py:44</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_aa25524b0d843920792167d480f57a60d"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#aa25524b0d843920792167d480f57a60d">project_gallery_window.ProjectGalleryWindow.scroll_area</a></div><div class="ttdeci">scroll_area</div><div class="ttdef"><b>Definition</b> <a href="#l00123">project_gallery_window.py:123</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_ac3fde83eea3da404c01e9f880a5f607f"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#ac3fde83eea3da404c01e9f880a5f607f">project_gallery_window.ProjectGalleryWindow.categories</a></div><div class="ttdeci">list categories</div><div class="ttdef"><b>Definition</b> <a href="#l00056">project_gallery_window.py:56</a></div></div>
+<div class="ttc" id="aclassproject__gallery__window_1_1_project_gallery_window_html_aefc1df57e47d758a3ad6ead30eaa7733"><div class="ttname"><a href="classproject__gallery__window_1_1_project_gallery_window.html#aefc1df57e47d758a3ad6ead30eaa7733">project_gallery_window.ProjectGalleryWindow.build_category_index</a></div><div class="ttdeci">build_category_index(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00137">project_gallery_window.py:137</a></div></div>
 <div class="ttc" id="anamespace_py_qt6_1_1_qt_widgets_html"><div class="ttname"><a href="namespace_py_qt6_1_1_qt_widgets.html">QtWidgets</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

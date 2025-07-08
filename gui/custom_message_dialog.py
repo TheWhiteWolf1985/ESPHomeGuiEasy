@@ -1,10 +1,40 @@
+# -*- coding: utf-8 -*-
+"""
+@file custom_message_dialog.py
+@brief Custom modal dialog for displaying messages with description and changelog.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Implements a QDialog with formatted QLabel sections for description and changelog,
+including selectable text and styled OK button.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
 from core.translator import Translator
 
 class CustomMessageDialog(QDialog):
+    """
+    @brief Modal dialog showing a message description and changelog with selectable text.
+
+    Includes OK button to close the dialog. Styled with Pantone colors.
+    """
     def __init__(self, title: str, message: str, changelog: str, parent=None):
+        """
+        @brief Initializes the dialog with title, message, and changelog text.
+
+        @param title Dialog window title.
+        @param message Description message to display.
+        @param changelog Changelog text to display.
+        @param parent Optional parent widget.
+        """
         super().__init__(parent)
         self.setWindowTitle(title)
         self.setMinimumSize(400, 400)

@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+@file project_edit_dialog.py
+@brief Dialog window to edit project metadata such as version and changelog.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Provides input fields for version and multiline changelog,
+with OK and Cancel buttons.
+"""
+
 from PyQt6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPlainTextEdit, QDialogButtonBox,
     QVBoxLayout
@@ -7,6 +20,11 @@ from gui.color_pantone import Pantone
 
 
 class ProjectEditDialog(QDialog):
+    """
+    @brief Modal dialog to edit version string and changelog text of a project.
+
+    Includes styled QLineEdit and QPlainTextEdit fields and standard dialog buttons.
+    """
     def __init__(self, version: str = "", description: str = "", parent=None):
         super().__init__(parent)
         self.setWindowTitle("Modifica progetto")

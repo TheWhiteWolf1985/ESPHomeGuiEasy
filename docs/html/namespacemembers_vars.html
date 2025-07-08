@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -105,7 +101,6 @@ $(function(){initNavTree('namespacemembers_vars.html',''); initResizable(true); 
 <div class="textblock">Here is a list of all namespace variables with links to the namespace documentation for each variable:</div>
 
 <h3><a id="index_a" name="index_a"></a>- a -</h3><ul>
-<li>app&#160;:&#160;<a class="el" href="namespacesetting__menu.html#a236bfdd8f8df9eb73cbf5087868b202e">setting_menu</a></li>
 <li>APP_NAME&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a84abf4f1d2446b20107f89625ff5868f">GUIconfig</a></li>
 <li>APP_RELEASE_DATE&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a0ee12c8443f9c846b51ac1b72dfcf21c">GUIconfig</a></li>
 <li>APP_VERSION&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a35c6f8dfaf148ab70cc1ec3fea95392c">GUIconfig</a></li>
@@ -129,7 +124,6 @@ $(function(){initNavTree('namespacemembers_vars.html',''); initResizable(true); 
 <h3><a id="index_d" name="index_d"></a>- d -</h3><ul>
 <li>DEFAULT_BUILD_DIR&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a118fe525ec1327f4c26bdb52c29e085a">GUIconfig</a></li>
 <li>DEFAULT_PROJECT_DIR&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#ac45a3f590c6773344023f1d8c1baf37f">GUIconfig</a></li>
-<li>dlg&#160;:&#160;<a class="el" href="namespacesetting__menu.html#a82fa8118dddcb82df5ddc37430a040e9">setting_menu</a></li>
 <li>DOCS_PATH&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a52143101194b1c2f0f03a911a192547b">GUIconfig</a></li>
 </ul>
 
@@ -151,6 +145,7 @@ $(function(){initNavTree('namespacemembers_vars.html',''); initResizable(true); 
 
 
 <h3><a id="index_l" name="index_l"></a>- l -</h3><ul>
+<li>LANGUAGE_MAP&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#abfdac18d6c85968eed42e5904a544af8">GUIconfig</a></li>
 <li>LOCALAPPDATA_FOLDER&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a0e4a4cfc89de5ad5e556859fb147bc51">GUIconfig</a></li>
 <li>LOG_PATH&#160;:&#160;<a class="el" href="namespace_g_u_iconfig.html#a94c4d6a8fa71a2f4117d2b6e5475cb85">GUIconfig</a></li>
 <li>logger&#160;:&#160;<a class="el" href="namespacemain.html#ae1d4a0295c904f672a1f044188274bf1">main</a>, <a class="el" href="namespacesettings__db.html#a0ab03d1dfc6f252baf10e81894254e44">settings_db</a></li>

@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -185,8 +181,17 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ab1ab38c9c040507f7c52165c975935f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00019">19</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Tab widget that allows visual configuration of ESPHome sensors and logic blocks.
+
+This tab provides a drag-and-drop canvas to manage sensors, actions, triggers,
+and other ESPHome components as modular blocks. Each block is configured via forms
+and can be serialized to YAML or reconstructed from it.
+
+The components are defined in JSON files and dynamically rendered on the canvas.
+
+@note This class is part of the GUI layer and uses `SensorCanvas` for rendering blocks.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00039">39</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a712dea48ca0c93f7f614fcdb6d38024a" name="a712dea48ca0c93f7f614fcdb6d38024a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a712dea48ca0c93f7f614fcdb6d38024a">&#9670;&#160;</a></span>__init__()</h2>
@@ -216,84 +221,102 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Constructor that initializes the tab layout and sensor creation interface.
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00020">20</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>    <span class="keyword">def </span>__init__(self, yaml_editor, logger, tab_settings):</div>
-<div class="line"><span class="lineno">   21</span>        super().__init__()</div>
-<div class="line"><span class="lineno">   22</span>        self.logger = logger</div>
-<div class="line"><span class="lineno">   23</span>        self.tab_settings = tab_settings  </div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>        layout = QVBoxLayout(self)</div>
-<div class="line"><span class="lineno">   26</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>        <span class="comment"># --- GroupBox per la creazione sensori ---</span></div>
-<div class="line"><span class="lineno">   29</span>        sensor_creation = QGroupBox(Translator.tr(<span class="stringliteral">&quot;sensors_creation&quot;</span>))</div>
-<div class="line"><span class="lineno">   30</span>        sensor_creation.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
-<div class="line"><span class="lineno">   31</span>        sensor_layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>        self.sensor_canvas = SensorCanvas()</div>
-<div class="line"><span class="lineno">   34</span>        self.sensor_canvas.setMinimumHeight(400)</div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   36</span>        <span class="comment"># Pulsanti azione</span></div>
-<div class="line"><span class="lineno">   37</span>        self.add_sensor_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_sensor&quot;</span>))</div>
-<div class="line"><span class="lineno">   38</span>        self.add_action_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_action&quot;</span>))</div>
-<div class="line"><span class="lineno">   39</span>        self.add_trigger_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_trigger&quot;</span>))</div>
-<div class="line"><span class="lineno">   40</span>        self.add_condition_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_condition&quot;</span>))</div>
-<div class="line"><span class="lineno">   41</span>        self.add_timer_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_timer&quot;</span>))</div>
-<div class="line"><span class="lineno">   42</span>        self.add_script_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_script&quot;</span>))</div>
-<div class="line"><span class="lineno">   43</span>        self.update_yaml_btn = QPushButton(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
-<div class="line"><span class="lineno">   44</span>        self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)</div>
-<div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   46</span>        <span class="comment"># Applica stile comune e larghezza fissa</span></div>
-<div class="line"><span class="lineno">   47</span>        <span class="keywordflow">for</span> btn <span class="keywordflow">in</span> [</div>
-<div class="line"><span class="lineno">   48</span>            self.add_sensor_btn, self.add_action_btn, self.add_trigger_btn,</div>
-<div class="line"><span class="lineno">   49</span>            self.add_condition_btn, self.add_timer_btn, self.add_script_btn</div>
-<div class="line"><span class="lineno">   50</span>        ]:</div>
-<div class="line"><span class="lineno">   51</span>            btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">   52</span>            btn.setFixedWidth(180)</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>        <span class="comment"># Connessioni ai metodi stub</span></div>
-<div class="line"><span class="lineno">   55</span>        self.add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)</div>
-<div class="line"><span class="lineno">   56</span>        self.add_action_btn.clicked.connect(self.aggiungi_blocco_azione)</div>
-<div class="line"><span class="lineno">   57</span>        self.add_trigger_btn.clicked.connect(self.aggiungi_blocco_trigger)</div>
-<div class="line"><span class="lineno">   58</span>        self.add_condition_btn.clicked.connect(self.aggiungi_blocco_condizione)</div>
-<div class="line"><span class="lineno">   59</span>        self.add_timer_btn.clicked.connect(self.aggiungi_blocco_timer)</div>
-<div class="line"><span class="lineno">   60</span>        self.add_script_btn.clicked.connect(self.aggiungi_blocco_script)</div>
-<div class="line"><span class="lineno">   61</span>        self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_blocchi)</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>        <span class="comment"># --- Layout a due righe per i pulsanti di aggiunta ---</span></div>
-<div class="line"><span class="lineno">   64</span>        row1 = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   65</span>        row1.addWidget(self.add_sensor_btn)</div>
-<div class="line"><span class="lineno">   66</span>        row1.addWidget(self.add_action_btn)</div>
-<div class="line"><span class="lineno">   67</span>        row1.addWidget(self.add_trigger_btn)</div>
+Builds the canvas, buttons, and group boxes for adding sensors and related ESPHome
+logic components. Connects UI actions and styles elements accordingly.
+
+@param yaml_editor Reference to the shared YAML editor (QPlainTextEdit).
+@param logger Reference to the application-wide logger instance.
+@param tab_settings Reference to the settings tab, used for connection type inference.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00051">51</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>    <span class="keyword">def </span>__init__(self, yaml_editor, logger, tab_settings):</div>
+<div class="line"><span class="lineno">   52</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   53</span><span class="stringliteral">        @brief Constructor that initializes the tab layout and sensor creation interface.</span></div>
+<div class="line"><span class="lineno">   54</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   55</span><span class="stringliteral">        Builds the canvas, buttons, and group boxes for adding sensors and related ESPHome</span></div>
+<div class="line"><span class="lineno">   56</span><span class="stringliteral">        logic components. Connects UI actions and styles elements accordingly.</span></div>
+<div class="line"><span class="lineno">   57</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   58</span><span class="stringliteral">        @param yaml_editor Reference to the shared YAML editor (QPlainTextEdit).</span></div>
+<div class="line"><span class="lineno">   59</span><span class="stringliteral">        @param logger Reference to the application-wide logger instance.</span></div>
+<div class="line"><span class="lineno">   60</span><span class="stringliteral">        @param tab_settings Reference to the settings tab, used for connection type inference.</span></div>
+<div class="line"><span class="lineno">   61</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">   62</span>        super().__init__()</div>
+<div class="line"><span class="lineno">   63</span>        self.logger = logger</div>
+<div class="line"><span class="lineno">   64</span>        self.tab_settings = tab_settings  </div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>        layout = QVBoxLayout(self)</div>
+<div class="line"><span class="lineno">   67</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
 <div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>        row2 = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   70</span>        row2.addWidget(self.add_condition_btn)</div>
-<div class="line"><span class="lineno">   71</span>        row2.addWidget(self.add_timer_btn)</div>
-<div class="line"><span class="lineno">   72</span>        row2.addWidget(self.add_script_btn)</div>
+<div class="line"><span class="lineno">   69</span>        <span class="comment"># --- GroupBox per la creazione sensori ---</span></div>
+<div class="line"><span class="lineno">   70</span>        sensor_creation = QGroupBox(Translator.tr(<span class="stringliteral">&quot;sensors_creation&quot;</span>))</div>
+<div class="line"><span class="lineno">   71</span>        sensor_creation.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
+<div class="line"><span class="lineno">   72</span>        sensor_layout = QVBoxLayout()</div>
 <div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>        <span class="comment"># --- Pulsante aggiornamento YAML centrato ---</span></div>
-<div class="line"><span class="lineno">   75</span>        sensor_btn_layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">   76</span>        sensor_btn_layout.addLayout(row1)</div>
-<div class="line"><span class="lineno">   77</span>        sensor_btn_layout.addLayout(row2)</div>
-<div class="line"><span class="lineno">   78</span>        sensor_btn_layout.addSpacing(10)</div>
-<div class="line"><span class="lineno">   79</span>        sensor_btn_layout.addStretch()</div>
-<div class="line"><span class="lineno">   80</span>        sensor_btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>        sensor_btn_widget = QWidget()</div>
-<div class="line"><span class="lineno">   84</span>        sensor_btn_widget.setLayout(sensor_btn_layout)</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>        sensor_layout.addWidget(self.sensor_canvas)</div>
-<div class="line"><span class="lineno">   87</span>        sensor_layout.addWidget(sensor_btn_widget)</div>
-<div class="line"><span class="lineno">   88</span>        sensor_creation.setLayout(sensor_layout)</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>        layout.addWidget(sensor_creation)</div>
-<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   74</span>        self.sensor_canvas = SensorCanvas()</div>
+<div class="line"><span class="lineno">   75</span>        self.sensor_canvas.setMinimumHeight(400)</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>        <span class="comment"># Pulsanti azione</span></div>
+<div class="line"><span class="lineno">   78</span>        self.add_sensor_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_sensor&quot;</span>))</div>
+<div class="line"><span class="lineno">   79</span>        self.add_action_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_action&quot;</span>))</div>
+<div class="line"><span class="lineno">   80</span>        self.add_trigger_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_trigger&quot;</span>))</div>
+<div class="line"><span class="lineno">   81</span>        self.add_condition_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_condition&quot;</span>))</div>
+<div class="line"><span class="lineno">   82</span>        self.add_timer_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_timer&quot;</span>))</div>
+<div class="line"><span class="lineno">   83</span>        self.add_script_btn = QPushButton(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_script&quot;</span>))</div>
+<div class="line"><span class="lineno">   84</span>        self.update_yaml_btn = QPushButton(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
+<div class="line"><span class="lineno">   85</span>        self.update_yaml_btn.setStyleSheet(Pantone.UPDATE_YAML_BTN_STYLE)</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>        <span class="comment"># Applica stile comune e larghezza fissa</span></div>
+<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">for</span> btn <span class="keywordflow">in</span> [</div>
+<div class="line"><span class="lineno">   89</span>            self.add_sensor_btn, self.add_action_btn, self.add_trigger_btn,</div>
+<div class="line"><span class="lineno">   90</span>            self.add_condition_btn, self.add_timer_btn, self.add_script_btn</div>
+<div class="line"><span class="lineno">   91</span>        ]:</div>
+<div class="line"><span class="lineno">   92</span>            btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">   93</span>            btn.setFixedWidth(180)</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>        <span class="comment"># Connessioni ai metodi stub</span></div>
+<div class="line"><span class="lineno">   96</span>        self.add_sensor_btn.clicked.connect(self.aggiungi_blocco_sensore)</div>
+<div class="line"><span class="lineno">   97</span>        self.add_action_btn.clicked.connect(self.aggiungi_blocco_azione)</div>
+<div class="line"><span class="lineno">   98</span>        self.add_trigger_btn.clicked.connect(self.aggiungi_blocco_trigger)</div>
+<div class="line"><span class="lineno">   99</span>        self.add_condition_btn.clicked.connect(self.aggiungi_blocco_condizione)</div>
+<div class="line"><span class="lineno">  100</span>        self.add_timer_btn.clicked.connect(self.aggiungi_blocco_timer)</div>
+<div class="line"><span class="lineno">  101</span>        self.add_script_btn.clicked.connect(self.aggiungi_blocco_script)</div>
+<div class="line"><span class="lineno">  102</span>        self.update_yaml_btn.clicked.connect(self.aggiorna_yaml_da_blocchi)</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>        <span class="comment"># --- Layout a due righe per i pulsanti di aggiunta ---</span></div>
+<div class="line"><span class="lineno">  105</span>        row1 = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  106</span>        row1.addWidget(self.add_sensor_btn)</div>
+<div class="line"><span class="lineno">  107</span>        row1.addWidget(self.add_action_btn)</div>
+<div class="line"><span class="lineno">  108</span>        row1.addWidget(self.add_trigger_btn)</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>        row2 = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  111</span>        row2.addWidget(self.add_condition_btn)</div>
+<div class="line"><span class="lineno">  112</span>        row2.addWidget(self.add_timer_btn)</div>
+<div class="line"><span class="lineno">  113</span>        row2.addWidget(self.add_script_btn)</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>        <span class="comment"># --- Pulsante aggiornamento YAML centrato ---</span></div>
+<div class="line"><span class="lineno">  116</span>        sensor_btn_layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  117</span>        sensor_btn_layout.addLayout(row1)</div>
+<div class="line"><span class="lineno">  118</span>        sensor_btn_layout.addLayout(row2)</div>
+<div class="line"><span class="lineno">  119</span>        sensor_btn_layout.addSpacing(10)</div>
+<div class="line"><span class="lineno">  120</span>        sensor_btn_layout.addStretch()</div>
+<div class="line"><span class="lineno">  121</span>        sensor_btn_layout.addWidget(self.update_yaml_btn, alignment=Qt.AlignmentFlag.AlignRight)</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span>        sensor_btn_widget = QWidget()</div>
+<div class="line"><span class="lineno">  125</span>        sensor_btn_widget.setLayout(sensor_btn_layout)</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>        sensor_layout.addWidget(self.sensor_canvas)</div>
+<div class="line"><span class="lineno">  128</span>        sensor_layout.addWidget(sensor_btn_widget)</div>
+<div class="line"><span class="lineno">  129</span>        sensor_creation.setLayout(sensor_layout)</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>        layout.addWidget(sensor_creation)</div>
+<div class="line"><span class="lineno">  132</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00020">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00051">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00020">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00051">__init__()</a>.</p>
 
 </div>
 </div>
@@ -320,19 +343,31 @@ Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Returns the active YAML editor instance from the main window.
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00092">92</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>    <span class="keyword">def </span>_editor(self):</div>
-<div class="line"><span class="lineno">   93</span>        main = self.window()</div>
-<div class="line"><span class="lineno">   94</span>        <span class="keywordflow">if</span> hasattr(main, <span class="stringliteral">&quot;yaml_editor&quot;</span>) <span class="keywordflow">and</span> main.yaml_editor:</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">return</span> main.yaml_editor</div>
-<div class="line"><span class="lineno">   96</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span> </div>
+This utility method accesses the editor safely by checking its availability and existence.
+
+@return QTextEdit instance if valid, otherwise None.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00133">133</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>    <span class="keyword">def </span>_editor(self):</div>
+<div class="line"><span class="lineno">  134</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  135</span><span class="stringliteral">        @brief Returns the active YAML editor instance from the main window.</span></div>
+<div class="line"><span class="lineno">  136</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  137</span><span class="stringliteral">        This utility method accesses the editor safely by checking its availability and existence.</span></div>
+<div class="line"><span class="lineno">  138</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  139</span><span class="stringliteral">        @return QTextEdit instance if valid, otherwise None.</span></div>
+<div class="line"><span class="lineno">  140</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  141</span>        main = self.window()</div>
+<div class="line"><span class="lineno">  142</span>        <span class="keywordflow">if</span> hasattr(main, <span class="stringliteral">&quot;yaml_editor&quot;</span>) <span class="keywordflow">and</span> main.yaml_editor:</div>
+<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">return</span> main.yaml_editor</div>
+<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="compile__manager_8py_source.html#l00020">compile_manager.CompileManager.window</a>.</p>
+<p class="reference">References <a class="el" href="compile__manager_8py_source.html#l00043">compile_manager.CompileManager.window</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00099">aggiorna_yaml_da_blocchi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00147">aggiorna_yaml_da_blocchi()</a>.</p>
 
 </div>
 </div>
@@ -354,94 +389,103 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
+<pre class="fragment">@brief Parses the provided YAML content and reconstructs visual sensor blocks.
+
+Clears all existing blocks, then loads sensor definitions from the JSON file
+and instantiates them as visual blocks within the canvas.
+
+@param yaml_content YAML content as string.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00145">145</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  145</span>    <span class="keyword">def </span>aggiorna_blocchi_da_yaml(self, yaml_content):</div>
-<div class="line"><span class="lineno">  146</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  147</span><span class="stringliteral">        @brief Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.</span></div>
-<div class="line"><span class="lineno">  148</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>        <span class="comment"># 1. Svuota tutti i blocchi esistenti</span></div>
-<div class="line"><span class="lineno">  151</span>        self.get_sensor_canvas().clear_blocks()</div>
-<div class="line"><span class="lineno">  152</span> </div>
-<div class="line"><span class="lineno">  153</span>        <span class="comment"># 2. Parsea il contenuto YAML</span></div>
-<div class="line"><span class="lineno">  154</span>        yaml = YAML(typ=<span class="stringliteral">&quot;safe&quot;</span>)</div>
-<div class="line"><span class="lineno">  155</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  156</span>            data = yaml.load(yaml_content)</div>
-<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  158</span>            <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
-<div class="line"><span class="lineno">  159</span>                self.logger.log(f<span class="stringliteral">&quot;{Translator.tr(&#39;yaml_parse_error&#39;)}: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  160</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> data <span class="keywordflow">or</span> <span class="stringliteral">&quot;sensor&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> data <span class="keywordflow">or</span> <span class="keywordflow">not</span> isinstance(data[<span class="stringliteral">&quot;sensor&quot;</span>], list):</div>
-<div class="line"><span class="lineno">  163</span>            <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
-<div class="line"><span class="lineno">  164</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;no_sensor_section&quot;</span>), <span class="stringliteral">&quot;warning&quot;</span>)</div>
-<div class="line"><span class="lineno">  165</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>        <span class="comment"># 3. Carica definizioni da sensors.json</span></div>
-<div class="line"><span class="lineno">  168</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  169</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;sensors.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  170</span>        dialog = SensorSelectionDialog(sensors_json_path=json_path)</div>
-<div class="line"><span class="lineno">  171</span>        sensor_defs = dialog.sensors</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>        <span class="comment"># 4. Ricrea ogni blocco</span></div>
-<div class="line"><span class="lineno">  174</span>        <span class="keywordflow">for</span> sensor <span class="keywordflow">in</span> data[<span class="stringliteral">&quot;sensor&quot;</span>]:</div>
-<div class="line"><span class="lineno">  175</span>            platform = sensor.get(<span class="stringliteral">&quot;platform&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).lower()</div>
-<div class="line"><span class="lineno">  176</span>            name = sensor.get(<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;Nuovo Sensore&quot;</span>)</div>
-<div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>            <span class="comment"># Trova definizione da JSON</span></div>
-<div class="line"><span class="lineno">  179</span>            sensor_def = next(</div>
-<div class="line"><span class="lineno">  180</span>                (s <span class="keywordflow">for</span> s <span class="keywordflow">in</span> sensor_defs <span class="keywordflow">if</span> s[<span class="stringliteral">&quot;platform&quot;</span>] == platform <span class="keywordflow">or</span> s[<span class="stringliteral">&quot;label&quot;</span>] == name),</div>
-<div class="line"><span class="lineno">  181</span>                <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">  182</span>            )</div>
-<div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> sensor_def:</div>
-<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">continue</span>  <span class="comment"># salta sensori non definiti</span></div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>            <span class="comment"># Crea blocco</span></div>
-<div class="line"><span class="lineno">  188</span>            blocco = SensorBlockItem(title=name)</div>
-<div class="line"><span class="lineno">  189</span>            blocco.name_edit.setText(name)</div>
-<div class="line"><span class="lineno">  190</span> </div>
-<div class="line"><span class="lineno">  191</span>            <span class="comment"># Imposta tipo connessione</span></div>
-<div class="line"><span class="lineno">  192</span>            conn_type = self.tab_settings.detect_connection_type(sensor_def) <span class="keywordflow">if</span> hasattr(self.tab_settings, <span class="stringliteral">&quot;detect_connection_type&quot;</span>) <span class="keywordflow">else</span> <span class="stringliteral">&quot;custom&quot;</span></div>
-<div class="line"><span class="lineno">  193</span>            blocco.conn_type_display.setText(conn_type)</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span>            <span class="comment"># Costruisci parametri e outputs</span></div>
-<div class="line"><span class="lineno">  196</span>            param_list = sensor_def.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  197</span>            blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>            outputs = sensor_def.get(<span class="stringliteral">&quot;outputs&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  200</span>            blocco.build_from_returns(outputs)</div>
-<div class="line"><span class="lineno">  201</span> </div>
-<div class="line"><span class="lineno">  202</span>            <span class="comment"># Popola i parametri dinamici dal YAML</span></div>
-<div class="line"><span class="lineno">  203</span>            <span class="keywordflow">for</span> key, widget <span class="keywordflow">in</span> blocco.param_widgets.items():</div>
-<div class="line"><span class="lineno">  204</span>                value = sensor.get(key)</div>
-<div class="line"><span class="lineno">  205</span>                <span class="keywordflow">if</span> value <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">  206</span>                    <span class="keywordflow">if</span> isinstance(widget, QLineEdit):</div>
-<div class="line"><span class="lineno">  207</span>                        widget.setText(str(value))</div>
-<div class="line"><span class="lineno">  208</span>                    <span class="keywordflow">elif</span> isinstance(widget, QSpinBox):</div>
-<div class="line"><span class="lineno">  209</span>                        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  210</span>                            widget.setValue(int(str(value).replace(<span class="stringliteral">&quot;s&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)))</div>
-<div class="line"><span class="lineno">  211</span>                        <span class="keywordflow">except</span> Exception:</div>
-<div class="line"><span class="lineno">  212</span>                            <span class="keywordflow">pass</span></div>
-<div class="line"><span class="lineno">  213</span>                    <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
-<div class="line"><span class="lineno">  214</span>                        idx = widget.findText(str(value))</div>
-<div class="line"><span class="lineno">  215</span>                        <span class="keywordflow">if</span> idx &gt;= 0:</div>
-<div class="line"><span class="lineno">  216</span>                            widget.setCurrentIndex(idx)</div>
-<div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>            <span class="comment"># Popola anche i campi output (es. temperature, humidity)</span></div>
-<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">for</span> output_key, output_widget <span class="keywordflow">in</span> getattr(blocco, <span class="stringliteral">&quot;output_links&quot;</span>, {}).items():</div>
-<div class="line"><span class="lineno">  220</span>                <span class="keywordflow">if</span> output_key <span class="keywordflow">in</span> sensor <span class="keywordflow">and</span> isinstance(sensor[output_key], dict):</div>
-<div class="line"><span class="lineno">  221</span>                    name_val = sensor[output_key].get(<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">  222</span>                    output_widget.setText(name_val)</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>            self.get_sensor_canvas().add_sensor_block(blocco)</div>
-<div class="line"><span class="lineno">  225</span> </div>
-<div class="line"><span class="lineno">  226</span> </div>
-<div class="line"><span class="lineno">  227</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00204">204</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  204</span>    <span class="keyword">def </span>aggiorna_blocchi_da_yaml(self, yaml_content):</div>
+<div class="line"><span class="lineno">  205</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  206</span><span class="stringliteral">        @brief Parses the provided YAML content and reconstructs visual sensor blocks.</span></div>
+<div class="line"><span class="lineno">  207</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  208</span><span class="stringliteral">        Clears all existing blocks, then loads sensor definitions from the JSON file</span></div>
+<div class="line"><span class="lineno">  209</span><span class="stringliteral">        and instantiates them as visual blocks within the canvas.</span></div>
+<div class="line"><span class="lineno">  210</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  211</span><span class="stringliteral">        @param yaml_content YAML content as string.</span></div>
+<div class="line"><span class="lineno">  212</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  213</span>        <span class="comment"># 1. Svuota tutti i blocchi esistenti</span></div>
+<div class="line"><span class="lineno">  214</span>        self.get_sensor_canvas().clear_blocks()</div>
+<div class="line"><span class="lineno">  215</span> </div>
+<div class="line"><span class="lineno">  216</span>        <span class="comment"># 2. Parsea il contenuto YAML</span></div>
+<div class="line"><span class="lineno">  217</span>        yaml = YAML(typ=<span class="stringliteral">&quot;safe&quot;</span>)</div>
+<div class="line"><span class="lineno">  218</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  219</span>            data = yaml.load(yaml_content)</div>
+<div class="line"><span class="lineno">  220</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  221</span>            <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
+<div class="line"><span class="lineno">  222</span>                self.logger.log(f<span class="stringliteral">&quot;{Translator.tr(&#39;yaml_parse_error&#39;)}: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  223</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> data <span class="keywordflow">or</span> <span class="stringliteral">&quot;sensor&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> data <span class="keywordflow">or</span> <span class="keywordflow">not</span> isinstance(data[<span class="stringliteral">&quot;sensor&quot;</span>], list):</div>
+<div class="line"><span class="lineno">  226</span>            <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
+<div class="line"><span class="lineno">  227</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;no_sensor_section&quot;</span>), <span class="stringliteral">&quot;warning&quot;</span>)</div>
+<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  230</span>        <span class="comment"># 3. Carica definizioni da sensors.json</span></div>
+<div class="line"><span class="lineno">  231</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  232</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;sensors.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  233</span>        dialog = SensorSelectionDialog(sensors_json_path=json_path)</div>
+<div class="line"><span class="lineno">  234</span>        sensor_defs = dialog.sensors</div>
+<div class="line"><span class="lineno">  235</span> </div>
+<div class="line"><span class="lineno">  236</span>        <span class="comment"># 4. Ricrea ogni blocco</span></div>
+<div class="line"><span class="lineno">  237</span>        <span class="keywordflow">for</span> sensor <span class="keywordflow">in</span> data[<span class="stringliteral">&quot;sensor&quot;</span>]:</div>
+<div class="line"><span class="lineno">  238</span>            platform = sensor.get(<span class="stringliteral">&quot;platform&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).lower()</div>
+<div class="line"><span class="lineno">  239</span>            name = sensor.get(<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;Nuovo Sensore&quot;</span>)</div>
+<div class="line"><span class="lineno">  240</span> </div>
+<div class="line"><span class="lineno">  241</span>            <span class="comment"># Trova definizione da JSON</span></div>
+<div class="line"><span class="lineno">  242</span>            sensor_def = next(</div>
+<div class="line"><span class="lineno">  243</span>                (s <span class="keywordflow">for</span> s <span class="keywordflow">in</span> sensor_defs <span class="keywordflow">if</span> s[<span class="stringliteral">&quot;platform&quot;</span>] == platform <span class="keywordflow">or</span> s[<span class="stringliteral">&quot;label&quot;</span>] == name),</div>
+<div class="line"><span class="lineno">  244</span>                <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  245</span>            )</div>
+<div class="line"><span class="lineno">  246</span> </div>
+<div class="line"><span class="lineno">  247</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> sensor_def:</div>
+<div class="line"><span class="lineno">  248</span>                <span class="keywordflow">continue</span>  <span class="comment"># salta sensori non definiti</span></div>
+<div class="line"><span class="lineno">  249</span> </div>
+<div class="line"><span class="lineno">  250</span>            <span class="comment"># Crea blocco</span></div>
+<div class="line"><span class="lineno">  251</span>            blocco = SensorBlockItem(title=name)</div>
+<div class="line"><span class="lineno">  252</span>            blocco.name_edit.setText(name)</div>
+<div class="line"><span class="lineno">  253</span> </div>
+<div class="line"><span class="lineno">  254</span>            <span class="comment"># Imposta tipo connessione</span></div>
+<div class="line"><span class="lineno">  255</span>            conn_type = self.tab_settings.detect_connection_type(sensor_def) <span class="keywordflow">if</span> hasattr(self.tab_settings, <span class="stringliteral">&quot;detect_connection_type&quot;</span>) <span class="keywordflow">else</span> <span class="stringliteral">&quot;custom&quot;</span></div>
+<div class="line"><span class="lineno">  256</span>            blocco.conn_type_display.setText(conn_type)</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>            <span class="comment"># Costruisci parametri e outputs</span></div>
+<div class="line"><span class="lineno">  259</span>            param_list = sensor_def.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  260</span>            blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  261</span> </div>
+<div class="line"><span class="lineno">  262</span>            outputs = sensor_def.get(<span class="stringliteral">&quot;outputs&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  263</span>            blocco.build_from_returns(outputs)</div>
+<div class="line"><span class="lineno">  264</span> </div>
+<div class="line"><span class="lineno">  265</span>            <span class="comment"># Popola i parametri dinamici dal YAML</span></div>
+<div class="line"><span class="lineno">  266</span>            <span class="keywordflow">for</span> key, widget <span class="keywordflow">in</span> blocco.param_widgets.items():</div>
+<div class="line"><span class="lineno">  267</span>                value = sensor.get(key)</div>
+<div class="line"><span class="lineno">  268</span>                <span class="keywordflow">if</span> value <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  269</span>                    <span class="keywordflow">if</span> isinstance(widget, QLineEdit):</div>
+<div class="line"><span class="lineno">  270</span>                        widget.setText(str(value))</div>
+<div class="line"><span class="lineno">  271</span>                    <span class="keywordflow">elif</span> isinstance(widget, QSpinBox):</div>
+<div class="line"><span class="lineno">  272</span>                        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  273</span>                            widget.setValue(int(str(value).replace(<span class="stringliteral">&quot;s&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)))</div>
+<div class="line"><span class="lineno">  274</span>                        <span class="keywordflow">except</span> Exception:</div>
+<div class="line"><span class="lineno">  275</span>                            <span class="keywordflow">pass</span></div>
+<div class="line"><span class="lineno">  276</span>                    <span class="keywordflow">elif</span> isinstance(widget, QComboBox):</div>
+<div class="line"><span class="lineno">  277</span>                        idx = widget.findText(str(value))</div>
+<div class="line"><span class="lineno">  278</span>                        <span class="keywordflow">if</span> idx &gt;= 0:</div>
+<div class="line"><span class="lineno">  279</span>                            widget.setCurrentIndex(idx)</div>
+<div class="line"><span class="lineno">  280</span> </div>
+<div class="line"><span class="lineno">  281</span>            <span class="comment"># Popola anche i campi output (es. temperature, humidity)</span></div>
+<div class="line"><span class="lineno">  282</span>            <span class="keywordflow">for</span> output_key, output_widget <span class="keywordflow">in</span> getattr(blocco, <span class="stringliteral">&quot;output_links&quot;</span>, {}).items():</div>
+<div class="line"><span class="lineno">  283</span>                <span class="keywordflow">if</span> output_key <span class="keywordflow">in</span> sensor <span class="keywordflow">and</span> isinstance(sensor[output_key], dict):</div>
+<div class="line"><span class="lineno">  284</span>                    name_val = sensor[output_key].get(<span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  285</span>                    output_widget.setText(name_val)</div>
+<div class="line"><span class="lineno">  286</span> </div>
+<div class="line"><span class="lineno">  287</span>            self.get_sensor_canvas().add_sensor_block(blocco)</div>
+<div class="line"><span class="lineno">  288</span> </div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  290</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00142">get_sensor_canvas()</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">tab_command.TabCommand.logger</a>, <a class="el" href="tab__modules_8py_source.html#l00012">tab_modules.TabModules.logger</a>, <a class="el" href="tab__sensori_8py_source.html#l00022">logger</a>, <a class="el" href="main__window_8py_source.html#l00165">main_window.MainWindow.tab_settings</a>, and <a class="el" href="tab__sensori_8py_source.html#l00023">tab_settings</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00196">get_sensor_canvas()</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">tab_command.TabCommand.logger</a>, <a class="el" href="tab__modules_8py_source.html#l00046">tab_modules.TabModules.logger</a>, <a class="el" href="tab__sensori_8py_source.html#l00063">logger</a>, <a class="el" href="main__window_8py_source.html#l00183">main_window.MainWindow.tab_settings</a>, and <a class="el" href="tab__sensori_8py_source.html#l00064">tab_settings</a>.</p>
 
 </div>
 </div>
@@ -459,20 +503,27 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Updates all UI text labels in the tab based on the active translation.
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00228">228</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  228</span>    <span class="keyword">def </span>aggiorna_label(self):</div>
-<div class="line"><span class="lineno">  229</span>        <span class="keyword">from</span> core.translator <span class="keyword">import</span> Translator</div>
-<div class="line"><span class="lineno">  230</span>        self.sensor_canvas.setToolTip(Translator.tr(<span class="stringliteral">&quot;sensors_creation&quot;</span>))</div>
-<div class="line"><span class="lineno">  231</span>        self.add_sensor_btn.setText(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_sensor&quot;</span>))</div>
-<div class="line"><span class="lineno">  232</span>        self.update_yaml_btn.setText(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
-<div class="line"><span class="lineno">  233</span>        <span class="comment"># Aggiorna i blocchi già presenti nel canvas (se ce ne sono)</span></div>
-<div class="line"><span class="lineno">  234</span>        <span class="keywordflow">for</span> item <span class="keywordflow">in</span> self.sensor_canvas.scene().items():</div>
-<div class="line"><span class="lineno">  235</span>            <span class="keywordflow">if</span> hasattr(item, <span class="stringliteral">&quot;aggiorna_label&quot;</span>):</div>
-<div class="line"><span class="lineno">  236</span>                item.aggiorna_label()</div>
-<div class="line"><span class="lineno">  237</span> </div>
+Also updates the labels of existing blocks in the scene, if available.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00291">291</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  291</span>    <span class="keyword">def </span>aggiorna_label(self):</div>
+<div class="line"><span class="lineno">  292</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  293</span><span class="stringliteral">        @brief Updates all UI text labels in the tab based on the active translation.</span></div>
+<div class="line"><span class="lineno">  294</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  295</span><span class="stringliteral">        Also updates the labels of existing blocks in the scene, if available.</span></div>
+<div class="line"><span class="lineno">  296</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  297</span>        self.sensor_canvas.setToolTip(Translator.tr(<span class="stringliteral">&quot;sensors_creation&quot;</span>))</div>
+<div class="line"><span class="lineno">  298</span>        self.add_sensor_btn.setText(<span class="stringliteral">&quot;➕ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;add_sensor&quot;</span>))</div>
+<div class="line"><span class="lineno">  299</span>        self.update_yaml_btn.setText(<span class="stringliteral">&quot;🔁 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;update_yaml&quot;</span>))</div>
+<div class="line"><span class="lineno">  300</span>        <span class="comment"># Aggiorna i blocchi già presenti nel canvas (se ce ne sono)</span></div>
+<div class="line"><span class="lineno">  301</span>        <span class="keywordflow">for</span> item <span class="keywordflow">in</span> self.sensor_canvas.scene().items():</div>
+<div class="line"><span class="lineno">  302</span>            <span class="keywordflow">if</span> hasattr(item, <span class="stringliteral">&quot;aggiorna_label&quot;</span>):</div>
+<div class="line"><span class="lineno">  303</span>                item.aggiorna_label()</div>
+<div class="line"><span class="lineno">  304</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00037">add_sensor_btn</a>, <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>, <a class="el" href="tab__modules_8py_source.html#l00076">tab_modules.TabModules.update_yaml_btn</a>, and <a class="el" href="tab__sensori_8py_source.html#l00043">update_yaml_btn</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00078">add_sensor_btn</a>, <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>, <a class="el" href="tab__modules_8py_source.html#l00110">tab_modules.TabModules.update_yaml_btn</a>, and <a class="el" href="tab__sensori_8py_source.html#l00084">update_yaml_btn</a>.</p>
 
 </div>
 </div>
@@ -490,55 +541,67 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Aggiorna SOLO la sezione sensori nel file YAML, mantenendo il resto invariato.
-Logga eventuali blocchi ignorati per campi incompleti.
+<pre class="fragment">@brief Updates the YAML editor by extracting only the sensor-related blocks.
+
+Parses the current sensor canvas and generates an updated YAML string
+containing just the `sensor:` section while preserving other parts.
+
+Logs a warning for each block skipped due to incomplete fields.
+
+@note Uses `YAMLHandler.generate_yaml_sensors_only_with_log()`.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00099">99</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   99</span>    <span class="keyword">def </span>aggiorna_yaml_da_blocchi(self):</div>
-<div class="line"><span class="lineno">  100</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  101</span><span class="stringliteral">        @brief Aggiorna SOLO la sezione sensori nel file YAML, mantenendo il resto invariato.</span></div>
-<div class="line"><span class="lineno">  102</span><span class="stringliteral">        Logga eventuali blocchi ignorati per campi incompleti.</span></div>
-<div class="line"><span class="lineno">  103</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  104</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  105</span>            main = self.window()</div>
-<div class="line"><span class="lineno">  106</span>            editor = self._editor()</div>
-<div class="line"><span class="lineno">  107</span>            <span class="keywordflow">if</span> editor <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">  108</span>                <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>            <span class="keyword">from</span> core.yaml_handler <span class="keyword">import</span> YAMLHandler</div>
-<div class="line"><span class="lineno">  111</span>            current_yaml = editor.toPlainText()</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>            <span class="comment"># Usa metodo esteso con lista blocchi scartati</span></div>
-<div class="line"><span class="lineno">  114</span>            scene = self.sensor_canvas.scene()</div>
-<div class="line"><span class="lineno">  115</span>            new_yaml, scartati = YAMLHandler.generate_yaml_sensors_only_with_log(scene, current_yaml)</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>            editor.setPlainText(new_yaml)</div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">if</span> self.logger:</div>
-<div class="line"><span class="lineno">  120</span>                <span class="keywordflow">if</span> scartati:</div>
-<div class="line"><span class="lineno">  121</span>                    <span class="keywordflow">for</span> titolo_blocco <span class="keywordflow">in</span> scartati:</div>
-<div class="line"><span class="lineno">  122</span>                        self.logger.log(</div>
-<div class="line"><span class="lineno">  123</span>                            Translator.tr(<span class="stringliteral">&quot;sensor_block_skipped&quot;</span>).format(name=titolo_blocco),</div>
-<div class="line"><span class="lineno">  124</span>                            <span class="stringliteral">&quot;warning&quot;</span></div>
-<div class="line"><span class="lineno">  125</span>                        )</div>
-<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  127</span>                    self.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_updated_from_sensors&quot;</span>), <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">except</span> RuntimeError <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  130</span>            <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  131</span>                <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
-<div class="line"><span class="lineno">  132</span>                    self.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_update_crash_sensors&quot;</span>).format(error=str(e)), <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  133</span>                <span class="keywordflow">elif</span> hasattr(main, <span class="stringliteral">&quot;logger&quot;</span>):</div>
-<div class="line"><span class="lineno">  134</span>                    main.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_update_crash_sensors&quot;</span>).format(error=str(e)), <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  136</span>                    <span class="keyword">from</span> core.log_handler <span class="keyword">import</span> GeneralLogHandler <span class="keyword">as</span> log</div>
-<div class="line"><span class="lineno">  137</span>                    log.error(f<span class="stringliteral">&quot;[TabSensori] YAML update crash: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">except</span> Exception:</div>
-<div class="line"><span class="lineno">  139</span>                <span class="keywordflow">pass</span>  <span class="comment"># fallback assoluto</span></div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00147">147</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  147</span>    <span class="keyword">def </span>aggiorna_yaml_da_blocchi(self):</div>
+<div class="line"><span class="lineno">  148</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  149</span><span class="stringliteral">        @brief Updates the YAML editor by extracting only the sensor-related blocks.</span></div>
+<div class="line"><span class="lineno">  150</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  151</span><span class="stringliteral">        Parses the current sensor canvas and generates an updated YAML string</span></div>
+<div class="line"><span class="lineno">  152</span><span class="stringliteral">        containing just the `sensor:` section while preserving other parts.</span></div>
+<div class="line"><span class="lineno">  153</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  154</span><span class="stringliteral">        Logs a warning for each block skipped due to incomplete fields.</span></div>
+<div class="line"><span class="lineno">  155</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  156</span><span class="stringliteral">        @note Uses `YAMLHandler.generate_yaml_sensors_only_with_log()`.</span></div>
+<div class="line"><span class="lineno">  157</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  158</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  159</span>            main = self.window()</div>
+<div class="line"><span class="lineno">  160</span>            editor = self._editor()</div>
+<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">if</span> editor <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  162</span>                <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  163</span> </div>
+<div class="line"><span class="lineno">  164</span>            <span class="keyword">from</span> core.yaml_handler <span class="keyword">import</span> YAMLHandler</div>
+<div class="line"><span class="lineno">  165</span>            current_yaml = editor.toPlainText()</div>
+<div class="line"><span class="lineno">  166</span> </div>
+<div class="line"><span class="lineno">  167</span>            <span class="comment"># Usa metodo esteso con lista blocchi scartati</span></div>
+<div class="line"><span class="lineno">  168</span>            scene = self.sensor_canvas.scene()</div>
+<div class="line"><span class="lineno">  169</span>            new_yaml, scartati = YAMLHandler.generate_yaml_sensors_only_with_log(scene, current_yaml)</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>            editor.setPlainText(new_yaml)</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">if</span> self.logger:</div>
+<div class="line"><span class="lineno">  174</span>                <span class="keywordflow">if</span> scartati:</div>
+<div class="line"><span class="lineno">  175</span>                    <span class="keywordflow">for</span> titolo_blocco <span class="keywordflow">in</span> scartati:</div>
+<div class="line"><span class="lineno">  176</span>                        self.logger.log(</div>
+<div class="line"><span class="lineno">  177</span>                            Translator.tr(<span class="stringliteral">&quot;sensor_block_skipped&quot;</span>).format(name=titolo_blocco),</div>
+<div class="line"><span class="lineno">  178</span>                            <span class="stringliteral">&quot;warning&quot;</span></div>
+<div class="line"><span class="lineno">  179</span>                        )</div>
+<div class="line"><span class="lineno">  180</span>                <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  181</span>                    self.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_updated_from_sensors&quot;</span>), <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>        <span class="keywordflow">except</span> RuntimeError <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">if</span> hasattr(self, <span class="stringliteral">&quot;logger&quot;</span>):</div>
+<div class="line"><span class="lineno">  186</span>                    self.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_update_crash_sensors&quot;</span>).format(error=str(e)), <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">elif</span> hasattr(main, <span class="stringliteral">&quot;logger&quot;</span>):</div>
+<div class="line"><span class="lineno">  188</span>                    main.logger.log(Translator.tr(<span class="stringliteral">&quot;yaml_update_crash_sensors&quot;</span>).format(error=str(e)), <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  189</span>                <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  190</span>                    <span class="keyword">from</span> core.log_handler <span class="keyword">import</span> GeneralLogHandler <span class="keyword">as</span> log</div>
+<div class="line"><span class="lineno">  191</span>                    log.error(f<span class="stringliteral">&quot;[TabSensori] YAML update crash: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  192</span>            <span class="keywordflow">except</span> Exception:</div>
+<div class="line"><span class="lineno">  193</span>                <span class="keywordflow">pass</span>  <span class="comment"># fallback assoluto</span></div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00103">tab_modules.TabModules._editor()</a>, <a class="el" href="tab__sensori_8py_source.html#l00092">_editor()</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">tab_command.TabCommand.logger</a>, <a class="el" href="tab__modules_8py_source.html#l00012">tab_modules.TabModules.logger</a>, <a class="el" href="tab__sensori_8py_source.html#l00022">logger</a>, <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>, and <a class="el" href="compile__manager_8py_source.html#l00020">compile_manager.CompileManager.window</a>.</p>
+<p class="reference">References <a class="el" href="tab__modules_8py_source.html#l00137">tab_modules.TabModules._editor()</a>, <a class="el" href="tab__sensori_8py_source.html#l00133">_editor()</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">tab_command.TabCommand.logger</a>, <a class="el" href="tab__modules_8py_source.html#l00046">tab_modules.TabModules.logger</a>, <a class="el" href="tab__sensori_8py_source.html#l00063">logger</a>, <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>, and <a class="el" href="compile__manager_8py_source.html#l00043">compile_manager.CompileManager.window</a>.</p>
 
 </div>
 </div>
@@ -556,34 +619,38 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Apre la dialog di selezione azione e aggiunge un blocco al canvas se confermato.
+<pre class="fragment">@brief Opens the action selection dialog and adds the selected action block to the canvas.
+
+Dynamically builds parameters from the JSON action definition.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00268">268</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  268</span>    <span class="keyword">def </span>aggiungi_blocco_azione(self):</div>
-<div class="line"><span class="lineno">  269</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  270</span><span class="stringliteral">        @brief Apre la dialog di selezione azione e aggiunge un blocco al canvas se confermato.</span></div>
-<div class="line"><span class="lineno">  271</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  272</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  273</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;actions.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  274</span> </div>
-<div class="line"><span class="lineno">  275</span>        <span class="keyword">from</span> <a class="code hl_namespace" href="namespacegui_1_1block__selection__dialog.html">gui.block_selection_dialog</a> <span class="keyword">import</span> ActionSelectionDialog</div>
-<div class="line"><span class="lineno">  276</span>        dialog = ActionSelectionDialog(actions_json_path=json_path, parent=self)</div>
-<div class="line"><span class="lineno">  277</span>        <span class="keywordflow">if</span> dialog.exec():</div>
-<div class="line"><span class="lineno">  278</span>            selected = dialog.get_selected_action()</div>
-<div class="line"><span class="lineno">  279</span>            <span class="keywordflow">if</span> selected:</div>
-<div class="line"><span class="lineno">  280</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuova Azione&quot;</span>)</div>
-<div class="line"><span class="lineno">  281</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
-<div class="line"><span class="lineno">  282</span>                blocco = ActionBlockItem(title=solo_nome)</div>
-<div class="line"><span class="lineno">  283</span> </div>
-<div class="line"><span class="lineno">  284</span>                <span class="comment"># Costruzione dinamica dei parametri</span></div>
-<div class="line"><span class="lineno">  285</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  286</span>                blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
-<div class="line"><span class="lineno">  289</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00337">337</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  337</span>    <span class="keyword">def </span>aggiungi_blocco_azione(self):</div>
+<div class="line"><span class="lineno">  338</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  339</span><span class="stringliteral">        @brief Opens the action selection dialog and adds the selected action block to the canvas.</span></div>
+<div class="line"><span class="lineno">  340</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  341</span><span class="stringliteral">        Dynamically builds parameters from the JSON action definition.</span></div>
+<div class="line"><span class="lineno">  342</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  343</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  344</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;actions.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  345</span> </div>
+<div class="line"><span class="lineno">  346</span>        <span class="keyword">from</span> <a class="code hl_namespace" href="namespacegui_1_1block__selection__dialog.html">gui.block_selection_dialog</a> <span class="keyword">import</span> ActionSelectionDialog</div>
+<div class="line"><span class="lineno">  347</span>        dialog = ActionSelectionDialog(actions_json_path=json_path, parent=self)</div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">if</span> dialog.exec():</div>
+<div class="line"><span class="lineno">  349</span>            selected = dialog.get_selected_action()</div>
+<div class="line"><span class="lineno">  350</span>            <span class="keywordflow">if</span> selected:</div>
+<div class="line"><span class="lineno">  351</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuova Azione&quot;</span>)</div>
+<div class="line"><span class="lineno">  352</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
+<div class="line"><span class="lineno">  353</span>                blocco = ActionBlockItem(title=solo_nome)</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>                <span class="comment"># Costruzione dinamica dei parametri</span></div>
+<div class="line"><span class="lineno">  356</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  357</span>                blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  358</span> </div>
+<div class="line"><span class="lineno">  359</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
+<div class="line"><span class="lineno">  360</span> </div>
 <div class="ttc" id="anamespacegui_1_1block__selection__dialog_html"><div class="ttname"><a href="namespacegui_1_1block__selection__dialog.html">block_selection_dialog</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
 </div>
 </div>
@@ -601,32 +668,36 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Apre la dialog di selezione condizione e aggiunge un blocco al canvas se confermato.
+<pre class="fragment">@brief Opens the condition selection dialog and adds the selected condition block to the canvas.
+
+Automatically builds input fields using metadata from the `conditions.json` file.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00311">311</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  311</span>    <span class="keyword">def </span>aggiungi_blocco_condizione(self):</div>
-<div class="line"><span class="lineno">  312</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  313</span><span class="stringliteral">        @brief Apre la dialog di selezione condizione e aggiunge un blocco al canvas se confermato.</span></div>
-<div class="line"><span class="lineno">  314</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  315</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  316</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;conditions.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  317</span> </div>
-<div class="line"><span class="lineno">  318</span>        dialog = ConditionSelectionDialog(conditions_json_path=json_path, parent=self)</div>
-<div class="line"><span class="lineno">  319</span>        <span class="keywordflow">if</span> dialog.exec():</div>
-<div class="line"><span class="lineno">  320</span>            selected = dialog.get_selected_condition()</div>
-<div class="line"><span class="lineno">  321</span>            <span class="keywordflow">if</span> selected:</div>
-<div class="line"><span class="lineno">  322</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuova Condizione&quot;</span>)</div>
-<div class="line"><span class="lineno">  323</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
-<div class="line"><span class="lineno">  324</span>                blocco = ConditionBlockItem(title=solo_nome)</div>
-<div class="line"><span class="lineno">  325</span> </div>
-<div class="line"><span class="lineno">  326</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  327</span>                blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  328</span> </div>
-<div class="line"><span class="lineno">  329</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
-<div class="line"><span class="lineno">  330</span> </div>
-<div class="line"><span class="lineno">  331</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00384">384</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  384</span>    <span class="keyword">def </span>aggiungi_blocco_condizione(self):</div>
+<div class="line"><span class="lineno">  385</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  386</span><span class="stringliteral">        @brief Opens the condition selection dialog and adds the selected condition block to the canvas.</span></div>
+<div class="line"><span class="lineno">  387</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  388</span><span class="stringliteral">        Automatically builds input fields using metadata from the `conditions.json` file.</span></div>
+<div class="line"><span class="lineno">  389</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  390</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  391</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;conditions.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  392</span> </div>
+<div class="line"><span class="lineno">  393</span>        dialog = ConditionSelectionDialog(conditions_json_path=json_path, parent=self)</div>
+<div class="line"><span class="lineno">  394</span>        <span class="keywordflow">if</span> dialog.exec():</div>
+<div class="line"><span class="lineno">  395</span>            selected = dialog.get_selected_condition()</div>
+<div class="line"><span class="lineno">  396</span>            <span class="keywordflow">if</span> selected:</div>
+<div class="line"><span class="lineno">  397</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuova Condizione&quot;</span>)</div>
+<div class="line"><span class="lineno">  398</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
+<div class="line"><span class="lineno">  399</span>                blocco = ConditionBlockItem(title=solo_nome)</div>
+<div class="line"><span class="lineno">  400</span> </div>
+<div class="line"><span class="lineno">  401</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  402</span>                blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  403</span> </div>
+<div class="line"><span class="lineno">  404</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
+<div class="line"><span class="lineno">  405</span> </div>
+<div class="line"><span class="lineno">  406</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
 </div>
 </div>
@@ -644,31 +715,35 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Apre la dialog di selezione script e aggiunge un blocco al canvas se confermato.
+<pre class="fragment">@brief Opens the script selection dialog and adds the selected script block to the canvas.
+
+The block is customized based on the structure defined in `scripts.json`.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00353">353</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  353</span>    <span class="keyword">def </span>aggiungi_blocco_script(self):</div>
-<div class="line"><span class="lineno">  354</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  355</span><span class="stringliteral">        @brief Apre la dialog di selezione script e aggiunge un blocco al canvas se confermato.</span></div>
-<div class="line"><span class="lineno">  356</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  357</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  358</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;scripts.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  359</span> </div>
-<div class="line"><span class="lineno">  360</span>        dialog = ScriptSelectionDialog(scripts_json_path=json_path, parent=self)</div>
-<div class="line"><span class="lineno">  361</span>        <span class="keywordflow">if</span> dialog.exec():</div>
-<div class="line"><span class="lineno">  362</span>            selected = dialog.get_selected_script()</div>
-<div class="line"><span class="lineno">  363</span>            <span class="keywordflow">if</span> selected:</div>
-<div class="line"><span class="lineno">  364</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Script&quot;</span>)</div>
-<div class="line"><span class="lineno">  365</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
-<div class="line"><span class="lineno">  366</span>                blocco = ScriptBlockItem(title=solo_nome)</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  369</span>                blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  370</span> </div>
-<div class="line"><span class="lineno">  371</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
-<div class="line"><span class="lineno">  372</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00430">430</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  430</span>    <span class="keyword">def </span>aggiungi_blocco_script(self):</div>
+<div class="line"><span class="lineno">  431</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  432</span><span class="stringliteral">        @brief Opens the script selection dialog and adds the selected script block to the canvas.</span></div>
+<div class="line"><span class="lineno">  433</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  434</span><span class="stringliteral">        The block is customized based on the structure defined in `scripts.json`.</span></div>
+<div class="line"><span class="lineno">  435</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  436</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  437</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;scripts.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  438</span> </div>
+<div class="line"><span class="lineno">  439</span>        dialog = ScriptSelectionDialog(scripts_json_path=json_path, parent=self)</div>
+<div class="line"><span class="lineno">  440</span>        <span class="keywordflow">if</span> dialog.exec():</div>
+<div class="line"><span class="lineno">  441</span>            selected = dialog.get_selected_script()</div>
+<div class="line"><span class="lineno">  442</span>            <span class="keywordflow">if</span> selected:</div>
+<div class="line"><span class="lineno">  443</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Script&quot;</span>)</div>
+<div class="line"><span class="lineno">  444</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
+<div class="line"><span class="lineno">  445</span>                blocco = ScriptBlockItem(title=solo_nome)</div>
+<div class="line"><span class="lineno">  446</span> </div>
+<div class="line"><span class="lineno">  447</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  448</span>                blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  449</span> </div>
+<div class="line"><span class="lineno">  450</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
+<div class="line"><span class="lineno">  451</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
 </div>
 </div>
@@ -686,41 +761,45 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Apre la dialog di selezione sensore e aggiunge un blocco al canvas se confermato.
+<pre class="fragment">@brief Opens the sensor selection dialog and adds the selected sensor block to the canvas.
+
+The block is dynamically built from JSON metadata and configured accordingly.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00238">238</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  238</span>    <span class="keyword">def </span>aggiungi_blocco_sensore(self):</div>
-<div class="line"><span class="lineno">  239</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  240</span><span class="stringliteral">        @brief Apre la dialog di selezione sensore e aggiunge un blocco al canvas se confermato.</span></div>
-<div class="line"><span class="lineno">  241</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  242</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  243</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;sensors.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  244</span> </div>
-<div class="line"><span class="lineno">  245</span>        dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)</div>
-<div class="line"><span class="lineno">  246</span>        <span class="keywordflow">if</span> dialog.exec():</div>
-<div class="line"><span class="lineno">  247</span>            selected = dialog.get_selected_sensor()</div>
-<div class="line"><span class="lineno">  248</span>            <span class="keywordflow">if</span> selected:</div>
-<div class="line"><span class="lineno">  249</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Sensore&quot;</span>)</div>
-<div class="line"><span class="lineno">  250</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]  <span class="comment"># Prende tutto prima della prima parentesi aperta</span></div>
-<div class="line"><span class="lineno">  251</span>                blocco = SensorBlockItem(title=solo_nome)</div>
-<div class="line"><span class="lineno">  252</span>                blocco.sensor_platform = selected.get(<span class="stringliteral">&quot;platform&quot;</span>, <span class="stringliteral">&quot;custom&quot;</span>)</div>
-<div class="line"><span class="lineno">  253</span> </div>
-<div class="line"><span class="lineno">  254</span>                <span class="comment"># Imposta nome e tipo</span></div>
-<div class="line"><span class="lineno">  255</span>                blocco.name_edit.setText(solo_nome)</div>
-<div class="line"><span class="lineno">  256</span>                conn_type = dialog.detect_connection_type(selected)</div>
-<div class="line"><span class="lineno">  257</span>                blocco.conn_type_display.setText(conn_type)</div>
-<div class="line"><span class="lineno">  258</span> </div>
-<div class="line"><span class="lineno">  259</span>                <span class="comment"># Costruzione dinamica dei parametri</span></div>
-<div class="line"><span class="lineno">  260</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  261</span>                blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  262</span> </div>
-<div class="line"><span class="lineno">  263</span>                outputs = selected.get(<span class="stringliteral">&quot;outputs&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  264</span>                blocco.build_from_returns(outputs)</div>
-<div class="line"><span class="lineno">  265</span> </div>
-<div class="line"><span class="lineno">  266</span>                self.sensor_canvas.add_sensor_block(blocco)                </div>
-<div class="line"><span class="lineno">  267</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00305">305</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  305</span>    <span class="keyword">def </span>aggiungi_blocco_sensore(self):</div>
+<div class="line"><span class="lineno">  306</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  307</span><span class="stringliteral">        @brief Opens the sensor selection dialog and adds the selected sensor block to the canvas.</span></div>
+<div class="line"><span class="lineno">  308</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  309</span><span class="stringliteral">        The block is dynamically built from JSON metadata and configured accordingly.</span></div>
+<div class="line"><span class="lineno">  310</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  311</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  312</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;sensors.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  313</span> </div>
+<div class="line"><span class="lineno">  314</span>        dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)</div>
+<div class="line"><span class="lineno">  315</span>        <span class="keywordflow">if</span> dialog.exec():</div>
+<div class="line"><span class="lineno">  316</span>            selected = dialog.get_selected_sensor()</div>
+<div class="line"><span class="lineno">  317</span>            <span class="keywordflow">if</span> selected:</div>
+<div class="line"><span class="lineno">  318</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Sensore&quot;</span>)</div>
+<div class="line"><span class="lineno">  319</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]  <span class="comment"># Prende tutto prima della prima parentesi aperta</span></div>
+<div class="line"><span class="lineno">  320</span>                blocco = SensorBlockItem(title=solo_nome)</div>
+<div class="line"><span class="lineno">  321</span>                blocco.sensor_platform = selected.get(<span class="stringliteral">&quot;platform&quot;</span>, <span class="stringliteral">&quot;custom&quot;</span>)</div>
+<div class="line"><span class="lineno">  322</span> </div>
+<div class="line"><span class="lineno">  323</span>                <span class="comment"># Imposta nome e tipo</span></div>
+<div class="line"><span class="lineno">  324</span>                blocco.name_edit.setText(solo_nome)</div>
+<div class="line"><span class="lineno">  325</span>                conn_type = dialog.detect_connection_type(selected)</div>
+<div class="line"><span class="lineno">  326</span>                blocco.conn_type_display.setText(conn_type)</div>
+<div class="line"><span class="lineno">  327</span> </div>
+<div class="line"><span class="lineno">  328</span>                <span class="comment"># Costruzione dinamica dei parametri</span></div>
+<div class="line"><span class="lineno">  329</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  330</span>                blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  331</span> </div>
+<div class="line"><span class="lineno">  332</span>                outputs = selected.get(<span class="stringliteral">&quot;outputs&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  333</span>                blocco.build_from_returns(outputs)</div>
+<div class="line"><span class="lineno">  334</span> </div>
+<div class="line"><span class="lineno">  335</span>                self.sensor_canvas.add_sensor_block(blocco)                </div>
+<div class="line"><span class="lineno">  336</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
 </div>
 </div>
@@ -738,32 +817,36 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Apre la dialog di selezione timer e aggiunge un blocco al canvas se confermato.
+<pre class="fragment">@brief Opens the timer selection dialog and adds the selected timer block to the canvas.
+
+Populates block parameters using the associated JSON definition.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00332">332</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  332</span>    <span class="keyword">def </span>aggiungi_blocco_timer(self):</div>
-<div class="line"><span class="lineno">  333</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  334</span><span class="stringliteral">        @brief Apre la dialog di selezione timer e aggiunge un blocco al canvas se confermato.</span></div>
-<div class="line"><span class="lineno">  335</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  336</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  337</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;timers.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  338</span> </div>
-<div class="line"><span class="lineno">  339</span>        dialog = TimerSelectionDialog(timers_json_path=json_path, parent=self)</div>
-<div class="line"><span class="lineno">  340</span>        <span class="keywordflow">if</span> dialog.exec():</div>
-<div class="line"><span class="lineno">  341</span>            selected = dialog.get_selected_timer()</div>
-<div class="line"><span class="lineno">  342</span>            <span class="keywordflow">if</span> selected:</div>
-<div class="line"><span class="lineno">  343</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Timer&quot;</span>)</div>
-<div class="line"><span class="lineno">  344</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
-<div class="line"><span class="lineno">  345</span>                blocco = TimerBlockItem(title=solo_nome)</div>
-<div class="line"><span class="lineno">  346</span> </div>
-<div class="line"><span class="lineno">  347</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  348</span>                blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  349</span> </div>
-<div class="line"><span class="lineno">  350</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
-<div class="line"><span class="lineno">  351</span> </div>
-<div class="line"><span class="lineno">  352</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00407">407</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  407</span>    <span class="keyword">def </span>aggiungi_blocco_timer(self):</div>
+<div class="line"><span class="lineno">  408</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  409</span><span class="stringliteral">        @brief Opens the timer selection dialog and adds the selected timer block to the canvas.</span></div>
+<div class="line"><span class="lineno">  410</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  411</span><span class="stringliteral">        Populates block parameters using the associated JSON definition.</span></div>
+<div class="line"><span class="lineno">  412</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  413</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  414</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;timers.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  415</span> </div>
+<div class="line"><span class="lineno">  416</span>        dialog = TimerSelectionDialog(timers_json_path=json_path, parent=self)</div>
+<div class="line"><span class="lineno">  417</span>        <span class="keywordflow">if</span> dialog.exec():</div>
+<div class="line"><span class="lineno">  418</span>            selected = dialog.get_selected_timer()</div>
+<div class="line"><span class="lineno">  419</span>            <span class="keywordflow">if</span> selected:</div>
+<div class="line"><span class="lineno">  420</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Timer&quot;</span>)</div>
+<div class="line"><span class="lineno">  421</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
+<div class="line"><span class="lineno">  422</span>                blocco = TimerBlockItem(title=solo_nome)</div>
+<div class="line"><span class="lineno">  423</span> </div>
+<div class="line"><span class="lineno">  424</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  425</span>                blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  426</span> </div>
+<div class="line"><span class="lineno">  427</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
+<div class="line"><span class="lineno">  428</span> </div>
+<div class="line"><span class="lineno">  429</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
 </div>
 </div>
@@ -781,32 +864,36 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Apre la dialog di selezione trigger e aggiunge un blocco al canvas se confermato.
+<pre class="fragment">@brief Opens the trigger selection dialog and adds the selected trigger block to the canvas.
+
+Parameters are set based on trigger metadata in the JSON file.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00290">290</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  290</span>    <span class="keyword">def </span>aggiungi_blocco_trigger(self):</div>
-<div class="line"><span class="lineno">  291</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  292</span><span class="stringliteral">        @brief Apre la dialog di selezione trigger e aggiunge un blocco al canvas se confermato.</span></div>
-<div class="line"><span class="lineno">  293</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  294</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  295</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;triggers.json&quot;</span>)</div>
-<div class="line"><span class="lineno">  296</span> </div>
-<div class="line"><span class="lineno">  297</span>        dialog = TriggerSelectionDialog(triggers_json_path=json_path, parent=self)</div>
-<div class="line"><span class="lineno">  298</span>        <span class="keywordflow">if</span> dialog.exec():</div>
-<div class="line"><span class="lineno">  299</span>            selected = dialog.get_selected_trigger()</div>
-<div class="line"><span class="lineno">  300</span>            <span class="keywordflow">if</span> selected:</div>
-<div class="line"><span class="lineno">  301</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Trigger&quot;</span>)</div>
-<div class="line"><span class="lineno">  302</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
-<div class="line"><span class="lineno">  303</span>                blocco = TriggerBlockItem(title=solo_nome)</div>
-<div class="line"><span class="lineno">  304</span> </div>
-<div class="line"><span class="lineno">  305</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  306</span>                blocco.build_from_params(param_list)</div>
-<div class="line"><span class="lineno">  307</span> </div>
-<div class="line"><span class="lineno">  308</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
-<div class="line"><span class="lineno">  309</span> </div>
-<div class="line"><span class="lineno">  310</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00361">361</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  361</span>    <span class="keyword">def </span>aggiungi_blocco_trigger(self):</div>
+<div class="line"><span class="lineno">  362</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  363</span><span class="stringliteral">        @brief Opens the trigger selection dialog and adds the selected trigger block to the canvas.</span></div>
+<div class="line"><span class="lineno">  364</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  365</span><span class="stringliteral">        Parameters are set based on trigger metadata in the JSON file.</span></div>
+<div class="line"><span class="lineno">  366</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  367</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  368</span>        json_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;triggers.json&quot;</span>)</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>        dialog = TriggerSelectionDialog(triggers_json_path=json_path, parent=self)</div>
+<div class="line"><span class="lineno">  371</span>        <span class="keywordflow">if</span> dialog.exec():</div>
+<div class="line"><span class="lineno">  372</span>            selected = dialog.get_selected_trigger()</div>
+<div class="line"><span class="lineno">  373</span>            <span class="keywordflow">if</span> selected:</div>
+<div class="line"><span class="lineno">  374</span>                label = selected.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Nuovo Trigger&quot;</span>)</div>
+<div class="line"><span class="lineno">  375</span>                solo_nome = label.split(<span class="stringliteral">&quot; (&quot;</span>)[0]</div>
+<div class="line"><span class="lineno">  376</span>                blocco = TriggerBlockItem(title=solo_nome)</div>
+<div class="line"><span class="lineno">  377</span> </div>
+<div class="line"><span class="lineno">  378</span>                param_list = selected.get(<span class="stringliteral">&quot;params&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  379</span>                blocco.build_from_params(param_list)</div>
+<div class="line"><span class="lineno">  380</span> </div>
+<div class="line"><span class="lineno">  381</span>                self.sensor_canvas.add_sensor_block(blocco)</div>
+<div class="line"><span class="lineno">  382</span> </div>
+<div class="line"><span class="lineno">  383</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
 </div>
 </div>
@@ -824,15 +911,23 @@ Logga eventuali blocchi ignorati per campi incompleti.
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Returns the SensorCanvas instance used to manage visual blocks.
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00142">142</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  142</span>    <span class="keyword">def </span>get_sensor_canvas(self):</div>
-<div class="line"><span class="lineno">  143</span>        <span class="keywordflow">return</span> self.sensor_canvas</div>
-<div class="line"><span class="lineno">  144</span>    </div>
+@return Pointer to the SensorCanvas instance.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00196">196</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  196</span>    <span class="keyword">def </span>get_sensor_canvas(self):</div>
+<div class="line"><span class="lineno">  197</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  198</span><span class="stringliteral">        @brief Returns the SensorCanvas instance used to manage visual blocks.</span></div>
+<div class="line"><span class="lineno">  199</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  200</span><span class="stringliteral">        @return Pointer to the SensorCanvas instance.</span></div>
+<div class="line"><span class="lineno">  201</span><span class="stringliteral">        &quot;&quot;&quot;</span>        </div>
+<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">return</span> self.sensor_canvas</div>
+<div class="line"><span class="lineno">  203</span>    </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00033">sensor_canvas</a>.</p>
+<p class="reference">References <a class="el" href="tab__sensori_8py_source.html#l00074">sensor_canvas</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00145">aggiorna_blocchi_da_yaml()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00204">aggiorna_blocchi_da_yaml()</a>.</p>
 
 </div>
 </div>
@@ -849,7 +944,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00038">38</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00079">79</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -865,7 +960,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00040">40</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00081">81</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -881,7 +976,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00042">42</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00083">83</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -897,9 +992,9 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00037">37</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00078">78</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00228">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00291">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -915,7 +1010,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00041">41</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00082">82</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -931,7 +1026,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00039">39</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00080">80</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -947,7 +1042,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00061">61</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00102">102</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -963,7 +1058,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00056">56</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00097">97</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -979,7 +1074,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00058">58</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00099">99</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -995,7 +1090,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00060">60</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00101">101</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -1011,7 +1106,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00055">55</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00096">96</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -1027,7 +1122,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00059">59</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00100">100</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -1043,7 +1138,7 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00057">57</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00098">98</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
 </div>
 </div>
@@ -1059,9 +1154,9 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00022">22</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00063">63</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00145">aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00218">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00099">aggiorna_yaml_da_blocchi()</a>, and <a class="el" href="tab__settings_8py_source.html#l00265">tab_settings.TabSettings.carica_dati_da_yaml()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00204">aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00272">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00147">aggiorna_yaml_da_blocchi()</a>, and <a class="el" href="tab__settings_8py_source.html#l00329">tab_settings.TabSettings.carica_dati_da_yaml()</a>.</p>
 
 </div>
 </div>
@@ -1077,9 +1172,9 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00033">33</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00074">74</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00228">aggiorna_label()</a>, <a class="el" href="tab__sensori_8py_source.html#l00099">aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__sensori_8py_source.html#l00268">aggiungi_blocco_azione()</a>, <a class="el" href="tab__sensori_8py_source.html#l00311">aggiungi_blocco_condizione()</a>, <a class="el" href="tab__sensori_8py_source.html#l00353">aggiungi_blocco_script()</a>, <a class="el" href="tab__sensori_8py_source.html#l00238">aggiungi_blocco_sensore()</a>, <a class="el" href="tab__sensori_8py_source.html#l00332">aggiungi_blocco_timer()</a>, <a class="el" href="tab__sensori_8py_source.html#l00290">aggiungi_blocco_trigger()</a>, and <a class="el" href="tab__sensori_8py_source.html#l00142">get_sensor_canvas()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00291">aggiorna_label()</a>, <a class="el" href="tab__sensori_8py_source.html#l00147">aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__sensori_8py_source.html#l00337">aggiungi_blocco_azione()</a>, <a class="el" href="tab__sensori_8py_source.html#l00384">aggiungi_blocco_condizione()</a>, <a class="el" href="tab__sensori_8py_source.html#l00430">aggiungi_blocco_script()</a>, <a class="el" href="tab__sensori_8py_source.html#l00305">aggiungi_blocco_sensore()</a>, <a class="el" href="tab__sensori_8py_source.html#l00407">aggiungi_blocco_timer()</a>, <a class="el" href="tab__sensori_8py_source.html#l00361">aggiungi_blocco_trigger()</a>, and <a class="el" href="tab__sensori_8py_source.html#l00196">get_sensor_canvas()</a>.</p>
 
 </div>
 </div>
@@ -1095,9 +1190,9 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00023">23</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00064">64</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00145">aggiorna_blocchi_da_yaml()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00204">aggiorna_blocchi_da_yaml()</a>.</p>
 
 </div>
 </div>
@@ -1113,14 +1208,14 @@ Logga eventuali blocchi ignorati per campi incompleti.
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00043">43</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__sensori_8py_source.html#l00084">84</a> of file <a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00228">aggiorna_label()</a>, <a class="el" href="tab__settings_8py_source.html#l00296">tab_settings.TabSettings.aggiorna_label()</a>, and <a class="el" href="tab__settings_8py_source.html#l00134">tab_settings.TabSettings.get_update_yaml_btn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00291">aggiorna_label()</a>, <a class="el" href="tab__settings_8py_source.html#l00368">tab_settings.TabSettings.aggiorna_label()</a>, and <a class="el" href="tab__settings_8py_source.html#l00176">tab_settings.TabSettings.get_update_yaml_btn()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="tab__sensori_8py_source.html">tab_sensori.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

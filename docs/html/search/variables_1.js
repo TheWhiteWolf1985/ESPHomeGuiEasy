@@ -24,10 +24,9 @@ var searchData=
   ['aggiungi_5fblocco_5fsensore_21',['aggiungi_blocco_sensore',['../classtab__sensori_1_1_tab_sensori.html#a0cecd15548a7c745d657d21114989101',1,'tab_sensori::TabSensori']]],
   ['aggiungi_5fblocco_5ftimer_22',['aggiungi_blocco_timer',['../classtab__sensori_1_1_tab_sensori.html#abc2af61792ce80f9d8b7bffd3fe590a7',1,'tab_sensori::TabSensori']]],
   ['aggiungi_5fblocco_5ftrigger_23',['aggiungi_blocco_trigger',['../classtab__sensori_1_1_tab_sensori.html#ab84ad794fc004404a7bccda1fc519a1a',1,'tab_sensori::TabSensori']]],
-  ['app_24',['app',['../namespacesetting__menu.html#a236bfdd8f8df9eb73cbf5087868b202e',1,'setting_menu']]],
-  ['app_5fname_25',['APP_NAME',['../namespace_g_u_iconfig.html#a84abf4f1d2446b20107f89625ff5868f',1,'GUIconfig']]],
-  ['app_5frelease_5fdate_26',['APP_RELEASE_DATE',['../namespace_g_u_iconfig.html#a0ee12c8443f9c846b51ac1b72dfcf21c',1,'GUIconfig']]],
-  ['app_5fversion_27',['APP_VERSION',['../namespace_g_u_iconfig.html#a35c6f8dfaf148ab70cc1ec3fea95392c',1,'GUIconfig']]],
-  ['apply_5fbutton_28',['apply_button',['../classsetting__menu_1_1_settings_dialog.html#a406b3a161990bf3af539417cee441ac8',1,'setting_menu::SettingsDialog']]],
-  ['author_5finput_29',['author_input',['../classnew__project__dialog_1_1_new_project_dialog.html#a07ee085ba02cd0062343376b2434ba3b',1,'new_project_dialog::NewProjectDialog']]]
+  ['app_5fname_24',['APP_NAME',['../namespace_g_u_iconfig.html#a84abf4f1d2446b20107f89625ff5868f',1,'GUIconfig']]],
+  ['app_5frelease_5fdate_25',['APP_RELEASE_DATE',['../namespace_g_u_iconfig.html#a0ee12c8443f9c846b51ac1b72dfcf21c',1,'GUIconfig']]],
+  ['app_5fversion_26',['APP_VERSION',['../namespace_g_u_iconfig.html#a35c6f8dfaf148ab70cc1ec3fea95392c',1,'GUIconfig']]],
+  ['apply_5fbutton_27',['apply_button',['../classsetting__menu_1_1_settings_dialog.html#a406b3a161990bf3af539417cee441ac8',1,'setting_menu::SettingsDialog']]],
+  ['author_5finput_28',['author_input',['../classnew__project__dialog_1_1_new_project_dialog.html#a07ee085ba02cd0062343376b2434ba3b',1,'new_project_dialog::NewProjectDialog']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ESPHomeGUIeasy: gui/language_selection_dialog.py Source File</title>
+<title>ESPHomeGUIeasy: C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/language_selection_dialog.py Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -105,71 +101,106 @@ $(function(){initNavTree('language__selection__dialog_8py_source.html',''); init
   <div class="headertitle"><div class="title">language_selection_dialog.py</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="language__selection__dialog_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacelanguage__selection__dialog.html">    1</a></span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> QDialog, QVBoxLayout, QLabel, QPushButton, QHBoxLayout</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">from</span> PyQt6.QtGui <span class="keyword">import</span> QIcon, QPixmap</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> Qt, QSize</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">from</span> gui.color_pantone <span class="keyword">import</span> Pantone</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">import</span> os</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="foldopen" id="foldopen00008" data-start="" data-end="">
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html">    8</a></span><span class="keyword">class </span><a class="code hl_class" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html">LanguageSelectionDialog</a>(QDialog):</div>
-<div class="foldopen" id="foldopen00009" data-start="" data-end="">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">    9</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">__init__</a>(self, parent=None):</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        super().<a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">__init__</a>(parent)</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        self.setWindowTitle(<span class="stringliteral">&quot;Seleziona la lingua&quot;</span>)</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        self.setMinimumSize(300, 300)</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        self.setStyleSheet(Pantone.DIALOG_STYLE)</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">   14</a></span>        self.<a class="code hl_variable" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">selected_language</a> = <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        layout = QVBoxLayout(self)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        layout.setSpacing(15)</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        title = QLabel(<span class="stringliteral">&quot;\ud83c\udf0d Seleziona la tua lingua&quot;</span>)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        title.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        title.setStyleSheet(Pantone.DIALOG_TITLE_STYLE)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        layout.addWidget(title)</div>
+<a href="language__selection__dialog_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacelanguage__selection__dialog.html">    1</a></span><span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@file language_selection_dialog.py</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral">@brief Dialog for selecting the application language with flag icons.</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">@defgroup gui GUI Modules</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">@ingroup main</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">@brief GUI elements: windows, dialogs, blocks, and widgets.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">Displays buttons for supported languages with respective flag icons.</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">On selection, stores the chosen language code.</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral">@version \ref PROJECT_NUMBER</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral">@date July 2025</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="stringliteral">@license GNU Affero General Public License v3.0 (AGPLv3)</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespace_py_qt6_1_1_qt_widgets.html">PyQt6.QtWidgets</a> <span class="keyword">import</span> QDialog, QVBoxLayout, QLabel, QPushButton, QHBoxLayout</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">from</span> PyQt6.QtGui <span class="keyword">import</span> QIcon, QPixmap</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> Qt, QSize</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">from</span> gui.color_pantone <span class="keyword">import</span> Pantone</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">import</span> os</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment"># Percorso bandiere</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        flag_path = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;icons&quot;</span>, <span class="stringliteral">&quot;flags&quot;</span>)</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="comment"># Lingue supportate</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        languages = [</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            (<span class="stringliteral">&quot;it&quot;</span>, <span class="stringliteral">&quot;Italiano&quot;</span>, <span class="stringliteral">&quot;it.png&quot;</span>),</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            (<span class="stringliteral">&quot;en&quot;</span>, <span class="stringliteral">&quot;English&quot;</span>, <span class="stringliteral">&quot;en.png&quot;</span>),</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            (<span class="stringliteral">&quot;es&quot;</span>, <span class="stringliteral">&quot;Espa\u00f1ol&quot;</span>, <span class="stringliteral">&quot;es.png&quot;</span>),</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            (<span class="stringliteral">&quot;de&quot;</span>, <span class="stringliteral">&quot;Deutsch&quot;</span>, <span class="stringliteral">&quot;de.png&quot;</span>),</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            (<span class="stringliteral">&quot;br&quot;</span>, <span class="stringliteral">&quot;Brasileiro&quot;</span>, <span class="stringliteral">&quot;br.png&quot;</span>),</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            (<span class="stringliteral">&quot;pt&quot;</span>, <span class="stringliteral">&quot;Português&quot;</span>, <span class="stringliteral">&quot;pt.png&quot;</span>)</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        ]</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">for</span> code, label, icon_file <span class="keywordflow">in</span> languages:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            button = QPushButton(label)</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            icon_path = os.path.join(flag_path, icon_file)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keywordflow">if</span> os.path.exists(icon_path):</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                button.setIcon(QIcon(icon_path))</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            button.setStyleSheet(Pantone.BUTTON_STYLE)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            button.setIconSize(QSize(48, 48))</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            button.clicked.connect(<span class="keyword">lambda</span> checked, lang=code: self.<a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">select_language</a>(lang))</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            layout.addWidget(button)</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="" data-end="">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html">   25</a></span><span class="keyword">class </span><a class="code hl_class" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html">LanguageSelectionDialog</a>(QDialog):</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="stringliteral">    @brief QDialog that presents a list of language options as buttons with flag icons.</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="stringliteral">    Supports language selection and acceptance.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="foldopen" id="foldopen00031" data-start="" data-end="">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">   31</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">__init__</a>(self, parent=None):</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="stringliteral">        @brief Initializes the language selection dialog UI with buttons and icons.</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        super().<a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">__init__</a>(parent)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        self.setWindowTitle(<span class="stringliteral">&quot;Seleziona la lingua&quot;</span>)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        self.setMinimumSize(300, 300)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        self.setStyleSheet(Pantone.DIALOG_STYLE)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">   39</a></span>        self.<a class="code hl_variable" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">selected_language</a> = <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        layout = QVBoxLayout(self)</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        layout.setSpacing(15)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        title = QLabel(<span class="stringliteral">&quot;\ud83c\udf0d Seleziona la tua lingua&quot;</span>)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        title.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        title.setStyleSheet(Pantone.DIALOG_TITLE_STYLE)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        layout.addWidget(title)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment"># Percorso bandiere</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        flag_path = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;icons&quot;</span>, <span class="stringliteral">&quot;flags&quot;</span>)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="comment"># Lingue supportate</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        languages = [</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            (<span class="stringliteral">&quot;it&quot;</span>, <span class="stringliteral">&quot;Italiano&quot;</span>, <span class="stringliteral">&quot;it.png&quot;</span>),</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            (<span class="stringliteral">&quot;en&quot;</span>, <span class="stringliteral">&quot;English&quot;</span>, <span class="stringliteral">&quot;en.png&quot;</span>),</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            (<span class="stringliteral">&quot;es&quot;</span>, <span class="stringliteral">&quot;Espa\u00f1ol&quot;</span>, <span class="stringliteral">&quot;es.png&quot;</span>),</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            (<span class="stringliteral">&quot;de&quot;</span>, <span class="stringliteral">&quot;Deutsch&quot;</span>, <span class="stringliteral">&quot;de.png&quot;</span>),</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            (<span class="stringliteral">&quot;br&quot;</span>, <span class="stringliteral">&quot;Brasileiro&quot;</span>, <span class="stringliteral">&quot;br.png&quot;</span>),</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            (<span class="stringliteral">&quot;pt&quot;</span>, <span class="stringliteral">&quot;Português&quot;</span>, <span class="stringliteral">&quot;pt.png&quot;</span>)</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        ]</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">for</span> code, label, icon_file <span class="keywordflow">in</span> languages:</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            button = QPushButton(label)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            icon_path = os.path.join(flag_path, icon_file)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            <span class="keywordflow">if</span> os.path.exists(icon_path):</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                button.setIcon(QIcon(icon_path))</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            button.setStyleSheet(Pantone.BUTTON_STYLE)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            button.setIconSize(QSize(48, 48))</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            button.clicked.connect(<span class="keyword">lambda</span> checked, lang=code: self.<a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">select_language</a>(lang))</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            layout.addWidget(button)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 </div>
-<div class="foldopen" id="foldopen00047" data-start="" data-end="">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">   47</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">select_language</a>(self, code):</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        self.<a class="code hl_variable" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">selected_language</a> = code</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        self.accept()</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="foldopen" id="foldopen00072" data-start="" data-end="">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">   72</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">select_language</a>(self, code):</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="stringliteral">        @brief Slot that sets the selected language code and accepts the dialog.</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="stringliteral">        @param code Language code string (e.g., &quot;en&quot;, &quot;it&quot;).</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        self.<a class="code hl_variable" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">selected_language</a> = code</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        self.accept()</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 </div>
-<div class="foldopen" id="foldopen00051" data-start="" data-end="">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a479d47efb4effb0b5d294954e9ba93f7">   51</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a479d47efb4effb0b5d294954e9ba93f7">get_selected_language</a>(self):</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keywordflow">return</span> self.<a class="code hl_variable" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">selected_language</a></div>
+<div class="foldopen" id="foldopen00081" data-start="" data-end="">
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a479d47efb4effb0b5d294954e9ba93f7">   81</a></span>    <span class="keyword">def </span><a class="code hl_function" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a479d47efb4effb0b5d294954e9ba93f7">get_selected_language</a>(self):</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="stringliteral">        @brief Returns the language code selected by the user.</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="stringliteral">        @return Selected language code as string.</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">return</span> self.<a class="code hl_variable" href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">selected_language</a></div>
 </div>
 </div>
-<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html">language_selection_dialog.LanguageSelectionDialog</a></div><div class="ttdef"><b>Definition</b> <a href="#l00008">language_selection_dialog.py:8</a></div></div>
-<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a4780d6eaf4c9d35c8c29af6cba81aff7"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">language_selection_dialog.LanguageSelectionDialog.select_language</a></div><div class="ttdeci">select_language(self, code)</div><div class="ttdef"><b>Definition</b> <a href="#l00047">language_selection_dialog.py:47</a></div></div>
-<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a479d47efb4effb0b5d294954e9ba93f7"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a479d47efb4effb0b5d294954e9ba93f7">language_selection_dialog.LanguageSelectionDialog.get_selected_language</a></div><div class="ttdeci">get_selected_language(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00051">language_selection_dialog.py:51</a></div></div>
-<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a5112c013e22372832a218907495bb828"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">language_selection_dialog.LanguageSelectionDialog.selected_language</a></div><div class="ttdeci">selected_language</div><div class="ttdef"><b>Definition</b> <a href="#l00014">language_selection_dialog.py:14</a></div></div>
-<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a917663d1ad39bb90676c8b33ed24fa76"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">language_selection_dialog.LanguageSelectionDialog.__init__</a></div><div class="ttdeci">__init__(self, parent=None)</div><div class="ttdef"><b>Definition</b> <a href="#l00009">language_selection_dialog.py:9</a></div></div>
+<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html">language_selection_dialog.LanguageSelectionDialog</a></div><div class="ttdef"><b>Definition</b> <a href="#l00025">language_selection_dialog.py:25</a></div></div>
+<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a4780d6eaf4c9d35c8c29af6cba81aff7"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a4780d6eaf4c9d35c8c29af6cba81aff7">language_selection_dialog.LanguageSelectionDialog.select_language</a></div><div class="ttdeci">select_language(self, code)</div><div class="ttdef"><b>Definition</b> <a href="#l00072">language_selection_dialog.py:72</a></div></div>
+<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a479d47efb4effb0b5d294954e9ba93f7"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a479d47efb4effb0b5d294954e9ba93f7">language_selection_dialog.LanguageSelectionDialog.get_selected_language</a></div><div class="ttdeci">get_selected_language(self)</div><div class="ttdef"><b>Definition</b> <a href="#l00081">language_selection_dialog.py:81</a></div></div>
+<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a5112c013e22372832a218907495bb828"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a5112c013e22372832a218907495bb828">language_selection_dialog.LanguageSelectionDialog.selected_language</a></div><div class="ttdeci">selected_language</div><div class="ttdef"><b>Definition</b> <a href="#l00039">language_selection_dialog.py:39</a></div></div>
+<div class="ttc" id="aclasslanguage__selection__dialog_1_1_language_selection_dialog_html_a917663d1ad39bb90676c8b33ed24fa76"><div class="ttname"><a href="classlanguage__selection__dialog_1_1_language_selection_dialog.html#a917663d1ad39bb90676c8b33ed24fa76">language_selection_dialog.LanguageSelectionDialog.__init__</a></div><div class="ttdeci">__init__(self, parent=None)</div><div class="ttdef"><b>Definition</b> <a href="#l00031">language_selection_dialog.py:31</a></div></div>
 <div class="ttc" id="anamespace_py_qt6_1_1_qt_widgets_html"><div class="ttname"><a href="namespace_py_qt6_1_1_qt_widgets.html">QtWidgets</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -153,8 +149,11 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a9810c04d04d0c1629cf009deddfb5a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00170">170</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Dialog window for selecting a trigger from the triggers JSON list.
+
+Supports search filtering and double-click/OK selection.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00194">194</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a86f175d1e7b51fccbc7fdd6c26886b5a" name="a86f175d1e7b51fccbc7fdd6c26886b5a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a86f175d1e7b51fccbc7fdd6c26886b5a">&#9670;&#160;</a></span>__init__()</h2>
@@ -180,42 +179,42 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00171">171</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  171</span>    <span class="keyword">def </span>__init__(self, triggers_json_path: str, parent=<span class="keywordtype">None</span>):</div>
-<div class="line"><span class="lineno">  172</span>        super().__init__(parent)</div>
-<div class="line"><span class="lineno">  173</span>        self.setWindowTitle(<span class="stringliteral">&quot;Seleziona Trigger&quot;</span>)</div>
-<div class="line"><span class="lineno">  174</span>        self.setMinimumSize(400, 500)</div>
-<div class="line"><span class="lineno">  175</span>        self.selected_trigger = <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">  176</span> </div>
-<div class="line"><span class="lineno">  177</span>        self.setStyleSheet(Pantone.DIALOG_STYLE)</div>
-<div class="line"><span class="lineno">  178</span>        self.triggers = self.load_triggers(triggers_json_path)</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>        layout = QVBoxLayout(self)</div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>        <span class="comment"># Ricerca</span></div>
-<div class="line"><span class="lineno">  183</span>        self.search_bar = QLineEdit()</div>
-<div class="line"><span class="lineno">  184</span>        self.search_bar.setPlaceholderText(<span class="stringliteral">&quot;Cerca trigger...&quot;</span>)</div>
-<div class="line"><span class="lineno">  185</span>        self.search_bar.textChanged.connect(self.filter_list)</div>
-<div class="line"><span class="lineno">  186</span>        layout.addWidget(self.search_bar)</div>
-<div class="line"><span class="lineno">  187</span> </div>
-<div class="line"><span class="lineno">  188</span>        <span class="comment"># Lista</span></div>
-<div class="line"><span class="lineno">  189</span>        self.list_widget = QListWidget()</div>
-<div class="line"><span class="lineno">  190</span>        self.list_widget.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
-<div class="line"><span class="lineno">  191</span>        self.list_widget.itemDoubleClicked.connect(self.accept_selection)</div>
-<div class="line"><span class="lineno">  192</span>        layout.addWidget(self.list_widget)</div>
-<div class="line"><span class="lineno">  193</span> </div>
-<div class="line"><span class="lineno">  194</span>        <span class="comment"># Bottoni</span></div>
-<div class="line"><span class="lineno">  195</span>        self.button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)</div>
-<div class="line"><span class="lineno">  196</span>        self.button_box.accepted.connect(self.accept_selection)</div>
-<div class="line"><span class="lineno">  197</span>        self.button_box.rejected.connect(self.reject)</div>
-<div class="line"><span class="lineno">  198</span>        layout.addWidget(self.button_box)</div>
-<div class="line"><span class="lineno">  199</span> </div>
-<div class="line"><span class="lineno">  200</span>        self.populate_list()</div>
-<div class="line"><span class="lineno">  201</span> </div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00200">200</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  200</span>    <span class="keyword">def </span>__init__(self, triggers_json_path: str, parent=<span class="keywordtype">None</span>):</div>
+<div class="line"><span class="lineno">  201</span>        super().__init__(parent)</div>
+<div class="line"><span class="lineno">  202</span>        self.setWindowTitle(<span class="stringliteral">&quot;Seleziona Trigger&quot;</span>)</div>
+<div class="line"><span class="lineno">  203</span>        self.setMinimumSize(400, 500)</div>
+<div class="line"><span class="lineno">  204</span>        self.selected_trigger = <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>        self.setStyleSheet(Pantone.DIALOG_STYLE)</div>
+<div class="line"><span class="lineno">  207</span>        self.triggers = self.load_triggers(triggers_json_path)</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>        layout = QVBoxLayout(self)</div>
+<div class="line"><span class="lineno">  210</span> </div>
+<div class="line"><span class="lineno">  211</span>        <span class="comment"># Ricerca</span></div>
+<div class="line"><span class="lineno">  212</span>        self.search_bar = QLineEdit()</div>
+<div class="line"><span class="lineno">  213</span>        self.search_bar.setPlaceholderText(<span class="stringliteral">&quot;Cerca trigger...&quot;</span>)</div>
+<div class="line"><span class="lineno">  214</span>        self.search_bar.textChanged.connect(self.filter_list)</div>
+<div class="line"><span class="lineno">  215</span>        layout.addWidget(self.search_bar)</div>
+<div class="line"><span class="lineno">  216</span> </div>
+<div class="line"><span class="lineno">  217</span>        <span class="comment"># Lista</span></div>
+<div class="line"><span class="lineno">  218</span>        self.list_widget = QListWidget()</div>
+<div class="line"><span class="lineno">  219</span>        self.list_widget.setStyleSheet(Pantone.LISTWIDGET_STYLE)</div>
+<div class="line"><span class="lineno">  220</span>        self.list_widget.itemDoubleClicked.connect(self.accept_selection)</div>
+<div class="line"><span class="lineno">  221</span>        layout.addWidget(self.list_widget)</div>
+<div class="line"><span class="lineno">  222</span> </div>
+<div class="line"><span class="lineno">  223</span>        <span class="comment"># Bottoni</span></div>
+<div class="line"><span class="lineno">  224</span>        self.button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)</div>
+<div class="line"><span class="lineno">  225</span>        self.button_box.accepted.connect(self.accept_selection)</div>
+<div class="line"><span class="lineno">  226</span>        self.button_box.rejected.connect(self.reject)</div>
+<div class="line"><span class="lineno">  227</span>        layout.addWidget(self.button_box)</div>
+<div class="line"><span class="lineno">  228</span> </div>
+<div class="line"><span class="lineno">  229</span>        self.populate_list()</div>
+<div class="line"><span class="lineno">  230</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00171">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00200">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00171">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00200">__init__()</a>.</p>
 
 </div>
 </div>
@@ -235,15 +234,15 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00232">232</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  232</span>    <span class="keyword">def </span>accept_selection(self):</div>
-<div class="line"><span class="lineno">  233</span>        item = self.list_widget.currentItem()</div>
-<div class="line"><span class="lineno">  234</span>        <span class="keywordflow">if</span> item:</div>
-<div class="line"><span class="lineno">  235</span>            self.selected_trigger = item.data(Qt.ItemDataRole.UserRole)</div>
-<div class="line"><span class="lineno">  236</span>            self.accept()</div>
-<div class="line"><span class="lineno">  237</span> </div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00261">261</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  261</span>    <span class="keyword">def </span>accept_selection(self):</div>
+<div class="line"><span class="lineno">  262</span>        item = self.list_widget.currentItem()</div>
+<div class="line"><span class="lineno">  263</span>        <span class="keywordflow">if</span> item:</div>
+<div class="line"><span class="lineno">  264</span>            self.selected_trigger = item.data(Qt.ItemDataRole.UserRole)</div>
+<div class="line"><span class="lineno">  265</span>            self.accept()</div>
+<div class="line"><span class="lineno">  266</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="custom__message__dialog_8py_source.html#l00045">custom_message_dialog.CustomMessageDialog.accept</a>, <a class="el" href="project__edit__dialog_8py_source.html#l00043">project_edit_dialog.ProjectEditDialog.accept</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00116">block_selection_dialog.ActionSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00032">block_selection_dialog.SensorSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00189">list_widget</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00175">selected_trigger</a>.</p>
+<p class="reference">References <a class="el" href="custom__message__dialog_8py_source.html#l00075">custom_message_dialog.CustomMessageDialog.accept</a>, <a class="el" href="project__edit__dialog_8py_source.html#l00061">project_edit_dialog.ProjectEditDialog.accept</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00142">block_selection_dialog.ActionSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00053">block_selection_dialog.SensorSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00218">list_widget</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00204">selected_trigger</a>.</p>
 
 </div>
 </div>
@@ -266,14 +265,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00227">227</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  227</span>    <span class="keyword">def </span>filter_list(self, text):</div>
-<div class="line"><span class="lineno">  228</span>        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(self.list_widget.count()):</div>
-<div class="line"><span class="lineno">  229</span>            item = self.list_widget.item(i)</div>
-<div class="line"><span class="lineno">  230</span>            item.setHidden(text.lower() <span class="keywordflow">not</span> <span class="keywordflow">in</span> item.text().lower())</div>
-<div class="line"><span class="lineno">  231</span> </div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00256">256</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  256</span>    <span class="keyword">def </span>filter_list(self, text):</div>
+<div class="line"><span class="lineno">  257</span>        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(self.list_widget.count()):</div>
+<div class="line"><span class="lineno">  258</span>            item = self.list_widget.item(i)</div>
+<div class="line"><span class="lineno">  259</span>            item.setHidden(text.lower() <span class="keywordflow">not</span> <span class="keywordflow">in</span> item.text().lower())</div>
+<div class="line"><span class="lineno">  260</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00116">block_selection_dialog.ActionSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00032">block_selection_dialog.SensorSelectionDialog.list_widget</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00189">list_widget</a>.</p>
+<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00142">block_selection_dialog.ActionSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00053">block_selection_dialog.SensorSelectionDialog.list_widget</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00218">list_widget</a>.</p>
 
 </div>
 </div>
@@ -296,17 +295,17 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00219">219</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  219</span>    <span class="keyword">def </span>get_icon_path(self, tipo):</div>
-<div class="line"><span class="lineno">  220</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
-<div class="line"><span class="lineno">  221</span>        source = tipo.split(<span class="stringliteral">&quot;.&quot;</span>)[0]</div>
-<div class="line"><span class="lineno">  222</span>        icon_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;icons&quot;</span>, f<span class="stringliteral">&quot;{source.lower()}.png&quot;</span>)</div>
-<div class="line"><span class="lineno">  223</span>        <span class="keywordflow">if</span> os.path.exists(icon_path):</div>
-<div class="line"><span class="lineno">  224</span>            <span class="keywordflow">return</span> icon_path</div>
-<div class="line"><span class="lineno">  225</span>        <span class="keywordflow">return</span> os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;icons&quot;</span>, <span class="stringliteral">&quot;default.png&quot;</span>)</div>
-<div class="line"><span class="lineno">  226</span> </div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00248">248</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  248</span>    <span class="keyword">def </span>get_icon_path(self, tipo):</div>
+<div class="line"><span class="lineno">  249</span>        base_dir = os.path.dirname(os.path.abspath(__file__))</div>
+<div class="line"><span class="lineno">  250</span>        source = tipo.split(<span class="stringliteral">&quot;.&quot;</span>)[0]</div>
+<div class="line"><span class="lineno">  251</span>        icon_path = os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;icons&quot;</span>, f<span class="stringliteral">&quot;{source.lower()}.png&quot;</span>)</div>
+<div class="line"><span class="lineno">  252</span>        <span class="keywordflow">if</span> os.path.exists(icon_path):</div>
+<div class="line"><span class="lineno">  253</span>            <span class="keywordflow">return</span> icon_path</div>
+<div class="line"><span class="lineno">  254</span>        <span class="keywordflow">return</span> os.path.join(base_dir, <span class="stringliteral">&quot;..&quot;</span>, <span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;icons&quot;</span>, <span class="stringliteral">&quot;default.png&quot;</span>)</div>
+<div class="line"><span class="lineno">  255</span> </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00283">block_selection_dialog.ConditionSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00429">block_selection_dialog.ScriptSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00356">block_selection_dialog.TimerSelectionDialog.populate_list()</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00210">populate_list()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00315">block_selection_dialog.ConditionSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00468">block_selection_dialog.ScriptSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00391">block_selection_dialog.TimerSelectionDialog.populate_list()</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00239">populate_list()</a>.</p>
 
 </div>
 </div>
@@ -325,14 +324,12 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00238">238</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  238</span>    <span class="keyword">def </span>get_selected_trigger(self):</div>
-<div class="line"><span class="lineno">  239</span>        <span class="keywordflow">return</span> self.selected_trigger</div>
-<div class="line"><span class="lineno">  240</span> </div>
-<div class="line"><span class="lineno">  241</span> </div>
-<div class="line"><span class="lineno">  242</span><span class="comment"># === CONDITION SELECTION DIALOG ===</span></div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00267">267</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  267</span>    <span class="keyword">def </span>get_selected_trigger(self):</div>
+<div class="line"><span class="lineno">  268</span>        <span class="keywordflow">return</span> self.selected_trigger</div>
+<div class="line"><span class="lineno">  269</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00175">selected_trigger</a>.</p>
+<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00204">selected_trigger</a>.</p>
 
 </div>
 </div>
@@ -355,15 +352,15 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00202">202</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  202</span>    <span class="keyword">def </span>load_triggers(self, path):</div>
-<div class="line"><span class="lineno">  203</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  204</span>            <span class="keyword">with</span> open(path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><span class="lineno">  205</span>                <span class="keywordflow">return</span> json.load(f).get(<span class="stringliteral">&quot;triggers&quot;</span>, [])</div>
-<div class="line"><span class="lineno">  206</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  207</span>            logger.error(f<span class="stringliteral">&quot;Errore nel caricamento dei trigger: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">  208</span>            <span class="keywordflow">return</span> []</div>
-<div class="line"><span class="lineno">  209</span> </div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00231">231</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  231</span>    <span class="keyword">def </span>load_triggers(self, path):</div>
+<div class="line"><span class="lineno">  232</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  233</span>            <span class="keyword">with</span> open(path, <span class="stringliteral">&quot;r&quot;</span>, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><span class="lineno">  234</span>                <span class="keywordflow">return</span> json.load(f).get(<span class="stringliteral">&quot;triggers&quot;</span>, [])</div>
+<div class="line"><span class="lineno">  235</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  236</span>            logger.error(f<span class="stringliteral">&quot;Errore nel caricamento dei trigger: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">  237</span>            <span class="keywordflow">return</span> []</div>
+<div class="line"><span class="lineno">  238</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -382,18 +379,18 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00210">210</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  210</span>    <span class="keyword">def </span>populate_list(self):</div>
-<div class="line"><span class="lineno">  211</span>        self.list_widget.clear()</div>
-<div class="line"><span class="lineno">  212</span>        <span class="keywordflow">for</span> trigger <span class="keywordflow">in</span> self.triggers:</div>
-<div class="line"><span class="lineno">  213</span>            label = trigger.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Sconosciuto&quot;</span>)</div>
-<div class="line"><span class="lineno">  214</span>            tipo = trigger.get(<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;?&quot;</span>)</div>
-<div class="line"><span class="lineno">  215</span>            item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f<span class="stringliteral">&quot;{label} ({tipo})&quot;</span>)</div>
-<div class="line"><span class="lineno">  216</span>            item.setData(Qt.ItemDataRole.UserRole, trigger)</div>
-<div class="line"><span class="lineno">  217</span>            self.list_widget.addItem(item)</div>
-<div class="line"><span class="lineno">  218</span> </div>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00239">239</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  239</span>    <span class="keyword">def </span>populate_list(self):</div>
+<div class="line"><span class="lineno">  240</span>        self.list_widget.clear()</div>
+<div class="line"><span class="lineno">  241</span>        <span class="keywordflow">for</span> trigger <span class="keywordflow">in</span> self.triggers:</div>
+<div class="line"><span class="lineno">  242</span>            label = trigger.get(<span class="stringliteral">&quot;label&quot;</span>, <span class="stringliteral">&quot;Sconosciuto&quot;</span>)</div>
+<div class="line"><span class="lineno">  243</span>            tipo = trigger.get(<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;?&quot;</span>)</div>
+<div class="line"><span class="lineno">  244</span>            item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f<span class="stringliteral">&quot;{label} ({tipo})&quot;</span>)</div>
+<div class="line"><span class="lineno">  245</span>            item.setData(Qt.ItemDataRole.UserRole, trigger)</div>
+<div class="line"><span class="lineno">  246</span>            self.list_widget.addItem(item)</div>
+<div class="line"><span class="lineno">  247</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00146">block_selection_dialog.ActionSelectionDialog.get_icon_path()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00074">block_selection_dialog.SensorSelectionDialog.get_icon_path()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00219">get_icon_path()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00116">block_selection_dialog.ActionSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00032">block_selection_dialog.SensorSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00189">list_widget</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00178">triggers</a>.</p>
+<p class="reference">References <a class="el" href="block__selection__dialog_8py_source.html#l00172">block_selection_dialog.ActionSelectionDialog.get_icon_path()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00095">block_selection_dialog.SensorSelectionDialog.get_icon_path()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00248">get_icon_path()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00142">block_selection_dialog.ActionSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00053">block_selection_dialog.SensorSelectionDialog.list_widget</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00218">list_widget</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00207">triggers</a>.</p>
 
 </div>
 </div>
@@ -410,7 +407,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00191">191</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00220">220</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
 </div>
 </div>
@@ -426,7 +423,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00195">195</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00224">224</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
 </div>
 </div>
@@ -442,7 +439,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00185">185</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00214">214</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
 </div>
 </div>
@@ -458,9 +455,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00189">189</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00218">218</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00305">block_selection_dialog.ConditionSelectionDialog.accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00451">block_selection_dialog.ScriptSelectionDialog.accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00378">block_selection_dialog.TimerSelectionDialog.accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00232">accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00300">block_selection_dialog.ConditionSelectionDialog.filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00446">block_selection_dialog.ScriptSelectionDialog.filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00373">block_selection_dialog.TimerSelectionDialog.filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00227">filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00283">block_selection_dialog.ConditionSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00429">block_selection_dialog.ScriptSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00356">block_selection_dialog.TimerSelectionDialog.populate_list()</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00210">populate_list()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00337">block_selection_dialog.ConditionSelectionDialog.accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00490">block_selection_dialog.ScriptSelectionDialog.accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00413">block_selection_dialog.TimerSelectionDialog.accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00261">accept_selection()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00332">block_selection_dialog.ConditionSelectionDialog.filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00485">block_selection_dialog.ScriptSelectionDialog.filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00408">block_selection_dialog.TimerSelectionDialog.filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00256">filter_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00315">block_selection_dialog.ConditionSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00468">block_selection_dialog.ScriptSelectionDialog.populate_list()</a>, <a class="el" href="block__selection__dialog_8py_source.html#l00391">block_selection_dialog.TimerSelectionDialog.populate_list()</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00239">populate_list()</a>.</p>
 
 </div>
 </div>
@@ -476,7 +473,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00197">197</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00226">226</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
 </div>
 </div>
@@ -492,7 +489,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00183">183</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00212">212</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
 </div>
 </div>
@@ -508,9 +505,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00175">175</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00204">204</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00232">accept_selection()</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00238">get_selected_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00261">accept_selection()</a>, and <a class="el" href="block__selection__dialog_8py_source.html#l00267">get_selected_trigger()</a>.</p>
 
 </div>
 </div>
@@ -526,14 +523,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00178">178</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="block__selection__dialog_8py_source.html#l00207">207</a> of file <a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00210">populate_list()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="block__selection__dialog_8py_source.html#l00239">populate_list()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="block__selection__dialog_8py_source.html">block_selection_dialog.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

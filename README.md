@@ -1,4 +1,3 @@
-
 # esphomeGuieasy
 
 ![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)
@@ -8,13 +7,14 @@
 
 [![Donate](https://img.shields.io/badge/PayPal-Donate-blue?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=HVA3DZFRLW9NU)
 
-> 🇬🇧 If this project helped you, you can support the development via PayPal donation!
+> If this project helped you, you can support the development via PayPal donation!
 
 ---
 
 📌 [Full changelog available here](CHANGELOG.md)
 
 ---
+
 📝 Description
 
 **ESPHomeGUIeasy** is a standalone desktop application written in Python with a modern PyQt6 interface, designed to simplify how you create, configure, and deploy firmware for **ESPHome-compatible devices** (ESP32, ESP8266, etc.).
@@ -36,7 +36,7 @@ Whether you're a beginner in home automation or a power user managing multiple d
 - 🖥️ **Cross-platform UI**  
   Clean and responsive PyQt6-based GUI, available in multiple languages (EN, IT, ES, DE)
 
-- 📄 **Project Manager** *(new in v1.4.0)*  
+- 📄 **Project Manager** *(since v1.4.0)*  
   Organize projects by category with metadata, changelogs, and quick actions
 
 - 🔌 **Integrated Flashing**  
@@ -45,8 +45,11 @@ Whether you're a beginner in home automation or a power user managing multiple d
 - 🧰 **Console with build logs**  
   Real-time output while building and flashing firmware
 
-- 💾 **No external setup required**  
-  Works out of the box — no need to install Python or ESPHome manually
+- 📁 **Local project folder & YAML structure**  
+  Compatible with ESPHome CLI structure
+
+- 💾 **Works out of the box**  
+  No Python installation or venv required — ships with Python embedded
 
 ---
 
@@ -54,7 +57,16 @@ Whether you're a beginner in home automation or a power user managing multiple d
 
 ---
 
-## 💾 Installation methods
+## 📚 Technical Documentation
+
+- \ref boards "📦 Supported Boards"
+- \ref modules_schema "🧱 Modules Schema"
+- \ref sensors "🌡 Sensor Definitions"
+
+
+---
+
+## 💾 Installation
 
 ### 🔹 Option 1: Using the Windows Installer (recommended)
 
@@ -64,9 +76,9 @@ Whether you're a beginner in home automation or a power user managing multiple d
 4. On first launch:
    - You will be prompted to select a language
    - A user configuration database will be created in:
-     `%APPDATA%\ESPHomeGUIeasy\user_config.db`
+     `%LOCALAPPDATA%\ESPHomeGUIeasy\user_config.db`
    - A log file will be created at:
-     `%APPDATA%\ESPHomeGUIeasy\esphomeguieasy_log.txt`
+     `%LOCALAPPDATA%\ESPHomeGUIeasy\esphomeguieasy_log.txt`
 
 ⚠️ **Security Notice:**  
 Some antivirus (like Windows Defender) may **falsely flag** the installer or `.exe` (e.g. *Phonzy.A!ml*).  
@@ -78,57 +90,20 @@ You can safely click **"More info → Run anyway"** when prompted by SmartScreen
 ## 🖼 Screenshots
 
 #### 🏠 Main Interface
-![Main Interface](docs/images/screenshot_main.png)
+![Main Interface](images/screenshot_main.png)
 
 #### 🧱 Sensor Configuration (Bricks)
-![Sensor Configuration](docs/images/screenshot_sensors.png)
+![Sensor Configuration](images/screenshot_sensors.png)
 
 #### ⚙️ Compilation and Upload
-![Compilation and Upload](docs/images/screenshot_compile.png)
+![Compilation and Upload](images/screenshot_compile.png)
 
 #### 🔧 Settings Panel
-![Settings](docs/images/screenshot_settings.png)
-
-
----
-
-### 🔹 Option 2: Running from source
-
-#### 1. Prerequisites
-- Python **3.10 or higher** ([download here](https://www.python.org/downloads/))
-- [ESPHome](https://esphome.io/) globally installed:
-  ```bash
-  pip install esphome
-  ```
-- OS: **Windows, Linux, macOS**
-
-#### 2. Clone the repository
-```bash
-git clone https://github.com/YOUR_USERNAME/esphomeGuieasy.git
-cd esphomeGuieasy
-```
-
-#### 3. Create a virtual environment
-```bash
-python -m venv venv
-venv\Scripts\activate         # On Windows
-# OR
-source venv/bin/activate      # On macOS/Linux
-```
-
-#### 4. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-#### 5. Run the app
-```bash
-python main.py
-```
+![Settings](images/screenshot_settings.png)
 
 ---
 
-## 🧰 Dependencies
+## 🧰 Dependencies (already bundled in embedded build)
 
 - **PyQt6** — graphical interface
 - **ruamel.yaml** — YAML handling
@@ -138,49 +113,43 @@ python main.py
 
 ## 🛠 Troubleshooting
 
-- **ModuleNotFoundError: 'PyQt6'**
-  - Make sure you activated the `venv` before installing requirements
-  - Try: `pip install -r requirements.txt`
+- **The program doesn't start**
+  - Check that it was extracted correctly and not blocked by antivirus
+  - Run from terminal to capture output: `ESPHomeGUIeasy.exe > log.txt 2>&1`
 
 - **'esphome' not found**
-  - Ensure it's installed globally via `pip install esphome`
+  - Ensure `esphome` is installed and available in PATH
+  - Or use the internal ESPHome bundled with the GUI
 
 - **Permission error on serial ports (Linux/macOS):**
   ```bash
   sudo usermod -aG dialout $(whoami)
   ```
 
-- **Unexpected error or crash**
-  - Open an issue and provide:
-    - OS and version
-    - Python version
-    - Full error log
-
 ---
 
 ## 📁 Project Structure
 
 ```
-core/ # YAML, flash, logging logic
-gui/ # PyQt6 interface components
-assets/ # Icons and graphics
-config/ # Boards, templates
-main.py # Entry point (called from ESPHomeRunner.exe or .bat)
+core/        # YAML management, flashing, logging
+gui/         # GUI interface (PyQt6)
+config/      # JSON templates for boards, sensors, modules
+docs/        # Doxygen-generated documentation
+main.py      # Main application entry point
 ```
 
 ---
 
 ## 🗂️ Where user files are stored
 
-After installation, the application creates the following directory for configuration and logs:
+After installation, the application creates the following directory:
 
-%APPDATA%\ESPHomeGUIeasy\
+`%LOCALAPPDATA%\ESPHomeGUIeasy\`
 
-- `user_config.db` — contains language and startup preferences
-- `esphomeguieasy_log.txt` — contains startup logs and crash info
+- `user_config.db` — configuration and language settings
+- `esphomeguieasy_log.txt` — full session log
 
-This folder is fully writable by the user. You can delete it to reset the application to first-launch state.
-
+This folder is fully writable and persistent between runs. Delete it to reset the app.
 
 ---
 

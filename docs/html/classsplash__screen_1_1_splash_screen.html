@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -169,10 +165,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a6f1c63e0f7b09c146098e536371cc087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">Inizializza la schermata di avvio (SplashScreen) con un'immagine scalata, 
-stile personalizzato, barra di avanzamento, etichette informative e passaggi di inizializzazione.
+<div class="textblock"><pre class="fragment">Initializes the startup splash screen (SplashScreen) with a scaled image, 
+custom style, progress bar, informational labels and initialization steps.
 
-@param pixmap: QPixmap dell'immagine da usare come sfondo dello splash screen.
+@param pixmap: QPixmap to be used as the splash screen background image.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00031">31</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -199,14 +195,14 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 <div class="fragment"><div class="line"><span class="lineno">   38</span>    <span class="keyword">def </span>__init__(self, pixmap):</div>
 <div class="line"><span class="lineno">   39</span>        scaled_pixmap = pixmap.scaled(QSize(500, 500), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)</div>
 <div class="line"><span class="lineno">   40</span>        super().__init__(scaled_pixmap)</div>
-<div class="line"><span class="lineno">   41</span>        self.setFixedSize(500, 500) <span class="comment"># Imposta dimensione fissa della finestra splash (quadrata, 500x500)</span></div>
+<div class="line"><span class="lineno">   41</span>        self.setFixedSize(500, 500) <span class="comment"># Sets a fixed size for the splash window (square, 500x500)</span></div>
 <div class="line"><span class="lineno">   42</span>        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)</div>
 <div class="line"><span class="lineno">   43</span>        self.setFont(QFont(<span class="stringliteral">&quot;Arial&quot;</span>, 10))</div>
 <div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span>        <span class="comment"># Inizializza gestore log per tracciare lo stato dello splash screen</span></div>
+<div class="line"><span class="lineno">   45</span>        <span class="comment"># Initializes the logger to track splash screen status</span></div>
 <div class="line"><span class="lineno">   46</span>        self.logger = GeneralLogHandler()</div>
 <div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>        <span class="comment"># Settaggio stile finestra</span></div>
+<div class="line"><span class="lineno">   48</span>        <span class="comment"># Sets window style</span></div>
 <div class="line"><span class="lineno">   49</span>        self.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">   50</span><span class="stringliteral">            QSplashScreen {</span></div>
 <div class="line"><span class="lineno">   51</span><span class="stringliteral">                border-radius: 20px;</span></div>
@@ -215,7 +211,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 <div class="line"><span class="lineno">   54</span><span class="stringliteral">            }</span></div>
 <div class="line"><span class="lineno">   55</span><span class="stringliteral">        &quot;&quot;&quot;</span>)        </div>
 <div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>        <span class="comment"># Barra di avanzamento</span></div>
+<div class="line"><span class="lineno">   57</span>        <span class="comment"># Progress bar</span></div>
 <div class="line"><span class="lineno">   58</span>        self.progress = QProgressBar(self)</div>
 <div class="line"><span class="lineno">   59</span>        self.progress.setGeometry(50, 430, 400, 20)</div>
 <div class="line"><span class="lineno">   60</span>        self.progress.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
@@ -231,7 +227,7 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 <div class="line"><span class="lineno">   70</span><span class="stringliteral">            }</span></div>
 <div class="line"><span class="lineno">   71</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
 <div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>        <span class="comment"># Label della versione</span></div>
+<div class="line"><span class="lineno">   73</span>        <span class="comment"># Version label</span></div>
 <div class="line"><span class="lineno">   74</span>        self.version_label = QLabel(Translator.tr(<span class="stringliteral">&quot;version_label&quot;</span>).format(version=conf.APP_VERSION), self)</div>
 <div class="line"><span class="lineno">   75</span>        self.version_label.setFont(QFont(<span class="stringliteral">&quot;Arial&quot;</span>))</div>
 <div class="line"><span class="lineno">   76</span>        self.version_label.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
@@ -253,15 +249,15 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
 <div class="line"><span class="lineno">   92</span>        self.status_label = QLabel(Translator.tr(<span class="stringliteral">&quot;splash_starting&quot;</span>), self)</div>
 <div class="line"><span class="lineno">   93</span>        self.status_label.setStyleSheet(<span class="stringliteral">&quot;color: black; font-size: 12pt;&quot;</span>)</div>
 <div class="line"><span class="lineno">   94</span>        self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">   95</span>        self.status_label.setGeometry(0, 400, self.width(), 20)  <span class="comment"># Modifica Y per spostarlo su/giù   </span></div>
+<div class="line"><span class="lineno">   95</span>        self.status_label.setGeometry(0, 400, self.width(), 20)  </div>
 <div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>        <span class="comment"># Stile generale</span></div>
+<div class="line"><span class="lineno">   97</span>        <span class="comment"># Global style</span></div>
 <div class="line"><span class="lineno">   98</span>        self.setStyleSheet(<span class="stringliteral">&quot;QSplashScreen { background-color: black; color: white; }&quot;</span>)</div>
 <div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>        <span class="comment"># Contatore avanzamento</span></div>
+<div class="line"><span class="lineno">  100</span>        <span class="comment"># Progress counter</span></div>
 <div class="line"><span class="lineno">  101</span>        self.counter = 0</div>
 <div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>        <span class="comment"># Definisce i passaggi sequenziali per la procedura di avvio</span></div>
+<div class="line"><span class="lineno">  103</span>        <span class="comment"># Defines the sequential steps for initialization procedure</span></div>
 <div class="line"><span class="lineno">  104</span>        self.init_steps = [</div>
 <div class="line"><span class="lineno">  105</span>            (self.maybe_check_updates_step, self.maybe_check_online_version),</div>
 <div class="line"><span class="lineno">  106</span>            (Translator.tr(<span class="stringliteral">&quot;splash_check_db&quot;</span>), self.check_or_create_user_config),</div>
@@ -296,21 +292,21 @@ stile personalizzato, barra di avanzamento, etichette informative e passaggi di 
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Avanza la barra di progresso dello splash screen in base al numero di step previsti. 
-Aggiorna anche il log con il valore corrente della barra.
+<pre class="fragment">Advances the splash screen progress bar based on the number of steps. 
+Also updates the log with the current progress value.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00116">116</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  116</span>    <span class="keyword">def </span>advance(self):</div>
 <div class="line"><span class="lineno">  117</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  118</span><span class="stringliteral">        Avanza la barra di progresso dello splash screen in base al numero di step previsti. </span></div>
-<div class="line"><span class="lineno">  119</span><span class="stringliteral">        Aggiorna anche il log con il valore corrente della barra.</span></div>
+<div class="line"><span class="lineno">  118</span><span class="stringliteral">        Advances the splash screen progress bar based on the number of steps. </span></div>
+<div class="line"><span class="lineno">  119</span><span class="stringliteral">        Also updates the log with the current progress value.</span></div>
 <div class="line"><span class="lineno">  120</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  121</span>        self.counter += int(100 / len(self.init_steps)) <span class="comment"># Calcola incremento percentuale in base al numero totale di step</span></div>
+<div class="line"><span class="lineno">  121</span>        self.counter += int(100 / len(self.init_steps)) <span class="comment"># Computes percentage increment based on total steps</span></div>
 <div class="line"><span class="lineno">  122</span>        self.progress.setValue(min(self.counter, 100))</div>
 <div class="line"><span class="lineno">  123</span>        self.logger.debug(f<span class="stringliteral">&quot;Avanzamento barra splash al {self.counter}%&quot;</span>)</div>
 <div class="line"><span class="lineno">  124</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="splash__screen_8py_source.html#l00101">counter</a>, <a class="el" href="splash__screen_8py_source.html#l00104">init_steps</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, <a class="el" href="project__handler_8py_source.html#l00047">project_handler.ExportWorker.progress</a>, <a class="el" href="project__handler_8py_source.html#l00009">project_handler.ImportWorker.progress</a>, and <a class="el" href="splash__screen_8py_source.html#l00058">progress</a>.</p>
+<p class="reference">References <a class="el" href="splash__screen_8py_source.html#l00101">counter</a>, <a class="el" href="splash__screen_8py_source.html#l00104">init_steps</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, <a class="el" href="project__handler_8py_source.html#l00082">project_handler.ExportWorker.progress</a>, <a class="el" href="project__handler_8py_source.html#l00036">project_handler.ImportWorker.progress</a>, and <a class="el" href="splash__screen_8py_source.html#l00058">progress</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="splash__screen_8py_source.html#l00150">perform_next_step()</a>.</p>
 
@@ -330,19 +326,19 @@ Aggiorna anche il log con il valore corrente della barra.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Controlla la presenza del file YAML di progetto base nella directory config/.
-Se il file non esiste, solleva un'eccezione bloccante.
+<pre class="fragment">Checks for the presence of the base project YAML file in the config/ directory.
+If the file does not exist, a blocking exception is raised.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00194">194</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  194</span>    <span class="keyword">def </span>check_base_project_template(self):</div>
 <div class="line"><span class="lineno">  195</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  196</span><span class="stringliteral">        Controlla la presenza del file YAML di progetto base nella directory config/.</span></div>
-<div class="line"><span class="lineno">  197</span><span class="stringliteral">        Se il file non esiste, solleva un&#39;eccezione bloccante.</span></div>
+<div class="line"><span class="lineno">  196</span><span class="stringliteral">        Checks for the presence of the base project YAML file in the config/ directory.</span></div>
+<div class="line"><span class="lineno">  197</span><span class="stringliteral">        If the file does not exist, a blocking exception is raised.</span></div>
 <div class="line"><span class="lineno">  198</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  199</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo file template di progetto base...&quot;</span>)</div>
 <div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span>        template_path = conf.TEMPLATE_PROJECT_PATH      <span class="comment"># Percorso del file template YAML di progetto base</span></div>
-<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(template_path):     <span class="comment"># Verifica se il file è presente nel percorso previsto</span></div>
+<div class="line"><span class="lineno">  201</span>        template_path = conf.TEMPLATE_PROJECT_PATH      <span class="comment"># Path to base project YAML template</span></div>
+<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(template_path):     <span class="comment"># Checks if the file exists at the expected location</span></div>
 <div class="line"><span class="lineno">  203</span>            self.logger.error(f<span class="stringliteral">&quot;File base progetto mancante: {template_path}&quot;</span>)</div>
 <div class="line"><span class="lineno">  204</span>            <span class="keywordflow">raise</span> Exception(f<span class="stringliteral">&quot;File base progetto mancante: {template_path}&quot;</span>)</div>
 <div class="line"><span class="lineno">  205</span>        <span class="keywordflow">else</span>:</div>
@@ -351,7 +347,7 @@ Se il file non esiste, solleva un'eccezione bloccante.
 <div class="line"><span class="lineno">  208</span> </div>
 <div class="line"><span class="lineno">  209</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
 
 </div>
 </div>
@@ -369,19 +365,19 @@ Se il file non esiste, solleva un'eccezione bloccante.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Verifica l'esistenza della cartella locale dei progetti community. 
-Se non esiste, la crea. Mostra il percorso nella label di stato.
+<pre class="fragment">Verifies the existence of the local community projects folder. 
+Creates it if it doesn't exist. Shows the path in the status label.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00307">307</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  307</span>    <span class="keyword">def </span>check_community_folder(self):</div>
 <div class="line"><span class="lineno">  308</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  309</span><span class="stringliteral">        Verifica l&#39;esistenza della cartella locale dei progetti community. </span></div>
-<div class="line"><span class="lineno">  310</span><span class="stringliteral">        Se non esiste, la crea. Mostra il percorso nella label di stato.</span></div>
+<div class="line"><span class="lineno">  309</span><span class="stringliteral">        Verifies the existence of the local community projects folder. </span></div>
+<div class="line"><span class="lineno">  310</span><span class="stringliteral">        Creates it if it doesn&#39;t exist. Shows the path in the status label.</span></div>
 <div class="line"><span class="lineno">  311</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  312</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo cartella community...&quot;</span>)</div>
 <div class="line"><span class="lineno">  313</span> </div>
 <div class="line"><span class="lineno">  314</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  315</span>            community_path = conf.COMMUNITY_LOCAL_FOLDER     <span class="comment"># Percorso della cartella usata per progetti condivisi dalla community</span></div>
+<div class="line"><span class="lineno">  315</span>            community_path = conf.COMMUNITY_LOCAL_FOLDER     <span class="comment"># Path to the folder used for shared community projects</span></div>
 <div class="line"><span class="lineno">  316</span>            os.makedirs(community_path, exist_ok=<span class="keyword">True</span>)</div>
 <div class="line"><span class="lineno">  317</span>            self.logger.info(f<span class="stringliteral">&quot;Cartella community verificata o creata: {community_path}&quot;</span>)</div>
 <div class="line"><span class="lineno">  318</span>            self.status_label.setText(f<span class="stringliteral">&quot;Cartella community: {community_path}&quot;</span>)</div>
@@ -392,7 +388,7 @@ Se non esiste, la crea. Mostra il percorso nella label di stato.
 <div class="line"><span class="lineno">  323</span> </div>
 <div class="line"><span class="lineno">  324</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
 
 </div>
 </div>
@@ -410,7 +406,7 @@ Se non esiste, la crea. Mostra il percorso nella label di stato.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Controlla la presenza delle librerie fondamentali per il funzionamento del programma.
+<pre class="fragment">Checks for the presence of core libraries required by the application.
 
 Verifica se sono presenti:
 - PyQt6
@@ -418,13 +414,13 @@ Verifica se sono presenti:
 - serial
 - esphome (modulo o CLI)
 
-Se una libreria è mancante, solleva un'eccezione.
-Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso personalizzato o fallback), viene comunque considerato valido.
+If a library is missing, an exception is raised.
+If the esphome module is not importable but the CLI is available (PATH, custom or fallback), it is considered valid.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00343">343</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  343</span>    <span class="keyword">def </span>check_critical_libraries(self):</div>
 <div class="line"><span class="lineno">  344</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  345</span><span class="stringliteral">        Controlla la presenza delle librerie fondamentali per il funzionamento del programma.</span></div>
+<div class="line"><span class="lineno">  345</span><span class="stringliteral">        Checks for the presence of core libraries required by the application.</span></div>
 <div class="line"><span class="lineno">  346</span><span class="stringliteral"></span> </div>
 <div class="line"><span class="lineno">  347</span><span class="stringliteral">        Verifica se sono presenti:</span></div>
 <div class="line"><span class="lineno">  348</span><span class="stringliteral">        - PyQt6</span></div>
@@ -432,12 +428,12 @@ Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso
 <div class="line"><span class="lineno">  350</span><span class="stringliteral">        - serial</span></div>
 <div class="line"><span class="lineno">  351</span><span class="stringliteral">        - esphome (modulo o CLI)</span></div>
 <div class="line"><span class="lineno">  352</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">  353</span><span class="stringliteral">        Se una libreria è mancante, solleva un&#39;eccezione.</span></div>
-<div class="line"><span class="lineno">  354</span><span class="stringliteral">        Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso personalizzato o fallback), viene comunque considerato valido.</span></div>
+<div class="line"><span class="lineno">  353</span><span class="stringliteral">        If a library is missing, an exception is raised.</span></div>
+<div class="line"><span class="lineno">  354</span><span class="stringliteral">        If the esphome module is not importable but the CLI is available (PATH, custom or fallback), it is considered valid.</span></div>
 <div class="line"><span class="lineno">  355</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  356</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo librerie critiche...&quot;</span>)</div>
 <div class="line"><span class="lineno">  357</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  358</span>            <span class="comment"># Verifica disponibilità delle librerie Python fondamentali per la GUI e il parsing YAML</span></div>
+<div class="line"><span class="lineno">  358</span>            <span class="comment"># Checks availability of core Python libraries for GUI and YAML parsing</span></div>
 <div class="line"><span class="lineno">  359</span>            <span class="keyword">import</span> PyQt6     </div>
 <div class="line"><span class="lineno">  360</span>            <span class="keyword">import</span> ruamel.yaml</div>
 <div class="line"><span class="lineno">  361</span>            <span class="keyword">import</span> serial</div>
@@ -448,21 +444,21 @@ Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso
 <div class="line"><span class="lineno">  366</span>            <span class="keywordflow">raise</span> Exception(f<span class="stringliteral">&quot;Libreria mancante: {e.name}. L&#39;app non può avviarsi.&quot;</span>)</div>
 <div class="line"><span class="lineno">  367</span> </div>
 <div class="line"><span class="lineno">  368</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  369</span>            <span class="keyword">import</span> esphome  <span class="comment"># type: ignore     # Prova a importare esphome come modulo (opzionale)</span></div>
+<div class="line"><span class="lineno">  369</span>            <span class="keyword">import</span> esphome  <span class="comment"># type: ignore     # Tries to import esphome as a module (optional)</span></div>
 <div class="line"><span class="lineno">  370</span>            self.logger.debug(<span class="stringliteral">&quot;Libreria esphome disponibile.&quot;</span>)</div>
 <div class="line"><span class="lineno">  371</span>        <span class="keywordflow">except</span> ImportError:</div>
 <div class="line"><span class="lineno">  372</span>            self.logger.warning(<span class="stringliteral">&quot;Modulo esphome non importabile. Verifica della CLI in corso...&quot;</span>)</div>
-<div class="line"><span class="lineno">  373</span>            <span class="keywordflow">if</span> shutil.which(<span class="stringliteral">&quot;esphome&quot;</span>):     <span class="comment"># Se il modulo non è disponibile, controlla se la CLI è nel PATH</span></div>
+<div class="line"><span class="lineno">  373</span>            <span class="keywordflow">if</span> shutil.which(<span class="stringliteral">&quot;esphome&quot;</span>):     <span class="comment"># If the module is unavailable, checks if CLI is in PATH</span></div>
 <div class="line"><span class="lineno">  374</span>                self.logger.info(<span class="stringliteral">&quot;ESPHome CLI trovata nel PATH.&quot;</span>)</div>
 <div class="line"><span class="lineno">  375</span>                self.logger.debug(<span class="stringliteral">&quot;Modulo esphome non importabile, ma CLI rilevata nel PATH → OK&quot;</span>)</div>
 <div class="line"><span class="lineno">  376</span>                <span class="keywordflow">return</span>  <span class="comment"># ESPHome CLI sufficiente → termina qui</span></div>
 <div class="line"><span class="lineno">  377</span>            </div>
-<div class="line"><span class="lineno">  378</span>            custom_path = get_setting(<span class="stringliteral">&quot;custom_esphome_path&quot;</span>)     <span class="comment"># Controlla se l&#39;utente ha configurato un percorso personalizzato alla CLI</span></div>
+<div class="line"><span class="lineno">  378</span>            custom_path = get_setting(<span class="stringliteral">&quot;custom_esphome_path&quot;</span>)     <span class="comment"># Checks if the user has configured a custom path for the CLI</span></div>
 <div class="line"><span class="lineno">  379</span>            <span class="keywordflow">if</span> custom_path <span class="keywordflow">and</span> Path(custom_path).exists():</div>
 <div class="line"><span class="lineno">  380</span>                self.logger.info(f<span class="stringliteral">&quot;ESPHome CLI trovato nel percorso personalizzato: {custom_path}&quot;</span>)</div>
 <div class="line"><span class="lineno">  381</span>                <span class="keywordflow">return</span></div>
 <div class="line"><span class="lineno">  382</span> </div>
-<div class="line"><span class="lineno">  383</span>            <span class="comment"># Percorsi di fallback comuni su sistemi Windows per la CLI di ESPHome</span></div>
+<div class="line"><span class="lineno">  383</span>            <span class="comment"># Common fallback paths on Windows systems for ESPHome CLI</span></div>
 <div class="line"><span class="lineno">  384</span>            known_paths = [</div>
 <div class="line"><span class="lineno">  385</span>                Path.home() / <span class="stringliteral">&quot;.esphome&quot;</span> / <span class="stringliteral">&quot;esphome_venv&quot;</span> / <span class="stringliteral">&quot;Scripts&quot;</span> / <span class="stringliteral">&quot;esphome.exe&quot;</span>,</div>
 <div class="line"><span class="lineno">  386</span>                Path(<span class="stringliteral">&quot;C:/Program Files/ESPHome/esphome.exe&quot;</span>),</div>
@@ -478,7 +474,7 @@ Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso
 <div class="line"><span class="lineno">  396</span>                self.status_label.setText(<span class="stringliteral">&quot;⚠️ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;esphome_not_found_title&quot;</span>))</div>
 <div class="line"><span class="lineno">  397</span>                <span class="keywordflow">try</span>:</div>
 <div class="line"><span class="lineno">  398</span>                    self.logger.warning(<span class="stringliteral">&quot;ESPHome non rilevato. Prompt per download mostrato all&#39;utente.&quot;</span>)</div>
-<div class="line"><span class="lineno">  399</span>                    <span class="comment"># Se tutto fallisce, chiede all&#39;utente se vuole aprire la pagina di installazione</span></div>
+<div class="line"><span class="lineno">  399</span>                    <span class="comment"># If all checks fail, prompts user to open the installation page</span></div>
 <div class="line"><span class="lineno">  400</span>                    reply = QMessageBox.question(</div>
 <div class="line"><span class="lineno">  401</span>                        self,</div>
 <div class="line"><span class="lineno">  402</span>                        Translator.tr(<span class="stringliteral">&quot;esphome_not_found_title&quot;</span>),</div>
@@ -494,7 +490,7 @@ Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso
 <div class="line"><span class="lineno">  412</span>                <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&quot;ESPHome non installato e CLI non trovata.&quot;</span>)</div>
 <div class="line"><span class="lineno">  413</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
 
 </div>
 </div>
@@ -512,21 +508,21 @@ Se il modulo esphome non è importabile ma la CLI è disponibile (PATH, percorso
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Controlla se è disponibile una versione più recente dell'app su GitHub.
-Se disponibile, mostra un messaggio all'utente con changelog e link alla pagina delle release.
-Il controllo viene eseguito solo se la connessione è disponibile.
+<pre class="fragment">Checks whether a newer version of the app is available on GitHub.
+If available, displays a message with changelog and link to the release page.
+Check is only performed if an internet connection is available.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00235">235</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  235</span>    <span class="keyword">def </span>check_online_version(self):</div>
 <div class="line"><span class="lineno">  236</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  237</span><span class="stringliteral">        Controlla se è disponibile una versione più recente dell&#39;app su GitHub.</span></div>
-<div class="line"><span class="lineno">  238</span><span class="stringliteral">        Se disponibile, mostra un messaggio all&#39;utente con changelog e link alla pagina delle release.</span></div>
-<div class="line"><span class="lineno">  239</span><span class="stringliteral">        Il controllo viene eseguito solo se la connessione è disponibile.</span></div>
+<div class="line"><span class="lineno">  237</span><span class="stringliteral">        Checks whether a newer version of the app is available on GitHub.</span></div>
+<div class="line"><span class="lineno">  238</span><span class="stringliteral">        If available, displays a message with changelog and link to the release page.</span></div>
+<div class="line"><span class="lineno">  239</span><span class="stringliteral">        Check is only performed if an internet connection is available.</span></div>
 <div class="line"><span class="lineno">  240</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  241</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo aggiornamenti da GitHub...&quot;</span>)</div>
 <div class="line"><span class="lineno">  242</span> </div>
 <div class="line"><span class="lineno">  243</span>        <span class="comment"># Verifica connessione Internet</span></div>
-<div class="line"><span class="lineno">  244</span>        <span class="keyword">def </span>is_online():     <span class="comment"># Verifica se è disponibile una connessione a Internet</span></div>
+<div class="line"><span class="lineno">  244</span>        <span class="keyword">def </span>is_online():     <span class="comment"># Checks if an internet connection is available</span></div>
 <div class="line"><span class="lineno">  245</span>            <span class="keywordflow">try</span>:</div>
 <div class="line"><span class="lineno">  246</span>                socket.create_connection((<span class="stringliteral">&quot;8.8.8.8&quot;</span>, 53), timeout=2)</div>
 <div class="line"><span class="lineno">  247</span>                <span class="keywordflow">return</span> <span class="keyword">True</span></div>
@@ -539,7 +535,7 @@ Il controllo viene eseguito solo se la connessione è disponibile.
 <div class="line"><span class="lineno">  254</span>            <span class="keywordflow">return</span></div>
 <div class="line"><span class="lineno">  255</span> </div>
 <div class="line"><span class="lineno">  256</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  257</span>            req = urllib.request.Request(     <span class="comment"># Richiesta HTTP per ottenere dati aggiornamento da GitHub</span></div>
+<div class="line"><span class="lineno">  257</span>            req = urllib.request.Request(     <span class="comment"># HTTP request to fetch update data from GitHub</span></div>
 <div class="line"><span class="lineno">  258</span>                conf.GITHUB_URL,</div>
 <div class="line"><span class="lineno">  259</span>                headers={</div>
 <div class="line"><span class="lineno">  260</span>                    <span class="stringliteral">&quot;Cache-Control&quot;</span>: <span class="stringliteral">&quot;no-cache&quot;</span>,</div>
@@ -554,7 +550,7 @@ Il controllo viene eseguito solo se la connessione è disponibile.
 <div class="line"><span class="lineno">  269</span>                current_lang = Translator.get_current_language()</div>
 <div class="line"><span class="lineno">  270</span>                changelog_text = changelog.get(current_lang, changelog.get(<span class="stringliteral">&quot;en&quot;</span>, <span class="stringliteral">&quot;&quot;</span>))</div>
 <div class="line"><span class="lineno">  271</span> </div>
-<div class="line"><span class="lineno">  272</span>                <span class="keywordflow">if</span> latest <span class="keywordflow">and</span> latest != conf.APP_VERSION:     <span class="comment"># Se la versione remota è più recente, mostra dialogo di aggiornamento</span></div>
+<div class="line"><span class="lineno">  272</span>                <span class="keywordflow">if</span> latest <span class="keywordflow">and</span> latest != conf.APP_VERSION:     <span class="comment"># If remote version is newer, display update dialog</span></div>
 <div class="line"><span class="lineno">  273</span>                    self.logger.info(f<span class="stringliteral">&quot;Nuova versione disponibile: {latest} (attuale: {conf.APP_VERSION})&quot;</span>)</div>
 <div class="line"><span class="lineno">  274</span>                    self.status_label.setText(Translator.tr(<span class="stringliteral">&quot;update_available&quot;</span>))</div>
 <div class="line"><span class="lineno">  275</span> </div>
@@ -590,7 +586,7 @@ Il controllo viene eseguito solo se la connessione è disponibile.
 <div class="line"><span class="lineno">  305</span>            <span class="keywordflow">raise</span></div>
 <div class="line"><span class="lineno">  306</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="splash__screen_8py_source.html#l00334">maybe_check_online_version()</a>.</p>
 
@@ -610,22 +606,22 @@ Il controllo viene eseguito solo se la connessione è disponibile.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Controlla la presenza del file user_config.db nella cartella %LOCALAPPDATA%.
+<pre class="fragment">Checks for the presence of the user_config.db file in the %LOCALAPPDATA% folder.
 
-Il file è essenziale per il funzionamento dell'app. 
-Non viene creato automaticamente: deve essere presente, installato o ripristinato tramite setup.
+The file is essential for the application's functionality. 
+It is not created automatically: it must be provided by setup or restored.
 
-@raises Exception: Se il file è assente, l'applicazione non può essere avviata.
+@raises Exception: If the file is missing, the application cannot start.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00414">414</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  414</span>    <span class="keyword">def </span>check_or_create_user_config(self):</div>
 <div class="line"><span class="lineno">  415</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  416</span><span class="stringliteral">        Controlla la presenza del file user_config.db nella cartella %LOCALAPPDATA%.</span></div>
+<div class="line"><span class="lineno">  416</span><span class="stringliteral">        Checks for the presence of the user_config.db file in the %LOCALAPPDATA% folder.</span></div>
 <div class="line"><span class="lineno">  417</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">  418</span><span class="stringliteral">        Il file è essenziale per il funzionamento dell&#39;app. </span></div>
-<div class="line"><span class="lineno">  419</span><span class="stringliteral">        Non viene creato automaticamente: deve essere presente, installato o ripristinato tramite setup.</span></div>
+<div class="line"><span class="lineno">  418</span><span class="stringliteral">        The file is essential for the application&#39;s functionality. </span></div>
+<div class="line"><span class="lineno">  419</span><span class="stringliteral">        It is not created automatically: it must be provided by setup or restored.</span></div>
 <div class="line"><span class="lineno">  420</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">  421</span><span class="stringliteral">        @raises Exception: Se il file è assente, l&#39;applicazione non può essere avviata.</span></div>
+<div class="line"><span class="lineno">  421</span><span class="stringliteral">        @raises Exception: If the file is missing, the application cannot start.</span></div>
 <div class="line"><span class="lineno">  422</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  423</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo file user_config.db...&quot;</span>)</div>
 <div class="line"><span class="lineno">  424</span> </div>
@@ -639,7 +635,7 @@ Non viene creato automaticamente: deve essere presente, installato o ripristinat
 <div class="line"><span class="lineno">  432</span> </div>
 <div class="line"><span class="lineno">  433</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
 
 </div>
 </div>
@@ -657,17 +653,17 @@ Non viene creato automaticamente: deve essere presente, installato o ripristinat
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Verifica che la versione di Python in esecuzione sia compatibile con l'applicazione.
-Richiede almeno Python 3.10. In caso contrario, solleva un'eccezione bloccante.
+<pre class="fragment">Verifies that the running Python version is compatible with the application.
+Requires at least Python 3.10. Otherwise, it raises a blocking exception.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00179">179</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  179</span>    <span class="keyword">def </span>check_python_version(self):</div>
 <div class="line"><span class="lineno">  180</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  181</span><span class="stringliteral">        Verifica che la versione di Python in esecuzione sia compatibile con l&#39;applicazione.</span></div>
-<div class="line"><span class="lineno">  182</span><span class="stringliteral">        Richiede almeno Python 3.10. In caso contrario, solleva un&#39;eccezione bloccante.</span></div>
+<div class="line"><span class="lineno">  181</span><span class="stringliteral">        Verifies that the running Python version is compatible with the application.</span></div>
+<div class="line"><span class="lineno">  182</span><span class="stringliteral">        Requires at least Python 3.10. Otherwise, it raises a blocking exception.</span></div>
 <div class="line"><span class="lineno">  183</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  184</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo versione Python...&quot;</span>)</div>
-<div class="line"><span class="lineno">  185</span>        min_required = (3, 10)     <span class="comment"># Versione minima di Python richiesta dall&#39;applicazione</span></div>
+<div class="line"><span class="lineno">  185</span>        min_required = (3, 10)     <span class="comment"># Minimum required Python version for the application</span></div>
 <div class="line"><span class="lineno">  186</span>        current = sys.version_info</div>
 <div class="line"><span class="lineno">  187</span> </div>
 <div class="line"><span class="lineno">  188</span>        <span class="keywordflow">if</span> current &lt; min_required:</div>
@@ -677,7 +673,7 @@ Richiede almeno Python 3.10. In caso contrario, solleva un'eccezione bloccante.
 <div class="line"><span class="lineno">  192</span>        self.logger.info(f<span class="stringliteral">&quot;Versione Python valida: {current[0]}.{current[1]}&quot;</span>)</div>
 <div class="line"><span class="lineno">  193</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
 
 </div>
 </div>
@@ -695,26 +691,26 @@ Richiede almeno Python 3.10. In caso contrario, solleva un'eccezione bloccante.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Verifica l'esistenza delle cartelle di lavoro essenziali per l'applicazione.
-Controlla che la directory di build esista e crea, se necessario, le altre cartelle standard.
-Solleva eccezione se la cartella di build è assente.
+<pre class="fragment">Verifies the existence of the essential working folders for the application.
+Checks that the build directory exists and creates the other standard folders if necessary.
+Raises an exception if the build directory is missing.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00210">210</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  210</span>    <span class="keyword">def </span>check_working_folders(self):</div>
 <div class="line"><span class="lineno">  211</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  212</span><span class="stringliteral">        Verifica l&#39;esistenza delle cartelle di lavoro essenziali per l&#39;applicazione.</span></div>
-<div class="line"><span class="lineno">  213</span><span class="stringliteral">        Controlla che la directory di build esista e crea, se necessario, le altre cartelle standard.</span></div>
-<div class="line"><span class="lineno">  214</span><span class="stringliteral">        Solleva eccezione se la cartella di build è assente.</span></div>
+<div class="line"><span class="lineno">  212</span><span class="stringliteral">        Verifies the existence of the essential working folders for the application.</span></div>
+<div class="line"><span class="lineno">  213</span><span class="stringliteral">        Checks that the build directory exists and creates the other standard folders if necessary.</span></div>
+<div class="line"><span class="lineno">  214</span><span class="stringliteral">        Raises an exception if the build directory is missing.</span></div>
 <div class="line"><span class="lineno">  215</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  216</span>        self.logger.info(<span class="stringliteral">&quot;Avvio controllo cartelle di lavoro...&quot;</span>)</div>
 <div class="line"><span class="lineno">  217</span> </div>
 <div class="line"><span class="lineno">  218</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  219</span>            <span class="comment"># Verifica che la cartella build esista nel percorso corretto</span></div>
-<div class="line"><span class="lineno">  220</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> DEFAULT_BUILD_DIR.exists():     <span class="comment"># La cartella di build è essenziale e non viene creata automaticamente</span></div>
+<div class="line"><span class="lineno">  219</span>            <span class="comment"># Checks if the build folder exists in the correct path</span></div>
+<div class="line"><span class="lineno">  220</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> DEFAULT_BUILD_DIR.exists():     <span class="comment"># Build folder is essential and not created automatically</span></div>
 <div class="line"><span class="lineno">  221</span>                self.logger.error(f<span class="stringliteral">&quot;La cartella di lavoro &#39;build&#39; non è stata trovata: {DEFAULT_BUILD_DIR}&quot;</span>)</div>
 <div class="line"><span class="lineno">  222</span>                <span class="keywordflow">raise</span> FileNotFoundError(f<span class="stringliteral">&quot;La cartella di lavoro &#39;build&#39; non è stata trovata: {DEFAULT_BUILD_DIR}&quot;</span>)</div>
 <div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>            <span class="keywordflow">for</span> folder <span class="keywordflow">in</span> [<span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;core&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;gui&quot;</span>, <span class="stringliteral">&quot;language&quot;</span>]:     <span class="comment"># Crea le altre cartelle standard dell&#39;applicazione se non presenti</span></div>
+<div class="line"><span class="lineno">  224</span>            <span class="keywordflow">for</span> folder <span class="keywordflow">in</span> [<span class="stringliteral">&quot;assets&quot;</span>, <span class="stringliteral">&quot;core&quot;</span>, <span class="stringliteral">&quot;config&quot;</span>, <span class="stringliteral">&quot;gui&quot;</span>, <span class="stringliteral">&quot;language&quot;</span>]:     <span class="comment"># Creates standard application folders if missing</span></div>
 <div class="line"><span class="lineno">  225</span>                os.makedirs(folder, exist_ok=<span class="keyword">True</span>)</div>
 <div class="line"><span class="lineno">  226</span>                self.logger.debug(f<span class="stringliteral">&quot;Cartella verificata o creata: {folder}&quot;</span>)</div>
 <div class="line"><span class="lineno">  227</span> </div>
@@ -726,7 +722,7 @@ Solleva eccezione se la cartella di build è assente.
 <div class="line"><span class="lineno">  233</span> </div>
 <div class="line"><span class="lineno">  234</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
 
 </div>
 </div>
@@ -744,16 +740,16 @@ Solleva eccezione se la cartella di build è assente.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Esegue il controllo aggiornamenti solo se l'opzione è abilitata nel database.
-In caso contrario, la funzione viene ignorata senza effetto.
+<pre class="fragment">Performs the update check only if the option is enabled in the database.
+Otherwise, the function is skipped with no effect.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00334">334</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  334</span>    <span class="keyword">def </span>maybe_check_online_version(self):</div>
 <div class="line"><span class="lineno">  335</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  336</span><span class="stringliteral">        Esegue il controllo aggiornamenti solo se l&#39;opzione è abilitata nel database.</span></div>
-<div class="line"><span class="lineno">  337</span><span class="stringliteral">        In caso contrario, la funzione viene ignorata senza effetto.</span></div>
+<div class="line"><span class="lineno">  336</span><span class="stringliteral">        Performs the update check only if the option is enabled in the database.</span></div>
+<div class="line"><span class="lineno">  337</span><span class="stringliteral">        Otherwise, the function is skipped with no effect.</span></div>
 <div class="line"><span class="lineno">  338</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  339</span>        <span class="keywordflow">if</span> get_setting(<span class="stringliteral">&quot;check_updates&quot;</span>) != <span class="stringliteral">&quot;1&quot;</span>:     <span class="comment"># Controlla se il controllo aggiornamenti è attivo prima di procedere</span></div>
+<div class="line"><span class="lineno">  339</span>        <span class="keywordflow">if</span> get_setting(<span class="stringliteral">&quot;check_updates&quot;</span>) != <span class="stringliteral">&quot;1&quot;</span>:     <span class="comment"># Checks if update checking is enabled before proceeding</span></div>
 <div class="line"><span class="lineno">  340</span>            <span class="keywordflow">return</span>  <span class="comment"># salta il controllo se disabilitato</span></div>
 <div class="line"><span class="lineno">  341</span>        self.check_online_version()</div>
 <div class="line"><span class="lineno">  342</span> </div>
@@ -776,18 +772,18 @@ In caso contrario, la funzione viene ignorata senza effetto.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Restituisce il messaggio da mostrare nello splash screen relativo al controllo aggiornamenti.
-Se la funzione è disabilitata, restituisce un messaggio appropriato.
+<pre class="fragment">Returns the message to display in the splash screen for the update check.
+If the feature is disabled, returns an appropriate message.
 
-@return: Stringa tradotta con lo stato del controllo aggiornamenti.
+@return: Translated string with the status of the update check.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00325">325</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  325</span>    <span class="keyword">def </span>maybe_check_updates_step(self):</div>
 <div class="line"><span class="lineno">  326</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  327</span><span class="stringliteral">        Restituisce il messaggio da mostrare nello splash screen relativo al controllo aggiornamenti.</span></div>
-<div class="line"><span class="lineno">  328</span><span class="stringliteral">        Se la funzione è disabilitata, restituisce un messaggio appropriato.</span></div>
+<div class="line"><span class="lineno">  327</span><span class="stringliteral">        Returns the message to display in the splash screen for the update check.</span></div>
+<div class="line"><span class="lineno">  328</span><span class="stringliteral">        If the feature is disabled, returns an appropriate message.</span></div>
 <div class="line"><span class="lineno">  329</span><span class="stringliteral">        </span></div>
-<div class="line"><span class="lineno">  330</span><span class="stringliteral">        @return: Stringa tradotta con lo stato del controllo aggiornamenti.</span></div>
+<div class="line"><span class="lineno">  330</span><span class="stringliteral">        @return: Translated string with the status of the update check.</span></div>
 <div class="line"><span class="lineno">  331</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  332</span>        <span class="keywordflow">return</span> Translator.tr(<span class="stringliteral">&quot;splash_check_updates&quot;</span>) <span class="keywordflow">if</span> get_setting(<span class="stringliteral">&quot;check_updates&quot;</span>) == <span class="stringliteral">&quot;1&quot;</span> <span class="keywordflow">else</span> Translator.tr(<span class="stringliteral">&quot;splash_disable_updates&quot;</span>)</div>
 <div class="line"><span class="lineno">  333</span> </div>
@@ -808,17 +804,17 @@ Se la funzione è disabilitata, restituisce un messaggio appropriato.
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Esegue il passaggio successivo della sequenza di inizializzazione. 
-Aggiorna lo stato visivo, gestisce gli errori bloccanti e chiama la callback finale al termine.
+<pre class="fragment">Performs the next step of the initialization sequence. 
+Updates the visual status, handles blocking errors and calls the final callback on completion.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00150">150</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  150</span>    <span class="keyword">def </span>perform_next_step(self):</div>
 <div class="line"><span class="lineno">  151</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  152</span><span class="stringliteral">        Esegue il passaggio successivo della sequenza di inizializzazione. </span></div>
-<div class="line"><span class="lineno">  153</span><span class="stringliteral">        Aggiorna lo stato visivo, gestisce gli errori bloccanti e chiama la callback finale al termine.</span></div>
+<div class="line"><span class="lineno">  152</span><span class="stringliteral">        Performs the next step of the initialization sequence. </span></div>
+<div class="line"><span class="lineno">  153</span><span class="stringliteral">        Updates the visual status, handles blocking errors and calls the final callback on completion.</span></div>
 <div class="line"><span class="lineno">  154</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  155</span>        self.logger.debug(f<span class="stringliteral">&quot;Esecuzione step splash n. {self.current_step + 1} / {len(self.init_steps)}&quot;</span>)</div>
-<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">if</span> self.current_step &lt; len(self.init_steps):     <span class="comment"># Se sono presenti altri step, esegue il prossimo nella lista</span></div>
+<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">if</span> self.current_step &lt; len(self.init_steps):     <span class="comment"># If more steps are present, execute the next one</span></div>
 <div class="line"><span class="lineno">  157</span>            message, func = self.init_steps[self.current_step]</div>
 <div class="line"><span class="lineno">  158</span>            self.status_label.setText(str(message()) <span class="keywordflow">if</span> callable(message) <span class="keywordflow">else</span> str(message))</div>
 <div class="line"><span class="lineno">  159</span>            QApplication.processEvents()</div>
@@ -830,19 +826,19 @@ Aggiorna lo stato visivo, gestisce gli errori bloccanti e chiama la callback fin
 <div class="line"><span class="lineno">  165</span>                self.logger.log_exception(<span class="stringliteral">&quot;Errore durante lo step di inizializzazione splash&quot;</span>)</div>
 <div class="line"><span class="lineno">  166</span>                self.logger.error(f<span class="stringliteral">&quot;Errore bloccante nello step n. {self.current_step + 1}&quot;</span>)</div>
 <div class="line"><span class="lineno">  167</span>                self.status_label.setText(<span class="stringliteral">&quot;❌ &quot;</span> + Translator.tr(<span class="stringliteral">&quot;splash_error_generic&quot;</span>))</div>
-<div class="line"><span class="lineno">  168</span>                QMessageBox.critical(self, Translator.tr(<span class="stringliteral">&quot;splash_init_error&quot;</span>), f<span class="stringliteral">&quot;{Translator.tr(&#39;splash_error_generic&#39;)}\n\n{err_msg}&quot;</span>)     <span class="comment"># Esegue lo step corrente e gestisce eventuali eccezioni</span></div>
+<div class="line"><span class="lineno">  168</span>                QMessageBox.critical(self, Translator.tr(<span class="stringliteral">&quot;splash_init_error&quot;</span>), f<span class="stringliteral">&quot;{Translator.tr(&#39;splash_error_generic&#39;)}\n\n{err_msg}&quot;</span>)     <span class="comment"># Executes the current step and handles any exceptions</span></div>
 <div class="line"><span class="lineno">  169</span>                QTimer.singleShot(2000, QApplication.quit)</div>
 <div class="line"><span class="lineno">  170</span>                <span class="keywordflow">return</span></div>
 <div class="line"><span class="lineno">  171</span>            self.advance()</div>
 <div class="line"><span class="lineno">  172</span>            self.current_step += 1</div>
-<div class="line"><span class="lineno">  173</span>            QTimer.singleShot(500, self.perform_next_step)     <span class="comment"># Avvia il primo step della sequenza dopo un breve ritardo</span></div>
+<div class="line"><span class="lineno">  173</span>            QTimer.singleShot(500, self.perform_next_step)     <span class="comment"># Starts the first step of the sequence after a short delay</span></div>
 <div class="line"><span class="lineno">  174</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  175</span>            self.close()     <span class="comment"># Tutti gli step completati: chiude lo splash e chiama la funzione di completamento</span></div>
+<div class="line"><span class="lineno">  175</span>            self.close()     <span class="comment"># All steps completed: closes splash and calls the completion function</span></div>
 <div class="line"><span class="lineno">  176</span>            <span class="keywordflow">if</span> self.on_complete_callback:</div>
 <div class="line"><span class="lineno">  177</span>                self.on_complete_callback()</div>
 <div class="line"><span class="lineno">  178</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="splash__screen_8py_source.html#l00116">advance()</a>, <a class="el" href="user__project__manager_8py_source.html#l00143">user_project_manager.UserProjectManagerWindow.close</a>, <a class="el" href="splash__screen_8py_source.html#l00114">current_step</a>, <a class="el" href="splash__screen_8py_source.html#l00104">init_steps</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, <a class="el" href="splash__screen_8py_source.html#l00147">on_complete_callback</a>, <a class="el" href="splash__screen_8py_source.html#l00148">perform_next_step</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
+<p class="reference">References <a class="el" href="splash__screen_8py_source.html#l00116">advance()</a>, <a class="el" href="user__project__manager_8py_source.html#l00178">user_project_manager.UserProjectManagerWindow.close</a>, <a class="el" href="splash__screen_8py_source.html#l00114">current_step</a>, <a class="el" href="splash__screen_8py_source.html#l00104">init_steps</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>, <a class="el" href="splash__screen_8py_source.html#l00147">on_complete_callback</a>, <a class="el" href="splash__screen_8py_source.html#l00148">perform_next_step</a>, and <a class="el" href="splash__screen_8py_source.html#l00092">status_label</a>.</p>
 
 </div>
 </div>
@@ -864,23 +860,23 @@ Aggiorna lo stato visivo, gestisce gli errori bloccanti e chiama la callback fin
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Avvia la sequenza di inizializzazione dello splash screen, compreso il rilevamento del sistema operativo
-e il salvataggio delle informazioni nel database. La procedura è asincrona e termina con una callback.
+<pre class="fragment">Starts the splash screen initialization sequence, including OS detection
+and saving the information to the database. The procedure is asynchronous and ends with a callback.
 
-@param on_complete_callback: Funzione da chiamare al termine dell'inizializzazione.
+@param on_complete_callback: Function to be called upon completion of the initialization.
 </pre> 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00125">125</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  125</span>    <span class="keyword">def </span>start_initialization(self, on_complete_callback):</div>
 <div class="line"><span class="lineno">  126</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  127</span><span class="stringliteral">        Avvia la sequenza di inizializzazione dello splash screen, compreso il rilevamento del sistema operativo</span></div>
-<div class="line"><span class="lineno">  128</span><span class="stringliteral">        e il salvataggio delle informazioni nel database. La procedura è asincrona e termina con una callback.</span></div>
+<div class="line"><span class="lineno">  127</span><span class="stringliteral">        Starts the splash screen initialization sequence, including OS detection</span></div>
+<div class="line"><span class="lineno">  128</span><span class="stringliteral">        and saving the information to the database. The procedure is asynchronous and ends with a callback.</span></div>
 <div class="line"><span class="lineno">  129</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">  130</span><span class="stringliteral">        @param on_complete_callback: Funzione da chiamare al termine dell&#39;inizializzazione.</span></div>
+<div class="line"><span class="lineno">  130</span><span class="stringliteral">        @param on_complete_callback: Function to be called upon completion of the initialization.</span></div>
 <div class="line"><span class="lineno">  131</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
 <div class="line"><span class="lineno">  132</span>        self.logger.info(<span class="stringliteral">&quot;Avvio sequenza inizializzazione splash screen.&quot;</span>)</div>
 <div class="line"><span class="lineno">  133</span> </div>
 <div class="line"><span class="lineno">  134</span>        <span class="comment"># Rilevamento dettagli OS</span></div>
-<div class="line"><span class="lineno">  135</span>        os_platform = platform.system()     <span class="comment"># Rileva e registra le informazioni sul sistema operativo</span></div>
+<div class="line"><span class="lineno">  135</span>        os_platform = platform.system()     <span class="comment"># Detects and logs operating system information</span></div>
 <div class="line"><span class="lineno">  136</span>        os_version = platform.version()</div>
 <div class="line"><span class="lineno">  137</span>        os_release = platform.release()</div>
 <div class="line"><span class="lineno">  138</span> </div>
@@ -896,7 +892,7 @@ e il salvataggio delle informazioni nel database. La procedura è asincrona e te
 <div class="line"><span class="lineno">  148</span>        QTimer.singleShot(500, self.perform_next_step)</div>
 <div class="line"><span class="lineno">  149</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, and <a class="el" href="splash__screen_8py_source.html#l00046">logger</a>.</p>
 
 </div>
 </div>
@@ -995,7 +991,7 @@ e il salvataggio delle informazioni nel database. La procedura è asincrona e te
 
 <p class="definition">Definition at line <a class="el" href="splash__screen_8py_source.html#l00046">46</a> of file <a class="el" href="splash__screen_8py_source.html">splash_screen.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="splash__screen_8py_source.html#l00116">advance()</a>, <a class="el" href="tab__sensori_8py_source.html#l00145">tab_sensori.TabSensori.aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00218">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00099">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__modules_8py_source.html#l00113">tab_modules.TabModules.aggiorna_yaml_da_moduli()</a>, <a class="el" href="tab__settings_8py_source.html#l00265">tab_settings.TabSettings.carica_dati_da_yaml()</a>, <a class="el" href="tab__command_8py_source.html#l00196">tab_command.TabCommand.carica_firmware()</a>, <a class="el" href="splash__screen_8py_source.html#l00194">check_base_project_template()</a>, <a class="el" href="splash__screen_8py_source.html#l00307">check_community_folder()</a>, <a class="el" href="splash__screen_8py_source.html#l00343">check_critical_libraries()</a>, <a class="el" href="splash__screen_8py_source.html#l00235">check_online_version()</a>, <a class="el" href="splash__screen_8py_source.html#l00414">check_or_create_user_config()</a>, <a class="el" href="splash__screen_8py_source.html#l00179">check_python_version()</a>, <a class="el" href="splash__screen_8py_source.html#l00210">check_working_folders()</a>, <a class="el" href="tab__command_8py_source.html#l00331">tab_command.TabCommand.compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">tab_command.TabCommand.erase_flash()</a>, <a class="el" href="tab__command_8py_source.html#l00299">tab_command.TabCommand.flash_via_ota()</a>, <a class="el" href="tab__command_8py_source.html#l00305">tab_command.TabCommand.flash_via_usb()</a>, <a class="el" href="splash__screen_8py_source.html#l00150">perform_next_step()</a>, <a class="el" href="tab__command_8py_source.html#l00383">tab_command.TabCommand.riabilita_bottoni_qt()</a>, <a class="el" href="tab__command_8py_source.html#l00236">tab_command.TabCommand.scan_network_for_esp()</a>, <a class="el" href="splash__screen_8py_source.html#l00125">start_initialization()</a>, and <a class="el" href="tab__command_8py_source.html#l00284">tab_command.TabCommand.test_ota_connection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="splash__screen_8py_source.html#l00116">advance()</a>, <a class="el" href="tab__sensori_8py_source.html#l00204">tab_sensori.TabSensori.aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00272">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00147">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__modules_8py_source.html#l00152">tab_modules.TabModules.aggiorna_yaml_da_moduli()</a>, <a class="el" href="tab__settings_8py_source.html#l00329">tab_settings.TabSettings.carica_dati_da_yaml()</a>, <a class="el" href="tab__command_8py_source.html#l00240">tab_command.TabCommand.carica_firmware()</a>, <a class="el" href="splash__screen_8py_source.html#l00194">check_base_project_template()</a>, <a class="el" href="splash__screen_8py_source.html#l00307">check_community_folder()</a>, <a class="el" href="splash__screen_8py_source.html#l00343">check_critical_libraries()</a>, <a class="el" href="splash__screen_8py_source.html#l00235">check_online_version()</a>, <a class="el" href="splash__screen_8py_source.html#l00414">check_or_create_user_config()</a>, <a class="el" href="splash__screen_8py_source.html#l00179">check_python_version()</a>, <a class="el" href="splash__screen_8py_source.html#l00210">check_working_folders()</a>, <a class="el" href="tab__command_8py_source.html#l00401">tab_command.TabCommand.compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">tab_command.TabCommand.erase_flash()</a>, <a class="el" href="tab__command_8py_source.html#l00357">tab_command.TabCommand.flash_via_ota()</a>, <a class="el" href="tab__command_8py_source.html#l00368">tab_command.TabCommand.flash_via_usb()</a>, <a class="el" href="splash__screen_8py_source.html#l00150">perform_next_step()</a>, <a class="el" href="tab__command_8py_source.html#l00462">tab_command.TabCommand.riabilita_bottoni_qt()</a>, <a class="el" href="tab__command_8py_source.html#l00279">tab_command.TabCommand.scan_network_for_esp()</a>, <a class="el" href="splash__screen_8py_source.html#l00125">start_initialization()</a>, and <a class="el" href="tab__command_8py_source.html#l00337">tab_command.TabCommand.test_ota_connection()</a>.</p>
 
 </div>
 </div>
@@ -1088,7 +1084,7 @@ e il salvataggio delle informazioni nel database. La procedura è asincrona e te
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="splash__screen_8py_source.html">splash_screen.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="splash__screen_8py_source.html">splash_screen.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,9 +1,20 @@
 
+# -*- coding: utf-8 -*-
 """
 @file timer_block_item.py
-@brief Blocco timer/interval (viola) espandibile per il canvas.
-"""
+@brief Expandable canvas block (purple) for ESPHome timer/interval configuration.
 
+@defgroup canvas_blocks Visual Blocks
+@ingroup gui
+@brief Visual representation of a timer block within the ESPHomeGuiEasy canvas system.
+
+This module defines a draggable and expandable block used in the canvas to represent
+a `timer:` or `interval:` trigger. The block dynamically builds its UI from metadata.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
 from PyQt6.QtWidgets import (
     QGraphicsItem, QGraphicsTextItem, QGraphicsProxyWidget,
     QComboBox, QLineEdit, QSpinBox, QPushButton, QLabel, QVBoxLayout, QWidget
@@ -16,8 +27,31 @@ import os
 
 
 class TimerBlockItem(QGraphicsItem):
+    """
+    @brief Visual block representing an ESPHome `timer:` or `interval:` trigger.
+
+    This QGraphicsItem subclass implements a canvas block that is:
+    - Expandable/collapsible
+    - Movable and selectable
+    - Automatically built from parameter metadata
+
+    The block uses violet color and includes a close button and an expand/collapse toggle.
+
+    @note Parameters are rendered using PyQt6 widgets inside a QGraphicsProxyWidget container.
+    """    
     def __init__(self, title="Timer/Interval"):
         super().__init__()
+        """
+        @brief Initializes the timer block with title and layout.
+
+        Sets dimensions, flags, and prepares the internal layout including:
+        - Title label
+        - Expand/collapse button
+        - Close (delete) button
+        - Parameter container (initially empty)
+
+        @param title Display title of the block (defaults to "Timer/Interval").
+        """        
         self.width = conf.BLOCK_WIDTH
         self.height = conf.BLOCK_HEIGHT
         self.title = title
@@ -32,6 +66,17 @@ class TimerBlockItem(QGraphicsItem):
         self.setup_ui()
 
     def setup_ui(self):
+        """
+        @brief Builds the static visual structure of the block.
+
+        Adds:
+        - Title label (top-left)
+        - Close button (top-right)
+        - Expand/collapse button
+        - Widget container for parameter input fields
+
+        Called once during initialization.
+        """        
         self.title_item = QGraphicsTextItem(self.title, self)
         font = QFont("Consolas", 12, QFont.Weight.Bold)
         self.title_item.setFont(font)
@@ -89,6 +134,13 @@ class TimerBlockItem(QGraphicsItem):
         self.proxy.setPos(0, 40)
 
     def toggle_expand(self):
+        """
+        @brief Toggles the expanded/collapsed state of the block.
+
+        Hides or shows the parameter container and updates the expand icon.
+
+        Also triggers a geometry update to the canvas scene.
+        """        
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
         self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
@@ -98,6 +150,23 @@ class TimerBlockItem(QGraphicsItem):
             self.scene().update()
 
     def build_from_params(self, param_list):
+        """
+        @brief Builds the parameter input fields dynamically from a metadata list.
+
+        Accepts a list of dictionaries containing:
+        - key: unique parameter identifier
+        - type: one of ["text", "int", "combo"]
+        - label: field label
+        - default: default value
+        - options (if combo): available items
+
+        Supported widget types:
+        - QLineEdit for text
+        - QSpinBox for int
+        - QComboBox for combo
+
+        @param param_list List of parameter definitions in dictionary format.
+        """        
         layout = self.container.layout()
         for param in param_list:
             key = param.get("key")
@@ -131,15 +200,36 @@ class TimerBlockItem(QGraphicsItem):
             self.param_widgets[key] = field
 
     def boundingRect(self):
+        """
+        @brief Returns the bounding rectangle of the block item.
+
+        Adjusts the height depending on whether the block is expanded or collapsed.
+
+        @return QRectF representing the visual bounds of the item.
+        """        
         return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
 
     def paint(self, painter, option, widget=None):
+        """
+        @brief Custom painting method for the block background and border.
+
+        Paints a rounded rectangle in violet with a black border.
+
+        @param painter QPainter instance
+        @param option Style options
+        @param widget Optional widget context
+        """        
         painter.setBrush(QBrush(QColor("#9b59b6")))  # Viola
         painter.setPen(QPen(Qt.GlobalColor.black, 2))
         height = int(self.boundingRect().height())
         painter.drawRoundedRect(0, 0, self.width, height, 10, 10)
 
     def remove_from_scene(self):
+        """
+        @brief Removes the block from the current scene.
+
+        Called when the close (delete) button is clicked.
+        """        
         scene = self.scene()
         if scene:
             scene.removeItem(self)

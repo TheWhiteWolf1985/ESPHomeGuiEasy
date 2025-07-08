@@ -1,12 +1,23 @@
+# -*- coding: utf-8 -*-
 """
 @file main_window.py
-@brief Definisce la finestra principale dell'applicazione esphomeGuieasy.
+@brief Defines the main window of the ESPHomeGUIeasy application.
 
-Contiene il layout base suddiviso tra editor YAML, console, comandi di connessione,
-e strumenti di creazione dei sensori, strutturato in modo modulare.
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Organizes the main interface into left (YAML editor and console) and right (project configuration and sensors) panels, 
+with tabs for settings, modules, sensors, and compilation/upload commands.
+
+Handles project loading, saving, import/export, and integrates compiler and logger.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
 """
-import os, json
-import shutil
+
+import os, json, shutil
 import config.GUIconfig as conf
 from pathlib import Path
 from PyQt6.QtWidgets import *
@@ -34,16 +45,23 @@ from core.new_project_handler import create_new_project
 
 class MainWindow(QMainWindow):
     """
-    @class MainWindowq
-    @brief Finestra principale dell'applicazione GUI per ESPHome.
+    @brief Main application window managing the layout and core UI components.
 
-    La classe organizza l'interfaccia grafica in due pannelli principali:
-    sinistro (editor YAML e console) e destro (configurazione progetto e sensori).
+    Initializes the YAML editor, console output, menu bar, tabs, and splitter layout.
+    Handles user interactions for project management and compilation.
     """
     def __init__(self):
         """
-        @brief Costruttore della finestra principale.
-        Inizializza e organizza tutti i widget principali nel layout.
+        @brief Main window constructor.
+
+        Initializes and organizes all fundamental widgets and GUI layouts, creating a two-pane structure:
+        - Left pane: YAML editor for firmware editing and console output for log display.
+        - Right pane: Tab system for managing settings, modules, sensors, and compilation/upload commands.
+
+        Sets overall graphical styles, a consistent dark theme design, connects signals and slots for widget interactions, 
+        and prepares components needed for project loading and saving.
+
+        Also initializes the logger and compiler, and updates UI labels dynamically based on selected language.
         """
         super().__init__()
         self.setWindowTitle(conf.APP_NAME)
@@ -213,7 +231,16 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(main_splitter)  
 
     def nuovo_progetto(self):
+        """
+        @brief Handles the creation of a new project.
 
+        Displays a dialog for entering initial project data.
+        Upon confirmation, validates the data, calls the project creation function, and if successful,
+        updates the YAML editor with the generated content and prepares the environment for working on the new project.
+
+        Aborts if the user cancels or creation fails to avoid data loss.
+        Also updates the recent projects menu.
+        """
         dialog = NewProjectDialog(self)
         result = dialog.exec()
         print(f"[DEBUG] dialog.exec() returned: {result}")
@@ -243,6 +270,16 @@ class MainWindow(QMainWindow):
         self.open_project(yaml_path)
 
     def open_project(self, yaml_path):
+        """
+        @brief Loads an existing YAML project.
+
+        Receives the full path of a YAML file, reads its content, and inserts it into the editor.
+        Then synchronizes all configuration tabs (settings, modules, sensors) with the loaded data,
+        allowing visual editing of all sections.
+
+        Handles file read errors and logs them with error severity.
+        Updates current project path and saves the project opening history.
+        """
         yaml_path = os.path.abspath(yaml_path)
         self._reset_tabs()
 
@@ -274,6 +311,13 @@ class MainWindow(QMainWindow):
 
 
     def open_project_dialog(self):
+        """
+        @brief Opens a file dialog to select a YAML project to open.
+
+        Sets the starting directory to `Documents/ESPHomeGUIeasy` for user convenience.
+        Once a file is selected, calls `open_project` to load it into the interface.
+        Handles dialog cancellation gracefully without action.
+        """
         # Imposta la cartella iniziale: Documenti/ESPHomeGUIeasy
         initial_dir = Path.home() / "Documents" / "ESPHomeGUIeasy"
         initial_dir.mkdir(parents=True, exist_ok=True)
@@ -293,8 +337,11 @@ class MainWindow(QMainWindow):
 
     def salva_progetto(self):
         """
-        Salva il progetto sull’ultimo file usato (devi gestire un attributo path).
-        Se non c’è, chiama salva_con_nome().
+        @brief Saves the current YAML editor content to the last saved project file.
+
+        If no save path exists (`last_save_path`), calls `salva_con_nome` to ask for a path.
+        Handles write errors, logging any errors to the console.
+        Writes a success message to the log upon completion.
         """
         try:
             if not hasattr(self, "last_save_path") or not self.last_save_path:
@@ -308,6 +355,13 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("save_error").format(e=e), "error")
 
     def salva_con_nome(self):
+        """
+        @brief Shows a 'Save As' dialog to save the project YAML.
+
+        Allows the user to specify a new file path. If confirmed,
+        writes the editor content to that file, updates the save path,
+        and logs a confirmation message.
+        """
         from PyQt6.QtWidgets import QFileDialog
         filename, _ = QFileDialog.getSaveFileName(self, "Salva progetto come...", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
         if filename:
@@ -318,6 +372,15 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("project_saved_as").format(path=filename), "success")
 
     def importa_yaml(self):
+        """
+        @brief Imports an external YAML file into the active project.
+
+        Shows a file dialog for YAML selection. If confirmed,
+        loads the content into the editor and updates all configuration tabs accordingly.
+        Also updates the recent projects history.
+
+        Allows easy integration or modification of external configurations.
+        """
         filename, _ = QFileDialog.getOpenFileName(self, "Importa YAML", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
         if filename:
             with open(filename, "r", encoding="utf-8") as f:
@@ -332,6 +395,12 @@ class MainWindow(QMainWindow):
             self.menu_bar._update_recent_files_menu()
 
     def esporta_yaml(self):
+        """
+        @brief Exports the current YAML content to an external file chosen by the user.
+
+        Shows a file dialog for save location and file name.
+        If confirmed, saves the content and logs success.
+        """
         from PyQt6.QtWidgets import QFileDialog
         filename, _ = QFileDialog.getSaveFileName(self, "Esporta YAML come...", "", "YAML Files (*.yaml *.yml);;Tutti i file (*)")
         if filename:
@@ -341,6 +410,12 @@ class MainWindow(QMainWindow):
             self.logger.log(Translator.tr("yaml_exported").format(path=filename), "success")
 
     def aggiorna_tutte_le_label(self):
+        """
+        @brief Updates all visible interface labels to reflect the selected language.
+
+        Updates tab titles, menu entries, labels, and buttons across panels.
+        Should be called whenever language changes or data updates occur to keep the UI consistent and localized.
+        """
         # Aggiorna i titoli dei tab
         self.tab_widget.setTabText(0, Translator.tr("tab_settings"))
         self.tab_widget.setTabText(1, Translator.tr("tab_modules"))
@@ -355,6 +430,12 @@ class MainWindow(QMainWindow):
         self.tab_command.aggiorna_label()            
 
     def export_project(self):
+        """
+        @brief Triggers export of the entire current project as a ZIP archive.
+
+        Checks that a project is active; otherwise logs a warning.
+        If valid, calls the project handler to export the folder to a user-chosen destination.
+        """
         if not self.project_dir:
             self.logger.log("Nessun progetto attivo da esportare.", "warning")
             return
@@ -363,6 +444,12 @@ class MainWindow(QMainWindow):
         )
 
     def import_project(self):
+        """
+        @brief Starts the import procedure for a project from a ZIP archive.
+
+        Shows dialogs for ZIP file selection and destination folder,
+        then calls the import handler and automatically loads the project into the editor.
+        """
         ProjectHandler.import_project(
             QFileDialog.getOpenFileName, QFileDialog.getExistingDirectory,
             self.logger.log, self.open_project  # open_project = funzione per aprire un nuovo progetto in GUI
@@ -371,16 +458,22 @@ class MainWindow(QMainWindow):
     @pyqtSlot(str, str)
     def log_from_thread(self, message: str, level: str):
         """
-        Slot thread-safe per loggare messaggi nella console GUI.
+        @brief Thread-safe slot to receive log messages from worker threads.
+
+        Allows updating the GUI console with messages from separate threads without conflicts.
+        Receives message and level (info, debug, warning, error) and displays them in the logger.
         """
         self.logger.log(message, level)           
 
 
     def get_or_create_yaml_path(self) -> str:
         """
-        Restituisce il percorso del file YAML da usare per upload/compile:
-        - Se esiste un salvataggio → salva lì
-        - Altrimenti crea un file temporaneo in una cartella scrivibile
+        @brief Determines the YAML file path to use for compilation or upload.
+
+        If the project has been saved, updates the existing file.
+        Otherwise, creates a temporary file in a dedicated build folder.
+
+        This manages both saved projects and unsaved changes without data loss.
         """
         yaml_text = self.yaml_editor.toPlainText()
 
@@ -411,6 +504,12 @@ class MainWindow(QMainWindow):
         return temp_path
     
     def _reset_tabs(self):
+        """
+        @brief Resets all configuration tabs to initial or empty states.
+
+        Used internally to clear the interface before opening a new project
+        or after operations requiring a full refresh.
+        """
         self.tab_settings.reset_fields()
         self.tab_modules.reset_fields()
         self.tab_sensori.get_sensor_canvas().clear_blocks()

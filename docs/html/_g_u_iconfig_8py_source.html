@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ESPHomeGUIeasy: config/GUIconfig.py Source File</title>
+<title>ESPHomeGUIeasy: C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/config/GUIconfig.py Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -105,58 +101,85 @@ $(function(){initNavTree('_g_u_iconfig_8py_source.html',''); initResizable(true)
   <div class="headertitle"><div class="title">GUIconfig.py</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="_g_u_iconfig_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html">    1</a></span><span class="keyword">import</span> os</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ab61fdc4330037a88dfa4fd483e787b69">    4</a></span>COMMUNITY_LOCAL_FOLDER = str(Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;community_projects&quot;</span>)</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ac45a3f590c6773344023f1d8c1baf37f">    5</a></span>DEFAULT_PROJECT_DIR = Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;user_projects&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a118fe525ec1327f4c26bdb52c29e085a">    6</a></span>DEFAULT_BUILD_DIR = Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;build&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a03ae0ff318f4c5ccc7b36c4a8f80ea27">    7</a></span>TEMPLATE_PROJECT_PATH = <span class="stringliteral">&quot;config/default_template.yaml&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ac18d71e41d9a19d5becbd870799fc14c">    9</a></span>CATEGORY_TO_FOLDER = {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="stringliteral">&quot;Home Monitoring&quot;</span>: <span class="stringliteral">&quot;Home_Monitoring&quot;</span>,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="stringliteral">&quot;Energy &amp; Power&quot;</span>: <span class="stringliteral">&quot;Energy_Power&quot;</span>,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="stringliteral">&quot;Security &amp; Alarm&quot;</span>: <span class="stringliteral">&quot;Security_Alarm&quot;</span>,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="stringliteral">&quot;Actuators &amp; I/O&quot;</span>: <span class="stringliteral">&quot;Actuators_IO&quot;</span>,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="stringliteral">&quot;Communication&quot;</span>: <span class="stringliteral">&quot;Communication&quot;</span>,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="stringliteral">&quot;Automation Logic&quot;</span>: <span class="stringliteral">&quot;Automation_Logic&quot;</span>,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="stringliteral">&quot;Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a0e4a4cfc89de5ad5e556859fb147bc51">   19</a></span>LOCALAPPDATA_FOLDER = os.path.join(os.environ[<span class="stringliteral">&quot;LOCALAPPDATA&quot;</span>], <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span>)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#aee2cf0153f794d43ed4afe0b7ca5561d">   20</a></span>os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ab7741455b0b1543d0d955238959f46e5">   22</a></span>USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, <span class="stringliteral">&quot;user_config.db&quot;</span>)</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a94c4d6a8fa71a2f4117d2b6e5475cb85">   23</a></span>LOG_PATH = str(Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;log.txt&quot;</span>)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a84abf4f1d2446b20107f89625ff5868f">   25</a></span>APP_NAME = <span class="stringliteral">&quot;ESPHomeGuiEasy&quot;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#abc342290d6250522997002eabf464766">   26</a></span>SW_ICON_PATH = <span class="stringliteral">&quot;assets/icon/esphomeguieasy_icon.png&quot;</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#aab8211d89f0046ac57cd446d11c501f5">   27</a></span>SPLASH_IMAGE = <span class="stringliteral">&quot;assets/background_image.png&quot;</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a52143101194b1c2f0f03a911a192547b">   28</a></span>DOCS_PATH = <span class="stringliteral">&quot;docs/&quot;</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a0d336d6ffac2c74efe1025ca86bd834f">   29</a></span>ICON_PATH = <span class="stringliteral">&quot;assets/icon/&quot;</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#afc28f098a98e7556abdc727b78ee11e7">   30</a></span>PROJECT_PLACEHOLDER_IMG = <span class="stringliteral">&quot;assets/project_placeholder.png&quot;</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a35c6f8dfaf148ab70cc1ec3fea95392c">   32</a></span>APP_VERSION = <span class="stringliteral">&quot;1.4.0&quot;</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a0ee12c8443f9c846b51ac1b72dfcf21c">   33</a></span>APP_RELEASE_DATE = <span class="stringliteral">&quot;2025-07-04&quot;</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a289a6781e9543a97c6d167d097b2e66a">   35</a></span>GITHUB_URL = <span class="stringliteral">&quot;https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json&quot;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a9e982068022f1febec7f09bb49409433">   36</a></span>RELEASE_URL = <span class="stringliteral">&quot;https://github.com/TheWhiteWolf1985/esphomeguieasy/releases&quot;</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a46122f67e587c060d58866eadc417589">   37</a></span>REPO_OWNER = <span class="stringliteral">&quot;TheWhiteWolf1985&quot;</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a2a7881f2f0e77a2e2683781206ccd4c3">   38</a></span>REPO_NAME = <span class="stringliteral">&quot;esphomeguieasy-projects&quot;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#aafa0c30a176f18ee5f12417b4e341c04">   39</a></span>PROJECTS_PATH = <span class="stringliteral">&quot;progetti&quot;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment"># Dimensioni della finestra principale</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#af83557b18350ee41f67bf3b059b332d9">   42</a></span>MAIN_WINDOW_HEIGHT = 900</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a37ddf33afe7ac2a043dee8f7b92d865f">   43</a></span>MAIN_WINDOW_WIDTH = 1500</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">#dimensioni iniziali dei due splitter (sx: canvas, console - dx: comandi, tab)</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ae808f289fe981c2504646c2076d84170">   46</a></span>MAIN_SPLITTER_LEFT_COLUMN = 750</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ac0afac6b33932f6f1d56ed94c1112b93">   47</a></span>MAIN_SPLITTER_RIGHT_COLUMN = 750 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment"># Dimensioni dei blocchi nel canvas dei sensori</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a62d739e845edb49fcfed98300a4ac845">   50</a></span>BLOCK_WIDTH = 250</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ab4cba8c1c482c3eb5579501c7e243f2b">   51</a></span>BLOCK_HEIGHT = 200</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a9ae924d6ccde0b9dba1b887ae5b23bc9">   52</a></span>BLOCK_COLLAPSED_HEIGHT = 40</div>
+<a href="_g_u_iconfig_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html">    1</a></span><span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@file GUIconfig.py</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral">@brief Contains global configuration constants for ESPHomeGUIeasy.</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">@defgroup config Configuration</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">@ingroup main</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">@brief Application constants, defaults, and paths.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">Includes:</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">- Default paths (projects, builds, logs)</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral">- GUI dimensions and layout constants</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral">- Language map and application metadata</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral">- GitHub repository links and updater settings</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="stringliteral">@version \ref PROJECT_NUMBER</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="stringliteral">@date July 2025</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="stringliteral">@license GNU Affero General Public License v3.0 (AGPLv3)</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">import</span> os</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ab61fdc4330037a88dfa4fd483e787b69">   24</a></span>COMMUNITY_LOCAL_FOLDER = str(Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;community_projects&quot;</span>)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ac45a3f590c6773344023f1d8c1baf37f">   25</a></span>DEFAULT_PROJECT_DIR = Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;user_projects&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a118fe525ec1327f4c26bdb52c29e085a">   26</a></span>DEFAULT_BUILD_DIR = Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;build&quot;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a03ae0ff318f4c5ccc7b36c4a8f80ea27">   27</a></span>TEMPLATE_PROJECT_PATH = <span class="stringliteral">&quot;config/default_template.yaml&quot;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a0e4a4cfc89de5ad5e556859fb147bc51">   28</a></span>LOCALAPPDATA_FOLDER = os.path.join(os.environ[<span class="stringliteral">&quot;LOCALAPPDATA&quot;</span>], <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span>)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#aee2cf0153f794d43ed4afe0b7ca5561d">   29</a></span>os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ab7741455b0b1543d0d955238959f46e5">   30</a></span>USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, <span class="stringliteral">&quot;user_config.db&quot;</span>)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a94c4d6a8fa71a2f4117d2b6e5475cb85">   31</a></span>LOG_PATH = str(Path.home() / <span class="stringliteral">&quot;Documents&quot;</span> / <span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span> / <span class="stringliteral">&quot;log.txt&quot;</span>)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#abc342290d6250522997002eabf464766">   32</a></span>SW_ICON_PATH = <span class="stringliteral">&quot;assets/icon/esphomeguieasy_icon.png&quot;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#aab8211d89f0046ac57cd446d11c501f5">   33</a></span>SPLASH_IMAGE = <span class="stringliteral">&quot;assets/background_image.png&quot;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a52143101194b1c2f0f03a911a192547b">   34</a></span>DOCS_PATH = <span class="stringliteral">&quot;docs/&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a0d336d6ffac2c74efe1025ca86bd834f">   35</a></span>ICON_PATH = <span class="stringliteral">&quot;assets/icon/&quot;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#afc28f098a98e7556abdc727b78ee11e7">   36</a></span>PROJECT_PLACEHOLDER_IMG = <span class="stringliteral">&quot;assets/project_placeholder.png&quot;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ac18d71e41d9a19d5becbd870799fc14c">   38</a></span>CATEGORY_TO_FOLDER = {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="stringliteral">&quot;Home Monitoring&quot;</span>: <span class="stringliteral">&quot;Home_Monitoring&quot;</span>,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="stringliteral">&quot;Energy &amp; Power&quot;</span>: <span class="stringliteral">&quot;Energy_Power&quot;</span>,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="stringliteral">&quot;Security &amp; Alarm&quot;</span>: <span class="stringliteral">&quot;Security_Alarm&quot;</span>,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="stringliteral">&quot;Actuators &amp; I/O&quot;</span>: <span class="stringliteral">&quot;Actuators_IO&quot;</span>,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="stringliteral">&quot;Communication&quot;</span>: <span class="stringliteral">&quot;Communication&quot;</span>,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="stringliteral">&quot;Automation Logic&quot;</span>: <span class="stringliteral">&quot;Automation_Logic&quot;</span>,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="stringliteral">&quot;Other / Misc&quot;</span>: <span class="stringliteral">&quot;Other_Misc&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment"># Language map for available GUI translations</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#abfdac18d6c85968eed42e5904a544af8">   49</a></span>LANGUAGE_MAP = {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="stringliteral">&quot;English&quot;</span>: <span class="stringliteral">&quot;en&quot;</span>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="stringliteral">&quot;Italiano&quot;</span>: <span class="stringliteral">&quot;it&quot;</span>,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="stringliteral">&quot;Español&quot;</span>: <span class="stringliteral">&quot;es&quot;</span>,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="stringliteral">&quot;Deutsch&quot;</span>: <span class="stringliteral">&quot;de&quot;</span>,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="stringliteral">&quot;Brasileiro&quot;</span>: <span class="stringliteral">&quot;br&quot;</span>,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="stringliteral">&quot;Português&quot;</span>: <span class="stringliteral">&quot;pt&quot;</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>}</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a84abf4f1d2446b20107f89625ff5868f">   58</a></span>APP_NAME = <span class="stringliteral">&quot;ESPHomeGuiEasy&quot;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a35c6f8dfaf148ab70cc1ec3fea95392c">   59</a></span>APP_VERSION = <span class="stringliteral">&quot;1.4.0&quot;</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a0ee12c8443f9c846b51ac1b72dfcf21c">   60</a></span>APP_RELEASE_DATE = <span class="stringliteral">&quot;2025-07-04&quot;</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a289a6781e9543a97c6d167d097b2e66a">   62</a></span>GITHUB_URL = <span class="stringliteral">&quot;https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json&quot;</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a9e982068022f1febec7f09bb49409433">   63</a></span>RELEASE_URL = <span class="stringliteral">&quot;https://github.com/TheWhiteWolf1985/esphomeguieasy/releases&quot;</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a46122f67e587c060d58866eadc417589">   64</a></span>REPO_OWNER = <span class="stringliteral">&quot;TheWhiteWolf1985&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a2a7881f2f0e77a2e2683781206ccd4c3">   65</a></span>REPO_NAME = <span class="stringliteral">&quot;esphomeguieasy-projects&quot;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#aafa0c30a176f18ee5f12417b4e341c04">   66</a></span>PROJECTS_PATH = <span class="stringliteral">&quot;progetti&quot;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment"># Dimensioni della finestra principale</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#af83557b18350ee41f67bf3b059b332d9">   69</a></span>MAIN_WINDOW_HEIGHT = 900</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a37ddf33afe7ac2a043dee8f7b92d865f">   70</a></span>MAIN_WINDOW_WIDTH = 1500</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">#dimensioni iniziali dei due splitter (sx: canvas, console - dx: comandi, tab)</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ae808f289fe981c2504646c2076d84170">   73</a></span>MAIN_SPLITTER_LEFT_COLUMN = 750</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ac0afac6b33932f6f1d56ed94c1112b93">   74</a></span>MAIN_SPLITTER_RIGHT_COLUMN = 750 </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment"># Dimensioni dei blocchi nel canvas dei sensori</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a62d739e845edb49fcfed98300a4ac845">   77</a></span>BLOCK_WIDTH = 250</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#ab4cba8c1c482c3eb5579501c7e243f2b">   78</a></span>BLOCK_HEIGHT = 200</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="namespace_g_u_iconfig.html#a9ae924d6ccde0b9dba1b887ae5b23bc9">   79</a></span>BLOCK_COLLAPSED_HEIGHT = 40</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

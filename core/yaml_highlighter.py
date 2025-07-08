@@ -1,12 +1,40 @@
+# -*- coding: utf-8 -*-
+"""
+@file yaml_highlighter.py
+@brief Implements YAML syntax highlighting in the code editor.
+
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Highlights keys, strings, numbers, booleans, null, lists, comments, and optional indentation  
+using VS Code-like color scheme (for dark themes).
+
+Built on top of QSyntaxHighlighter and regular expressions.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QFont
 import re
 
 class YamlHighlighter(QSyntaxHighlighter):
     """
-    @class YamlHighlighter
-    @brief Evidenziatore sintattico per YAML in stile VS Code (dark mode).
+    @brief Provides syntax highlighting for YAML in a QTextDocument using VS Code dark theme colors.
 
-    Supporta evidenziazione per: chiavi, stringhe, numeri, booleani, null, liste, commenti.
+    Supports detection and formatting of:
+    - Keys
+    - Strings
+    - Numbers
+    - Booleans
+    - Null values
+    - Lists
+    - Comments
+    - Indentation (optional)
+
+    Uses QSyntaxHighlighter and regular expressions to parse each line of text.
     """
     def __init__(self, document):
         super().__init__(document)
@@ -49,6 +77,11 @@ class YamlHighlighter(QSyntaxHighlighter):
         ]
 
     def highlightBlock(self, text):
+        """
+        @brief Called by Qt for each block of text. Applies highlighting rules.
+
+        @param text The line of text being processed.
+        """
         # Evidenzia indentazione (opzionale, solo spazi iniziali)
         match_indent = re.match(r'^(\s+)', text)
         if match_indent:

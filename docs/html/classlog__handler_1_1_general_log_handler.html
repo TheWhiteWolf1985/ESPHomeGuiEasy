@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -151,8 +147,12 @@ Static Protected Attributes</h2></td></tr>
 <tr class="separator:aacaddee3d3594b905c7ee8a2f5296d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00046">46</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Singleton logger that writes to both file and GUI console (if available).
+
+Supports rotating file logging and colored HTML output to QTextEdit.  
+All logging levels (debug, info, warning, error) are available.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00072">72</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a59de04050b39629eb6260db59c60d092" name="a59de04050b39629eb6260db59c60d092"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a59de04050b39629eb6260db59c60d092">&#9670;&#160;</a></span>__new__()</h2>
@@ -173,17 +173,17 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00049">49</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>    <span class="keyword">def </span>__new__(cls, console_widget=None):</div>
-<div class="line"><span class="lineno">   50</span>        <span class="keywordflow">if</span> cls._instance <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">   51</span>            cls._instance = super().__new__(cls)</div>
-<div class="line"><span class="lineno">   52</span>            cls._instance._init_logger(console_widget)</div>
-<div class="line"><span class="lineno">   53</span>        <span class="keywordflow">return</span> cls._instance</div>
-<div class="line"><span class="lineno">   54</span> </div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00082">82</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>    <span class="keyword">def </span>__new__(cls, console_widget=None):</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">if</span> cls._instance <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">   84</span>            cls._instance = super().__new__(cls)</div>
+<div class="line"><span class="lineno">   85</span>            cls._instance._init_logger(console_widget)</div>
+<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">return</span> cls._instance</div>
+<div class="line"><span class="lineno">   87</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00049">__new__()</a>, <a class="el" href="log__handler_8py_source.html#l00055">_init_logger()</a>, and <a class="el" href="log__handler_8py_source.html#l00047">_instance</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00082">__new__()</a>, <a class="el" href="log__handler_8py_source.html#l00088">_init_logger()</a>, and <a class="el" href="log__handler_8py_source.html#l00080">_instance</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00049">__new__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00082">__new__()</a>.</p>
 
 </div>
 </div>
@@ -214,32 +214,32 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00055">55</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>    <span class="keyword">def </span>_init_logger(self, console_widget=None):</div>
-<div class="line"><span class="lineno">   56</span>        self._console = console_widget</div>
-<div class="line"><span class="lineno">   57</span>        self._logger = logging.getLogger(<span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span>)</div>
-<div class="line"><span class="lineno">   58</span>        self._logger.setLevel(logging.DEBUG)</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>        <span class="comment"># Aggiunge RotatingFileHandler se non presente</span></div>
-<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> any(isinstance(h, RotatingFileHandler) <span class="keywordflow">for</span> h <span class="keywordflow">in</span> self._logger.handlers):</div>
-<div class="line"><span class="lineno">   62</span>            os.makedirs(os.path.dirname(LOG_PATH), exist_ok=<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">   63</span>            handler = RotatingFileHandler(</div>
-<div class="line"><span class="lineno">   64</span>                LOG_PATH,</div>
-<div class="line"><span class="lineno">   65</span>                mode=<span class="stringliteral">&#39;a&#39;</span>,</div>
-<div class="line"><span class="lineno">   66</span>                maxBytes=20 * 1024 * 1024,  <span class="comment"># 20 MB</span></div>
-<div class="line"><span class="lineno">   67</span>                backupCount=2,</div>
-<div class="line"><span class="lineno">   68</span>                encoding=<span class="stringliteral">&#39;utf-8&#39;</span></div>
-<div class="line"><span class="lineno">   69</span>            )</div>
-<div class="line"><span class="lineno">   70</span>            formatter = logging.Formatter(</div>
-<div class="line"><span class="lineno">   71</span>                <span class="stringliteral">&#39;[%(asctime)s] %(levelname)s [%(module)s:%(lineno)d] - %(message)s&#39;</span>,</div>
-<div class="line"><span class="lineno">   72</span>                datefmt=<span class="stringliteral">&#39;%Y-%m-%d %H:%M:%S&#39;</span></div>
-<div class="line"><span class="lineno">   73</span>            )</div>
-<div class="line"><span class="lineno">   74</span>            handler.setFormatter(formatter)</div>
-<div class="line"><span class="lineno">   75</span>            handler.setLevel(logging.DEBUG)</div>
-<div class="line"><span class="lineno">   76</span>            self._logger.addHandler(handler)</div>
-<div class="line"><span class="lineno">   77</span> </div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00088">88</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>    <span class="keyword">def </span>_init_logger(self, console_widget=None):</div>
+<div class="line"><span class="lineno">   89</span>        self._console = console_widget</div>
+<div class="line"><span class="lineno">   90</span>        self._logger = logging.getLogger(<span class="stringliteral">&quot;ESPHomeGUIeasy&quot;</span>)</div>
+<div class="line"><span class="lineno">   91</span>        self._logger.setLevel(logging.DEBUG)</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>        <span class="comment"># Aggiunge RotatingFileHandler se non presente</span></div>
+<div class="line"><span class="lineno">   94</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> any(isinstance(h, RotatingFileHandler) <span class="keywordflow">for</span> h <span class="keywordflow">in</span> self._logger.handlers):</div>
+<div class="line"><span class="lineno">   95</span>            os.makedirs(os.path.dirname(LOG_PATH), exist_ok=<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">   96</span>            handler = RotatingFileHandler(</div>
+<div class="line"><span class="lineno">   97</span>                LOG_PATH,</div>
+<div class="line"><span class="lineno">   98</span>                mode=<span class="stringliteral">&#39;a&#39;</span>,</div>
+<div class="line"><span class="lineno">   99</span>                maxBytes=20 * 1024 * 1024,  <span class="comment"># 20 MB</span></div>
+<div class="line"><span class="lineno">  100</span>                backupCount=2,</div>
+<div class="line"><span class="lineno">  101</span>                encoding=<span class="stringliteral">&#39;utf-8&#39;</span></div>
+<div class="line"><span class="lineno">  102</span>            )</div>
+<div class="line"><span class="lineno">  103</span>            formatter = logging.Formatter(</div>
+<div class="line"><span class="lineno">  104</span>                <span class="stringliteral">&#39;[%(asctime)s] %(levelname)s [%(module)s:%(lineno)d] - %(message)s&#39;</span>,</div>
+<div class="line"><span class="lineno">  105</span>                datefmt=<span class="stringliteral">&#39;%Y-%m-%d %H:%M:%S&#39;</span></div>
+<div class="line"><span class="lineno">  106</span>            )</div>
+<div class="line"><span class="lineno">  107</span>            handler.setFormatter(formatter)</div>
+<div class="line"><span class="lineno">  108</span>            handler.setLevel(logging.DEBUG)</div>
+<div class="line"><span class="lineno">  109</span>            self._logger.addHandler(handler)</div>
+<div class="line"><span class="lineno">  110</span> </div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00049">__new__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00082">__new__()</a>.</p>
 
 </div>
 </div>
@@ -258,18 +258,18 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00079">79</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   79</span>    <span class="keyword">def </span>console(self):</div>
-<div class="line"><span class="lineno">   80</span>        <span class="comment"># Cerca un QTextEdit con attributo console_output</span></div>
-<div class="line"><span class="lineno">   81</span>        <span class="keywordflow">for</span> w <span class="keywordflow">in</span> QApplication.topLevelWidgets():</div>
-<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> hasattr(w, <span class="stringliteral">&quot;console_output&quot;</span>):</div>
-<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">return</span> w.console_output</div>
-<div class="line"><span class="lineno">   84</span>        <span class="keywordflow">return</span> self._console</div>
-<div class="line"><span class="lineno">   85</span> </div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00112">112</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  112</span>    <span class="keyword">def </span>console(self):</div>
+<div class="line"><span class="lineno">  113</span>        <span class="comment"># Cerca un QTextEdit con attributo console_output</span></div>
+<div class="line"><span class="lineno">  114</span>        <span class="keywordflow">for</span> w <span class="keywordflow">in</span> QApplication.topLevelWidgets():</div>
+<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">if</span> hasattr(w, <span class="stringliteral">&quot;console_output&quot;</span>):</div>
+<div class="line"><span class="lineno">  116</span>                <span class="keywordflow">return</span> w.console_output</div>
+<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">return</span> self._console</div>
+<div class="line"><span class="lineno">  118</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00056">_console</a>, and <a class="el" href="log__handler_8py_source.html#l00012">log_handler.LOGHandler._console</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00089">_console</a>, and <a class="el" href="log__handler_8py_source.html#l00038">log_handler.LOGHandler._console</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00086">log()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00119">log()</a>.</p>
 
 </div>
 </div>
@@ -292,12 +292,12 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00117">117</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  117</span>    <span class="keyword">def </span>debug(self, msg: str):   self._logger.debug(msg)</div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00155">155</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  155</span>    <span class="keyword">def </span>debug(self, msg: str):   self._logger.debug(msg)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00117">debug()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00155">debug()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00117">debug()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00155">debug()</a>.</p>
 
 </div>
 </div>
@@ -320,12 +320,12 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00120">120</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>    <span class="keyword">def </span>error(self, msg: str):   self._logger.error(msg)</div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00158">158</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>    <span class="keyword">def </span>error(self, msg: str):   self._logger.error(msg)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00120">error()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00158">error()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00120">error()</a>, and <a class="el" href="log__handler_8py_source.html#l00109">log_exception()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00158">error()</a>, and <a class="el" href="log__handler_8py_source.html#l00142">log_exception()</a>.</p>
 
 </div>
 </div>
@@ -348,12 +348,12 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00118">118</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>    <span class="keyword">def </span>info(self, msg: str):    self._logger.info(msg)</div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00156">156</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  156</span>    <span class="keyword">def </span>info(self, msg: str):    self._logger.info(msg)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00118">info()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00156">info()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00118">info()</a>, <a class="el" href="log__handler_8py_source.html#l00086">log()</a>, and <a class="el" href="log__handler_8py_source.html#l00121">success()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00156">info()</a>, <a class="el" href="log__handler_8py_source.html#l00119">log()</a>, and <a class="el" href="log__handler_8py_source.html#l00159">success()</a>.</p>
 
 </div>
 </div>
@@ -381,32 +381,32 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00086">86</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>    <span class="keyword">def </span>log(self, message: str, level: str = <span class="stringliteral">&quot;info&quot;</span>):</div>
-<div class="line"><span class="lineno">   87</span>        <span class="comment"># File logger</span></div>
-<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">if</span> hasattr(self._logger, level.lower()):</div>
-<div class="line"><span class="lineno">   89</span>            getattr(self._logger, level.lower())(message)</div>
-<div class="line"><span class="lineno">   90</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">   91</span>            self._logger.info(message)</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>        <span class="comment"># GUI console logger</span></div>
-<div class="line"><span class="lineno">   94</span>        console = self.console</div>
-<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">if</span> console <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">   96</span>            color = {</div>
-<div class="line"><span class="lineno">   97</span>                <span class="stringliteral">&quot;error&quot;</span>: <span class="stringliteral">&quot;#ff5555&quot;</span>,</div>
-<div class="line"><span class="lineno">   98</span>                <span class="stringliteral">&quot;warning&quot;</span>: <span class="stringliteral">&quot;#f1c40f&quot;</span>,</div>
-<div class="line"><span class="lineno">   99</span>                <span class="stringliteral">&quot;success&quot;</span>: <span class="stringliteral">&quot;#33ff99&quot;</span>,</div>
-<div class="line"><span class="lineno">  100</span>                <span class="stringliteral">&quot;debug&quot;</span>: <span class="stringliteral">&quot;#8888ff&quot;</span>,</div>
-<div class="line"><span class="lineno">  101</span>                <span class="stringliteral">&quot;info&quot;</span>: <span class="stringliteral">&quot;#d4d4d4&quot;</span></div>
-<div class="line"><span class="lineno">  102</span>            }.get(level.lower(), <span class="stringliteral">&quot;#d4d4d4&quot;</span>)</div>
-<div class="line"><span class="lineno">  103</span>            html = f<span class="stringliteral">&#39;&lt;span style=&quot;color:{color};&quot;&gt;[{level.upper()}]&lt;/span&gt; {message}&lt;br&gt;&#39;</span></div>
-<div class="line"><span class="lineno">  104</span>            cursor = console.textCursor()</div>
-<div class="line"><span class="lineno">  105</span>            cursor.movePosition(QTextCursor.MoveOperation.End)</div>
-<div class="line"><span class="lineno">  106</span>            console.insertHtml(html)</div>
-<div class="line"><span class="lineno">  107</span>            cursor.movePosition(QTextCursor.MoveOperation.End)</div>
-<div class="line"><span class="lineno">  108</span> </div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00119">119</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>    <span class="keyword">def </span>log(self, message: str, level: str = <span class="stringliteral">&quot;info&quot;</span>):</div>
+<div class="line"><span class="lineno">  120</span>        <span class="comment"># File logger</span></div>
+<div class="line"><span class="lineno">  121</span>        <span class="keywordflow">if</span> hasattr(self._logger, level.lower()):</div>
+<div class="line"><span class="lineno">  122</span>            getattr(self._logger, level.lower())(message)</div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  124</span>            self._logger.info(message)</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>        <span class="comment"># GUI console logger</span></div>
+<div class="line"><span class="lineno">  127</span>        console = self.console</div>
+<div class="line"><span class="lineno">  128</span>        <span class="keywordflow">if</span> console <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  129</span>            color = {</div>
+<div class="line"><span class="lineno">  130</span>                <span class="stringliteral">&quot;error&quot;</span>: <span class="stringliteral">&quot;#ff5555&quot;</span>,</div>
+<div class="line"><span class="lineno">  131</span>                <span class="stringliteral">&quot;warning&quot;</span>: <span class="stringliteral">&quot;#f1c40f&quot;</span>,</div>
+<div class="line"><span class="lineno">  132</span>                <span class="stringliteral">&quot;success&quot;</span>: <span class="stringliteral">&quot;#33ff99&quot;</span>,</div>
+<div class="line"><span class="lineno">  133</span>                <span class="stringliteral">&quot;debug&quot;</span>: <span class="stringliteral">&quot;#8888ff&quot;</span>,</div>
+<div class="line"><span class="lineno">  134</span>                <span class="stringliteral">&quot;info&quot;</span>: <span class="stringliteral">&quot;#d4d4d4&quot;</span></div>
+<div class="line"><span class="lineno">  135</span>            }.get(level.lower(), <span class="stringliteral">&quot;#d4d4d4&quot;</span>)</div>
+<div class="line"><span class="lineno">  136</span>            html = f<span class="stringliteral">&#39;&lt;span style=&quot;color:{color};&quot;&gt;[{level.upper()}]&lt;/span&gt; {message}&lt;br&gt;&#39;</span></div>
+<div class="line"><span class="lineno">  137</span>            cursor = console.textCursor()</div>
+<div class="line"><span class="lineno">  138</span>            cursor.movePosition(QTextCursor.MoveOperation.End)</div>
+<div class="line"><span class="lineno">  139</span>            console.insertHtml(html)</div>
+<div class="line"><span class="lineno">  140</span>            cursor.movePosition(QTextCursor.MoveOperation.End)</div>
+<div class="line"><span class="lineno">  141</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, <a class="el" href="log__handler_8py_source.html#l00079">console()</a>, <a class="el" href="log__handler_8py_source.html#l00015">log_handler.LOGHandler.console()</a>, and <a class="el" href="log__handler_8py_source.html#l00118">info()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, <a class="el" href="log__handler_8py_source.html#l00112">console()</a>, <a class="el" href="log__handler_8py_source.html#l00041">log_handler.LOGHandler.console()</a>, and <a class="el" href="log__handler_8py_source.html#l00156">info()</a>.</p>
 
 </div>
 </div>
@@ -428,20 +428,22 @@ Static Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Logga un'eccezione completa con stack trace nel file.
-`context` serve per indicare il punto in cui è avvenuto.
+<pre class="fragment">@brief Logs a full exception stack trace to the log file.
+
+@param context Optional string to describe where the exception occurred.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00109">109</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>    <span class="keyword">def </span>log_exception(self, context: str = <span class="stringliteral">&quot;Errore sconosciuto&quot;</span>):</div>
-<div class="line"><span class="lineno">  110</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  111</span><span class="stringliteral">        Logga un&#39;eccezione completa con stack trace nel file.</span></div>
-<div class="line"><span class="lineno">  112</span><span class="stringliteral">        `context` serve per indicare il punto in cui è avvenuto.</span></div>
-<div class="line"><span class="lineno">  113</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  114</span>        tb = traceback.format_exc()</div>
-<div class="line"><span class="lineno">  115</span>        self._logger.error(f<span class="stringliteral">&quot;{context}\n{tb}&quot;</span>)            </div>
-<div class="line"><span class="lineno">  116</span> </div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00142">142</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>    <span class="keyword">def </span>log_exception(self, context: str = <span class="stringliteral">&quot;Errore sconosciuto&quot;</span>):</div>
+<div class="line"><span class="lineno">  143</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  144</span><span class="stringliteral">        @brief Logs a full exception stack trace to the log file.</span></div>
+<div class="line"><span class="lineno">  145</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  146</span><span class="stringliteral">        @param context Optional string to describe where the exception occurred.</span></div>
+<div class="line"><span class="lineno">  147</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  148</span>        tb = traceback.format_exc()</div>
+<div class="line"><span class="lineno">  149</span>        self._logger.error(f<span class="stringliteral">&quot;{context}\n{tb}&quot;</span>)         </div>
+<div class="line"><span class="lineno">  150</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00120">error()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00158">error()</a>.</p>
 
 </div>
 </div>
@@ -464,10 +466,10 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00121">121</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  121</span>    <span class="keyword">def </span>success(self, msg: str): self._logger.info(<span class="stringliteral">&quot;[SUCCESS] &quot;</span> + msg)</div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00159">159</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  159</span>    <span class="keyword">def </span>success(self, msg: str): self._logger.info(<span class="stringliteral">&quot;[SUCCESS] &quot;</span> + msg)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00118">info()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00156">info()</a>.</p>
 
 </div>
 </div>
@@ -490,12 +492,12 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00119">119</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  119</span>    <span class="keyword">def </span>warning(self, msg: str): self._logger.warning(msg)</div>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00157">157</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  157</span>    <span class="keyword">def </span>warning(self, msg: str): self._logger.warning(msg)</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00057">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00119">warning()</a>.</p>
+<p class="reference">References <a class="el" href="log__handler_8py_source.html#l00090">_logger</a>, and <a class="el" href="log__handler_8py_source.html#l00157">warning()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00119">warning()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00157">warning()</a>.</p>
 
 </div>
 </div>
@@ -520,9 +522,9 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00056">56</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00089">89</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00079">console()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00112">console()</a>.</p>
 
 </div>
 </div>
@@ -546,9 +548,9 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00047">47</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00080">80</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00049">__new__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00082">__new__()</a>.</p>
 
 </div>
 </div>
@@ -572,14 +574,14 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00057">57</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="log__handler_8py_source.html#l00090">90</a> of file <a class="el" href="log__handler_8py_source.html">log_handler.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00117">debug()</a>, <a class="el" href="log__handler_8py_source.html#l00120">error()</a>, <a class="el" href="log__handler_8py_source.html#l00118">info()</a>, <a class="el" href="log__handler_8py_source.html#l00086">log()</a>, <a class="el" href="log__handler_8py_source.html#l00109">log_exception()</a>, <a class="el" href="log__handler_8py_source.html#l00121">success()</a>, and <a class="el" href="log__handler_8py_source.html#l00119">warning()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="log__handler_8py_source.html#l00155">debug()</a>, <a class="el" href="log__handler_8py_source.html#l00158">error()</a>, <a class="el" href="log__handler_8py_source.html#l00156">info()</a>, <a class="el" href="log__handler_8py_source.html#l00119">log()</a>, <a class="el" href="log__handler_8py_source.html#l00142">log_exception()</a>, <a class="el" href="log__handler_8py_source.html#l00159">success()</a>, and <a class="el" href="log__handler_8py_source.html#l00157">warning()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>core/<a class="el" href="log__handler_8py_source.html">log_handler.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/core/<a class="el" href="log__handler_8py_source.html">log_handler.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -18,12 +18,9 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-  $(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -35,18 +32,6 @@
    <div id="projectname">ESPHomeGUIeasy<span id="projectnumber">&#160;1.4.1</span>
    </div>
   </td>
-    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
-          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
@@ -63,6 +48,17 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -203,8 +199,16 @@ Public Attributes</h2></td></tr>
 <tr class="separator:afe1158bc59ca38fca42c3e3a5f74de2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00016">16</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="textblock"><pre class="fragment">@brief Manages the command interface tab for compiling and uploading ESPHome firmware.
+
+Initializes UI elements for USB serial loader and OTA uploading,
+including baud rate selection, COM port refresh, IP scanning, and firmware upload buttons.
+
+Handles threading to prevent concurrent commands and updates UI accordingly.
+
+Emits logging messages for all actions and errors.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00036">36</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7c282ebd2b8e351ac881f40b8cb68ca7" name="a7c282ebd2b8e351ac881f40b8cb68ca7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c282ebd2b8e351ac881f40b8cb68ca7">&#9670;&#160;</a></span>__init__()</h2>
@@ -244,183 +248,197 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Sets up the command tab UI components and connects signals to slots.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00017">17</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>    <span class="keyword">def </span>__init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):</div>
-<div class="line"><span class="lineno">   18</span>        super().__init__()</div>
-<div class="line"><span class="lineno">   19</span>        self.yaml_editor = yaml_editor</div>
-<div class="line"><span class="lineno">   20</span>        self.logger = logger</div>
-<div class="line"><span class="lineno">   21</span>        self.compiler = compiler</div>
-<div class="line"><span class="lineno">   22</span>        self.busy = <span class="keyword">False</span>  <span class="comment"># Blocca comandi concorrenti (compile/erase/upload</span></div>
-<div class="line"><span class="lineno">   23</span>        self.compiler.upload_finished.connect(self.riabilita_bottoni_qt)</div>
-<div class="line"><span class="lineno">   24</span>        self.compiler.compile_finished.connect(self.riabilita_bottoni_qt)</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span> </div>
-<div class="line"><span class="lineno">   27</span>        dark_palette = QPalette()</div>
-<div class="line"><span class="lineno">   28</span>        dark_palette.setColor(QPalette.ColorRole.Window, QColor(<span class="stringliteral">&quot;#23272e&quot;</span>))</div>
-<div class="line"><span class="lineno">   29</span>        dark_palette.setColor(QPalette.ColorRole.Base, QColor(<span class="stringliteral">&quot;#1e1e1e&quot;</span>))</div>
-<div class="line"><span class="lineno">   30</span>        dark_palette.setColor(QPalette.ColorRole.Text, QColor(<span class="stringliteral">&quot;#d4d4d4&quot;</span>))</div>
-<div class="line"><span class="lineno">   31</span>        dark_palette.setColor(QPalette.ColorRole.Button, QColor(<span class="stringliteral">&quot;#23272e&quot;</span>))</div>
-<div class="line"><span class="lineno">   32</span>        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor(<span class="stringliteral">&quot;#5f1717&quot;</span>))</div>
-<div class="line"><span class="lineno">   33</span>        dark_palette.setColor(QPalette.ColorRole.Highlight, QColor(<span class="stringliteral">&quot;#3a9dda&quot;</span>))</div>
-<div class="line"><span class="lineno">   34</span>        dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor(<span class="stringliteral">&quot;#ffffff&quot;</span>))</div>
-<div class="line"><span class="lineno">   35</span>        dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor(<span class="stringliteral">&quot;#2a2d2e&quot;</span>))</div>
-<div class="line"><span class="lineno">   36</span>        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor(<span class="stringliteral">&quot;#ffffff&quot;</span>))</div>
-<div class="line"><span class="lineno">   37</span> </div>
-<div class="line"><span class="lineno">   38</span>        self.setPalette(dark_palette)</div>
-<div class="line"><span class="lineno">   39</span>        self.setAutoFillBackground(<span class="keyword">True</span>)           </div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>        layout = QVBoxLayout(self)</div>
-<div class="line"><span class="lineno">   42</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>        <span class="comment"># --- Sezione USB / Serial Loader (layout verticale e allineato) ---</span></div>
-<div class="line"><span class="lineno">   45</span>        self.usb_box = QGroupBox(Translator.tr(<span class="stringliteral">&quot;usb_serial_loader&quot;</span>))</div>
-<div class="line"><span class="lineno">   46</span>        self.usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
-<div class="line"><span class="lineno">   47</span>        usb_vlayout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>        usb_form = QFormLayout()</div>
-<div class="line"><span class="lineno">   50</span>        usb_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)</div>
-<div class="line"><span class="lineno">   51</span>        usb_form.setFormAlignment(Qt.AlignmentFlag.AlignLeft)</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>        <span class="comment"># Baud rate</span></div>
-<div class="line"><span class="lineno">   54</span>        self.baud_combo = QComboBox()</div>
-<div class="line"><span class="lineno">   55</span>        self.baud_combo.addItems([<span class="stringliteral">&quot;9600&quot;</span>, <span class="stringliteral">&quot;57600&quot;</span>, <span class="stringliteral">&quot;115200&quot;</span>, <span class="stringliteral">&quot;230400&quot;</span>, <span class="stringliteral">&quot;460800&quot;</span>, <span class="stringliteral">&quot;921600&quot;</span>])</div>
-<div class="line"><span class="lineno">   56</span>        self.baud_combo.setCurrentText(<span class="stringliteral">&quot;115200&quot;</span>)</div>
-<div class="line"><span class="lineno">   57</span>        self.baud_combo.setFixedWidth(120)</div>
-<div class="line"><span class="lineno">   58</span>        usb_form.addRow(Translator.tr(<span class="stringliteral">&quot;baud&quot;</span>), self.baud_combo)</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>        <span class="comment"># Porta COM + Refresh</span></div>
-<div class="line"><span class="lineno">   61</span>        com_row = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   62</span>        self.com_combo = QComboBox()</div>
-<div class="line"><span class="lineno">   63</span>        self.com_combo.setFixedWidth(200)</div>
-<div class="line"><span class="lineno">   64</span>        refresh_btn = QPushButton(<span class="stringliteral">&quot;🔄&quot;</span>)</div>
-<div class="line"><span class="lineno">   65</span>        refresh_btn.setFixedWidth(40)</div>
-<div class="line"><span class="lineno">   66</span>        refresh_btn.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   67</span><span class="stringliteral">            QPushButton { background-color: #3a9dda; color: white; border-radius: 8px; }</span></div>
-<div class="line"><span class="lineno">   68</span><span class="stringliteral">            QPushButton:hover { background-color: #2277aa; }</span></div>
-<div class="line"><span class="lineno">   69</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">   70</span>        refresh_btn.clicked.connect(self.refresh_com_ports)</div>
-<div class="line"><span class="lineno">   71</span>        com_row.addWidget(self.com_combo)</div>
-<div class="line"><span class="lineno">   72</span>        com_row.addWidget(refresh_btn)</div>
-<div class="line"><span class="lineno">   73</span>        usb_form.addRow(Translator.tr(<span class="stringliteral">&quot;port&quot;</span>), com_row)</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>        usb_vlayout.addLayout(usb_form)</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>        <span class="comment"># Riga bottoni azione</span></div>
-<div class="line"><span class="lineno">   78</span>        usb_btn_row = QHBoxLayout()</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>        self.erase_btn = QPushButton(<span class="stringliteral">&quot;🧹 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;erase_flash&quot;</span>))</div>
-<div class="line"><span class="lineno">   81</span>        self.erase_btn.setFixedWidth(170)</div>
-<div class="line"><span class="lineno">   82</span>        self.erase_btn.clicked.connect(self.erase_flash)</div>
-<div class="line"><span class="lineno">   83</span>        self.erase_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>        self.flash_btn = QPushButton(<span class="stringliteral">&quot;📤 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;upload&quot;</span>))</div>
-<div class="line"><span class="lineno">   86</span>        self.flash_btn.setFixedWidth(170)</div>
-<div class="line"><span class="lineno">   87</span>        self.flash_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>        refresh_btn.clicked.connect(self.refresh_com_ports)</div>
-<div class="line"><span class="lineno">   90</span>        self.flash_btn.clicked.connect(self.carica_firmware)</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>        usb_btn_row.addWidget(self.erase_btn)</div>
-<div class="line"><span class="lineno">   93</span>        usb_btn_row.addWidget(self.flash_btn)</div>
-<div class="line"><span class="lineno">   94</span>        usb_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">   95</span>        usb_vlayout.addLayout(usb_btn_row)</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>        self.usb_box.setLayout(usb_vlayout)</div>
-<div class="line"><span class="lineno">   98</span>        layout.addWidget(self.usb_box)</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>        <span class="comment"># --- Sezione OTA (WiFi, layout verticale e allineato) ---</span></div>
-<div class="line"><span class="lineno">  102</span>        self.ota_box = QGroupBox(Translator.tr(<span class="stringliteral">&quot;ota_wifi&quot;</span>))</div>
-<div class="line"><span class="lineno">  103</span>        self.ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
-<div class="line"><span class="lineno">  104</span>        ota_vlayout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>        <span class="comment"># Riga 1: Scansione + combo IP trovati</span></div>
-<div class="line"><span class="lineno">  107</span>        scan_row = QHBoxLayout()</div>
-<div class="line"><span class="lineno">  108</span>        self.scan_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;scan_network&quot;</span>))</div>
-<div class="line"><span class="lineno">  109</span>        self.scan_btn.setFixedWidth(160)</div>
-<div class="line"><span class="lineno">  110</span>        self.scan_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>        self.scan_btn.clicked.connect(self.scan_network_for_esp)</div>
-<div class="line"><span class="lineno">  113</span>        self.ip_combo = QComboBox()</div>
-<div class="line"><span class="lineno">  114</span>        self.ip_combo.setFixedWidth(230)</div>
-<div class="line"><span class="lineno">  115</span>        self.ip_combo.setEditable(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  116</span>        self.ip_combo.currentIndexChanged.connect(self.on_combo_ip_selected)</div>
-<div class="line"><span class="lineno">  117</span>        scan_row.addWidget(self.scan_btn)</div>
-<div class="line"><span class="lineno">  118</span>        scan_row.addWidget(self.ip_combo)</div>
-<div class="line"><span class="lineno">  119</span>        ota_vlayout.addLayout(scan_row)</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>        <span class="comment"># Form layout per campi IP, Porta, Password</span></div>
-<div class="line"><span class="lineno">  122</span>        ota_form = QFormLayout()</div>
-<div class="line"><span class="lineno">  123</span>        ota_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)</div>
-<div class="line"><span class="lineno">  124</span>        ota_form.setFormAlignment(Qt.AlignmentFlag.AlignLeft)</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>        self.ota_ip_edit = QLineEdit()</div>
-<div class="line"><span class="lineno">  127</span>        self.ota_ip_edit.setPlaceholderText(<span class="stringliteral">&quot;es: 192.168.1.100&quot;</span>)</div>
-<div class="line"><span class="lineno">  128</span>        self.ota_ip_edit.setFixedWidth(230)</div>
-<div class="line"><span class="lineno">  129</span>        ota_form.addRow(Translator.tr(<span class="stringliteral">&quot;ip_address&quot;</span>), self.ota_ip_edit)</div>
-<div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>        self.ota_port_edit = QLineEdit()</div>
-<div class="line"><span class="lineno">  132</span>        self.ota_port_edit.setText(<span class="stringliteral">&quot;3232&quot;</span>)</div>
-<div class="line"><span class="lineno">  133</span>        self.ota_port_edit.setFixedWidth(80)</div>
-<div class="line"><span class="lineno">  134</span>        ota_form.addRow(Translator.tr(<span class="stringliteral">&quot;ota_port&quot;</span>), self.ota_port_edit)</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>        self.ota_pwd_edit = QLineEdit()</div>
-<div class="line"><span class="lineno">  137</span>        self.ota_pwd_edit.setEchoMode(QLineEdit.EchoMode.Password)</div>
-<div class="line"><span class="lineno">  138</span>        self.ota_pwd_edit.setFixedWidth(230)</div>
-<div class="line"><span class="lineno">  139</span>        ota_form.addRow(Translator.tr(<span class="stringliteral">&quot;ota_password&quot;</span>), self.ota_pwd_edit)</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>        ota_vlayout.addLayout(ota_form)</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>        <span class="comment"># Riga bottoni finali (Test/Carica)</span></div>
-<div class="line"><span class="lineno">  144</span>        ota_btn_row = QHBoxLayout()</div>
-<div class="line"><span class="lineno">  145</span>        self.test_ota_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;test_connection&quot;</span>))</div>
-<div class="line"><span class="lineno">  146</span>        self.test_ota_btn.setFixedWidth(170)</div>
-<div class="line"><span class="lineno">  147</span>        self.test_ota_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>        self.flash_ota_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;flash_ota&quot;</span>))</div>
-<div class="line"><span class="lineno">  150</span>        self.flash_ota_btn.setFixedWidth(170)</div>
-<div class="line"><span class="lineno">  151</span>        self.flash_ota_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">  152</span> </div>
-<div class="line"><span class="lineno">  153</span>        self.scan_btn.clicked.connect(self.scan_network_for_esp)</div>
+Configures color palette for dark theme, groups controls into USB and OTA sections,
+and sets up compile group with compile button.
+
+Connects buttons to corresponding methods and prepares UI layouts.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00047">47</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>    <span class="keyword">def </span>__init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):</div>
+<div class="line"><span class="lineno">   48</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   49</span><span class="stringliteral">        @brief Sets up the command tab UI components and connects signals to slots.</span></div>
+<div class="line"><span class="lineno">   50</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   51</span><span class="stringliteral">        Configures color palette for dark theme, groups controls into USB and OTA sections,</span></div>
+<div class="line"><span class="lineno">   52</span><span class="stringliteral">        and sets up compile group with compile button.</span></div>
+<div class="line"><span class="lineno">   53</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   54</span><span class="stringliteral">        Connects buttons to corresponding methods and prepares UI layouts.</span></div>
+<div class="line"><span class="lineno">   55</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   56</span>        super().__init__()</div>
+<div class="line"><span class="lineno">   57</span>        self.yaml_editor = yaml_editor</div>
+<div class="line"><span class="lineno">   58</span>        self.logger = logger</div>
+<div class="line"><span class="lineno">   59</span>        self.compiler = compiler</div>
+<div class="line"><span class="lineno">   60</span>        self.busy = <span class="keyword">False</span>  <span class="comment"># Blocca comandi concorrenti (compile/erase/upload</span></div>
+<div class="line"><span class="lineno">   61</span>        self.compiler.upload_finished.connect(self.riabilita_bottoni_qt)</div>
+<div class="line"><span class="lineno">   62</span>        self.compiler.compile_finished.connect(self.riabilita_bottoni_qt)</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>        dark_palette = QPalette()</div>
+<div class="line"><span class="lineno">   66</span>        dark_palette.setColor(QPalette.ColorRole.Window, QColor(<span class="stringliteral">&quot;#23272e&quot;</span>))</div>
+<div class="line"><span class="lineno">   67</span>        dark_palette.setColor(QPalette.ColorRole.Base, QColor(<span class="stringliteral">&quot;#1e1e1e&quot;</span>))</div>
+<div class="line"><span class="lineno">   68</span>        dark_palette.setColor(QPalette.ColorRole.Text, QColor(<span class="stringliteral">&quot;#d4d4d4&quot;</span>))</div>
+<div class="line"><span class="lineno">   69</span>        dark_palette.setColor(QPalette.ColorRole.Button, QColor(<span class="stringliteral">&quot;#23272e&quot;</span>))</div>
+<div class="line"><span class="lineno">   70</span>        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor(<span class="stringliteral">&quot;#5f1717&quot;</span>))</div>
+<div class="line"><span class="lineno">   71</span>        dark_palette.setColor(QPalette.ColorRole.Highlight, QColor(<span class="stringliteral">&quot;#3a9dda&quot;</span>))</div>
+<div class="line"><span class="lineno">   72</span>        dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor(<span class="stringliteral">&quot;#ffffff&quot;</span>))</div>
+<div class="line"><span class="lineno">   73</span>        dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor(<span class="stringliteral">&quot;#2a2d2e&quot;</span>))</div>
+<div class="line"><span class="lineno">   74</span>        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor(<span class="stringliteral">&quot;#ffffff&quot;</span>))</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>        self.setPalette(dark_palette)</div>
+<div class="line"><span class="lineno">   77</span>        self.setAutoFillBackground(<span class="keyword">True</span>)           </div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>        layout = QVBoxLayout(self)</div>
+<div class="line"><span class="lineno">   80</span>        layout.setAlignment(Qt.AlignmentFlag.AlignTop)</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>        <span class="comment"># --- Sezione USB / Serial Loader (layout verticale e allineato) ---</span></div>
+<div class="line"><span class="lineno">   83</span>        self.usb_box = QGroupBox(Translator.tr(<span class="stringliteral">&quot;usb_serial_loader&quot;</span>))</div>
+<div class="line"><span class="lineno">   84</span>        self.usb_box.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
+<div class="line"><span class="lineno">   85</span>        usb_vlayout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>        usb_form = QFormLayout()</div>
+<div class="line"><span class="lineno">   88</span>        usb_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)</div>
+<div class="line"><span class="lineno">   89</span>        usb_form.setFormAlignment(Qt.AlignmentFlag.AlignLeft)</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>        <span class="comment"># Baud rate</span></div>
+<div class="line"><span class="lineno">   92</span>        self.baud_combo = QComboBox()</div>
+<div class="line"><span class="lineno">   93</span>        self.baud_combo.addItems([<span class="stringliteral">&quot;9600&quot;</span>, <span class="stringliteral">&quot;57600&quot;</span>, <span class="stringliteral">&quot;115200&quot;</span>, <span class="stringliteral">&quot;230400&quot;</span>, <span class="stringliteral">&quot;460800&quot;</span>, <span class="stringliteral">&quot;921600&quot;</span>])</div>
+<div class="line"><span class="lineno">   94</span>        self.baud_combo.setCurrentText(<span class="stringliteral">&quot;115200&quot;</span>)</div>
+<div class="line"><span class="lineno">   95</span>        self.baud_combo.setFixedWidth(120)</div>
+<div class="line"><span class="lineno">   96</span>        usb_form.addRow(Translator.tr(<span class="stringliteral">&quot;baud&quot;</span>), self.baud_combo)</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>        <span class="comment"># Porta COM + Refresh</span></div>
+<div class="line"><span class="lineno">   99</span>        com_row = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  100</span>        self.com_combo = QComboBox()</div>
+<div class="line"><span class="lineno">  101</span>        self.com_combo.setFixedWidth(200)</div>
+<div class="line"><span class="lineno">  102</span>        refresh_btn = QPushButton(<span class="stringliteral">&quot;🔄&quot;</span>)</div>
+<div class="line"><span class="lineno">  103</span>        refresh_btn.setFixedWidth(40)</div>
+<div class="line"><span class="lineno">  104</span>        refresh_btn.setStyleSheet(<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  105</span><span class="stringliteral">            QPushButton { background-color: #3a9dda; color: white; border-radius: 8px; }</span></div>
+<div class="line"><span class="lineno">  106</span><span class="stringliteral">            QPushButton:hover { background-color: #2277aa; }</span></div>
+<div class="line"><span class="lineno">  107</span><span class="stringliteral">        &quot;&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  108</span>        refresh_btn.clicked.connect(self.refresh_com_ports)</div>
+<div class="line"><span class="lineno">  109</span>        com_row.addWidget(self.com_combo)</div>
+<div class="line"><span class="lineno">  110</span>        com_row.addWidget(refresh_btn)</div>
+<div class="line"><span class="lineno">  111</span>        usb_form.addRow(Translator.tr(<span class="stringliteral">&quot;port&quot;</span>), com_row)</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>        usb_vlayout.addLayout(usb_form)</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>        <span class="comment"># Riga bottoni azione</span></div>
+<div class="line"><span class="lineno">  116</span>        usb_btn_row = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>        self.erase_btn = QPushButton(<span class="stringliteral">&quot;🧹 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;erase_flash&quot;</span>))</div>
+<div class="line"><span class="lineno">  119</span>        self.erase_btn.setFixedWidth(170)</div>
+<div class="line"><span class="lineno">  120</span>        self.erase_btn.clicked.connect(self.erase_flash)</div>
+<div class="line"><span class="lineno">  121</span>        self.erase_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>        self.flash_btn = QPushButton(<span class="stringliteral">&quot;📤 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;upload&quot;</span>))</div>
+<div class="line"><span class="lineno">  124</span>        self.flash_btn.setFixedWidth(170)</div>
+<div class="line"><span class="lineno">  125</span>        self.flash_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>        refresh_btn.clicked.connect(self.refresh_com_ports)</div>
+<div class="line"><span class="lineno">  128</span>        self.flash_btn.clicked.connect(self.carica_firmware)</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>        usb_btn_row.addWidget(self.erase_btn)</div>
+<div class="line"><span class="lineno">  131</span>        usb_btn_row.addWidget(self.flash_btn)</div>
+<div class="line"><span class="lineno">  132</span>        usb_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  133</span>        usb_vlayout.addLayout(usb_btn_row)</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>        self.usb_box.setLayout(usb_vlayout)</div>
+<div class="line"><span class="lineno">  136</span>        layout.addWidget(self.usb_box)</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>        <span class="comment"># --- Sezione OTA (WiFi, layout verticale e allineato) ---</span></div>
+<div class="line"><span class="lineno">  140</span>        self.ota_box = QGroupBox(Translator.tr(<span class="stringliteral">&quot;ota_wifi&quot;</span>))</div>
+<div class="line"><span class="lineno">  141</span>        self.ota_box.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
+<div class="line"><span class="lineno">  142</span>        ota_vlayout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>        <span class="comment"># Riga 1: Scansione + combo IP trovati</span></div>
+<div class="line"><span class="lineno">  145</span>        scan_row = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  146</span>        self.scan_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;scan_network&quot;</span>))</div>
+<div class="line"><span class="lineno">  147</span>        self.scan_btn.setFixedWidth(160)</div>
+<div class="line"><span class="lineno">  148</span>        self.scan_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>        self.scan_btn.clicked.connect(self.scan_network_for_esp)</div>
+<div class="line"><span class="lineno">  151</span>        self.ip_combo = QComboBox()</div>
+<div class="line"><span class="lineno">  152</span>        self.ip_combo.setFixedWidth(230)</div>
+<div class="line"><span class="lineno">  153</span>        self.ip_combo.setEditable(<span class="keyword">False</span>)</div>
 <div class="line"><span class="lineno">  154</span>        self.ip_combo.currentIndexChanged.connect(self.on_combo_ip_selected)</div>
-<div class="line"><span class="lineno">  155</span>        self.test_ota_btn.clicked.connect(self.test_ota_connection)</div>
-<div class="line"><span class="lineno">  156</span>        self.flash_ota_btn.clicked.connect(self.flash_via_ota)</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>        ota_btn_row.addWidget(self.test_ota_btn)</div>
-<div class="line"><span class="lineno">  159</span>        ota_btn_row.addWidget(self.flash_ota_btn)</div>
-<div class="line"><span class="lineno">  160</span>        ota_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
-<div class="line"><span class="lineno">  161</span>        ota_vlayout.addLayout(ota_btn_row)</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>        self.ota_box.setLayout(ota_vlayout)</div>
-<div class="line"><span class="lineno">  164</span>        layout.addWidget(self.ota_box)</div>
-<div class="line"><span class="lineno">  165</span> </div>
-<div class="line"><span class="lineno">  166</span>        <span class="comment"># --- SEZIONE COMPILAZIONE ---</span></div>
-<div class="line"><span class="lineno">  167</span>        self.group_compile = QGroupBox(Translator.tr(<span class="stringliteral">&quot;firmware_compile&quot;</span>))</div>
-<div class="line"><span class="lineno">  168</span>        self.group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
-<div class="line"><span class="lineno">  169</span>        group_layout = QVBoxLayout()</div>
-<div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>        <span class="comment"># Bottone COMPILA</span></div>
-<div class="line"><span class="lineno">  172</span>        self.compile_btn = QPushButton(<span class="stringliteral">&quot;🚀 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;compile&quot;</span>))</div>
-<div class="line"><span class="lineno">  173</span>        self.compile_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
-<div class="line"><span class="lineno">  174</span>        self.compile_btn.setFixedWidth(200)</div>
-<div class="line"><span class="lineno">  175</span>        self.compile_btn.clicked.connect(self.compila_progetto)</div>
-<div class="line"><span class="lineno">  176</span> </div>
-<div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>        <span class="comment"># Layout bottoni</span></div>
-<div class="line"><span class="lineno">  179</span>        btn_layout = QHBoxLayout()</div>
-<div class="line"><span class="lineno">  180</span>        btn_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)</div>
-<div class="line"><span class="lineno">  181</span>        btn_layout.addWidget(self.compile_btn)</div>
-<div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>        group_layout.addLayout(btn_layout)</div>
-<div class="line"><span class="lineno">  184</span>        self.group_compile.setLayout(group_layout)</div>
-<div class="line"><span class="lineno">  185</span>        layout.addWidget(self.group_compile)</div>
+<div class="line"><span class="lineno">  155</span>        scan_row.addWidget(self.scan_btn)</div>
+<div class="line"><span class="lineno">  156</span>        scan_row.addWidget(self.ip_combo)</div>
+<div class="line"><span class="lineno">  157</span>        ota_vlayout.addLayout(scan_row)</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>        <span class="comment"># Form layout per campi IP, Porta, Password</span></div>
+<div class="line"><span class="lineno">  160</span>        ota_form = QFormLayout()</div>
+<div class="line"><span class="lineno">  161</span>        ota_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)</div>
+<div class="line"><span class="lineno">  162</span>        ota_form.setFormAlignment(Qt.AlignmentFlag.AlignLeft)</div>
+<div class="line"><span class="lineno">  163</span> </div>
+<div class="line"><span class="lineno">  164</span>        self.ota_ip_edit = QLineEdit()</div>
+<div class="line"><span class="lineno">  165</span>        self.ota_ip_edit.setPlaceholderText(<span class="stringliteral">&quot;es: 192.168.1.100&quot;</span>)</div>
+<div class="line"><span class="lineno">  166</span>        self.ota_ip_edit.setFixedWidth(230)</div>
+<div class="line"><span class="lineno">  167</span>        ota_form.addRow(Translator.tr(<span class="stringliteral">&quot;ip_address&quot;</span>), self.ota_ip_edit)</div>
+<div class="line"><span class="lineno">  168</span> </div>
+<div class="line"><span class="lineno">  169</span>        self.ota_port_edit = QLineEdit()</div>
+<div class="line"><span class="lineno">  170</span>        self.ota_port_edit.setText(<span class="stringliteral">&quot;3232&quot;</span>)</div>
+<div class="line"><span class="lineno">  171</span>        self.ota_port_edit.setFixedWidth(80)</div>
+<div class="line"><span class="lineno">  172</span>        ota_form.addRow(Translator.tr(<span class="stringliteral">&quot;ota_port&quot;</span>), self.ota_port_edit)</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>        self.ota_pwd_edit = QLineEdit()</div>
+<div class="line"><span class="lineno">  175</span>        self.ota_pwd_edit.setEchoMode(QLineEdit.EchoMode.Password)</div>
+<div class="line"><span class="lineno">  176</span>        self.ota_pwd_edit.setFixedWidth(230)</div>
+<div class="line"><span class="lineno">  177</span>        ota_form.addRow(Translator.tr(<span class="stringliteral">&quot;ota_password&quot;</span>), self.ota_pwd_edit)</div>
+<div class="line"><span class="lineno">  178</span> </div>
+<div class="line"><span class="lineno">  179</span>        ota_vlayout.addLayout(ota_form)</div>
+<div class="line"><span class="lineno">  180</span> </div>
+<div class="line"><span class="lineno">  181</span>        <span class="comment"># Riga bottoni finali (Test/Carica)</span></div>
+<div class="line"><span class="lineno">  182</span>        ota_btn_row = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  183</span>        self.test_ota_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;test_connection&quot;</span>))</div>
+<div class="line"><span class="lineno">  184</span>        self.test_ota_btn.setFixedWidth(170)</div>
+<div class="line"><span class="lineno">  185</span>        self.test_ota_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
 <div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  187</span>        self.flash_ota_btn = QPushButton(Translator.tr(<span class="stringliteral">&quot;flash_ota&quot;</span>))</div>
+<div class="line"><span class="lineno">  188</span>        self.flash_ota_btn.setFixedWidth(170)</div>
+<div class="line"><span class="lineno">  189</span>        self.flash_ota_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>        self.scan_btn.clicked.connect(self.scan_network_for_esp)</div>
+<div class="line"><span class="lineno">  192</span>        self.ip_combo.currentIndexChanged.connect(self.on_combo_ip_selected)</div>
+<div class="line"><span class="lineno">  193</span>        self.test_ota_btn.clicked.connect(self.test_ota_connection)</div>
+<div class="line"><span class="lineno">  194</span>        self.flash_ota_btn.clicked.connect(self.flash_via_ota)</div>
+<div class="line"><span class="lineno">  195</span> </div>
+<div class="line"><span class="lineno">  196</span>        ota_btn_row.addWidget(self.test_ota_btn)</div>
+<div class="line"><span class="lineno">  197</span>        ota_btn_row.addWidget(self.flash_ota_btn)</div>
+<div class="line"><span class="lineno">  198</span>        ota_btn_row.setAlignment(Qt.AlignmentFlag.AlignCenter)</div>
+<div class="line"><span class="lineno">  199</span>        ota_vlayout.addLayout(ota_btn_row)</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span>        self.ota_box.setLayout(ota_vlayout)</div>
+<div class="line"><span class="lineno">  202</span>        layout.addWidget(self.ota_box)</div>
+<div class="line"><span class="lineno">  203</span> </div>
+<div class="line"><span class="lineno">  204</span>        <span class="comment"># --- SEZIONE COMPILAZIONE ---</span></div>
+<div class="line"><span class="lineno">  205</span>        self.group_compile = QGroupBox(Translator.tr(<span class="stringliteral">&quot;firmware_compile&quot;</span>))</div>
+<div class="line"><span class="lineno">  206</span>        self.group_compile.setStyleSheet(Pantone.GROUPBOX_STYLE)</div>
+<div class="line"><span class="lineno">  207</span>        group_layout = QVBoxLayout()</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>        <span class="comment"># Bottone COMPILA</span></div>
+<div class="line"><span class="lineno">  210</span>        self.compile_btn = QPushButton(<span class="stringliteral">&quot;🚀 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;compile&quot;</span>))</div>
+<div class="line"><span class="lineno">  211</span>        self.compile_btn.setStyleSheet(Pantone.BUTTON_STYLE_GREEN)</div>
+<div class="line"><span class="lineno">  212</span>        self.compile_btn.setFixedWidth(200)</div>
+<div class="line"><span class="lineno">  213</span>        self.compile_btn.clicked.connect(self.compila_progetto)</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span> </div>
+<div class="line"><span class="lineno">  216</span>        <span class="comment"># Layout bottoni</span></div>
+<div class="line"><span class="lineno">  217</span>        btn_layout = QHBoxLayout()</div>
+<div class="line"><span class="lineno">  218</span>        btn_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)</div>
+<div class="line"><span class="lineno">  219</span>        btn_layout.addWidget(self.compile_btn)</div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>        group_layout.addLayout(btn_layout)</div>
+<div class="line"><span class="lineno">  222</span>        self.group_compile.setLayout(group_layout)</div>
+<div class="line"><span class="lineno">  223</span>        layout.addWidget(self.group_compile)</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00017">__init__()</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00047">__init__()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00017">__init__()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00047">__init__()</a>.</p>
 
 </div>
 </div>
@@ -439,30 +457,38 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Updates all UI element texts to match current language settings.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00311">311</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  311</span>    <span class="keyword">def </span>aggiorna_label(self):</div>
-<div class="line"><span class="lineno">  312</span>        <span class="comment"># USB/Serial Loader</span></div>
-<div class="line"><span class="lineno">  313</span>        self.usb_box.setTitle(Translator.tr(<span class="stringliteral">&quot;usb_serial_loader&quot;</span>))</div>
-<div class="line"><span class="lineno">  314</span>        <span class="comment"># Non c&#39;è self.test_btn</span></div>
-<div class="line"><span class="lineno">  315</span>        self.flash_btn.setText(<span class="stringliteral">&quot;📤 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;upload&quot;</span>))</div>
-<div class="line"><span class="lineno">  316</span>        self.erase_btn.setText(<span class="stringliteral">&quot;🧹 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;erase_flash&quot;</span>))</div>
-<div class="line"><span class="lineno">  317</span>        self.baud_combo.setItemText(0, Translator.tr(<span class="stringliteral">&quot;baud&quot;</span>))  <span class="comment"># Solo se vuoi tradurre le voci combo</span></div>
-<div class="line"><span class="lineno">  318</span>        <span class="comment"># OTA</span></div>
-<div class="line"><span class="lineno">  319</span>        self.ota_box.setTitle(Translator.tr(<span class="stringliteral">&quot;ota_wifi&quot;</span>))</div>
-<div class="line"><span class="lineno">  320</span>        self.scan_btn.setText(Translator.tr(<span class="stringliteral">&quot;scan_network&quot;</span>))</div>
-<div class="line"><span class="lineno">  321</span>        self.test_ota_btn.setText(Translator.tr(<span class="stringliteral">&quot;test_connection&quot;</span>))</div>
-<div class="line"><span class="lineno">  322</span>        self.flash_ota_btn.setText(Translator.tr(<span class="stringliteral">&quot;flash_ota&quot;</span>))</div>
-<div class="line"><span class="lineno">  323</span>        <span class="comment"># Compilazione</span></div>
-<div class="line"><span class="lineno">  324</span>        self.group_compile.setTitle(Translator.tr(<span class="stringliteral">&quot;firmware_compile&quot;</span>))</div>
-<div class="line"><span class="lineno">  325</span>        self.compile_btn.setText(<span class="stringliteral">&quot;🚀 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;compile&quot;</span>))</div>
-<div class="line"><span class="lineno">  326</span>        <span class="comment"># Placeholder degli edit</span></div>
-<div class="line"><span class="lineno">  327</span>        self.ota_ip_edit.setPlaceholderText(Translator.tr(<span class="stringliteral">&quot;ip_address&quot;</span>))</div>
-<div class="line"><span class="lineno">  328</span>        self.ota_port_edit.setPlaceholderText(Translator.tr(<span class="stringliteral">&quot;ota_port&quot;</span>))</div>
-<div class="line"><span class="lineno">  329</span>        self.ota_pwd_edit.setPlaceholderText(Translator.tr(<span class="stringliteral">&quot;ota_password&quot;</span>))</div>
-<div class="line"><span class="lineno">  330</span> </div>
+Includes group titles, button labels, and placeholders.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00376">376</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  376</span>    <span class="keyword">def </span>aggiorna_label(self):</div>
+<div class="line"><span class="lineno">  377</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  378</span><span class="stringliteral">        @brief Updates all UI element texts to match current language settings.</span></div>
+<div class="line"><span class="lineno">  379</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  380</span><span class="stringliteral">        Includes group titles, button labels, and placeholders.</span></div>
+<div class="line"><span class="lineno">  381</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  382</span>        <span class="comment"># USB/Serial Loader</span></div>
+<div class="line"><span class="lineno">  383</span>        self.usb_box.setTitle(Translator.tr(<span class="stringliteral">&quot;usb_serial_loader&quot;</span>))</div>
+<div class="line"><span class="lineno">  384</span>        <span class="comment"># Non c&#39;è self.test_btn</span></div>
+<div class="line"><span class="lineno">  385</span>        self.flash_btn.setText(<span class="stringliteral">&quot;📤 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;upload&quot;</span>))</div>
+<div class="line"><span class="lineno">  386</span>        self.erase_btn.setText(<span class="stringliteral">&quot;🧹 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;erase_flash&quot;</span>))</div>
+<div class="line"><span class="lineno">  387</span>        self.baud_combo.setItemText(0, Translator.tr(<span class="stringliteral">&quot;baud&quot;</span>))  <span class="comment"># Solo se vuoi tradurre le voci combo</span></div>
+<div class="line"><span class="lineno">  388</span>        <span class="comment"># OTA</span></div>
+<div class="line"><span class="lineno">  389</span>        self.ota_box.setTitle(Translator.tr(<span class="stringliteral">&quot;ota_wifi&quot;</span>))</div>
+<div class="line"><span class="lineno">  390</span>        self.scan_btn.setText(Translator.tr(<span class="stringliteral">&quot;scan_network&quot;</span>))</div>
+<div class="line"><span class="lineno">  391</span>        self.test_ota_btn.setText(Translator.tr(<span class="stringliteral">&quot;test_connection&quot;</span>))</div>
+<div class="line"><span class="lineno">  392</span>        self.flash_ota_btn.setText(Translator.tr(<span class="stringliteral">&quot;flash_ota&quot;</span>))</div>
+<div class="line"><span class="lineno">  393</span>        <span class="comment"># Compilazione</span></div>
+<div class="line"><span class="lineno">  394</span>        self.group_compile.setTitle(Translator.tr(<span class="stringliteral">&quot;firmware_compile&quot;</span>))</div>
+<div class="line"><span class="lineno">  395</span>        self.compile_btn.setText(<span class="stringliteral">&quot;🚀 &quot;</span> + Translator.tr(<span class="stringliteral">&quot;compile&quot;</span>))</div>
+<div class="line"><span class="lineno">  396</span>        <span class="comment"># Placeholder degli edit</span></div>
+<div class="line"><span class="lineno">  397</span>        self.ota_ip_edit.setPlaceholderText(Translator.tr(<span class="stringliteral">&quot;ip_address&quot;</span>))</div>
+<div class="line"><span class="lineno">  398</span>        self.ota_port_edit.setPlaceholderText(Translator.tr(<span class="stringliteral">&quot;ota_port&quot;</span>))</div>
+<div class="line"><span class="lineno">  399</span>        self.ota_pwd_edit.setPlaceholderText(Translator.tr(<span class="stringliteral">&quot;ota_password&quot;</span>))</div>
+<div class="line"><span class="lineno">  400</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00054">baud_combo</a>, <a class="el" href="tab__command_8py_source.html#l00172">compile_btn</a>, <a class="el" href="tab__command_8py_source.html#l00080">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00085">flash_btn</a>, <a class="el" href="tab__command_8py_source.html#l00149">flash_ota_btn</a>, <a class="el" href="tab__command_8py_source.html#l00167">group_compile</a>, <a class="el" href="tab__command_8py_source.html#l00102">ota_box</a>, <a class="el" href="tab__command_8py_source.html#l00126">ota_ip_edit</a>, <a class="el" href="tab__command_8py_source.html#l00131">ota_port_edit</a>, <a class="el" href="tab__command_8py_source.html#l00136">ota_pwd_edit</a>, <a class="el" href="tab__command_8py_source.html#l00108">scan_btn</a>, <a class="el" href="tab__command_8py_source.html#l00145">test_ota_btn</a>, and <a class="el" href="tab__command_8py_source.html#l00045">usb_box</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00092">baud_combo</a>, <a class="el" href="tab__command_8py_source.html#l00210">compile_btn</a>, <a class="el" href="tab__command_8py_source.html#l00118">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00123">flash_btn</a>, <a class="el" href="tab__command_8py_source.html#l00187">flash_ota_btn</a>, <a class="el" href="tab__command_8py_source.html#l00205">group_compile</a>, <a class="el" href="tab__command_8py_source.html#l00140">ota_box</a>, <a class="el" href="tab__command_8py_source.html#l00164">ota_ip_edit</a>, <a class="el" href="tab__command_8py_source.html#l00169">ota_port_edit</a>, <a class="el" href="tab__command_8py_source.html#l00174">ota_pwd_edit</a>, <a class="el" href="tab__command_8py_source.html#l00146">scan_btn</a>, <a class="el" href="tab__command_8py_source.html#l00183">test_ota_btn</a>, and <a class="el" href="tab__command_8py_source.html#l00083">usb_box</a>.</p>
 
 </div>
 </div>
@@ -480,51 +506,54 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Carica il firmware su ESP via USB. Se il progetto non è stato salvato, salva un file temporaneo.
+<pre class="fragment">@brief Starts USB firmware upload process.
+
+Disables buttons to prevent concurrent commands.
+Determines YAML file path to upload, logs firmware path if found.
+Checks that a COM port is selected, then calls the compiler upload method.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00196">196</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  196</span>    <span class="keyword">def </span>carica_firmware(self):</div>
-<div class="line"><span class="lineno">  197</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  198</span><span class="stringliteral">        Carica il firmware su ESP via USB. Se il progetto non è stato salvato, salva un file temporaneo.</span></div>
-<div class="line"><span class="lineno">  199</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  200</span>        <span class="keywordflow">if</span> self.busy:</div>
-<div class="line"><span class="lineno">  201</span>            logger.debug(<span class="stringliteral">&quot;DEBUG: comando upload ignorato perché busy = True&quot;</span>)</div>
-<div class="line"><span class="lineno">  202</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  204</span>        self.busy = <span class="keyword">True</span></div>
-<div class="line"><span class="lineno">  205</span>        self.compile_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  206</span>        self.flash_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  207</span>        self.erase_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  208</span> </div>
-<div class="line"><span class="lineno">  209</span>        main = self.window()</div>
-<div class="line"><span class="lineno">  210</span>        logger = self.logger</div>
-<div class="line"><span class="lineno">  211</span>        yaml_path = main.get_or_create_yaml_path()</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>        <span class="comment"># 🧠 LOG percorso firmware compilato</span></div>
-<div class="line"><span class="lineno">  214</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  215</span>            build_name = Path(yaml_path).stem</div>
-<div class="line"><span class="lineno">  216</span>            firmware_path = Path(<span class="stringliteral">&quot;.esphome&quot;</span>) / <span class="stringliteral">&quot;build&quot;</span> / build_name / <span class="stringliteral">&quot;.pioenvs&quot;</span> / build_name / <span class="stringliteral">&quot;firmware.bin&quot;</span></div>
-<div class="line"><span class="lineno">  217</span>            <span class="keywordflow">if</span> firmware_path.exists():</div>
-<div class="line"><span class="lineno">  218</span>                logger.log(f<span class="stringliteral">&quot;📦 Firmware selezionato per l&#39;upload: {firmware_path.resolve()}&quot;</span>, <span class="stringliteral">&quot;info&quot;</span>)</div>
-<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  220</span>                logger.log(<span class="stringliteral">&quot;⚠️ Firmware non trovato. Verrà rigenerato o non ancora compilato.&quot;</span>, <span class="stringliteral">&quot;warning&quot;</span>)</div>
-<div class="line"><span class="lineno">  221</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> ex:</div>
-<div class="line"><span class="lineno">  222</span>            logger.log(f<span class="stringliteral">&quot;⚠️ Errore durante la determinazione del binario: {ex}&quot;</span>, <span class="stringliteral">&quot;warning&quot;</span>)</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>        <span class="comment"># 🔌 Porta COM</span></div>
-<div class="line"><span class="lineno">  225</span>        com_port = self.com_combo.currentData() <span class="keywordflow">or</span> self.com_combo.currentText()</div>
-<div class="line"><span class="lineno">  226</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> com_port:</div>
-<div class="line"><span class="lineno">  227</span>            logger.log(<span class="stringliteral">&quot;❌ Nessuna porta COM selezionata.&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  229</span> </div>
-<div class="line"><span class="lineno">  230</span>        <span class="comment"># 🔌 Avvia upload</span></div>
-<div class="line"><span class="lineno">  231</span>        self.compiler.log_callback = logger.log</div>
-<div class="line"><span class="lineno">  232</span>        self.compiler.upload_via_usb(yaml_path, com_port)</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  234</span> </div>
-<div class="line"><span class="lineno">  235</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00240">240</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  240</span>    <span class="keyword">def </span>carica_firmware(self):</div>
+<div class="line"><span class="lineno">  241</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  242</span><span class="stringliteral">        @brief Starts USB firmware upload process.</span></div>
+<div class="line"><span class="lineno">  243</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  244</span><span class="stringliteral">        Disables buttons to prevent concurrent commands.</span></div>
+<div class="line"><span class="lineno">  245</span><span class="stringliteral">        Determines YAML file path to upload, logs firmware path if found.</span></div>
+<div class="line"><span class="lineno">  246</span><span class="stringliteral">        Checks that a COM port is selected, then calls the compiler upload method.</span></div>
+<div class="line"><span class="lineno">  247</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">if</span> self.busy:</div>
+<div class="line"><span class="lineno">  249</span>            logger.debug(<span class="stringliteral">&quot;DEBUG: comando upload ignorato perché busy = True&quot;</span>)</div>
+<div class="line"><span class="lineno">  250</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>        self.busy = <span class="keyword">True</span></div>
+<div class="line"><span class="lineno">  253</span>        self.compile_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  254</span>        self.flash_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  255</span>        self.erase_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  256</span> </div>
+<div class="line"><span class="lineno">  257</span>        main = self.window()</div>
+<div class="line"><span class="lineno">  258</span>        logger = self.logger</div>
+<div class="line"><span class="lineno">  259</span>        yaml_path = main.get_or_create_yaml_path()</div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  262</span>            build_name = Path(yaml_path).stem</div>
+<div class="line"><span class="lineno">  263</span>            firmware_path = Path(<span class="stringliteral">&quot;.esphome&quot;</span>) / <span class="stringliteral">&quot;build&quot;</span> / build_name / <span class="stringliteral">&quot;.pioenvs&quot;</span> / build_name / <span class="stringliteral">&quot;firmware.bin&quot;</span></div>
+<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">if</span> firmware_path.exists():</div>
+<div class="line"><span class="lineno">  265</span>                logger.log(f<span class="stringliteral">&quot;📦 Firmware selezionato per l&#39;upload: {firmware_path.resolve()}&quot;</span>, <span class="stringliteral">&quot;info&quot;</span>)</div>
+<div class="line"><span class="lineno">  266</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  267</span>                logger.log(<span class="stringliteral">&quot;⚠️ Firmware non trovato. Verrà rigenerato o non ancora compilato.&quot;</span>, <span class="stringliteral">&quot;warning&quot;</span>)</div>
+<div class="line"><span class="lineno">  268</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> ex:</div>
+<div class="line"><span class="lineno">  269</span>            logger.log(f<span class="stringliteral">&quot;⚠️ Errore durante la determinazione del binario: {ex}&quot;</span>, <span class="stringliteral">&quot;warning&quot;</span>)</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>        com_port = self.com_combo.currentData() <span class="keywordflow">or</span> self.com_combo.currentText()</div>
+<div class="line"><span class="lineno">  272</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> com_port:</div>
+<div class="line"><span class="lineno">  273</span>            logger.log(<span class="stringliteral">&quot;❌ Nessuna porta COM selezionata.&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  274</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  275</span> </div>
+<div class="line"><span class="lineno">  276</span>        self.compiler.log_callback = logger.log</div>
+<div class="line"><span class="lineno">  277</span>        self.compiler.upload_via_usb(yaml_path, com_port)</div>
+<div class="line"><span class="lineno">  278</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00022">busy</a>, <a class="el" href="tab__command_8py_source.html#l00062">com_combo</a>, <a class="el" href="tab__command_8py_source.html#l00172">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00149">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00021">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00080">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00085">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">logger</a>, and <a class="el" href="compile__manager_8py_source.html#l00020">compile_manager.CompileManager.window</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00060">busy</a>, <a class="el" href="tab__command_8py_source.html#l00100">com_combo</a>, <a class="el" href="tab__command_8py_source.html#l00210">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00167">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00059">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00118">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00123">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">logger</a>, and <a class="el" href="compile__manager_8py_source.html#l00043">compile_manager.CompileManager.window</a>.</p>
 
 </div>
 </div>
@@ -542,26 +571,36 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Initiates the compilation process for the current YAML project.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00331">331</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  331</span>    <span class="keyword">def </span>compila_progetto(self):</div>
-<div class="line"><span class="lineno">  332</span>        <span class="keywordflow">if</span> self.busy:</div>
-<div class="line"><span class="lineno">  333</span>            logger.debug(<span class="stringliteral">&quot;DEBUG: comando compile ignorato perché busy = True&quot;</span>)</div>
-<div class="line"><span class="lineno">  334</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  335</span> </div>
-<div class="line"><span class="lineno">  336</span>        self.logger.log(<span class="stringliteral">&quot;────────── 🚀 COMPILAZIONE ──────────&quot;</span>, <span class="stringliteral">&quot;info&quot;</span>)</div>
-<div class="line"><span class="lineno">  337</span> </div>
-<div class="line"><span class="lineno">  338</span>        self.busy = <span class="keyword">True</span></div>
-<div class="line"><span class="lineno">  339</span>        self.compile_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  340</span>        self.flash_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  341</span>        self.erase_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  342</span> </div>
-<div class="line"><span class="lineno">  343</span>        yaml_path = self.window().get_or_create_yaml_path()</div>
-<div class="line"><span class="lineno">  344</span>        self.compiler.log_callback = self.logger.log</div>
-<div class="line"><span class="lineno">  345</span>        self.compiler.compile_yaml(yaml_path)</div>
-<div class="line"><span class="lineno">  346</span> </div>
+Prevents multiple simultaneous operations by disabling buttons and setting a busy flag.
+Logs the compilation start and triggers the compiler’s compile method.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00401">401</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  401</span>    <span class="keyword">def </span>compila_progetto(self):</div>
+<div class="line"><span class="lineno">  402</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  403</span><span class="stringliteral">        @brief Initiates the compilation process for the current YAML project.</span></div>
+<div class="line"><span class="lineno">  404</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  405</span><span class="stringliteral">        Prevents multiple simultaneous operations by disabling buttons and setting a busy flag.</span></div>
+<div class="line"><span class="lineno">  406</span><span class="stringliteral">        Logs the compilation start and triggers the compiler’s compile method.</span></div>
+<div class="line"><span class="lineno">  407</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  408</span>        <span class="keywordflow">if</span> self.busy:</div>
+<div class="line"><span class="lineno">  409</span>            logger.debug(<span class="stringliteral">&quot;DEBUG: comando compile ignorato perché busy = True&quot;</span>)</div>
+<div class="line"><span class="lineno">  410</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  411</span> </div>
+<div class="line"><span class="lineno">  412</span>        self.logger.log(<span class="stringliteral">&quot;────────── 🚀 COMPILAZIONE ──────────&quot;</span>, <span class="stringliteral">&quot;info&quot;</span>)</div>
+<div class="line"><span class="lineno">  413</span> </div>
+<div class="line"><span class="lineno">  414</span>        self.busy = <span class="keyword">True</span></div>
+<div class="line"><span class="lineno">  415</span>        self.compile_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  416</span>        self.flash_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  417</span>        self.erase_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  418</span> </div>
+<div class="line"><span class="lineno">  419</span>        yaml_path = self.window().get_or_create_yaml_path()</div>
+<div class="line"><span class="lineno">  420</span>        self.compiler.log_callback = self.logger.log</div>
+<div class="line"><span class="lineno">  421</span>        self.compiler.compile_yaml(yaml_path)</div>
+<div class="line"><span class="lineno">  422</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00022">busy</a>, <a class="el" href="tab__command_8py_source.html#l00172">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00149">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00021">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00080">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00085">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">logger</a>, and <a class="el" href="compile__manager_8py_source.html#l00020">compile_manager.CompileManager.window</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00060">busy</a>, <a class="el" href="tab__command_8py_source.html#l00210">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00167">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00059">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00118">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00123">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">logger</a>, and <a class="el" href="compile__manager_8py_source.html#l00043">compile_manager.CompileManager.window</a>.</p>
 
 </div>
 </div>
@@ -579,46 +618,52 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Cancella la memoria flash dell'ESP32 tramite esptool, solo se non ci sono operazioni in corso.
+<pre class="fragment">@brief Erases the flash memory of the connected ESP device via esptool.
+
+Ensures no operations are currently running, disables buttons,
+logs start and success messages, and calls the compiler’s erase method.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00347">347</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  347</span>    <span class="keyword">def </span>erase_flash(self):</div>
-<div class="line"><span class="lineno">  348</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  349</span><span class="stringliteral">        Cancella la memoria flash dell&#39;ESP32 tramite esptool, solo se non ci sono operazioni in corso.</span></div>
-<div class="line"><span class="lineno">  350</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  351</span>        <span class="keywordflow">if</span> self.busy:</div>
-<div class="line"><span class="lineno">  352</span>            logger.debug(<span class="stringliteral">&quot;DEBUG: comando erase ignorato perché busy = True&quot;</span>)</div>
-<div class="line"><span class="lineno">  353</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  354</span> </div>
-<div class="line"><span class="lineno">  355</span>        com_port = self.com_combo.currentData() <span class="keywordflow">or</span> self.com_combo.currentText()</div>
-<div class="line"><span class="lineno">  356</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> com_port:</div>
-<div class="line"><span class="lineno">  357</span>            self.logger.log(<span class="stringliteral">&quot;❌ Nessuna porta COM selezionata. Seleziona una porta per continuare.&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  358</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  359</span> </div>
-<div class="line"><span class="lineno">  360</span>        self.logger.log(<span class="stringliteral">&quot;────────── 🧩 ERASE ──────────&quot;</span>, <span class="stringliteral">&quot;info&quot;</span>)</div>
-<div class="line"><span class="lineno">  361</span>        self.logger.log(f<span class="stringliteral">&quot;🧹 Avvio cancellazione memoria su {com_port}...&quot;</span>, <span class="stringliteral">&quot;warning&quot;</span>)</div>
-<div class="line"><span class="lineno">  362</span> </div>
-<div class="line"><span class="lineno">  363</span>        <span class="comment"># Blocca ulteriori operazioni</span></div>
-<div class="line"><span class="lineno">  364</span>        self.busy = <span class="keyword">True</span></div>
-<div class="line"><span class="lineno">  365</span>        self.flash_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  366</span>        self.compile_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  367</span>        self.erase_btn.setEnabled(<span class="keyword">False</span>)</div>
-<div class="line"><span class="lineno">  368</span> </div>
-<div class="line"><span class="lineno">  369</span>        <span class="comment"># Callback di fine operazione</span></div>
-<div class="line"><span class="lineno">  370</span>        <span class="keyword">def </span>fine_erase():</div>
-<div class="line"><span class="lineno">  371</span>            self.logger.log(<span class="stringliteral">&quot;✅ Memoria cancellata con successo&quot;</span>, <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  372</span>            self.busy = <span class="keyword">False</span></div>
-<div class="line"><span class="lineno">  373</span>            self.flash_btn.setEnabled(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  374</span>            self.compile_btn.setEnabled(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  375</span>            self.erase_btn.setEnabled(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  376</span> </div>
-<div class="line"><span class="lineno">  377</span>        <span class="comment"># Lancia erase</span></div>
-<div class="line"><span class="lineno">  378</span>        self.compiler.log_callback = self.logger.log</div>
-<div class="line"><span class="lineno">  379</span>        self.compiler.on_upload_finished = fine_erase</div>
-<div class="line"><span class="lineno">  380</span>        self.compiler.erase_flash(com_port)</div>
-<div class="line"><span class="lineno">  381</span> </div>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00423">423</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  423</span>    <span class="keyword">def </span>erase_flash(self):</div>
+<div class="line"><span class="lineno">  424</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  425</span><span class="stringliteral">        @brief Erases the flash memory of the connected ESP device via esptool.</span></div>
+<div class="line"><span class="lineno">  426</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  427</span><span class="stringliteral">        Ensures no operations are currently running, disables buttons,</span></div>
+<div class="line"><span class="lineno">  428</span><span class="stringliteral">        logs start and success messages, and calls the compiler’s erase method.</span></div>
+<div class="line"><span class="lineno">  429</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  430</span>        <span class="keywordflow">if</span> self.busy:</div>
+<div class="line"><span class="lineno">  431</span>            logger.debug(<span class="stringliteral">&quot;DEBUG: comando erase ignorato perché busy = True&quot;</span>)</div>
+<div class="line"><span class="lineno">  432</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  434</span>        com_port = self.com_combo.currentData() <span class="keywordflow">or</span> self.com_combo.currentText()</div>
+<div class="line"><span class="lineno">  435</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> com_port:</div>
+<div class="line"><span class="lineno">  436</span>            self.logger.log(<span class="stringliteral">&quot;❌ Nessuna porta COM selezionata. Seleziona una porta per continuare.&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  437</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  438</span> </div>
+<div class="line"><span class="lineno">  439</span>        self.logger.log(<span class="stringliteral">&quot;────────── 🧩 ERASE ──────────&quot;</span>, <span class="stringliteral">&quot;info&quot;</span>)</div>
+<div class="line"><span class="lineno">  440</span>        self.logger.log(f<span class="stringliteral">&quot;🧹 Avvio cancellazione memoria su {com_port}...&quot;</span>, <span class="stringliteral">&quot;warning&quot;</span>)</div>
+<div class="line"><span class="lineno">  441</span> </div>
+<div class="line"><span class="lineno">  442</span>        <span class="comment"># Blocca ulteriori operazioni</span></div>
+<div class="line"><span class="lineno">  443</span>        self.busy = <span class="keyword">True</span></div>
+<div class="line"><span class="lineno">  444</span>        self.flash_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  445</span>        self.compile_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  446</span>        self.erase_btn.setEnabled(<span class="keyword">False</span>)</div>
+<div class="line"><span class="lineno">  447</span> </div>
+<div class="line"><span class="lineno">  448</span>        <span class="comment"># Callback di fine operazione</span></div>
+<div class="line"><span class="lineno">  449</span>        <span class="keyword">def </span>fine_erase():</div>
+<div class="line"><span class="lineno">  450</span>            self.logger.log(<span class="stringliteral">&quot;✅ Memoria cancellata con successo&quot;</span>, <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  451</span>            self.busy = <span class="keyword">False</span></div>
+<div class="line"><span class="lineno">  452</span>            self.flash_btn.setEnabled(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  453</span>            self.compile_btn.setEnabled(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  454</span>            self.erase_btn.setEnabled(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  455</span> </div>
+<div class="line"><span class="lineno">  456</span>        <span class="comment"># Lancia erase</span></div>
+<div class="line"><span class="lineno">  457</span>        self.compiler.log_callback = self.logger.log</div>
+<div class="line"><span class="lineno">  458</span>        self.compiler.on_upload_finished = fine_erase</div>
+<div class="line"><span class="lineno">  459</span>        self.compiler.erase_flash(com_port)</div>
+<div class="line"><span class="lineno">  460</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00022">busy</a>, <a class="el" href="tab__command_8py_source.html#l00062">com_combo</a>, <a class="el" href="tab__command_8py_source.html#l00172">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00149">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00021">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00080">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00082">erase_flash</a>, <a class="el" href="tab__command_8py_source.html#l00085">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00020">logger</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00060">busy</a>, <a class="el" href="tab__command_8py_source.html#l00100">com_combo</a>, <a class="el" href="tab__command_8py_source.html#l00210">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00167">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00059">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00118">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00120">erase_flash</a>, <a class="el" href="tab__command_8py_source.html#l00123">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00058">logger</a>.</p>
 
 </div>
 </div>
@@ -636,16 +681,24 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Initiates OTA firmware upload.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00299">299</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  299</span>    <span class="keyword">def </span>flash_via_ota(self):</div>
-<div class="line"><span class="lineno">  300</span>        ip = self.ota_ip_edit.text().strip()</div>
-<div class="line"><span class="lineno">  301</span>        port = self.ota_port_edit.text().strip()</div>
-<div class="line"><span class="lineno">  302</span>        pwd = self.ota_pwd_edit.text()</div>
-<div class="line"><span class="lineno">  303</span>        self.logger.log(Translator.tr(<span class="stringliteral">&quot;ota_upload&quot;</span>).format(ip=ip, port=port, pwd=<span class="stringliteral">&#39;[inserted]&#39;</span> <span class="keywordflow">if</span> pwd <span class="keywordflow">else</span> <span class="stringliteral">&#39;[empty]&#39;</span>), <span class="stringliteral">&quot;info&quot;</span>)</div>
-<div class="line"><span class="lineno">  304</span>        </div>
+Logs the attempt with IP, port, and presence of password.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00357">357</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  357</span>    <span class="keyword">def </span>flash_via_ota(self):</div>
+<div class="line"><span class="lineno">  358</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  359</span><span class="stringliteral">        @brief Initiates OTA firmware upload.</span></div>
+<div class="line"><span class="lineno">  360</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  361</span><span class="stringliteral">        Logs the attempt with IP, port, and presence of password.</span></div>
+<div class="line"><span class="lineno">  362</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  363</span>        ip = self.ota_ip_edit.text().strip()</div>
+<div class="line"><span class="lineno">  364</span>        port = self.ota_port_edit.text().strip()</div>
+<div class="line"><span class="lineno">  365</span>        pwd = self.ota_pwd_edit.text()</div>
+<div class="line"><span class="lineno">  366</span>        self.logger.log(Translator.tr(<span class="stringliteral">&quot;ota_upload&quot;</span>).format(ip=ip, port=port, pwd=<span class="stringliteral">&#39;[inserted]&#39;</span> <span class="keywordflow">if</span> pwd <span class="keywordflow">else</span> <span class="stringliteral">&#39;[empty]&#39;</span>), <span class="stringliteral">&quot;info&quot;</span>)</div>
+<div class="line"><span class="lineno">  367</span>        </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">logger</a>, <a class="el" href="tab__command_8py_source.html#l00126">ota_ip_edit</a>, <a class="el" href="tab__command_8py_source.html#l00131">ota_port_edit</a>, and <a class="el" href="tab__command_8py_source.html#l00136">ota_pwd_edit</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">logger</a>, <a class="el" href="tab__command_8py_source.html#l00164">ota_ip_edit</a>, <a class="el" href="tab__command_8py_source.html#l00169">ota_port_edit</a>, and <a class="el" href="tab__command_8py_source.html#l00174">ota_pwd_edit</a>.</p>
 
 </div>
 </div>
@@ -663,16 +716,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Stub per flash USB: da completare con la logica vera.</pre> 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00305">305</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  305</span>    <span class="keyword">def </span>flash_via_usb(self):</div>
-<div class="line"><span class="lineno">  306</span>        <span class="stringliteral">&quot;&quot;&quot;Stub per flash USB: da completare con la logica vera.&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  307</span>        com = self.com_combo.currentData()</div>
-<div class="line"><span class="lineno">  308</span>        baud = self.baud_combo.currentText()</div>
-<div class="line"><span class="lineno">  309</span>        self.logger.log(Translator.tr(<span class="stringliteral">&quot;usb_upload&quot;</span>).format(com=com, baud=baud), <span class="stringliteral">&quot;info&quot;</span>)     </div>
-<div class="line"><span class="lineno">  310</span> </div>
+<pre class="fragment">@brief Stub method placeholder for USB flashing (logic to be implemented).
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00368">368</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  368</span>    <span class="keyword">def </span>flash_via_usb(self):</div>
+<div class="line"><span class="lineno">  369</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  370</span><span class="stringliteral">        @brief Stub method placeholder for USB flashing (logic to be implemented).</span></div>
+<div class="line"><span class="lineno">  371</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  372</span>        com = self.com_combo.currentData()</div>
+<div class="line"><span class="lineno">  373</span>        baud = self.baud_combo.currentText()</div>
+<div class="line"><span class="lineno">  374</span>        self.logger.log(Translator.tr(<span class="stringliteral">&quot;usb_upload&quot;</span>).format(com=com, baud=baud), <span class="stringliteral">&quot;info&quot;</span>)     </div>
+<div class="line"><span class="lineno">  375</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00054">baud_combo</a>, <a class="el" href="tab__command_8py_source.html#l00062">com_combo</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00020">logger</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00092">baud_combo</a>, <a class="el" href="tab__command_8py_source.html#l00100">com_combo</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00058">logger</a>.</p>
 
 </div>
 </div>
@@ -694,16 +750,24 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Updates OTA IP field when an IP is selected from the combo box.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00278">278</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  278</span>    <span class="keyword">def </span>on_combo_ip_selected(self, idx):</div>
-<div class="line"><span class="lineno">  279</span>        <span class="keywordflow">if</span> idx &gt;= 0:</div>
-<div class="line"><span class="lineno">  280</span>            ip = self.ip_combo.currentText()</div>
-<div class="line"><span class="lineno">  281</span>            <span class="keywordflow">if</span> ip:</div>
-<div class="line"><span class="lineno">  282</span>                self.ota_ip_edit.setText(ip)</div>
-<div class="line"><span class="lineno">  283</span> </div>
+@param idx Index of selected combo box entry.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00326">326</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  326</span>    <span class="keyword">def </span>on_combo_ip_selected(self, idx):</div>
+<div class="line"><span class="lineno">  327</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  328</span><span class="stringliteral">        @brief Updates OTA IP field when an IP is selected from the combo box.</span></div>
+<div class="line"><span class="lineno">  329</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  330</span><span class="stringliteral">        @param idx Index of selected combo box entry.</span></div>
+<div class="line"><span class="lineno">  331</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  332</span>        <span class="keywordflow">if</span> idx &gt;= 0:</div>
+<div class="line"><span class="lineno">  333</span>            ip = self.ip_combo.currentText()</div>
+<div class="line"><span class="lineno">  334</span>            <span class="keywordflow">if</span> ip:</div>
+<div class="line"><span class="lineno">  335</span>                self.ota_ip_edit.setText(ip)</div>
+<div class="line"><span class="lineno">  336</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00113">ip_combo</a>, and <a class="el" href="tab__command_8py_source.html#l00126">ota_ip_edit</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00151">ip_combo</a>, and <a class="el" href="tab__command_8py_source.html#l00164">ota_ip_edit</a>.</p>
 
 </div>
 </div>
@@ -721,18 +785,28 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Refreshes the list of available COM ports for USB flashing.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00188">188</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  188</span>    <span class="keyword">def </span>refresh_com_ports(self):</div>
-<div class="line"><span class="lineno">  189</span>        self.com_combo.clear()</div>
-<div class="line"><span class="lineno">  190</span>        ports = serial.tools.list_ports.comports()</div>
-<div class="line"><span class="lineno">  191</span>        <span class="keywordflow">for</span> port <span class="keywordflow">in</span> ports:</div>
-<div class="line"><span class="lineno">  192</span>            self.com_combo.addItem(f<span class="stringliteral">&quot;{port.device} ({port.description})&quot;</span>, port.device)</div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> ports:</div>
-<div class="line"><span class="lineno">  194</span>            self.com_combo.addItem(Translator.tr(<span class="stringliteral">&quot;no_port_found&quot;</span>), <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><span class="lineno">  195</span> </div>
+Queries system serial ports and populates the COM port dropdown.
+Shows a warning entry if no ports are found.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00226">226</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  226</span>    <span class="keyword">def </span>refresh_com_ports(self):</div>
+<div class="line"><span class="lineno">  227</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  228</span><span class="stringliteral">        @brief Refreshes the list of available COM ports for USB flashing.</span></div>
+<div class="line"><span class="lineno">  229</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  230</span><span class="stringliteral">        Queries system serial ports and populates the COM port dropdown.</span></div>
+<div class="line"><span class="lineno">  231</span><span class="stringliteral">        Shows a warning entry if no ports are found.</span></div>
+<div class="line"><span class="lineno">  232</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  233</span>        self.com_combo.clear()</div>
+<div class="line"><span class="lineno">  234</span>        ports = serial.tools.list_ports.comports()</div>
+<div class="line"><span class="lineno">  235</span>        <span class="keywordflow">for</span> port <span class="keywordflow">in</span> ports:</div>
+<div class="line"><span class="lineno">  236</span>            self.com_combo.addItem(f<span class="stringliteral">&quot;{port.device} ({port.description})&quot;</span>, port.device)</div>
+<div class="line"><span class="lineno">  237</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> ports:</div>
+<div class="line"><span class="lineno">  238</span>            self.com_combo.addItem(Translator.tr(<span class="stringliteral">&quot;no_port_found&quot;</span>), <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><span class="lineno">  239</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00062">com_combo</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00100">com_combo</a>.</p>
 
 </div>
 </div>
@@ -750,17 +824,25 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Qt slot that re-enables compile, upload, and erase buttons after operations finish.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00383">383</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  383</span>    <span class="keyword">def </span>riabilita_bottoni_qt(self):</div>
-<div class="line"><span class="lineno">  384</span>        self.compile_btn.setEnabled(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  385</span>        self.flash_btn.setEnabled(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  386</span>        self.erase_btn.setEnabled(<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">  387</span>        <span class="keywordflow">if</span> <span class="stringliteral">&quot;run&quot;</span> <span class="keywordflow">in</span> (self.compiler.command <span class="keywordflow">if</span> hasattr(self.compiler, <span class="stringliteral">&quot;command&quot;</span>) <span class="keywordflow">else</span> []):</div>
-<div class="line"><span class="lineno">  388</span>            self.logger.log(<span class="stringliteral">&quot;✅ Upload completato con successo via USB.&quot;</span>, <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  389</span>        self.busy = <span class="keyword">False</span></div>
+Logs successful upload completion message and clears busy flag.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00462">462</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  462</span>    <span class="keyword">def </span>riabilita_bottoni_qt(self):</div>
+<div class="line"><span class="lineno">  463</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  464</span><span class="stringliteral">        @brief Qt slot that re-enables compile, upload, and erase buttons after operations finish.</span></div>
+<div class="line"><span class="lineno">  465</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  466</span><span class="stringliteral">        Logs successful upload completion message and clears busy flag.</span></div>
+<div class="line"><span class="lineno">  467</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  468</span>        self.compile_btn.setEnabled(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  469</span>        self.flash_btn.setEnabled(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  470</span>        self.erase_btn.setEnabled(<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">  471</span>        <span class="keywordflow">if</span> <span class="stringliteral">&quot;run&quot;</span> <span class="keywordflow">in</span> (self.compiler.command <span class="keywordflow">if</span> hasattr(self.compiler, <span class="stringliteral">&quot;command&quot;</span>) <span class="keywordflow">else</span> []):</div>
+<div class="line"><span class="lineno">  472</span>            self.logger.log(<span class="stringliteral">&quot;✅ Upload completato con successo via USB.&quot;</span>, <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  473</span>        self.busy = <span class="keyword">False</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00022">busy</a>, <a class="el" href="tab__command_8py_source.html#l00172">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00149">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00021">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00080">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00085">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00020">logger</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00060">busy</a>, <a class="el" href="tab__command_8py_source.html#l00210">compile_btn</a>, <a class="el" href="main__window_8py_source.html#l00167">main_window.MainWindow.compiler</a>, <a class="el" href="tab__command_8py_source.html#l00059">compiler</a>, <a class="el" href="tab__command_8py_source.html#l00118">erase_btn</a>, <a class="el" href="tab__command_8py_source.html#l00123">flash_btn</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00058">logger</a>.</p>
 
 </div>
 </div>
@@ -778,52 +860,61 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Scansiona la rete locale per trovare ESPHome in ascolto sulla porta 3232.</pre> 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00236">236</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  236</span>    <span class="keyword">def </span>scan_network_for_esp(self):</div>
-<div class="line"><span class="lineno">  237</span>        <span class="stringliteral">&quot;&quot;&quot;Scansiona la rete locale per trovare ESPHome in ascolto sulla porta 3232.&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  238</span>        self.logger.log(Translator.tr(<span class="stringliteral">&quot;scan_in_progress&quot;</span>), <span class="stringliteral">&quot;info&quot;</span>)</div>
-<div class="line"><span class="lineno">  239</span>        self.ip_combo.clear()</div>
-<div class="line"><span class="lineno">  240</span>        found_ips = []</div>
-<div class="line"><span class="lineno">  241</span> </div>
-<div class="line"><span class="lineno">  242</span>        <span class="keyword">def </span>scanner():</div>
-<div class="line"><span class="lineno">  243</span>            udp_port = 3232</div>
-<div class="line"><span class="lineno">  244</span>            message = b<span class="stringliteral">&#39;ESPHomeDiscovery&#39;</span></div>
-<div class="line"><span class="lineno">  245</span>            timeout = 2</div>
-<div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>            <span class="comment"># Invia un pacchetto broadcast UDP</span></div>
-<div class="line"><span class="lineno">  248</span>            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)</div>
-<div class="line"><span class="lineno">  249</span>            s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)</div>
-<div class="line"><span class="lineno">  250</span>            s.settimeout(timeout)</div>
-<div class="line"><span class="lineno">  251</span>            <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  252</span>                s.sendto(message, (<span class="stringliteral">&#39;&lt;broadcast&gt;&#39;</span>, udp_port))</div>
-<div class="line"><span class="lineno">  253</span>                <span class="comment"># Attendi le risposte</span></div>
-<div class="line"><span class="lineno">  254</span>                start = socket.getdefaulttimeout()</div>
-<div class="line"><span class="lineno">  255</span>                s.settimeout(1)</div>
-<div class="line"><span class="lineno">  256</span>                <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  257</span>                    <span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
-<div class="line"><span class="lineno">  258</span>                        data, addr = s.recvfrom(1024)</div>
-<div class="line"><span class="lineno">  259</span>                        ip = addr[0]</div>
-<div class="line"><span class="lineno">  260</span>                        <span class="keywordflow">if</span> ip <span class="keywordflow">not</span> <span class="keywordflow">in</span> found_ips:</div>
-<div class="line"><span class="lineno">  261</span>                            found_ips.append(ip)</div>
-<div class="line"><span class="lineno">  262</span>                            self.logger.log(Translator.tr(<span class="stringliteral">&quot;device_found&quot;</span>).format(ip=ip), <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  263</span>                            <span class="comment"># Aggiorna la combo (thread-safe)</span></div>
-<div class="line"><span class="lineno">  264</span>                            self.ip_combo.addItem(ip)</div>
-<div class="line"><span class="lineno">  265</span>                <span class="keywordflow">except</span> socket.timeout:</div>
-<div class="line"><span class="lineno">  266</span>                    <span class="keywordflow">pass</span></div>
-<div class="line"><span class="lineno">  267</span>            <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  268</span>                self.logger.log(f<span class="stringliteral">&quot;Errore scansione: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  269</span>            <span class="keywordflow">finally</span>:</div>
-<div class="line"><span class="lineno">  270</span>                s.close()</div>
-<div class="line"><span class="lineno">  271</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> found_ips:</div>
-<div class="line"><span class="lineno">  272</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;no_device_found&quot;</span>), <span class="stringliteral">&quot;warning&quot;</span>)</div>
-<div class="line"><span class="lineno">  273</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><span class="lineno">  274</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;devices_found&quot;</span>).format(n=len(found_ips)), <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  275</span> </div>
-<div class="line"><span class="lineno">  276</span>        threading.Thread(target=scanner, daemon=<span class="keyword">True</span>).start()</div>
-<div class="line"><span class="lineno">  277</span> </div>
+<pre class="fragment">@brief Scans the local network for ESPHome devices listening on UDP port 3232.
+
+Sends a UDP broadcast and listens for replies within a timeout,
+populates the IP combo box with discovered devices and logs status.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00279">279</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  279</span>    <span class="keyword">def </span>scan_network_for_esp(self):</div>
+<div class="line"><span class="lineno">  280</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  281</span><span class="stringliteral">        @brief Scans the local network for ESPHome devices listening on UDP port 3232.</span></div>
+<div class="line"><span class="lineno">  282</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  283</span><span class="stringliteral">        Sends a UDP broadcast and listens for replies within a timeout,</span></div>
+<div class="line"><span class="lineno">  284</span><span class="stringliteral">        populates the IP combo box with discovered devices and logs status.</span></div>
+<div class="line"><span class="lineno">  285</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  286</span>        self.logger.log(Translator.tr(<span class="stringliteral">&quot;scan_in_progress&quot;</span>), <span class="stringliteral">&quot;info&quot;</span>)</div>
+<div class="line"><span class="lineno">  287</span>        self.ip_combo.clear()</div>
+<div class="line"><span class="lineno">  288</span>        found_ips = []</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  290</span>        <span class="keyword">def </span>scanner():</div>
+<div class="line"><span class="lineno">  291</span>            udp_port = 3232</div>
+<div class="line"><span class="lineno">  292</span>            message = b<span class="stringliteral">&#39;ESPHomeDiscovery&#39;</span></div>
+<div class="line"><span class="lineno">  293</span>            timeout = 2</div>
+<div class="line"><span class="lineno">  294</span> </div>
+<div class="line"><span class="lineno">  295</span>            <span class="comment"># Invia un pacchetto broadcast UDP</span></div>
+<div class="line"><span class="lineno">  296</span>            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)</div>
+<div class="line"><span class="lineno">  297</span>            s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)</div>
+<div class="line"><span class="lineno">  298</span>            s.settimeout(timeout)</div>
+<div class="line"><span class="lineno">  299</span>            <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  300</span>                s.sendto(message, (<span class="stringliteral">&#39;&lt;broadcast&gt;&#39;</span>, udp_port))</div>
+<div class="line"><span class="lineno">  301</span>                <span class="comment"># Attendi le risposte</span></div>
+<div class="line"><span class="lineno">  302</span>                start = socket.getdefaulttimeout()</div>
+<div class="line"><span class="lineno">  303</span>                s.settimeout(1)</div>
+<div class="line"><span class="lineno">  304</span>                <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  305</span>                    <span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
+<div class="line"><span class="lineno">  306</span>                        data, addr = s.recvfrom(1024)</div>
+<div class="line"><span class="lineno">  307</span>                        ip = addr[0]</div>
+<div class="line"><span class="lineno">  308</span>                        <span class="keywordflow">if</span> ip <span class="keywordflow">not</span> <span class="keywordflow">in</span> found_ips:</div>
+<div class="line"><span class="lineno">  309</span>                            found_ips.append(ip)</div>
+<div class="line"><span class="lineno">  310</span>                            self.logger.log(Translator.tr(<span class="stringliteral">&quot;device_found&quot;</span>).format(ip=ip), <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  311</span>                            <span class="comment"># Aggiorna la combo (thread-safe)</span></div>
+<div class="line"><span class="lineno">  312</span>                            self.ip_combo.addItem(ip)</div>
+<div class="line"><span class="lineno">  313</span>                <span class="keywordflow">except</span> socket.timeout:</div>
+<div class="line"><span class="lineno">  314</span>                    <span class="keywordflow">pass</span></div>
+<div class="line"><span class="lineno">  315</span>            <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  316</span>                self.logger.log(f<span class="stringliteral">&quot;Errore scansione: {e}&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  317</span>            <span class="keywordflow">finally</span>:</div>
+<div class="line"><span class="lineno">  318</span>                s.close()</div>
+<div class="line"><span class="lineno">  319</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> found_ips:</div>
+<div class="line"><span class="lineno">  320</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;no_device_found&quot;</span>), <span class="stringliteral">&quot;warning&quot;</span>)</div>
+<div class="line"><span class="lineno">  321</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><span class="lineno">  322</span>                self.logger.log(Translator.tr(<span class="stringliteral">&quot;devices_found&quot;</span>).format(n=len(found_ips)), <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>        threading.Thread(target=scanner, daemon=<span class="keyword">True</span>).start()</div>
+<div class="line"><span class="lineno">  325</span> </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00113">ip_combo</a>, <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00020">logger</a>.</p>
+<p class="reference">References <a class="el" href="tab__command_8py_source.html#l00151">ip_combo</a>, <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, and <a class="el" href="tab__command_8py_source.html#l00058">logger</a>.</p>
 
 </div>
 </div>
@@ -841,25 +932,33 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">@brief Tests connectivity to the ESP device over OTA.
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00284">284</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  284</span>    <span class="keyword">def </span>test_ota_connection(self):</div>
-<div class="line"><span class="lineno">  285</span>        ip = self.ota_ip_edit.text().strip()</div>
-<div class="line"><span class="lineno">  286</span>        port = int(self.ota_port_edit.text().strip() <span class="keywordflow">or</span> <span class="stringliteral">&quot;3232&quot;</span>)</div>
-<div class="line"><span class="lineno">  287</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> ip:</div>
-<div class="line"><span class="lineno">  288</span>            self.logger.log(Translator.tr(<span class="stringliteral">&quot;enter_ip_warning&quot;</span>), <span class="stringliteral">&quot;warning&quot;</span>)</div>
-<div class="line"><span class="lineno">  289</span>            <span class="keywordflow">return</span></div>
-<div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>        <span class="keyword">import</span> socket</div>
-<div class="line"><span class="lineno">  292</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">  293</span>            sock = socket.create_connection((ip, port), timeout=2)</div>
-<div class="line"><span class="lineno">  294</span>            sock.close()</div>
-<div class="line"><span class="lineno">  295</span>            self.logger.log(Translator.tr(<span class="stringliteral">&quot;ota_success&quot;</span>).format(ip=ip, port=port), <span class="stringliteral">&quot;success&quot;</span>)</div>
-<div class="line"><span class="lineno">  296</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">  297</span>            self.logger.log(Translator.tr(<span class="stringliteral">&quot;ota_fail&quot;</span>).format(ip=ip, port=port, e=e), <span class="stringliteral">&quot;error&quot;</span>)</div>
-<div class="line"><span class="lineno">  298</span>                </div>
+Attempts TCP connection to specified IP and port, logging success or failure.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00337">337</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  337</span>    <span class="keyword">def </span>test_ota_connection(self):</div>
+<div class="line"><span class="lineno">  338</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  339</span><span class="stringliteral">        @brief Tests connectivity to the ESP device over OTA.</span></div>
+<div class="line"><span class="lineno">  340</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  341</span><span class="stringliteral">        Attempts TCP connection to specified IP and port, logging success or failure.</span></div>
+<div class="line"><span class="lineno">  342</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  343</span>        ip = self.ota_ip_edit.text().strip()</div>
+<div class="line"><span class="lineno">  344</span>        port = int(self.ota_port_edit.text().strip() <span class="keywordflow">or</span> <span class="stringliteral">&quot;3232&quot;</span>)</div>
+<div class="line"><span class="lineno">  345</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> ip:</div>
+<div class="line"><span class="lineno">  346</span>            self.logger.log(Translator.tr(<span class="stringliteral">&quot;enter_ip_warning&quot;</span>), <span class="stringliteral">&quot;warning&quot;</span>)</div>
+<div class="line"><span class="lineno">  347</span>            <span class="keywordflow">return</span></div>
+<div class="line"><span class="lineno">  348</span> </div>
+<div class="line"><span class="lineno">  349</span>        <span class="keyword">import</span> socket</div>
+<div class="line"><span class="lineno">  350</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  351</span>            sock = socket.create_connection((ip, port), timeout=2)</div>
+<div class="line"><span class="lineno">  352</span>            sock.close()</div>
+<div class="line"><span class="lineno">  353</span>            self.logger.log(Translator.tr(<span class="stringliteral">&quot;ota_success&quot;</span>).format(ip=ip, port=port), <span class="stringliteral">&quot;success&quot;</span>)</div>
+<div class="line"><span class="lineno">  354</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  355</span>            self.logger.log(Translator.tr(<span class="stringliteral">&quot;ota_fail&quot;</span>).format(ip=ip, port=port, e=e), <span class="stringliteral">&quot;error&quot;</span>)</div>
+<div class="line"><span class="lineno">  356</span>                </div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main__window_8py_source.html#l00148">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00020">logger</a>, <a class="el" href="tab__command_8py_source.html#l00126">ota_ip_edit</a>, and <a class="el" href="tab__command_8py_source.html#l00131">ota_port_edit</a>.</p>
+<p class="reference">References <a class="el" href="main__window_8py_source.html#l00166">main_window.MainWindow.logger</a>, <a class="el" href="splash__screen_8py_source.html#l00046">splash_screen.SplashScreen.logger</a>, <a class="el" href="tab__command_8py_source.html#l00058">logger</a>, <a class="el" href="tab__command_8py_source.html#l00164">ota_ip_edit</a>, and <a class="el" href="tab__command_8py_source.html#l00169">ota_port_edit</a>.</p>
 
 </div>
 </div>
@@ -876,9 +975,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00054">54</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00092">92</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, and <a class="el" href="tab__command_8py_source.html#l00305">flash_via_usb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, and <a class="el" href="tab__command_8py_source.html#l00368">flash_via_usb()</a>.</p>
 
 </div>
 </div>
@@ -894,9 +993,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00022">22</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00060">60</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00331">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00383">riabilita_bottoni_qt()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00401">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00462">riabilita_bottoni_qt()</a>.</p>
 
 </div>
 </div>
@@ -912,7 +1011,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00090">90</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00128">128</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -928,9 +1027,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00062">62</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00100">100</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, <a class="el" href="tab__command_8py_source.html#l00305">flash_via_usb()</a>, and <a class="el" href="tab__command_8py_source.html#l00188">refresh_com_ports()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, <a class="el" href="tab__command_8py_source.html#l00368">flash_via_usb()</a>, and <a class="el" href="tab__command_8py_source.html#l00226">refresh_com_ports()</a>.</p>
 
 </div>
 </div>
@@ -946,7 +1045,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00175">175</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00213">213</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -962,9 +1061,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00172">172</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00210">210</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00331">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00383">riabilita_bottoni_qt()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00401">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00462">riabilita_bottoni_qt()</a>.</p>
 
 </div>
 </div>
@@ -980,9 +1079,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00021">21</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00059">59</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00331">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00383">riabilita_bottoni_qt()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00401">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00462">riabilita_bottoni_qt()</a>.</p>
 
 </div>
 </div>
@@ -998,9 +1097,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00080">80</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00118">118</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00331">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00383">riabilita_bottoni_qt()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00401">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00462">riabilita_bottoni_qt()</a>.</p>
 
 </div>
 </div>
@@ -1016,9 +1115,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00082">82</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00120">120</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>.</p>
 
 </div>
 </div>
@@ -1034,9 +1133,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00085">85</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00123">123</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00331">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00383">riabilita_bottoni_qt()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00401">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, and <a class="el" href="tab__command_8py_source.html#l00462">riabilita_bottoni_qt()</a>.</p>
 
 </div>
 </div>
@@ -1052,9 +1151,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00149">149</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00187">187</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -1070,7 +1169,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00156">156</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00194">194</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -1086,9 +1185,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00167">167</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00205">205</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -1104,9 +1203,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00113">113</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00151">151</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00278">on_combo_ip_selected()</a>, and <a class="el" href="tab__command_8py_source.html#l00236">scan_network_for_esp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00326">on_combo_ip_selected()</a>, and <a class="el" href="tab__command_8py_source.html#l00279">scan_network_for_esp()</a>.</p>
 
 </div>
 </div>
@@ -1122,9 +1221,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00020">20</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00058">58</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00145">tab_sensori.TabSensori.aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00218">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00099">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__modules_8py_source.html#l00113">tab_modules.TabModules.aggiorna_yaml_da_moduli()</a>, <a class="el" href="tab__settings_8py_source.html#l00265">tab_settings.TabSettings.carica_dati_da_yaml()</a>, <a class="el" href="tab__command_8py_source.html#l00196">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00331">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00347">erase_flash()</a>, <a class="el" href="tab__command_8py_source.html#l00299">flash_via_ota()</a>, <a class="el" href="tab__command_8py_source.html#l00305">flash_via_usb()</a>, <a class="el" href="tab__command_8py_source.html#l00383">riabilita_bottoni_qt()</a>, <a class="el" href="tab__command_8py_source.html#l00236">scan_network_for_esp()</a>, and <a class="el" href="tab__command_8py_source.html#l00284">test_ota_connection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__sensori_8py_source.html#l00204">tab_sensori.TabSensori.aggiorna_blocchi_da_yaml()</a>, <a class="el" href="tab__settings_8py_source.html#l00272">tab_settings.TabSettings.aggiorna_layout_da_dati()</a>, <a class="el" href="tab__sensori_8py_source.html#l00147">tab_sensori.TabSensori.aggiorna_yaml_da_blocchi()</a>, <a class="el" href="tab__modules_8py_source.html#l00152">tab_modules.TabModules.aggiorna_yaml_da_moduli()</a>, <a class="el" href="tab__settings_8py_source.html#l00329">tab_settings.TabSettings.carica_dati_da_yaml()</a>, <a class="el" href="tab__command_8py_source.html#l00240">carica_firmware()</a>, <a class="el" href="tab__command_8py_source.html#l00401">compila_progetto()</a>, <a class="el" href="tab__command_8py_source.html#l00423">erase_flash()</a>, <a class="el" href="tab__command_8py_source.html#l00357">flash_via_ota()</a>, <a class="el" href="tab__command_8py_source.html#l00368">flash_via_usb()</a>, <a class="el" href="tab__command_8py_source.html#l00462">riabilita_bottoni_qt()</a>, <a class="el" href="tab__command_8py_source.html#l00279">scan_network_for_esp()</a>, and <a class="el" href="tab__command_8py_source.html#l00337">test_ota_connection()</a>.</p>
 
 </div>
 </div>
@@ -1140,7 +1239,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00116">116</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00154">154</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -1156,9 +1255,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00102">102</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00140">140</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -1174,9 +1273,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00126">126</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00164">164</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00299">flash_via_ota()</a>, <a class="el" href="tab__command_8py_source.html#l00278">on_combo_ip_selected()</a>, and <a class="el" href="tab__command_8py_source.html#l00284">test_ota_connection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00357">flash_via_ota()</a>, <a class="el" href="tab__command_8py_source.html#l00326">on_combo_ip_selected()</a>, and <a class="el" href="tab__command_8py_source.html#l00337">test_ota_connection()</a>.</p>
 
 </div>
 </div>
@@ -1192,9 +1291,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00131">131</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00169">169</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00299">flash_via_ota()</a>, and <a class="el" href="tab__command_8py_source.html#l00284">test_ota_connection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, <a class="el" href="tab__command_8py_source.html#l00357">flash_via_ota()</a>, and <a class="el" href="tab__command_8py_source.html#l00337">test_ota_connection()</a>.</p>
 
 </div>
 </div>
@@ -1210,9 +1309,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00136">136</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00174">174</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>, and <a class="el" href="tab__command_8py_source.html#l00299">flash_via_ota()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>, and <a class="el" href="tab__command_8py_source.html#l00357">flash_via_ota()</a>.</p>
 
 </div>
 </div>
@@ -1228,7 +1327,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00070">70</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00108">108</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -1244,7 +1343,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00023">23</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00061">61</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -1260,9 +1359,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00108">108</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00146">146</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -1278,7 +1377,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00112">112</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00150">150</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -1294,9 +1393,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00145">145</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00183">183</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -1312,7 +1411,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00155">155</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00193">193</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
@@ -1328,9 +1427,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00045">45</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00083">83</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00311">aggiorna_label()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="tab__command_8py_source.html#l00376">aggiorna_label()</a>.</p>
 
 </div>
 </div>
@@ -1346,12 +1445,12 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00019">19</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tab__command_8py_source.html#l00057">57</a> of file <a class="el" href="tab__command_8py_source.html">tab_command.py</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>gui/<a class="el" href="tab__command_8py_source.html">tab_command.py</a></li>
+<li>C:/Users/J.Zanella/Desktop/ESPHomeGUIeasy/gui/<a class="el" href="tab__command_8py_source.html">tab_command.py</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
