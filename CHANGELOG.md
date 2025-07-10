@@ -3,6 +3,32 @@
 A complete list of changes for each released version of ESPHomeGUIeasy.  
 All versions are listed in descending order, with the latest release at the top.
 
+## 🔔 Version 1.4.1 – Maintenance + Enhancements
+
+### 🧩 Enhancements
+
+**• Improved stability and UX**
+- The project manager now handles missing or malformed metadata more gracefully.
+- Labels and tooltips revised for better clarity in multilingual setups.
+
+**• Offline documentation viewer**
+- Doxygen-generated HTML documentation is now included and accessible via the Help menu.
+- Available even without internet connection.
+
+**• Uninstall shortcut and version description**
+- A Start menu shortcut has been added to allow quick access to uninstallation.
+- The installer now shows a localized description during setup.
+
+**• Menu refinements**
+- Help menu expanded with access to About and Documentation entries.
+- File and Settings menus optimized for readability and logic.
+
+### 🛠 Technical fixes
+
+- Splash screen no longer blocks startup if ESPHome is missing; fallback CLI check added.
+- Doxygen configuration updated to support Markdown, images, and custom layout.
+- Various UI consistency fixes across tabs and dialogs.
+
 ---
 
 ## 🔔 Version 1.4.0 – Mid Release

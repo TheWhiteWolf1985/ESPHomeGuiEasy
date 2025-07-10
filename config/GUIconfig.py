@@ -56,8 +56,8 @@ LANGUAGE_MAP = {
 }
 
 APP_NAME = "ESPHomeGuiEasy"
-APP_VERSION = "1.4.0"
-APP_RELEASE_DATE = "2025-07-04"
+APP_VERSION = "1.4.1"
+APP_RELEASE_DATE = "2025-07-10"
 
 GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
 RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"

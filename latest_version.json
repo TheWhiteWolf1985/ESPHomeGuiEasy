@@ -1,10 +1,10 @@
 {
-  "latest_version": "1.4.0",
+  "latest_version": "1.4.1",
   "changelog": {
-    "it": "✓ Nuovo gestore progetti utente con card. Campo autore. Dialog modifica versione. Changelog incrementale. Accesso log da impostazioni. Migliorata UI menù File",
-    "en": "✓ New user project manager with cards. Author field. Version edit dialog. Incremental changelog. Log viewer from settings. Improved File menu UI",
-    "es": "✓ Nuevo gestor de proyectos con tarjetas. Campo autor. Diálogo de edición de versión. Registro de cambios incremental. Log accesible desde ajustes. Mejorado menú Archivo",
-    "de": "✓ Neuer Projektmanager mit Karten. Autorenfeld. Dialog zur Versionsbearbeitung. Änderungsverlauf. Log aus Einstellungen abrufbar. Datei-Menü überarbeitet",
-    "br": "✓ Novo gerenciador de projetos com cards. Campo autor. Diálogo de edição de versão. Changelog incremental. Log acessível nas configurações. Menu Arquivo melhorado"
+    "it": "✓ Gestione documentazione Doxygen integrata. Accesso offline dal menù '?'. Splash screen non più bloccante se manca ESPHome. UI migliorata. Correzioni minori.",
+    "en": "✓ Integrated Doxygen documentation viewer. Offline access from '?' menu. Splash screen is no longer blocking if ESPHome is missing. Improved UI. Minor fixes.",
+    "es": "✓ Documentación Doxygen integrada. Acceso offline desde el menú '?'. La pantalla de inicio ya no bloquea si falta ESPHome. Interfaz mejorada. Correcciones menores.",
+    "de": "✓ Integrierte Doxygen-Dokumentation. Offline-Zugriff über das '?' Menü. Splash-Screen blockiert nicht mehr bei fehlendem ESPHome. UI verbessert. Kleinere Korrekturen.",
+    "br": "✓ Visualizador de documentação Doxygen integrado. Acesso offline no menu '?'. Tela de inicialização não bloqueia se ESPHome estiver ausente. UI melhorada. Correções menores."
   }
 }
