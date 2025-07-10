@@ -16,11 +16,11 @@ UninstallDisplayIcon={app}\esphomeguieasy.exe
 UninstallDisplayName=ESPHomeGUIeasy
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"; LicenseFile: "license\license_en.txt"
-Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"; LicenseFile: "license\license_it.txt"
-Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"; LicenseFile: "license\license_es.txt"
-Name: "german"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "license\license_de.txt"
-Name: "portughese"; MessagesFile: "compiler:Languages\portughese.isl"; LicenseFile: "license\license_pt.txt"
+Name: "english"; MessagesFile: "compiler:Default.isl"; LicenseFile: "license\license_en.txt";
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"; LicenseFile: "license\license_it.txt";
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"; LicenseFile: "license\license_es.txt";
+Name: "german"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "license\license_de.txt";
+Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"; LicenseFile: "license\license_pt.txt";
 
 [Files]
 Source: "ESPHomeGUIeasy\*"; \
@@ -68,16 +68,16 @@ WelcomeLabel2=Questo installer configurerà ESPHomeGUIeasy nel tuo sistema Windo
 
 [CustomMessages]
 ; Inglese
-english.WelcomeLabel2=This installer will set up ESPHomeGUIeasy on your Windows system, enabling all features to create, edit, and manage ESPHome projects completely offline. After installation, you can launch the interface, choose your preferred language, and start building custom firmware even without writing any YAML code.
+english_WelcomeLabel2=This installer will set up ESPHomeGUIeasy on your Windows system, enabling all features to create, edit, and manage ESPHome projects completely offline. After installation, you can launch the interface, choose your preferred language, and start building custom firmware even without writing any YAML code.
 
 ; Spagnolo
-spanish.WelcomeLabel2=Este instalador configurará ESPHomeGUIeasy en tu sistema Windows, activando todas las funciones para crear, editar y gestionar proyectos de ESPHome completamente sin conexión. Al finalizar, podrás iniciar la interfaz, seleccionar tu idioma preferido y comenzar a crear firmware personalizado sin necesidad de escribir YAML.
+spanish_WelcomeLabel2=Este instalador configurará ESPHomeGUIeasy en tu sistema Windows, activando todas las funciones para crear, editar y gestionar proyectos de ESPHome completamente sin conexión. Al finalizar, podrás iniciar la interfaz, seleccionar tu idioma preferido y comenzar a crear firmware personalizado sin necesidad de escribir YAML.
 
 ; Tedesco
-german.WelcomeLabel2=Dieses Installationsprogramm richtet ESPHomeGUIeasy auf Ihrem Windows-System ein und aktiviert alle Funktionen zur Erstellung, Bearbeitung und Verwaltung von ESPHome-Projekten im komplett Offline-Modus. Nach der Installation können Sie die Oberfläche starten, Ihre Sprache auswählen und eigene Firmware erstellen – ganz ohne YAML-Kenntnisse.
+german_WelcomeLabel2=Dieses Installationsprogramm richtet ESPHomeGUIeasy auf Ihrem Windows-System ein und aktiviert alle Funktionen zur Erstellung, Bearbeitung und Verwaltung von ESPHome-Projekten im komplett Offline-Modus. Nach der Installation können Sie die Oberfläche starten, Ihre Sprache auswählen und eigene Firmware erstellen – ganz ohne YAML-Kenntnisse.
 
 ; Portoghese Brasiliano
-portughese.WelcomeLabel2=Este instalador configurará o ESPHomeGUIeasy no seu sistema Windows, ativando todos os recursos para criar, editar e gerenciar projetos ESPHome de forma totalmente offline. Após a instalação, você poderá iniciar a interface, escolher seu idioma preferido e começar a criar firmwares personalizados sem precisar escrever código YAML.
+brazilianportuguese_WelcomeLabel2=Este instalador configurará o ESPHomeGUIeasy no seu sistema Windows, ativando todos os recursos para criar, editar e gerenciar projetos ESPHome de forma totalmente offline. Após a instalação, você poderá iniciar a interface, escolher seu idioma preferido e começar a criar firmwares personalizados sem precisar escrever código YAML.
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
