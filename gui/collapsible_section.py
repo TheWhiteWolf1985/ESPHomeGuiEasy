@@ -20,6 +20,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
+from core.translator import Translator
 
 class CollapsibleSection(QWidget):
     """

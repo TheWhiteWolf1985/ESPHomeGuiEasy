@@ -25,7 +25,7 @@ Key responsibilities:
 @license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
-import sys, os, json, logging, tempfile
+import sys, os
 from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
@@ -34,7 +34,7 @@ from gui.main_window import MainWindow
 from core.translator import Translator
 from gui.language_selection_dialog import LanguageSelectionDialog
 from gui.splash_screen import SplashScreen
-import config.GUIconfig as conf
+from config.GUIconfig import conf, GlobalPaths
 from core.settings_db import init_db, get_setting, set_setting
 from core.log_handler import GeneralLogHandler
 
@@ -115,14 +115,13 @@ def main():
 
         # Controllo lingua
         language = get_setting("language")
-        print(language)
+        logger.debug(f"Lingua trovata nel DB: {language}")
         if not language or not language.strip():
             logger.debug("[DEBUG] Creo LanguageSelectionDialog")
             dlg = LanguageSelectionDialog()
             dlg.setWindowModality(Qt.WindowModality.ApplicationModal)
             dlg.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
             dlg.resize(400, 400)
-            dlg.show()
 
             logger.debug("[DEBUG] Apro exec() sul dialog")
             result = dlg.exec()
@@ -134,7 +133,7 @@ def main():
                 set_setting("language", language)
                 Translator.load_language(language.strip().lower())
             else:
-                logger.warning("Lingua non selezionata. Chiusura applicazione.")
+                logger.warning(Translator.tr("language_not_selected"))
                 logger.debug("[DEBUG] Lingua non selezionata, esco.")
                 return
 
@@ -144,7 +143,7 @@ def main():
         # Mostra splash SOLO dopo selezione lingua
         if should_show_splash():
             logger.info("Caricamento splash screen")
-            pixmap = QPixmap(conf.SPLASH_IMAGE)
+            pixmap = QPixmap(GlobalPaths.SPLASH_IMAGE)
             splash = SplashScreen(pixmap)
             splash.show()
             splash.start_initialization(on_complete_callback=show_main_window)

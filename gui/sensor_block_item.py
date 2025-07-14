@@ -22,7 +22,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QBrush, QPen, QColor, QFont, QIcon
 from PyQt6.QtCore import QRectF, Qt, QSize
 from core.translator import Translator
-import config.GUIconfig as conf
+from config.GUIconfig import conf, UIDimensions, GlobalPaths
 import os
 
 
@@ -35,8 +35,8 @@ class SensorBlockItem(QGraphicsItem):
     """
     def __init__(self, title="Nuovo Sensore"):
         super().__init__()
-        self.width = conf.BLOCK_WIDTH
-        self.height = conf.BLOCK_HEIGHT
+        self.width = UIDimensions.BLOCK_WIDTH
+        self.height = UIDimensions.BLOCK_HEIGHT
         self.title = title
         self.expanded = True  # stato iniziale: espanso
         self.conn_type_display = None
@@ -67,7 +67,7 @@ class SensorBlockItem(QGraphicsItem):
 
         # Bottone chiusura
         self.close_btn = QPushButton()
-        self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "close.png")))
+        self.close_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "close.png")))
         self.close_btn.setIconSize(QSize(22, 22))
         self.close_btn.setFixedSize(25, 25)
         self.close_btn.setStyleSheet("""
@@ -88,7 +88,7 @@ class SensorBlockItem(QGraphicsItem):
 
         # Bottone espandi/riduci
         self.toggle_btn = QPushButton()
-        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "expand.png")))
         self.toggle_btn.setIconSize(QSize(22, 22))
         self.toggle_btn.setFixedSize(25, 25)
         self.toggle_btn.setStyleSheet("""
@@ -150,7 +150,7 @@ class SensorBlockItem(QGraphicsItem):
         """
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
-        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "expand.png")))
         self.prepareGeometryChange()
         self.update()                 # forza il repaint dell'item
         self.scene().update()
@@ -172,7 +172,7 @@ class SensorBlockItem(QGraphicsItem):
         if self.expanded:
             content_height = self.container.sizeHint().height()
         else:
-            content_height = conf.BLOCK_COLLAPSED_HEIGHT
+            content_height = UIDimensions.BLOCK_COLLAPSED_HEIGHT
 
         return QRectF(0, 0, self.width, content_height + 40)
 
@@ -216,7 +216,7 @@ class SensorBlockItem(QGraphicsItem):
             default = param.get("default", "")
             required = param.get("required", False)
 
-            label = QLabel(label_text)
+            label = QLabel(Translator.tr(label_text))
             layout.addWidget(label)
 
             if tipo == "text":
@@ -269,7 +269,7 @@ class SensorBlockItem(QGraphicsItem):
 
             hbox = QHBoxLayout()
             hbox.addWidget(QLabel("🔁"))
-            hbox.addWidget(QLabel(label))
+            hbox.addWidget(QLabel(Translator.tr(label)))
             hbox.addWidget(name_edit)
 
             container = QWidget()

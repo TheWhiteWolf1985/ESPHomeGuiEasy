@@ -25,13 +25,11 @@ from PyQt6.QtCore import Qt, pyqtSlot
 import socket, threading, os
 import serial.tools.list_ports  # Richiede pyserial
 from PyQt6.QtGui import QPalette, QColor
-from gui.color_pantone import Pantone
+from gui.color_pantone import Pantone, get_dark_palette
 from core.translator import Translator
 from core.compile_manager import CompileManager
 from pathlib import Path
 from core.log_handler import GeneralLogHandler as logger
-from config.GUIconfig import DEFAULT_BUILD_DIR
-
 
 class TabCommand(QWidget):
     """
@@ -61,19 +59,7 @@ class TabCommand(QWidget):
         self.compiler.upload_finished.connect(self.riabilita_bottoni_qt)
         self.compiler.compile_finished.connect(self.riabilita_bottoni_qt)
 
-
-        dark_palette = QPalette()
-        dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
-        dark_palette.setColor(QPalette.ColorRole.Base, QColor("#1e1e1e"))
-        dark_palette.setColor(QPalette.ColorRole.Text, QColor("#d4d4d4"))
-        dark_palette.setColor(QPalette.ColorRole.Button, QColor("#23272e"))
-        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#5f1717"))
-        dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
-        dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
-        dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))
-        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))
-
-        self.setPalette(dark_palette)
+        self.setPalette(get_dark_palette())
         self.setAutoFillBackground(True)           
 
         layout = QVBoxLayout(self)

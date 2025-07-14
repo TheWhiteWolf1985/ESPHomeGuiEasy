@@ -24,7 +24,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
-from config.GUIconfig import DEFAULT_PROJECT_DIR
+from config.GUIconfig import conf
 from datetime import datetime
 from core.translator import Translator
 from gui.custom_message_dialog import CustomMessageDialog
@@ -70,6 +70,7 @@ class UserProjectManagerWindow(QMainWindow):
         """        
         super().__init__()
         self.main_window = main_window
+        self.logger = getattr(main_window, "logger", None)
         self.setWindowTitle(Translator.tr("user_projects_title"))
         self.setMinimumSize(1050, 600)
         self.setStyleSheet(f"background-color: {Pantone.SECONDARY_BG};")
@@ -198,10 +199,10 @@ class UserProjectManagerWindow(QMainWindow):
         @return List of dictionaries, each containing one project's metadata.
         """        
         projects = []
-        if not DEFAULT_PROJECT_DIR.exists():
+        if not conf.DEFAULT_PROJECT_DIR.exists():
             return projects
 
-        for category in DEFAULT_PROJECT_DIR.iterdir():
+        for category in conf.DEFAULT_PROJECT_DIR.iterdir():
             if not category.is_dir():
                 continue
             for project in category.iterdir():
@@ -336,9 +337,8 @@ class UserProjectManagerWindow(QMainWindow):
         @param fields Dictionary containing `__path` and other metadata.
         """        
         path = Path(fields.get("__path", ""))
-        print(f"[DEBUG] apri_progetto chiamato con path: {path}")
-        print(f"[DEBUG] main_window è: {repr(self.main_window)}")
-        print(f"[DEBUG] main_window.open_project esiste: {hasattr(self.main_window, 'open_project')}")
+        if self.main_window and hasattr(self.main_window, "logger"):
+            self.main_window.logger.log(f"Apertura progetto: {path}", "debug")
 
         if not path.exists():
             self.show_message(Translator.tr("error"), Translator.tr("folder_not_found"))
@@ -346,24 +346,27 @@ class UserProjectManagerWindow(QMainWindow):
 
         yaml_files = list(path.glob("*.yaml"))
         if not yaml_files:
-            self.show_message(Translator.tr("error"), "Nessun file .yaml trovato nella cartella progetto.")
+            self.show_message(Translator.tr("error"), Translator.tr("no_yaml_found"))
             return
 
         yaml_path = yaml_files[0]
-        print(f"[DEBUG] YAML trovato: {yaml_path}")
+        self.show_message(Translator.tr("error"), Translator.tr("info_json_not_found"))
 
         if self.main_window:
             # Verifica se è già aperto
             if os.path.abspath(str(self.main_window.last_save_path or "")) == os.path.abspath(str(yaml_path)):
-                print("[DEBUG] Progetto già aperto, forzo ricaricamento")
+                if self.logger:
+                    self.logger.log(Translator.tr("log_project_already_open"), "debug")
             else:
-                print("[DEBUG] Progetto diverso, procedo con apertura")
+                if self.logger:
+                    self.logger.log(Translator.tr("log_project_different_open"), "debug")
+
 
             self.main_window._reset_tabs()  # forza pulizia
             self.main_window.open_project(str(yaml_path))
             self.close()
         else:
-            self.show_message("Stub", f"Apertura finta del progetto:\n{yaml_path}")
+            self.show_message(Translator.tr("stub_title"), Translator.tr("stub_fake_open").format(path=yaml_path))
 
     def modifica_progetto(self, project_data):
         """
@@ -380,7 +383,7 @@ class UserProjectManagerWindow(QMainWindow):
         """        
         info_path = Path(project_data.get("__path", "")) / "info.json"
         if not info_path.exists():
-            self.show_message(Translator.tr("error"), "File info.json non trovato.")
+            self.show_message(Translator.tr("error"), Translator.tr("info_json_not_found"))
             return
 
         try:

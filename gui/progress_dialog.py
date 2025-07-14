@@ -16,6 +16,7 @@ Supports determinate and indeterminate modes.
 """
 
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QProgressBar
+from core.translator import Translator
 
 class ProgressDialog(QDialog):
     """
@@ -23,11 +24,11 @@ class ProgressDialog(QDialog):
 
     Used to provide visual feedback during long-running operations.
     """
-    def __init__(self, title="Operazione in corso...", label_text="Elaborazione file...", parent=None):
+    def __init__(self, title=None, label_text=None, parent=None):
         super().__init__(parent)
-        self.setWindowTitle(title)
+        self.setWindowTitle(title or Translator.tr("progress_title"))
         layout = QVBoxLayout(self)
-        self.label = QLabel(label_text)
+        self.label = QLabel(label_text or Translator.tr("progress_label"))
         layout.addWidget(self.label)
         self.progress_bar = QProgressBar()
         layout.addWidget(self.progress_bar)

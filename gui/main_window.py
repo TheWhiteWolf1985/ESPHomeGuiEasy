@@ -18,7 +18,7 @@ Handles project loading, saving, import/export, and integrates compiler and logg
 """
 
 import os, json, shutil
-import config.GUIconfig as conf
+from config.GUIconfig import conf
 from pathlib import Path
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt, QUrl, pyqtSlot
@@ -243,7 +243,6 @@ class MainWindow(QMainWindow):
         """
         dialog = NewProjectDialog(self)
         result = dialog.exec()
-        print(f"[DEBUG] dialog.exec() returned: {result}")
         if result != QDialog.DialogCode.Accepted:
             GeneralLogHandler.debug("[DEBUG] Dialog chiuso con CANCEL, nessuna azione eseguita.")
             return
@@ -293,13 +292,13 @@ class MainWindow(QMainWindow):
             return
 
         # 💡 PATCH CRUCIALE: forza aggiornamento come in importa_yaml()
-        print("[DEBUG] Avvio aggiornamento tab_settings")
+        GeneralLogHandler.debug("Avvio aggiornamento tab_settings")
         self.tab_settings.carica_dati_da_yaml(content)
 
-        print("[DEBUG] Avvio aggiornamento tab_sensori")
+        GeneralLogHandler.debug("Avvio aggiornamento tab_sensori")
         self.tab_sensori.aggiorna_blocchi_da_yaml(content)
 
-        print("[DEBUG] Avvio aggiornamento tab_modules")
+        GeneralLogHandler.debug("Avvio aggiornamento tab_modules")
         self.tab_modules.carica_dati_da_yaml(content)
 
 
@@ -319,7 +318,7 @@ class MainWindow(QMainWindow):
         Handles dialog cancellation gracefully without action.
         """
         # Imposta la cartella iniziale: Documenti/ESPHomeGUIeasy
-        initial_dir = Path.home() / "Documents" / "ESPHomeGUIeasy"
+        initial_dir = conf.DEFAULT_PROJECT_DIR
         initial_dir.mkdir(parents=True, exist_ok=True)
 
         # File dialog
@@ -437,7 +436,7 @@ class MainWindow(QMainWindow):
         If valid, calls the project handler to export the folder to a user-chosen destination.
         """
         if not self.project_dir:
-            self.logger.log("Nessun progetto attivo da esportare.", "warning")
+            self.logger.log(Translator.tr("no_project_to_export"), "warning")
             return
         ProjectHandler.export_project(
             self.project_dir, QFileDialog.getSaveFileName, self.logger.log

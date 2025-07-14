@@ -20,7 +20,8 @@ from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt, QSize
 from gui.color_pantone import Pantone
 import os
-
+from core.translator import Translator
+from config.GUIconfig import conf, LANGUAGES
 
 class LanguageSelectionDialog(QDialog):
     """
@@ -33,7 +34,7 @@ class LanguageSelectionDialog(QDialog):
         @brief Initializes the language selection dialog UI with buttons and icons.
         """
         super().__init__(parent)
-        self.setWindowTitle("Seleziona la lingua")
+        self.setWindowTitle(Translator.tr("select_language_title"))
         self.setMinimumSize(300, 300)
         self.setStyleSheet(Pantone.DIALOG_STYLE)
         self.selected_language = None
@@ -41,7 +42,7 @@ class LanguageSelectionDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setSpacing(15)
 
-        title = QLabel("\ud83c\udf0d Seleziona la tua lingua")
+        title = QLabel(Translator.tr("select_language_label"))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet(Pantone.DIALOG_TITLE_STYLE)
         layout.addWidget(title)
@@ -51,12 +52,8 @@ class LanguageSelectionDialog(QDialog):
 
         # Lingue supportate
         languages = [
-            ("it", "Italiano", "it.png"),
-            ("en", "English", "en.png"),
-            ("es", "Espa\u00f1ol", "es.png"),
-            ("de", "Deutsch", "de.png"),
-            ("br", "Brasileiro", "br.png"),
-            ("pt", "Português", "pt.png")
+            (code, Translator.tr(f"lang_{code}"), f"{code}.png")
+            for code in LANGUAGES
         ]
 
         for code, label, icon_file in languages:

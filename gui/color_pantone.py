@@ -14,6 +14,24 @@ for consistent look & feel throughout the application.
 @date July 2025
 @license GNU Affero General Public License v3.0 (AGPLv3)
 """
+from PyQt6.QtGui import QPalette, QColor
+
+def get_dark_palette():
+    """
+    @brief Returns a dark QPalette instance for consistent UI styling.
+    @return QPalette object with dark mode settings.
+    """    
+    dark_palette = QPalette()
+    dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
+    dark_palette.setColor(QPalette.ColorRole.Base, QColor("#1e1e1e"))
+    dark_palette.setColor(QPalette.ColorRole.Text, QColor("#d4d4d4"))
+    dark_palette.setColor(QPalette.ColorRole.Button, QColor("#23272e"))
+    dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#5f1717"))
+    dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
+    dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
+    dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))
+    dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))
+    return dark_palette
 
 class Pantone:
     """
@@ -465,4 +483,18 @@ class Pantone:
                 background-color: #555;
             }
         """
+    
+
+    # === MENU BAR ===
+
+    MENUBAR_QLABEL = """
+                QLabel {
+                    background-color: #2c2c2c;
+                    color: #ffffff;
+                    font-weight: bold;
+                    padding: 6px;
+                    border-top: 1px solid #555;
+                    border-bottom: 1px solid #555;
+                }
+            """   
 

@@ -22,7 +22,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QBrush, QPen, QColor, QFont, QIcon
 from PyQt6.QtCore import QRectF, Qt, QSize
 from core.translator import Translator
-import config.GUIconfig as conf
+from config.GUIconfig import conf, GlobalPaths, UIDimensions
 import os
 
 
@@ -34,8 +34,8 @@ class ConditionBlockItem(QGraphicsItem):
     """
     def __init__(self, title="Condizione"):
         super().__init__()
-        self.width = conf.BLOCK_WIDTH
-        self.height = conf.BLOCK_HEIGHT
+        self.width = UIDimensions.BLOCK_WIDTH
+        self.height = UIDimensions.BLOCK_HEIGHT
         self.title = title
         self.expanded = True
         self.param_widgets = {}
@@ -58,7 +58,7 @@ class ConditionBlockItem(QGraphicsItem):
         self.title_item.setPos(10, 7)
 
         self.close_btn = QPushButton()
-        self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "close.png")))
+        self.close_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "close.png")))
         self.close_btn.setIconSize(QSize(22, 22))
         self.close_btn.setFixedSize(25, 25)
         self.close_btn.setStyleSheet("""
@@ -78,7 +78,7 @@ class ConditionBlockItem(QGraphicsItem):
         self.close_proxy.setPos(self.width - 35, 8)
 
         self.toggle_btn = QPushButton()
-        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "expand.png")))
         self.toggle_btn.setIconSize(QSize(22, 22))
         self.toggle_btn.setFixedSize(25, 25)
         self.toggle_btn.setStyleSheet("""
@@ -113,7 +113,7 @@ class ConditionBlockItem(QGraphicsItem):
         """
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
-        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "expand.png")))
         self.prepareGeometryChange()
         self.update()
         if self.scene():
@@ -132,7 +132,7 @@ class ConditionBlockItem(QGraphicsItem):
             label_text = param.get("label", key)
             default = param.get("default", "")
 
-            label = QLabel(label_text)
+            label = QLabel(Translator.tr(label_text))
             layout.addWidget(label)
 
             if tipo == "text":
@@ -161,7 +161,7 @@ class ConditionBlockItem(QGraphicsItem):
         """
         @brief Returns the bounding rectangle of the block, considering expansion state.
         """
-        return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
+        return QRectF(0, 0, self.width, self.height if self.expanded else UIDimensions.BLOCK_COLLAPSED_HEIGHT)
 
     def paint(self, painter, option, widget=None):
         """

@@ -14,16 +14,15 @@ and about dialog.
 @date July 2025
 @license GNU Affero General Public License v3.0 (AGPLv3)
 """
-
+import os, webbrowser
+from pathlib import Path
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QAction, QPixmap
+from PyQt6.QtCore import Qt
 from core.translator import Translator
 from gui.color_pantone import Pantone
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt
 from core.settings_db import get_recent_files
-import config.GUIconfig as conf
-import os, webbrowser
+from config.GUIconfig import conf
 from gui.project_gallery_window import ProjectGalleryWindow
 from gui.user_project_manager import UserProjectManagerWindow
 from gui.setting_menu import SettingsDialog
@@ -87,16 +86,8 @@ class MainMenuBar(QMenuBar):
         self.header_action_yaml = QWidgetAction(self)
         self.label_yaml = QLabel(f"📄 {Translator.tr('menu_header_yaml')}")
         self.label_yaml.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.label_yaml.setStyleSheet("""
-            QLabel {
-                background-color: #2c2c2c;
-                color: #ffffff;
-                font-weight: bold;
-                padding: 6px;
-                border-top: 1px solid #555;
-                border-bottom: 1px solid #555;
-            }
-        """)
+        self.label_yaml.setStyleSheet(Pantone.MENUBAR_QLABEL)
+
         self.header_action_yaml.setDefaultWidget(self.label_yaml)
         self.file_menu.addAction(self.header_action_yaml)
 
@@ -184,40 +175,42 @@ class MainMenuBar(QMenuBar):
         return lambda checked=False: self._open_recent_file(path)
 
     def show_about_dialog(self):
-        version = getattr(conf, "APP_VERSION", "1.0.0")
-        release_date = getattr(conf, "APP_RELEASE_DATE", "2025-05-30")
-        icon_path = getattr(conf, "SW_ICON_PATH", "")
+        """
+        Mostra la finestra "Informazioni" con i dettagli della versione.
+        """
+        version = conf.APP_VERSION
+        release_date = conf.APP_RELEASE_DATE
+        logo_path = conf.SW_ICON_PATH
 
         dlg = QDialog(self)
-        dlg.setWindowTitle("Informazioni su ESPHomeGuiEasy")
-        dlg.setStyleSheet(Pantone.DIALOG_STYLE)
+        dlg.setWindowTitle(Translator.tr("about_title"))
+        dlg.setMinimumWidth(400)
+
         layout = QVBoxLayout()
 
-        if os.path.exists(icon_path):
-            pix = QPixmap(icon_path).scaled(90, 90)
+        if Path(logo_path).exists():
+            pixmap = QPixmap(str(logo_path))
             lbl_logo = QLabel()
-            lbl_logo.setPixmap(pix)
+            lbl_logo.setPixmap(pixmap.scaledToWidth(200, Qt.TransformationMode.SmoothTransformation))
             lbl_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
             layout.addWidget(lbl_logo)
         else:
-            layout.addWidget(QLabel("ESPHomeGuiEasy"))
+            layout.addWidget(QLabel(Translator.tr("about_app_name")))
 
         lbl_info = QLabel(
-            f"<b>ESPHomeGuiEasy</b><br>"
-            f"Versione: <b>{version}</b><br>"
-            f"Data rilascio: <b>{release_date}</b><br><br>"
-            f"Copyright (c) 2025 Juri<br>"
-            f"Licenza: AGPLv3 - Uso non commerciale"
+            Translator.tr("about_info").format(version=version, date=release_date)
         )
+        lbl_info.setTextFormat(Qt.TextFormat.RichText)
         lbl_info.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl_info)
 
-        btn = QPushButton("Chiudi")
+        btn = QPushButton(Translator.tr("close"))
         btn.clicked.connect(dlg.accept)
         layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter)
 
         dlg.setLayout(layout)
         dlg.exec()
+
 
     def open_project_gallery_window(self):
         if not hasattr(self, "_project_gallery_window") or self._project_gallery_window is None:

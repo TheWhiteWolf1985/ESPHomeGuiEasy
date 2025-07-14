@@ -22,8 +22,9 @@ Also emits Qt signals to synchronize with the GUI during operations.
 
 from PyQt6.QtCore import QObject, QProcess, pyqtSignal, Qt, QMetaObject, Q_ARG
 from PyQt6.QtWidgets import QMessageBox, QApplication
-import tempfile, os, socket, threading, sys, subprocess, re
+import tempfile, os, sys, subprocess, re
 from ruamel.yaml import YAML
+from core.translator import Translator
 
 class CompileManager(QObject):
     """
@@ -53,7 +54,7 @@ class CompileManager(QObject):
         """
         try:
             self.temp_path = yaml_path
-            self.log_callback("🚀 Avvio compilazione...")
+            self.log_callback(Translator.tr("compiling_starting"), "info")
 
             if self.process:
                 self.process.kill()
@@ -66,7 +67,7 @@ class CompileManager(QObject):
             self.process.start("esphome", ["compile", yaml_path])
 
         except Exception as e:
-            self.log_callback(f"💥 Errore durante la compilazione: {e}")
+            self.log_callback(Translator.tr("compiling_failed").format(code=e), "error")
             
     def handle_compile_output(self):
         """
@@ -88,9 +89,9 @@ class CompileManager(QObject):
         @brief Processes live output from the ESPHome compile command.
         """        
         if exitCode == 0:
-            self.log_callback("✅ Compilazione completata con successo.", "success")
+            self.log_callback(Translator.tr("compiling_success"), "success")
         else:
-            self.log_callback(f"❌ Errore durante la compilazione. Codice: {exitCode}", "error")
+            self.log_callback(Translator.tr("compiling_failed").format(code=exitCode), "error")
 
         # Pulizia file temporaneo
         if self.temp_path:
@@ -98,7 +99,7 @@ class CompileManager(QObject):
             if self.temp_path.startswith(temp_dir):
                 if os.path.exists(self.temp_path):
                     os.remove(self.temp_path)
-                    self.log_callback(f"🧹 File temporaneo eliminato: {self.temp_path}", "info")
+                    self.log_callback(Translator.tr("temp_file_deleted").format(path=self.temp_path), "debug")
         self.temp_path = None
         self.process = None
 
@@ -114,7 +115,7 @@ class CompileManager(QObject):
         @param yaml_path Path to the YAML configuration file.
         @param com_port The COM port (e.g., COM3, /dev/ttyUSB0) to which the board is connected.
         """
-        self.log_callback(f"📤 Upload in corso su {com_port}...")
+        self.log_callback(Translator.tr("uploading_to_port").format(port=com_port), "info")
 
         self.yaml_path = yaml_path
         self.com_port = com_port
@@ -169,7 +170,7 @@ class CompileManager(QObject):
                 continue
 
             if "erasing flash" in line.lower():
-                self.log_callback("📀 Cancellazione in corso...", "info")
+                self.log_callback(Translator.tr("flash_erasing"), "info")
             elif "chip is" in line.lower():
                 self.log_callback(line, "info")
             elif "error" in line.lower():
@@ -182,15 +183,14 @@ class CompileManager(QObject):
         @brief Processes live output from the ESPHome compile command.
         """        
         if exitCode == 0:
-            self.log_callback("✅ Memoria cancellata con successo", "success")
+            self.log_callback(Translator.tr("flash_erased"), "success")
+
         else:
             self.log_callback(f"❌ Errore durante la cancellazione. Codice: {exitCode}", "error")
 
         self.upload_finished.emit()  # Riutilizziamo il segnale per sbloccare la GUI
         self.process = None
-
-
-           
+         
     def detect_connected_chip(self, com_port):
         """
         @brief Uses esptool to detect the chip model connected via USB.
@@ -199,29 +199,27 @@ class CompileManager(QObject):
         @return Detected chip type as string (e.g., "ESP32-C3") or None if not found.
         """
         try:
-            self.log_callback(f"🔍 Rilevo chip su {com_port}...")
+            self.log_callback(Translator.tr("chip_detecting").format(port=com_port), "info")
 
             command = [sys.executable, "-m", "esptool", "--port", com_port, "chip_id"]
             result = subprocess.run(command, capture_output=True, text=True)
-            print("📍 DEBUG: sono in upload_via_usb()")
-
 
             stdout = result.stdout
             stderr = result.stderr
 
             if stdout:
                 self.log_callback(stdout, "info")
-                match = re.search(r"Chip is (.+?)\\s", stdout)
+                match = re.search(r"Chip is (.+?)\s", stdout)
                 if match:
                     chip_type = match.group(1).strip()
-                    self.log_callback(f"📟 Chip rilevato: {chip_type}", "info")
+                    self.log_callback(Translator.tr("chip_detected").format(chip=chip_type), "info")
                     return chip_type
 
             if stderr:
                 self.log_callback(stderr, "error")
 
         except Exception as e:
-            self.log_callback(f"❌ Errore nel rilevamento chip: {e}", "error")
+            self.log_callback(Translator.tr("chip_detect_error").format(error=e), "error")
 
         return None
     
@@ -248,7 +246,7 @@ class CompileManager(QObject):
         @brief Processes live output from the ESPHome compile command.
         """        
         if exitCode != 0:
-            self.log_callback(f"❌ Upload terminato con errore (codice: {exitCode}).", "error")
+            self.log_callback(Translator.tr("upload_failed").format(code=exitCode), "error")
 
         self.upload_finished.emit()  # segnale Qt ufficiale
         self.process = None

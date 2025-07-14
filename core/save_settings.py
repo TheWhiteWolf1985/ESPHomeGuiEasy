@@ -23,7 +23,7 @@ Also refreshes the GUI to apply changes immediately.
 from core.settings_db import set_setting
 from PyQt6.QtWidgets import QApplication
 from core.translator import Translator
-from config.GUIconfig import LANGUAGE_MAP
+from config.GUIconfig import LANGUAGES
 
 def save_settings(dialog):
     """
@@ -36,7 +36,7 @@ def save_settings(dialog):
 
     # --- LANGUAGE ---
     selected_lang = dialog.language_combo.currentText()
-    lang_code = LANGUAGE_MAP.get(selected_lang, "en")
+    lang_code = LANGUAGES.get(selected_lang, "en")
     set_setting("language", lang_code)
 
     # Applica subito la lingua nella sessione corrente

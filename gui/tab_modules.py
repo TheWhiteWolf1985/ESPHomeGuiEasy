@@ -26,6 +26,7 @@ from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.log_handler import GeneralLogHandler as logger
 from core.yaml_handler import YAMLHandler
+from config.GUIconfig import conf
 
 class TabModules(QWidget):
     """
@@ -168,7 +169,7 @@ class TabModules(QWidget):
 
             editor = main.yaml_editor
             from core.yaml_handler import YAMLHandler
-            modules_schema_path = "config/modules_schema.json"
+            modules_schema_path = conf.MODULE_SCHEMA_PATH
             current_yaml = editor.toPlainText()
             modules_dict = YAMLHandler.extract_module_sections_from_widgets(
                 self.widget_map,

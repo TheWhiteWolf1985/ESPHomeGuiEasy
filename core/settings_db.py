@@ -18,19 +18,10 @@ Handles:
 """
 
 import sqlite3, os, traceback
-from config.GUIconfig import USER_DB_PATH
+from config.GUIconfig import conf
 from core.log_handler import GeneralLogHandler
 
 logger = GeneralLogHandler()
-
-def get_user_db_path() -> str:
-    """
-    @brief Returns the absolute path to the user_config.db file in LOCALAPPDATA.
-
-    Assumes that the file was correctly created during setup.
-    """
-    return USER_DB_PATH
-
 
 def init_db():
     """
@@ -39,7 +30,7 @@ def init_db():
     Creates `settings` and `recent_files` tables if they do not exist.
     Does not insert any default values.
     """
-    conn = sqlite3.connect(get_user_db_path())
+    conn = sqlite3.connect(conf.USER_DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS settings (
@@ -68,7 +59,7 @@ def set_setting(key: str, value: str):
     if key == "language":
         logger = GeneralLogHandler()
         logger.debug(f"set_setting('language', '{value}') chiamato da:\n{''.join(traceback.format_stack(limit=5))}")
-    conn = sqlite3.connect(get_user_db_path())
+    conn = sqlite3.connect(conf.USER_DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO settings (key, value) VALUES (?, ?)
@@ -86,7 +77,7 @@ def get_setting(key: str) -> str | None:
     @return The stored value, or None if not found or an error occurs.
     """
     try:
-        conn = sqlite3.connect(get_user_db_path())
+        conn = sqlite3.connect(conf.USER_DB_PATH)
         cursor = conn.cursor()
         cursor.execute("SELECT value FROM settings WHERE key=?", (key,))
         result = cursor.fetchone()
@@ -103,7 +94,7 @@ def add_recent_file(path: str):
     @param path Absolute path to the YAML file.
     """
     filename = os.path.basename(path)
-    conn = sqlite3.connect(get_user_db_path())
+    conn = sqlite3.connect(conf.USER_DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO recent_files (path, filename, last_opened)
@@ -121,7 +112,7 @@ def get_recent_files(limit: int = 4) -> list[tuple[str, str]]:
     @param limit Maximum number of entries to return.
     @return List of tuples (path, filename) ordered by last_opened descending.
     """
-    conn = sqlite3.connect(get_user_db_path())
+    conn = sqlite3.connect(conf.USER_DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         SELECT path, filename FROM recent_files

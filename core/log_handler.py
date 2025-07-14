@@ -25,7 +25,7 @@ import logging, os,traceback
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QTextCursor
 from logging.handlers import RotatingFileHandler
-from config.GUIconfig import LOG_PATH
+from config.GUIconfig import conf
 
 class LOGHandler:
     """
@@ -92,9 +92,9 @@ class GeneralLogHandler:
 
         # Aggiunge RotatingFileHandler se non presente
         if not any(isinstance(h, RotatingFileHandler) for h in self._logger.handlers):
-            os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+            os.makedirs(os.path.dirname(conf.LOG_PATH), exist_ok=True)
             handler = RotatingFileHandler(
-                LOG_PATH,
+                conf.LOG_PATH,
                 mode='a',
                 maxBytes=20 * 1024 * 1024,  # 20 MB
                 backupCount=2,

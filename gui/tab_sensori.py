@@ -24,7 +24,6 @@ from gui.sensor_canvas import SensorCanvas
 from core.yaml_handler import YAMLHandler
 from gui.color_pantone import Pantone
 from ruamel.yaml import YAML
-from gui.sensor_block_item import SensorBlockItem
 from core.translator import Translator
 from gui.block_selection_dialog import *
 from gui.sensor_block_item import SensorBlockItem
@@ -34,7 +33,8 @@ from gui.condition_block_item import ConditionBlockItem
 from gui.timer_block_item import TimerBlockItem
 from gui.script_block_item import ScriptBlockItem
 import os
-from core.log_handler import GeneralLogHandler as logger
+from config.GUIconfig import GlobalPaths
+
 
 class TabSensori(QWidget):
     """
@@ -161,7 +161,6 @@ class TabSensori(QWidget):
             if editor is None:
                 return
 
-            from core.yaml_handler import YAMLHandler
             current_yaml = editor.toPlainText()
 
             # Usa metodo esteso con lista blocchi scartati
@@ -228,15 +227,14 @@ class TabSensori(QWidget):
             return
 
         # 3. Carica definizioni da sensors.json
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+        json_path = GlobalPaths.SENSORS_JSON_PATH
         dialog = SensorSelectionDialog(sensors_json_path=json_path)
         sensor_defs = dialog.sensors
 
         # 4. Ricrea ogni blocco
         for sensor in data["sensor"]:
             platform = sensor.get("platform", "").lower()
-            name = sensor.get("name", "Nuovo Sensore")
+            name = sensor.get("name", Translator.tr("new_sensor"))
 
             # Trova definizione da JSON
             sensor_def = next(
@@ -308,14 +306,13 @@ class TabSensori(QWidget):
 
         The block is dynamically built from JSON metadata and configured accordingly.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+        json_path = GlobalPaths.SENSORS_JSON_PATH
 
         dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_sensor()
             if selected:
-                label = selected.get("label", "Nuovo Sensore")
+                label = selected.get("label", Translator.tr("new_sensor"))
                 solo_nome = label.split(" (")[0]  # Prende tutto prima della prima parentesi aperta
                 blocco = SensorBlockItem(title=solo_nome)
                 blocco.sensor_platform = selected.get("platform", "custom")
@@ -340,15 +337,13 @@ class TabSensori(QWidget):
 
         Dynamically builds parameters from the JSON action definition.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "actions.json")
+        json_path = GlobalPaths.ACTIONS_JSON_PATH
 
-        from gui.block_selection_dialog import ActionSelectionDialog
         dialog = ActionSelectionDialog(actions_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_action()
             if selected:
-                label = selected.get("label", "Nuova Azione")
+                label = selected.get("label", Translator.tr("new_action"))
                 solo_nome = label.split(" (")[0]
                 blocco = ActionBlockItem(title=solo_nome)
 
@@ -364,14 +359,13 @@ class TabSensori(QWidget):
 
         Parameters are set based on trigger metadata in the JSON file.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "triggers.json")
+        json_path = GlobalPaths.TRIGGERS_JSON_PATH
 
         dialog = TriggerSelectionDialog(triggers_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_trigger()
             if selected:
-                label = selected.get("label", "Nuovo Trigger")
+                label = selected.get("label", Translator.tr("new_trigger"))
                 solo_nome = label.split(" (")[0]
                 blocco = TriggerBlockItem(title=solo_nome)
 
@@ -387,14 +381,13 @@ class TabSensori(QWidget):
 
         Automatically builds input fields using metadata from the `conditions.json` file.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "conditions.json")
+        json_path = GlobalPaths.CONDITIONS_JSON_PATH
 
         dialog = ConditionSelectionDialog(conditions_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_condition()
             if selected:
-                label = selected.get("label", "Nuova Condizione")
+                label = selected.get("label", Translator.tr("new_condition"))
                 solo_nome = label.split(" (")[0]
                 blocco = ConditionBlockItem(title=solo_nome)
 
@@ -410,14 +403,13 @@ class TabSensori(QWidget):
 
         Populates block parameters using the associated JSON definition.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "timers.json")
+        json_path = GlobalPaths.TIMERS_JSON_PATH
 
         dialog = TimerSelectionDialog(timers_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_timer()
             if selected:
-                label = selected.get("label", "Nuovo Timer")
+                label = selected.get("label", Translator.tr("new_timer"))
                 solo_nome = label.split(" (")[0]
                 blocco = TimerBlockItem(title=solo_nome)
 
@@ -433,14 +425,13 @@ class TabSensori(QWidget):
 
         The block is customized based on the structure defined in `scripts.json`.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "scripts.json")
+        json_path = GlobalPaths.SCRIPTS_JSON_PATH
 
         dialog = ScriptSelectionDialog(scripts_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_script()
             if selected:
-                label = selected.get("label", "Nuovo Script")
+                label = selected.get("label", Translator.tr("new_script"))
                 solo_nome = label.split(" (")[0]
                 blocco = ScriptBlockItem(title=solo_nome)
 

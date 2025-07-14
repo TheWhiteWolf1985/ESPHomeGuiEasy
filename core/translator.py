@@ -18,6 +18,7 @@ Includes language fallback logic and dynamic discovery of available languages.
 import os, json
 from core.settings_db import get_setting
 from core.log_handler import GeneralLogHandler
+from config.GUIconfig import LANGUAGES
 
 class Translator:
     """
@@ -99,11 +100,4 @@ class Translator:
 
         @return dict { "en": "English", "it": "Italiano", ... }
         """
-        return {
-            "en": "English",
-            "it": "Italiano",
-            "es": "Español",
-            "de": "Deutsch",
-            "br": "Brasileiro",
-            "pt": "Português"
-        }
+        return LANGUAGES

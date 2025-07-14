@@ -27,6 +27,8 @@ from core.translator import Translator
 from core.yaml_handler import YAMLHandler
 from core.log_handler import GeneralLogHandler as logger
 from ruamel.yaml import YAML
+from config.GUIconfig import GlobalPaths
+
 
 class TabSettings(QWidget):
     """
@@ -256,8 +258,7 @@ class TabSettings(QWidget):
         @return A list of dictionaries with 'label' and 'value' keys, sorted alphabetically.
         """
         try:
-            base_path = os.path.dirname(os.path.abspath(__file__))
-            config_path = os.path.join(base_path, "../config/boards.json")
+            config_path = GlobalPaths.BOARDS_JSON_PATH
 
             with open(config_path, 'r', encoding='utf-8') as file:
                 data = json.load(file)
@@ -266,7 +267,8 @@ class TabSettings(QWidget):
                 boards.sort(key=lambda x: x["label"].lower())
                 return boards
         except (FileNotFoundError, json.JSONDecodeError) as e:
-            logger.error(f"[Errore] Caricamento boards.json fallito: {e}")
+            if self.logger:
+                self.logger.log(Translator.tr("board_list_load_failed").format(error=e), "error")
             return []        
         
     def aggiorna_layout_da_dati(self):

@@ -18,7 +18,7 @@ This file contains the logic to:
 @license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
-import os, shutil, json, re, shutil
+import json
 from pathlib import Path
 from PyQt6.QtWidgets import QMessageBox
 from config.GUIconfig import CATEGORY_TO_FOLDER
@@ -86,14 +86,14 @@ captive_portal:
         with open(yaml_path, "w", encoding="utf-8") as f:
             f.write(yaml_content)
     except Exception as e:
-        QMessageBox.critical(None, Translator.tr("error"), f"Errore scrittura YAML: {e}")
+        QMessageBox.critical(None, Translator.tr("error"), Translator.tr("yaml_write_error").format(error=e))
         return None, None
 
     try:
         with open(yaml_path, "r", encoding="utf-8") as f:
             yaml_editor.setPlainText(f.read())
     except Exception as e:
-        QMessageBox.critical(None, Translator.tr("error"), f"Errore apertura YAML: {e}")
+        QMessageBox.critical(None, Translator.tr("error"), Translator.tr("yaml_open_error").format(error=e))
         return None, None
 
     logger.log(Translator.tr("new_project_created").format(project_dir=project_dir), "success")
@@ -117,7 +117,7 @@ captive_portal:
         with open(info_path, "w", encoding="utf-8") as f:
             json.dump(info, f, indent=2, ensure_ascii=False)
     except Exception as e:
-        logger.log(f"❌ Errore nella creazione di info.json: {e}", "error")
+        logger.log(Translator.tr("infojson_error").format(error=e), "error")
 
     return str(project_dir), str(yaml_path)
 

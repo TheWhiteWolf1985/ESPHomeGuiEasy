@@ -17,7 +17,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
-
+from core.translator import Translator
 
 class ProjectEditDialog(QDialog):
     """
@@ -27,7 +27,7 @@ class ProjectEditDialog(QDialog):
     """
     def __init__(self, version: str = "", description: str = "", parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Modifica progetto")
+        self.setWindowTitle(Translator.tr("edit_project_title"))
         self.setMinimumSize(400, 300)
 
         self.version_input = QLineEdit(version)
@@ -45,12 +45,12 @@ class ProjectEditDialog(QDialog):
             border: 1px solid #555;
             font-size: 10pt;
         """)
-        self.description_input.setPlaceholderText("Inserisci changelog...")
+        self.description_input.setPlaceholderText(Translator.tr("changelog_placeholder"))
 
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("<b>Versione:</b>"))
+        layout.addWidget(QLabel(f"<b>{Translator.tr('version_label')}:</b>"))
         layout.addWidget(self.version_input)
-        layout.addWidget(QLabel("<b>Changelog:</b>"))
+        layout.addWidget(QLabel(f"<b>{Translator.tr('changelog_label')}:</b>"))
         layout.addWidget(self.description_input)
 
         buttons = QDialogButtonBox(

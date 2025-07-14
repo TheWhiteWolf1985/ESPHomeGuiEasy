@@ -36,11 +36,10 @@ from PyQt6.QtWidgets import QMessageBox
 from core.translator import Translator
 from gui.splash_screen import SplashScreen
 from PyQt6.QtGui import QPixmap, QIcon
-import config.GUIconfig as conf
+from config.GUIconfig import GlobalPaths, conf
 import os
 import webbrowser
 from core.log_handler import GeneralLogHandler as logger
-from config.GUIconfig import LOG_PATH
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtCore import QUrl
 
@@ -61,6 +60,7 @@ class SettingsDialog(QDialog):
         self.setWindowTitle(Translator.tr("settings_title"))
         self.setFixedSize(800, 550)
         self.setStyleSheet(Pantone.DIALOG_STYLE)
+        self.logger = logger()
 
         self.line = QFrame()
         self.line.setFrameShape(QFrame.Shape.HLine)
@@ -125,7 +125,7 @@ class SettingsDialog(QDialog):
 
         self.cancel_button = QPushButton(Translator.tr("cancel_button"))
         self.cancel_button.clicked.connect(self.reject)
-        self.apply_button.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)
+        self.cancel_button.setStyleSheet(Pantone.COMMON_BUTTON_STYLE)
         button_layout.addWidget(self.cancel_button)
 
         main_layout.addLayout(button_layout)
@@ -364,7 +364,9 @@ class SettingsDialog(QDialog):
         """
         @brief Triggers an immediate online version check via the splash screen module.
         """
-        pixmap = QPixmap(conf.SPLASH_IMAGE)
+        if self.logger:
+            self.logger.log(Translator.tr("log_opening_update_dialog"), "info")
+        pixmap = QPixmap(GlobalPaths.SPLASH_IMAGE)
         splash = SplashScreen(pixmap)
         splash.check_online_version()  # solo controllo, nessun ciclo completo
         splash.show()
@@ -482,8 +484,8 @@ class SettingsDialog(QDialog):
         @brief Opens the log file using the system default application if the file exists,
         otherwise shows a warning message.
         """
-        if os.path.exists(LOG_PATH):
-            QDesktopServices.openUrl(QUrl.fromLocalFile(LOG_PATH))
+        if os.path.exists(conf.LOG_PATH):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(conf.LOG_PATH))
         else:
             QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("log_file_not_found"))
 

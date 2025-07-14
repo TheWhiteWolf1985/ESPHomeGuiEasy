@@ -17,7 +17,6 @@ it halts the process and notifies the user of the error.
 """
 
 import os, sys, traceback, json, webbrowser, shutil, sqlite3, platform, socket, urllib.request
-import config.GUIconfig as conf
 from pathlib import Path
 from PyQt6.QtWidgets import QLabel, QProgressBar, QApplication, QMessageBox, QSplashScreen
 from PyQt6.QtGui import QFont
@@ -25,7 +24,7 @@ from PyQt6.QtCore import Qt, QTimer, QSize
 from importlib.metadata import version, PackageNotFoundError
 from core.translator import Translator
 from core.settings_db import init_db, get_setting, set_setting, get_user_db_path
-from config.GUIconfig import USER_DB_PATH, DEFAULT_BUILD_DIR
+from config.GUIconfig import conf, AppInfo, GlobalPaths
 from core.log_handler import GeneralLogHandler
 
 class SplashScreen(QSplashScreen):
@@ -198,7 +197,7 @@ custom style, progress bar, informational labels and initialization steps.
         """
         self.logger.info("Avvio controllo file template di progetto base...")
 
-        template_path = conf.TEMPLATE_PROJECT_PATH      # Path to base project YAML template
+        template_path = GlobalPaths.TEMPLATE_PROJECT_PATH      # Path to base project YAML template
         if not os.path.exists(template_path):     # Checks if the file exists at the expected location
             self.logger.error(f"File base progetto mancante: {template_path}")
             raise Exception(f"File base progetto mancante: {template_path}")
@@ -217,9 +216,9 @@ custom style, progress bar, informational labels and initialization steps.
 
         try:
             # Checks if the build folder exists in the correct path
-            if not DEFAULT_BUILD_DIR.exists():     # Build folder is essential and not created automatically
-                self.logger.error(f"La cartella di lavoro 'build' non è stata trovata: {DEFAULT_BUILD_DIR}")
-                raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {DEFAULT_BUILD_DIR}")
+            if not conf.DEFAULT_BUILD_DIR.exists():     # Build folder is essential and not created automatically
+                self.logger.error(f"La cartella di lavoro 'build' non è stata trovata: {conf.DEFAULT_BUILD_DIR}")
+                raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {conf.DEFAULT_BUILD_DIR}")
 
             for folder in ["assets", "core", "config", "gui", "language"]:     # Creates standard application folders if missing
                 os.makedirs(folder, exist_ok=True)
@@ -255,7 +254,7 @@ custom style, progress bar, informational labels and initialization steps.
 
         try:
             req = urllib.request.Request(     # HTTP request to fetch update data from GitHub
-                conf.GITHUB_URL,
+                AppInfo.GITHUB_URL,
                 headers={
                     "Cache-Control": "no-cache",
                     "Pragma": "no-cache"
@@ -269,8 +268,8 @@ custom style, progress bar, informational labels and initialization steps.
                 current_lang = Translator.get_current_language()
                 changelog_text = changelog.get(current_lang, changelog.get("en", ""))
 
-                if latest and latest != conf.APP_VERSION:     # If remote version is newer, display update dialog
-                    self.logger.info(f"Nuova versione disponibile: {latest} (attuale: {conf.APP_VERSION})")
+                if latest and latest != AppInfo.VERSION:     # If remote version is newer, display update dialog
+                    self.logger.info(f"Nuova versione disponibile: {latest} (attuale: {AppInfo.VERSION})")
                     self.status_label.setText(Translator.tr("update_available"))
 
                     msg = QMessageBox(self)
@@ -278,7 +277,7 @@ custom style, progress bar, informational labels and initialization steps.
                     msg.setWindowTitle(Translator.tr("update_available_title"))
                     msg.setText(
                         Translator.tr("update_available_text").format(
-                            latest=latest, current=conf.APP_VERSION
+                            latest=latest, current=AppInfo.VERSION
                         )
                     )
                     msg.setInformativeText(
@@ -291,7 +290,7 @@ custom style, progress bar, informational labels and initialization steps.
 
                     res = msg.exec()
                     if res == QMessageBox.StandardButton.Yes:
-                        webbrowser.open(conf.RELEASE_URL)
+                        webbrowser.open(AppInfo.RELEASE_URL)
                         self.logger.info("Pagina GitHub delle release aperta su richiesta dell’utente.")
                 else:
                     self.status_label.setText(Translator.tr("version_up_to_date"))
@@ -422,8 +421,8 @@ custom style, progress bar, informational labels and initialization steps.
         """
         self.logger.info("Avvio controllo file user_config.db...")
 
-        if os.path.exists(USER_DB_PATH):
-            self.logger.info(f"File user_config.db trovato in: {USER_DB_PATH}")
+        if os.path.exists(conf.USER_DB_PATH):
+            self.logger.info(f"File user_config.db trovato in: {conf.USER_DB_PATH}")
             self.status_label.setText("File user_config.db presente")
             self.logger.info("Controllo user_config.db completato con successo.")
         else:
