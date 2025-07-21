@@ -1,8 +1,8 @@
-; Script Inno Setup per ESPHomeGUIeasy v1.3.0 con collegamenti e disinstallazione
+; Script Inno Setup per ESPHomeGUIeasy v1.4.0 con collegamenti e disinstallazione
 
 [Setup]
 AppName=ESPHomeGUIeasy
-AppVersion=1.3.0
+AppVersion=1.4.0
 DefaultDirName={autopf}\ESPHomeGUIeasy
 DefaultGroupName=ESPHomeGUIeasy
 OutputBaseFilename=ESPHomeGUIeasy_Setup
