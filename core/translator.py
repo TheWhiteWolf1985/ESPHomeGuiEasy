@@ -7,7 +7,7 @@ class Translator:
     _translations = {}
     _fallback = {}
     _lang_code = "en"
-    _language_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Language")
+    _language_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../language")
 
     @classmethod
     def load_language(cls, lang_code):
