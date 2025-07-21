@@ -105,7 +105,7 @@ You can safely click **"More info → Run anyway"** when prompted by SmartScreen
 #### 2. Clone the repository
 ```bash
 git clone https://github.com/TheWhiteWolf1985/ESPHomeGuiEasy.git
-cd esphomeGuieasy
+cd ESPHomeGuiEasy
 ```
 
 #### 3. Create a virtual environment
