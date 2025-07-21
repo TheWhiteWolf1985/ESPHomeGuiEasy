@@ -16,14 +16,13 @@ it halts the process and notifies the user of the error.
 @license: GNU Affero General Public License v3.0 (AGPLv3)
 """
 
-import os, sys, traceback, json, webbrowser, shutil, sqlite3, platform, socket, urllib.request
+import os, sys, traceback, json, webbrowser, shutil, platform, socket, urllib.request
 from pathlib import Path
 from PyQt6.QtWidgets import QLabel, QProgressBar, QApplication, QMessageBox, QSplashScreen
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QTimer, QSize
-from importlib.metadata import version, PackageNotFoundError
 from core.translator import Translator
-from core.settings_db import init_db, get_setting, set_setting, get_user_db_path
+from core.settings_db import get_setting, set_setting
 from config.GUIconfig import conf, AppInfo, GlobalPaths
 from core.log_handler import GeneralLogHandler
 
@@ -70,7 +69,7 @@ custom style, progress bar, informational labels and initialization steps.
         """)
 
         # Version label
-        self.version_label = QLabel(Translator.tr("version_label").format(version=conf.APP_VERSION), self)
+        self.version_label = QLabel(Translator.tr("version_label").format(version=AppInfo.VERSION), self)
         self.version_label.setFont(QFont("Arial"))
         self.version_label.setStyleSheet("""
             color: black;
@@ -139,9 +138,9 @@ custom style, progress bar, informational labels and initialization steps.
         self.logger.info(f"Sistema operativo rilevato: {os_platform} {os_release} (build: {os_version})")
 
         # Salvataggio nel DB
-        set_setting("os_platform", os_platform)
-        set_setting("os_version", os_version)
-        set_setting("os_build", os_release)
+        set_setting("os_platform", os_platform.lower())
+        set_setting("os_version", os_version.lower())
+        set_setting("os_build", os_release.lower())
 
         self.on_complete_callback = on_complete_callback
         QTimer.singleShot(500, self.perform_next_step)
@@ -210,7 +209,7 @@ custom style, progress bar, informational labels and initialization steps.
         """
         Verifies the existence of the essential working folders for the application.
         Checks that the build directory exists and creates the other standard folders if necessary.
-        Raises an exception if the build directory is missing.
+        Raises an exception if the build directory is missing or not writable.
         """
         self.logger.info("Avvio controllo cartelle di lavoro...")
 
@@ -219,6 +218,21 @@ custom style, progress bar, informational labels and initialization steps.
             if not conf.DEFAULT_BUILD_DIR.exists():     # Build folder is essential and not created automatically
                 self.logger.error(f"La cartella di lavoro 'build' non è stata trovata: {conf.DEFAULT_BUILD_DIR}")
                 raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {conf.DEFAULT_BUILD_DIR}")
+
+            # --- Patch: verifica permessi di scrittura nella build dir ---
+            build_dir = conf.DEFAULT_BUILD_DIR
+            test_file = build_dir / ".__write_test__"
+            try:
+                with open(test_file, "w") as f:
+                    f.write("test")
+                os.remove(test_file)
+                self.logger.debug(f"Permessi di scrittura OK per la cartella: {build_dir}")
+            except Exception as e:
+                self.logger.error(f"Permessi insufficienti per scrivere nella cartella build: {build_dir}\n{e}")
+                QMessageBox.critical(self, "Permessi insufficienti",
+                    f"Non hai i permessi per scrivere nella cartella di lavoro:\n{build_dir}\n\n"
+                    "Avvia il programma in una directory diversa o controlla i permessi di scrittura.")
+                raise Exception(f"Permessi insufficienti nella cartella di lavoro: {build_dir}")
 
             for folder in ["assets", "core", "config", "gui", "language"]:     # Creates standard application folders if missing
                 os.makedirs(folder, exist_ok=True)
@@ -229,6 +243,7 @@ custom style, progress bar, informational labels and initialization steps.
         except Exception as e:
             self.logger.log_exception("Errore durante la verifica delle cartelle di lavoro")
             raise
+
 
 
     def check_online_version(self):
@@ -383,7 +398,9 @@ custom style, progress bar, informational labels and initialization steps.
             known_paths = [
                 Path.home() / ".esphome" / "esphome_venv" / "Scripts" / "esphome.exe",
                 Path("C:/Program Files/ESPHome/esphome.exe"),
-                Path("C:/Tools/esphome/esphome.exe")
+                Path("C:/Tools/esphome/esphome.exe"),
+                Path("/usr/local/bin/esphome"),
+                Path("/usr/bin/esphome")
             ]
 
             for path in known_paths:

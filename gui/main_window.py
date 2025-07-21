@@ -18,7 +18,7 @@ Handles project loading, saving, import/export, and integrates compiler and logg
 """
 
 import os, json, shutil
-from config.GUIconfig import conf
+from config.GUIconfig import conf, AppInfo, UIDimensions, GlobalPaths
 from pathlib import Path
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt, QUrl, pyqtSlot
@@ -64,9 +64,10 @@ class MainWindow(QMainWindow):
         Also initializes the logger and compiler, and updates UI labels dynamically based on selected language.
         """
         super().__init__()
-        self.setWindowTitle(conf.APP_NAME)
-        self.setMinimumSize(conf.MAIN_WINDOW_WIDTH, conf.MAIN_WINDOW_HEIGHT)
-        self.setWindowIcon(QIcon(conf.SW_ICON_PATH))  
+        self.setWindowTitle(AppInfo.NAME)
+        self.setMinimumSize(UIDimensions.MAIN_WINDOW_WIDTH, UIDimensions.MAIN_WINDOW_HEIGHT)
+        self.setWindowIcon(QIcon(GlobalPaths.SW_ICON_PATH))
+
         logger = GeneralLogHandler() 
 
         logger.debug(f"DEBUG SLOT: {hasattr(self, 'log_from_thread')}")   
@@ -225,7 +226,8 @@ class MainWindow(QMainWindow):
         # Aggiungi entrambi allo splitter
         main_splitter.addWidget(left_widget)
         main_splitter.addWidget(right_widget)
-        main_splitter.setSizes([conf.MAIN_SPLITTER_LEFT_COLUMN, conf.MAIN_SPLITTER_RIGHT_COLUMN])
+        main_splitter.setSizes([UIDimensions.MAIN_SPLITTER_LEFT_COLUMN, UIDimensions.MAIN_SPLITTER_RIGHT_COLUMN])
+        self.setMinimumSize(UIDimensions.MAIN_WINDOW_WIDTH, UIDimensions.MAIN_WINDOW_HEIGHT)
 
         # Aggiungi lo splitter al layout principale
         main_layout.addWidget(main_splitter)  

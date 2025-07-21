@@ -48,12 +48,12 @@ class LanguageSelectionDialog(QDialog):
         layout.addWidget(title)
 
         # Percorso bandiere
-        flag_path = os.path.join(os.path.dirname(__file__), "..", "assets", "icons", "flags")
+        flag_path = os.path.join(os.path.dirname(__file__), "..", "assets", "icon")
 
         # Lingue supportate
         languages = [
-            (code, Translator.tr(f"lang_{code}"), f"{code}.png")
-            for code in LANGUAGES
+            (code, label, f"{code}.png")
+            for code, label in LANGUAGES.items()
         ]
 
         for code, label, icon_file in languages:

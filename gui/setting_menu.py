@@ -484,8 +484,9 @@ class SettingsDialog(QDialog):
         @brief Opens the log file using the system default application if the file exists,
         otherwise shows a warning message.
         """
-        if os.path.exists(conf.LOG_PATH):
-            QDesktopServices.openUrl(QUrl.fromLocalFile(conf.LOG_PATH))
+        log_path = conf.LOG_PATH  # OS-specific, già corretto
+        if os.path.exists(log_path):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(str(log_path)))
         else:
             QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("log_file_not_found"))
 

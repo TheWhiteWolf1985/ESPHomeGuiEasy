@@ -25,7 +25,7 @@ Key responsibilities:
 @license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
-import sys, os
+import sys, os, traceback
 from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
@@ -39,20 +39,10 @@ from core.settings_db import init_db, get_setting, set_setting
 from core.log_handler import GeneralLogHandler
 
 def global_exception_hook(exc_type, exc_value, exc_traceback):
-    """
-    @brief Global exception handler for uncaught exceptions.
-
-    Overrides the default Python sys.excepthook to capture any uncaught
-    exceptions and forward them to the logger for persistent storage.
-
-    This ensures that unexpected crashes are properly logged for debugging.
-
-    @param exc_type The exception type (e.g., ValueError)
-    @param exc_value The exception instance
-    @param exc_traceback The traceback object
-    """    
     logger = GeneralLogHandler()
-    logger.log_exception("UNCAUGHT EXCEPTION")
+    logger.error(f"UNCAUGHT EXCEPTION: {exc_type.__name__}: {exc_value}")
+    logger.error("Traceback:\n" + "".join(traceback.format_exception(exc_type, exc_value, exc_traceback)))
+
 
 sys.excepthook = global_exception_hook
 
@@ -77,14 +67,18 @@ def should_show_splash() -> bool:
     return splash_setting == "1"
 
 def show_main_window():
-    """
-    @brief Displays the main application window (`MainWindow`).
-
-    This function is passed as a callback to the splash screen, so the main
-    window opens after the splash has finished its initialization sequence.
-    """    
-    window = MainWindow()
-    window.show()
+    logger.info("=== CHIAMATA CALLBACK show_main_window() ===")
+    app = QApplication.instance()
+    if app is None:
+        logger.error("QApplication.instance() restituisce None!")
+    else:
+        try:
+            app.main_window = MainWindow()
+            app.main_window.show()
+            logger.info("Main window creata e mostrata!")
+        except Exception as e:
+            logger.error(f"Eccezione durante la creazione della MainWindow: {e}")
+            logger.error(traceback.format_exc())
 
 def main():
     """
