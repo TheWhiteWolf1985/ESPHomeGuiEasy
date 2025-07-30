@@ -2,7 +2,7 @@
 
 [Setup]
 AppName=ESPHomeGUIeasy
-AppVersion=1.4.1
+AppVersion=1.4.2
 DefaultDirName={autopf}\ESPHomeGUIeasy
 DefaultGroupName=ESPHomeGUIeasy
 OutputBaseFilename=ESPHomeGUIeasy_Setup

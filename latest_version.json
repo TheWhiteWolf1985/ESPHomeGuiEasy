@@ -1,10 +1,10 @@
 {
-  "latest_version": "1.4.1",
+  "latest_version": "1.4.2",
   "changelog": {
-    "it": "✓ Gestione documentazione Doxygen integrata. Accesso offline dal menù '?'. Splash screen non più bloccante se manca ESPHome. UI migliorata. Correzioni minori.",
-    "en": "✓ Integrated Doxygen documentation viewer. Offline access from '?' menu. Splash screen is no longer blocking if ESPHome is missing. Improved UI. Minor fixes.",
-    "es": "✓ Documentación Doxygen integrada. Acceso offline desde el menú '?'. La pantalla de inicio ya no bloquea si falta ESPHome. Interfaz mejorada. Correcciones menores.",
-    "de": "✓ Integrierte Doxygen-Dokumentation. Offline-Zugriff über das '?' Menü. Splash-Screen blockiert nicht mehr bei fehlendem ESPHome. UI verbessert. Kleinere Korrekturen.",
-    "br": "✓ Visualizador de documentação Doxygen integrado. Acesso offline no menu '?'. Tela de inicialização não bloqueia se ESPHome estiver ausente. UI melhorada. Correções menores."
+    "it": "✓ Compatibilità completa con Windows, macOS e Linux. Script di installazione dedicati per ogni sistema. Rimossi percorsi hardcoded. Gestione log e file utente migliorata.",
+    "en": "✓ Full compatibility with Windows, macOS, and Linux. Dedicated installers for each platform. Removed hardcoded paths. Improved log and user data management.",
+    "es": "✓ Compatibilidad completa con Windows, macOS y Linux. Instaladores dedicados para cada sistema. Rutas codificadas eliminadas. Gestión de registros y datos mejorada.",
+    "de": "✓ Volle Kompatibilität mit Windows, macOS und Linux. Eigene Installer für jedes System. Feste Pfade entfernt. Verbesserte Protokoll- und Benutzerdatenverwaltung.",
+    "br": "✓ Compatibilidade total com Windows, macOS e Linux. Instaladores dedicados para cada plataforma. Caminhos fixos removidos. Melhor gerenciamento de logs e dados do usuário."
   }
 }
