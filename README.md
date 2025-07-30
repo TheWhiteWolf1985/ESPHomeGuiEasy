@@ -105,7 +105,7 @@ Whether you're a beginner in home automation or a power user managing multiple d
 > reboot
 > ```
 
-> 🛠 Dependencies like Python and ESPHome are bundled. You don’t need to install them separately.
+> 🛠 Dependencies like Python are bundled. You don’t need to install them separately.
 
 ---
 
