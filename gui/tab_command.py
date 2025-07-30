@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+@file tab_command.py
+@brief Tab for managing compilation, USB upload, OTA upload, and erase flash commands.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Provides the UI and logic for flashing firmware to ESP devices via USB serial or OTA.
+Includes controls for baud rate, COM port selection, network scanning for OTA,
+and buttons to start compile, upload, erase, and test connections.
+
+Manages command concurrency and updates UI button states accordingly.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QPushButton, QGroupBox, QHBoxLayout, QLabel, QComboBox, QLineEdit, QFormLayout
 )
@@ -5,16 +25,32 @@ from PyQt6.QtCore import Qt, pyqtSlot
 import socket, threading, os
 import serial.tools.list_ports  # Richiede pyserial
 from PyQt6.QtGui import QPalette, QColor
-from gui.color_pantone import Pantone
+from gui.color_pantone import Pantone, get_dark_palette
 from core.translator import Translator
 from core.compile_manager import CompileManager
 from pathlib import Path
 from core.log_handler import GeneralLogHandler as logger
-from config.GUIconfig import DEFAULT_BUILD_DIR
-
 
 class TabCommand(QWidget):
+    """
+    @brief Manages the command interface tab for compiling and uploading ESPHome firmware.
+
+    Initializes UI elements for USB serial loader and OTA uploading,
+    including baud rate selection, COM port refresh, IP scanning, and firmware upload buttons.
+
+    Handles threading to prevent concurrent commands and updates UI accordingly.
+
+    Emits logging messages for all actions and errors.
+    """
     def __init__(self, yaml_editor, logger, compiler, flash_callback=None, ota_callback=None):
+        """
+        @brief Sets up the command tab UI components and connects signals to slots.
+
+        Configures color palette for dark theme, groups controls into USB and OTA sections,
+        and sets up compile group with compile button.
+
+        Connects buttons to corresponding methods and prepares UI layouts.
+        """
         super().__init__()
         self.yaml_editor = yaml_editor
         self.logger = logger
@@ -23,19 +59,7 @@ class TabCommand(QWidget):
         self.compiler.upload_finished.connect(self.riabilita_bottoni_qt)
         self.compiler.compile_finished.connect(self.riabilita_bottoni_qt)
 
-
-        dark_palette = QPalette()
-        dark_palette.setColor(QPalette.ColorRole.Window, QColor("#23272e"))
-        dark_palette.setColor(QPalette.ColorRole.Base, QColor("#1e1e1e"))
-        dark_palette.setColor(QPalette.ColorRole.Text, QColor("#d4d4d4"))
-        dark_palette.setColor(QPalette.ColorRole.Button, QColor("#23272e"))
-        dark_palette.setColor(QPalette.ColorRole.ButtonText, QColor("#5f1717"))
-        dark_palette.setColor(QPalette.ColorRole.Highlight, QColor("#3a9dda"))
-        dark_palette.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
-        dark_palette.setColor(QPalette.ColorRole.ToolTipBase, QColor("#2a2d2e"))
-        dark_palette.setColor(QPalette.ColorRole.ToolTipText, QColor("#ffffff"))
-
-        self.setPalette(dark_palette)
+        self.setPalette(get_dark_palette())
         self.setAutoFillBackground(True)           
 
         layout = QVBoxLayout(self)
@@ -186,6 +210,12 @@ class TabCommand(QWidget):
  
 
     def refresh_com_ports(self):
+        """
+        @brief Refreshes the list of available COM ports for USB flashing.
+
+        Queries system serial ports and populates the COM port dropdown.
+        Shows a warning entry if no ports are found.
+        """
         self.com_combo.clear()
         ports = serial.tools.list_ports.comports()
         for port in ports:
@@ -195,7 +225,11 @@ class TabCommand(QWidget):
 
     def carica_firmware(self):
         """
-        Carica il firmware su ESP via USB. Se il progetto non è stato salvato, salva un file temporaneo.
+        @brief Starts USB firmware upload process.
+
+        Disables buttons to prevent concurrent commands.
+        Determines YAML file path to upload, logs firmware path if found.
+        Checks that a COM port is selected, then calls the compiler upload method.
         """
         if self.busy:
             logger.debug("DEBUG: comando upload ignorato perché busy = True")
@@ -210,7 +244,6 @@ class TabCommand(QWidget):
         logger = self.logger
         yaml_path = main.get_or_create_yaml_path()
 
-        # 🧠 LOG percorso firmware compilato
         try:
             build_name = Path(yaml_path).stem
             firmware_path = Path(".esphome") / "build" / build_name / ".pioenvs" / build_name / "firmware.bin"
@@ -221,20 +254,21 @@ class TabCommand(QWidget):
         except Exception as ex:
             logger.log(f"⚠️ Errore durante la determinazione del binario: {ex}", "warning")
 
-        # 🔌 Porta COM
         com_port = self.com_combo.currentData() or self.com_combo.currentText()
         if not com_port:
             logger.log("❌ Nessuna porta COM selezionata.", "error")
             return
 
-        # 🔌 Avvia upload
         self.compiler.log_callback = logger.log
         self.compiler.upload_via_usb(yaml_path, com_port)
 
-
-
     def scan_network_for_esp(self):
-        """Scansiona la rete locale per trovare ESPHome in ascolto sulla porta 3232."""
+        """
+        @brief Scans the local network for ESPHome devices listening on UDP port 3232.
+
+        Sends a UDP broadcast and listens for replies within a timeout,
+        populates the IP combo box with discovered devices and logs status.
+        """
         self.logger.log(Translator.tr("scan_in_progress"), "info")
         self.ip_combo.clear()
         found_ips = []
@@ -276,12 +310,22 @@ class TabCommand(QWidget):
         threading.Thread(target=scanner, daemon=True).start()
 
     def on_combo_ip_selected(self, idx):
+        """
+        @brief Updates OTA IP field when an IP is selected from the combo box.
+
+        @param idx Index of selected combo box entry.
+        """
         if idx >= 0:
             ip = self.ip_combo.currentText()
             if ip:
                 self.ota_ip_edit.setText(ip)
 
     def test_ota_connection(self):
+        """
+        @brief Tests connectivity to the ESP device over OTA.
+
+        Attempts TCP connection to specified IP and port, logging success or failure.
+        """
         ip = self.ota_ip_edit.text().strip()
         port = int(self.ota_port_edit.text().strip() or "3232")
         if not ip:
@@ -297,18 +341,30 @@ class TabCommand(QWidget):
             self.logger.log(Translator.tr("ota_fail").format(ip=ip, port=port, e=e), "error")
                 
     def flash_via_ota(self):
+        """
+        @brief Initiates OTA firmware upload.
+
+        Logs the attempt with IP, port, and presence of password.
+        """
         ip = self.ota_ip_edit.text().strip()
         port = self.ota_port_edit.text().strip()
         pwd = self.ota_pwd_edit.text()
         self.logger.log(Translator.tr("ota_upload").format(ip=ip, port=port, pwd='[inserted]' if pwd else '[empty]'), "info")
         
     def flash_via_usb(self):
-        """Stub per flash USB: da completare con la logica vera."""
+        """
+        @brief Stub method placeholder for USB flashing (logic to be implemented).
+        """
         com = self.com_combo.currentData()
         baud = self.baud_combo.currentText()
         self.logger.log(Translator.tr("usb_upload").format(com=com, baud=baud), "info")     
 
     def aggiorna_label(self):
+        """
+        @brief Updates all UI element texts to match current language settings.
+
+        Includes group titles, button labels, and placeholders.
+        """
         # USB/Serial Loader
         self.usb_box.setTitle(Translator.tr("usb_serial_loader"))
         # Non c'è self.test_btn
@@ -329,6 +385,12 @@ class TabCommand(QWidget):
         self.ota_pwd_edit.setPlaceholderText(Translator.tr("ota_password"))
 
     def compila_progetto(self):
+        """
+        @brief Initiates the compilation process for the current YAML project.
+
+        Prevents multiple simultaneous operations by disabling buttons and setting a busy flag.
+        Logs the compilation start and triggers the compiler’s compile method.
+        """
         if self.busy:
             logger.debug("DEBUG: comando compile ignorato perché busy = True")
             return
@@ -346,7 +408,10 @@ class TabCommand(QWidget):
 
     def erase_flash(self):
         """
-        Cancella la memoria flash dell'ESP32 tramite esptool, solo se non ci sono operazioni in corso.
+        @brief Erases the flash memory of the connected ESP device via esptool.
+
+        Ensures no operations are currently running, disables buttons,
+        logs start and success messages, and calls the compiler’s erase method.
         """
         if self.busy:
             logger.debug("DEBUG: comando erase ignorato perché busy = True")
@@ -381,6 +446,11 @@ class TabCommand(QWidget):
 
     @pyqtSlot()
     def riabilita_bottoni_qt(self):
+        """
+        @brief Qt slot that re-enables compile, upload, and erase buttons after operations finish.
+
+        Logs successful upload completion message and clears busy flag.
+        """
         self.compile_btn.setEnabled(True)
         self.flash_btn.setEnabled(True)
         self.erase_btn.setEnabled(True)

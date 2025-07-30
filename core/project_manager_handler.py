@@ -1,20 +1,39 @@
-import json
-from pathlib import Path
-from config.GUIconfig import DEFAULT_PROJECT_DIR
+# -*- coding: utf-8 -*-
+"""
+@file project_manager_handler.py
+@brief Loads and parses metadata for locally saved ESPHome projects organized by category.
 
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Scans subdirectories of DEFAULT_PROJECT_DIR and loads each project's `info.json`.  
+Used to populate the Project Manager UI with cards and metadata.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import json
+from config.GUIconfig import conf
+from core.translator import Translator
+from core.log_handler import GeneralLogHandler
 
 def load_local_projects() -> dict:
     """
-    Scansiona tutte le sottocartelle di DEFAULT_PROJECT_DIR e restituisce
-    un dizionario categoria -> lista progetti.
+    @brief Scans local project folders and returns a dictionary grouped by category.
 
-    Ogni progetto è un dizionario con i metadati letti da info.json + path.
+    Each project includes its parsed `info.json` metadata and absolute path.
+
+    @return dict {category_name: [project_info_dict, ...]}
     """
+
     result = {}
-    if not DEFAULT_PROJECT_DIR.exists():
+    if not conf.DEFAULT_PROJECT_DIR.exists():
         return result
 
-    for category_dir in DEFAULT_PROJECT_DIR.iterdir():
+    for category_dir in conf.DEFAULT_PROJECT_DIR.iterdir():
         if not category_dir.is_dir():
             continue
 
@@ -34,6 +53,7 @@ def load_local_projects() -> dict:
                     data["category"] = category_name
                     result[category_name].append(data)
                 except Exception as e:
-                    print(f"Errore caricando {info_path}: {e}")
-
+                    GeneralLogHandler().error(
+                        Translator.tr("project_info_load_error").format(path=info_path, error=e)
+                    )
     return result

@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+@file project_gallery_window.py
+@brief Main window displaying community projects from GitHub repository.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Loads project metadata from GitHub, groups projects by category,
+and displays project cards with metadata and actions such as download and description.
+
+Provides interactive UI with category selection and styled message dialogs.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import os, sys
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
     QScrollArea, QSizePolicy, QListWidget, QLineEdit, QApplication, QListWidgetItem, QMessageBox
@@ -7,18 +27,35 @@ from PyQt6.QtGui import QIcon
 from gui.color_pantone import Pantone
 from core.translator import Translator
 from core.github_handler import GitHubHandler
-import config.GUIconfig as config
-import os
-import sys
-from core.log_handler import GeneralLogHandler as logger
+from config.GUIconfig import conf
+from core.log_handler import GeneralLogHandler
+from core.translator import Translator
+
 
 
 class ProjectGalleryWindow(QMainWindow):
+    """
+    @brief Window showing a categorized gallery of ESPHome community projects.
+
+    Handles loading project metadata from GitHub,
+    populating category lists and project cards,
+    and providing download and description dialogs.
+
+    Includes UI styling consistent with application theme.
+    """
     def __init__(self):
+        """
+        @brief Initializes the gallery window, sets up UI components and loads project data.
+
+        Checks for network availability and shows a warning dialog if no projects are retrieved.
+        Initializes category list and scrollable project display area.
+        """
         super().__init__()
-        self.setWindowTitle("Community Projects")
+        self.setWindowTitle(Translator.tr("community_projects_title"))
         self.setMinimumSize(1050, 600)
         self.setStyleSheet(f"background-color: {Pantone.SECONDARY_BG};")
+
+        self.logger = GeneralLogHandler()
 
         self.categories = [
             "Home Monitoring", "Energy & Power", "Security & Alarm",
@@ -29,22 +66,10 @@ class ProjectGalleryWindow(QMainWindow):
         if not self.project_data:
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Icon.Warning)
-            msg.setWindowTitle("Errore di rete")
-            logger.warning("Nessun progetto recuperato dalla galleria GitHub. Controllare la connessione.")
-            msg.setStyleSheet("""
-                QMessageBox {
-                    background-color: #2e2e2e;
-                }
-                QPushButton {
-                    background-color: #444;
-                    color: white;
-                    border-radius: 4px;
-                    padding: 4px 12px;
-                }
-                QPushButton:hover {
-                    background-color: #666;
-                }
-            """)
+            msg.setWindowTitle(Translator.tr("network_error_title"))
+            if self.logger:
+                self.logger.log(Translator.tr("log_no_projects_downloaded"), "warning")
+            msg.setStyleSheet(Pantone.QMESSAGE_BOX)
 
             # 🔥 forza il colore bianco del testo QLabel interno
             for child in msg.children():
@@ -102,6 +127,11 @@ class ProjectGalleryWindow(QMainWindow):
         self.category_list.setCurrentRow(0)  # carica la prima categoria
 
     def build_category_index(self):
+        """
+        @brief Builds an index dictionary grouping projects by category.
+
+        @return Dictionary with category names as keys and lists of projects as values.
+        """
         result = {cat: [] for cat in self.categories}
         for proj in self.project_data:
             cat = proj.get("category", "Other / Misc")
@@ -109,6 +139,11 @@ class ProjectGalleryWindow(QMainWindow):
         return result
 
     def load_category_cards(self, category_name):
+        """
+        @brief Loads project cards for the selected category into the scroll area.
+
+        Clears existing cards and adds new widgets for each project in the category.
+        """
         emoji_to_category = {
             "🏠 Home Monitoring": "Home Monitoring",
             "⚡ Energy & Power": "Energy & Power",
@@ -129,6 +164,11 @@ class ProjectGalleryWindow(QMainWindow):
             self.add_project_card(project)
 
     def add_project_card(self, fields):
+        """
+        @brief Creates and adds a UI card widget displaying project metadata and action buttons.
+
+        @param fields Dictionary of project metadata fields (name, version, author, update).
+        """
         card = QWidget()
         card.setFixedHeight(100)
         card.setStyleSheet("""
@@ -142,8 +182,13 @@ class ProjectGalleryWindow(QMainWindow):
         card_layout.setSpacing(4)
 
         # Campi visibili
-        for label_text in ["Name", "Version", "Author", "Update"]:
-            value_text = fields.get(label_text, fields.get(label_text.lower(), "-"))
+        for key, label_text in [
+            ("name", Translator.tr("label_name")),
+            ("version", Translator.tr("label_version")),
+            ("author", Translator.tr("label_author")),
+            ("update", Translator.tr("label_update"))
+        ]:
+            value_text = fields.get(key, "-")
 
             row = QVBoxLayout()
             row.setSpacing(4)
@@ -186,30 +231,23 @@ class ProjectGalleryWindow(QMainWindow):
         self.scroll_layout.addWidget(card)
 
     def download_project(self, fields):
+        """
+        @brief Downloads the selected project from GitHub to the local community folder.
+
+        Creates local folders if needed and triggers GitHubHandler download.
+        Shows an information dialog on completion with local path.
+        """
         nome_progetto = fields.get("name", fields.get("Name", "unknown")).strip().replace(" ", "-").lower()
-        local_folder = os.path.join(config.COMMUNITY_LOCAL_FOLDER, nome_progetto)
+        local_folder = os.path.join(conf.COMMUNITY_LOCAL_FOLDER, nome_progetto)
         os.makedirs(local_folder, exist_ok=True)
 
         GitHubHandler.download_project_to_folder(nome_progetto, local_folder)
 
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Icon.Information)
-        msg.setWindowTitle("Download completato")
-        msg.setText(f"Il progetto '{nome_progetto}' è stato salvato in:\n{local_folder}")
-        msg.setStyleSheet("""
-            QMessageBox {
-                background-color: #2e2e2e;
-            }
-            QPushButton {
-                background-color: #444;
-                color: white;
-                border-radius: 4px;
-                padding: 4px 12px;
-            }
-            QPushButton:hover {
-                background-color: #666;
-            }
-        """)
+        msg.setWindowTitle(Translator.tr("download_completed_title"))
+        msg.setText(Translator.tr("download_completed_text").format(nome=nome_progetto, path=local_folder))
+        msg.setStyleSheet(Pantone.QMESSAGE_BOX)
         # Forza il testo bianco nel QLabel interno
         for child in msg.children():
             if isinstance(child, QLabel):
@@ -218,38 +256,20 @@ class ProjectGalleryWindow(QMainWindow):
         msg.exec()
 
     def mostra_descrizione_progetto(self, fields):
+        """
+        @brief Shows a message dialog displaying the project description.
+
+        @param fields Dictionary containing project metadata including description.
+        """
         nome = fields.get("name", fields.get("Name", "Senza nome"))
-        descrizione = fields.get("description", "Nessuna descrizione disponibile.")
+        descrizione = fields.get(Translator.tr("descrizione"), Translator.tr("no_description"))
 
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Icon.Information)
         msg.setWindowTitle(f"{nome}")
         msg.setText(descrizione)
-        msg.setStyleSheet("""
-            QMessageBox {
-                background-color: #2e2e2e;
-            }
-            QPushButton {
-                background-color: #444;
-                color: white;
-                border-radius: 4px;
-                padding: 4px 12px;
-            }
-            QPushButton:hover {
-                background-color: #666;
-            }
-        """)
+        msg.setStyleSheet(Pantone.QMESSAGE_BOX)
         for child in msg.children():
             if isinstance(child, QLabel):
                 child.setStyleSheet("color: white; font-size: 11pt;")
         msg.exec()
-
-
-
-
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = ProjectGalleryWindow()
-#     window.show()
-#     sys.exit(app.exec())

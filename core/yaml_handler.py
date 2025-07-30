@@ -1,18 +1,31 @@
+# -*- coding: utf-8 -*-
 """
 @file yaml_handler.py
-@brief Gestione avanzata del file YAML per esphomeGuieasy.
+@brief Provides high-level YAML processing for ESPHome projects.
 
-Contiene funzioni per caricare, salvare, modificare dinamicamente sezioni YAML
-senza sovrascrivere il contenuto globale, mantenendo commenti e ordine.
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Handles:
+- Loading YAML templates
+- Updating general sections (esphome, esp32, wifi)
+- Building sensor sections from GUI canvas
+- Inserting/removing module sections
+- Extracting module data from YAML or widgets
+
+Preserves formatting and comments using ruamel.yaml.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
-import os
-import json
+import os, json
 from ruamel.yaml import YAML
-from PyQt6.QtWidgets import QGraphicsScene
+from PyQt6.QtWidgets import *
 from gui.sensor_block_item import SensorBlockItem
 from io import StringIO
-from PyQt6.QtWidgets import *
 
 yaml = YAML()
 yaml.indent(mapping=2, sequence=4, offset=2)
@@ -20,18 +33,19 @@ yaml.preserve_quotes = True
 
 class YAMLHandler:
     """
-    @class YAMLHandler
-    @brief Classe per gestire le operazioni legate ai file YAML.
-    """
+    @brief Static class to handle YAML operations in the application.
 
+    All methods are static and operate on text or GUI canvas to generate valid YAML.
+    """
     # -----------------------------------------------
     # |  Caricamento del template YAML di default   |
     # -----------------------------------------------
     @staticmethod
     def load_default_yaml():
         """
-        @brief Carica il contenuto del template YAML con placeholder.
-        @return stringa del file YAML oppure messaggio d'errore
+        @brief Loads the default YAML template with placeholders.
+
+        @return YAML content as string, or error message on failure.
         """
         try:
             base_path = os.path.dirname(os.path.abspath(__file__))
@@ -47,13 +61,14 @@ class YAMLHandler:
     @staticmethod
     def generate_yaml_general_sections(current_yaml: str, device_name: str, board: str, ssid: str, password: str) -> str:
         """
-        @brief Aggiorna solo le sezioni generali nel file YAML senza toccare la sezione sensori.
-        @param current_yaml YAML attuale come stringa
-        @param device_name Nome del dispositivo (esphome.name)
-        @param board Nome board tecnica
-        @param ssid SSID rete WiFi
-        @param password Password WiFi
-        @return YAML aggiornato (solo sezioni generali)
+        @brief Updates only the general sections of a YAML file (esphome, esp32, wifi), without touching sensors.
+
+        @param current_yaml Existing YAML as string.
+        @param device_name Device name (used in esphome section).
+        @param board Board type (e.g., esp32dev).
+        @param ssid WiFi SSID.
+        @param password WiFi password.
+        @return Updated YAML as string.
         """
         try:
             from ruamel.yaml import YAML
@@ -94,10 +109,11 @@ class YAMLHandler:
     @staticmethod
     def generate_yaml_sensors_only(canvas: QGraphicsScene, current_yaml: str) -> str:
         """
-        @brief Aggiorna solo la sezione sensori nel file YAML senza toccare le sezioni generali.
-        @param canvas QGraphicsScene contenente i blocchi sensori
-        @param current_yaml YAML attuale da cui partire
-        @return YAML aggiornato (solo sensori)
+        @brief Generates only the `sensor` section of the YAML from the GUI canvas.
+
+        @param canvas QGraphicsScene containing sensor blocks.
+        @param current_yaml Existing YAML as string.
+        @return Updated YAML string with only the sensor section replaced.
         """
         try:
             data = yaml.load(current_yaml) or {}
@@ -175,6 +191,13 @@ class YAMLHandler:
     # -------------------------------------------------------------------------
     @staticmethod
     def extract_module_sections_from_widgets(widget_map: dict, modules_schema_path: str) -> dict:
+        """
+        @brief Extracts top-level module sections from a widget map based on a JSON schema.
+
+        @param widget_map Dictionary of GUI widget groups.
+        @param modules_schema_path Path to modules_schema.json file.
+        @return Dict of enabled modules with their parameters.
+        """
         with open(modules_schema_path, "r", encoding="utf-8") as f:
             schema = json.load(f)
         modules_dict = {}
@@ -222,11 +245,12 @@ class YAMLHandler:
     @staticmethod
     def generate_yaml_with_modules(current_yaml: str, modules_dict: dict, modules_schema_path: str) -> str:
         """
-        @brief Aggiorna/aggiunge/rimuove le sezioni moduli (top-level) nello YAML.
-        @param current_yaml YAML attuale come stringa
-        @param modules_dict dict {modulo_yaml_key: {parametri...}}
-        @param modules_schema_path Percorso al file modules_schema.json (serve per sapere i nomi di tutti i moduli gestiti)
-        @return YAML completo aggiornato
+        @brief Adds or updates top-level module sections in the YAML based on provided dictionary.
+
+        @param current_yaml Existing YAML as string.
+        @param modules_dict Dictionary of modules and parameters to write.
+        @param modules_schema_path Path to the modules schema.
+        @return Updated YAML as string.
         """
         try:
             data = yaml.load(current_yaml) or {}
@@ -256,6 +280,13 @@ class YAMLHandler:
 
     @staticmethod
     def extract_modules_from_yaml(yaml_string: str, modules_schema_path: str) -> dict:
+        """
+        @brief Reads a YAML string and extracts the values of supported modules as defined in schema.
+
+        @param yaml_string Full YAML content as string.
+        @param modules_schema_path Path to modules_schema.json.
+        @return Dict { gui_module_name: {key: value, ...} }
+        """
         with open(modules_schema_path, "r", encoding="utf-8") as f:
             schema = json.load(f)
         data = yaml.load(yaml_string) or {}
@@ -284,8 +315,11 @@ class YAMLHandler:
     @staticmethod
     def generate_yaml_sensors_only_with_log(canvas: QGraphicsScene, current_yaml: str) -> tuple[str, list]:
         """
-        @brief Genera solo la sezione sensori del file YAML, ma restituisce anche una lista di blocchi ignorati.
-        @return (yaml_string, lista_blocchi_scartati)
+        @brief Like generate_yaml_sensors_only, but also returns a list of ignored sensor blocks.
+
+        @param canvas QGraphicsScene with sensor items.
+        @param current_yaml YAML input string.
+        @return Tuple (yaml_string, ignored_sensor_names: list)
         """
         scartati = []
         try:

@@ -1,11 +1,31 @@
-# esphomeGuieasy - GUI editor for ESPHome
-# Copyright (c) 2025 Juri
-# Released under AGPLv3 - Non-commercial use only.
-# See LICENSE file for details.
+# -*- coding: utf-8 -*-
+"""
+@file main.py
+@brief Entry point of the ESPHomeGUIeasy application.
 
-import sys
-import os
-import json
+@mainpage ESPHomeGUIeasy
+@defgroup core_entry Entry Point
+@ingroup main
+@brief Application launcher, global initializer and exception handler.
+
+This file initializes the ESPHomeGUIeasy environment. It sets up the QApplication,
+loads the selected language (or prompts for it if not yet defined), handles
+global exception logging, manages the splash screen visibility logic, and finally
+launches the main user interface.
+
+Key responsibilities:
+- Loads application settings from the SQLite database
+- Displays a language selection dialog on first run
+- Initializes the splash screen (if enabled)
+- Ensures proper logging of uncaught exceptions
+- Launches the main application window (`MainWindow`)
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import sys, os, traceback
 from PyQt6.QtWidgets import QApplication, QDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
@@ -14,16 +34,15 @@ from gui.main_window import MainWindow
 from core.translator import Translator
 from gui.language_selection_dialog import LanguageSelectionDialog
 from gui.splash_screen import SplashScreen
-import config.GUIconfig as conf
+from config.GUIconfig import conf, GlobalPaths
 from core.settings_db import init_db, get_setting, set_setting
-from core.log_handler import GeneralLogHandler
-import logging
-import tempfile
 from core.log_handler import GeneralLogHandler
 
 def global_exception_hook(exc_type, exc_value, exc_traceback):
     logger = GeneralLogHandler()
-    logger.log_exception("UNCAUGHT EXCEPTION")
+    logger.error(f"UNCAUGHT EXCEPTION: {exc_type.__name__}: {exc_value}")
+    logger.error("Traceback:\n" + "".join(traceback.format_exception(exc_type, exc_value, exc_traceback)))
+
 
 sys.excepthook = global_exception_hook
 
@@ -34,8 +53,12 @@ logger.info("Avvio main.py")
 
 def should_show_splash() -> bool:
     """
-    Restituisce True se lo splash screen deve essere mostrato.
-    Se la chiave non è ancora presente nel database, imposta il valore predefinito a '1'.
+    @brief Determines whether the splash screen should be displayed.
+
+    Reads the `show_splash` setting from the SQLite configuration database.
+    If not previously set, defaults to True and creates the entry.
+
+    @return True if the splash screen should be shown, False otherwise.
     """
     splash_setting = get_setting("show_splash")
     if splash_setting is None:
@@ -44,10 +67,35 @@ def should_show_splash() -> bool:
     return splash_setting == "1"
 
 def show_main_window():
-    window = MainWindow()
-    window.show()
+    logger.info("=== CHIAMATA CALLBACK show_main_window() ===")
+    app = QApplication.instance()
+    if app is None:
+        logger.error("QApplication.instance() restituisce None!")
+    else:
+        try:
+            app.main_window = MainWindow()
+            app.main_window.show()
+            logger.info("Main window creata e mostrata!")
+        except Exception as e:
+            logger.error(f"Eccezione durante la creazione della MainWindow: {e}")
+            logger.error(traceback.format_exc())
 
 def main():
+    """
+    @brief Main application entry point.
+
+    This function performs all critical startup tasks in the correct order:
+
+    1. Initializes the `QApplication` instance required for the GUI.
+    2. Initializes the configuration database via `init_db()`.
+    3. Loads the current language settings or displays a language selection dialog if undefined.
+    4. Depending on configuration, displays the splash screen (`SplashScreen`) or skips it.
+    5. Starts the Qt event loop.
+
+    If any unexpected error occurs, the `GeneralLogHandler` records the exception to disk.
+
+    @throws Any unhandled exceptions will be logged and re-raised.
+    """    
     try:
         app = QApplication(sys.argv)
 
@@ -61,14 +109,13 @@ def main():
 
         # Controllo lingua
         language = get_setting("language")
-        print(language)
+        logger.debug(f"Lingua trovata nel DB: {language}")
         if not language or not language.strip():
             logger.debug("[DEBUG] Creo LanguageSelectionDialog")
             dlg = LanguageSelectionDialog()
             dlg.setWindowModality(Qt.WindowModality.ApplicationModal)
             dlg.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
             dlg.resize(400, 400)
-            dlg.show()
 
             logger.debug("[DEBUG] Apro exec() sul dialog")
             result = dlg.exec()
@@ -80,7 +127,7 @@ def main():
                 set_setting("language", language)
                 Translator.load_language(language.strip().lower())
             else:
-                logger.warning("Lingua non selezionata. Chiusura applicazione.")
+                logger.warning(Translator.tr("language_not_selected"))
                 logger.debug("[DEBUG] Lingua non selezionata, esco.")
                 return
 
@@ -90,7 +137,7 @@ def main():
         # Mostra splash SOLO dopo selezione lingua
         if should_show_splash():
             logger.info("Caricamento splash screen")
-            pixmap = QPixmap(conf.SPLASH_IMAGE)
+            pixmap = QPixmap(GlobalPaths.SPLASH_IMAGE)
             splash = SplashScreen(pixmap)
             splash.show()
             splash.start_initialization(on_complete_callback=show_main_window)
@@ -103,9 +150,11 @@ def main():
         GeneralLogHandler().log_exception("Errore imprevisto in main()")
         raise
 
-
-
-
-
 if __name__ == "__main__":
+    """
+    @brief Standard Python entry-point for standalone execution.
+
+    This ensures the main application logic is executed only when the file is run
+    directly (and not imported as a module).
+    """    
     main()

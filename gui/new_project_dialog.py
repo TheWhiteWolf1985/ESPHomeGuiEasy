@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+"""
+@file new_project_dialog.py
+@brief Dialog for creating a new ESPHome project with metadata and directory options.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Supports input of project name, author, version, category, description,
+base directory with folder browsing, and option for subfolders.
+
+Validates inputs and manages dialog buttons for creation and cancellation.
+"""
+
 from PyQt6.QtWidgets import QMessageBox
 import sys, os, re
 from gui.color_pantone import Pantone
@@ -8,7 +23,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from pathlib import Path
-from config.GUIconfig import DEFAULT_PROJECT_DIR
+from config.GUIconfig import conf
 
 CATEGORIES = [
     "Home Monitoring",
@@ -21,15 +36,22 @@ CATEGORIES = [
 ]
 
 class NewProjectDialog(QDialog):
-    def __init__(self, parent=None):
+    """
+    @brief Dialog window that collects user input for new project creation.
+
+    Includes validation for project name and base directory,
+    and populates UI controls for all required metadata fields.
+    """
+    def __init__(self, parent=None, logger=None):
         super().__init__(parent)
         self.setWindowTitle(Translator.tr("new_project"))
         self.setMinimumSize(600,400)
         self.init_ui()
         self.setStyleSheet(Pantone.DIALOG_STYLE)
+        self.logger = logger
 
-        DEFAULT_PROJECT_DIR.mkdir(parents=True, exist_ok=True)
-        self.base_dir_input.setText(str(DEFAULT_PROJECT_DIR))
+        conf.DEFAULT_PROJECT_DIR.mkdir(parents=True, exist_ok=True)
+        self.base_dir_input.setText(str(conf.DEFAULT_PROJECT_DIR))
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -150,25 +172,21 @@ class NewProjectDialog(QDialog):
 
         if not name:
             QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("error_project_name_required"))
+            if self.logger:
+                self.logger.log(Translator.tr("log_error_project_name_required"), "warning")
             return
 
-        # Controlla caratteri non validi per nomi di cartelle
         if re.search(r'[<>:"/\\|?*]', name):
             QMessageBox.warning(self, Translator.tr("warning"), Translator.tr("error_invalid_characters"))
+            if self.logger:
+                self.logger.log(Translator.tr("log_error_invalid_characters").format(name=name), "warning")
             return
 
         # Fallback se base_dir è vuoto
         if not base_dir:
-            self.base_dir_input.setText(str(DEFAULT_PROJECT_DIR))
+            self.base_dir_input.setText(str(conf.DEFAULT_PROJECT_DIR))
+            if self.logger:
+                self.logger.log(Translator.tr("log_base_dir_fallback"), "info")
+
 
         self.accept()
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     dlg = NewProjectDialog()
-#     if dlg.exec():
-#         data = dlg.get_data()
-#         print("Dati progetto:")
-#         for k, v in data.items():
-#             print(f"{k}: {v}")
-#     sys.exit()

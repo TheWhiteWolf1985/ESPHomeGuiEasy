@@ -1,7 +1,18 @@
-
+# -*- coding: utf-8 -*-
 """
 @file script_block_item.py
-@brief Blocco script (rosso scuro) espandibile per il canvas.
+@brief Expandable dark red script block for the sensor canvas.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Defines a draggable and selectable script block with toggle and close buttons,
+dynamic parameter widgets, and custom painting.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
 """
 
 from PyQt6.QtWidgets import (
@@ -11,15 +22,20 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QBrush, QPen, QColor, QFont, QIcon
 from PyQt6.QtCore import QRectF, Qt, QSize
 from core.translator import Translator
-import config.GUIconfig as conf
+from config.GUIconfig import conf, GlobalPaths, UIDimensions
 import os
 
 
 class ScriptBlockItem(QGraphicsItem):
+    """
+    @brief Represents a draggable and expandable script block item in the QGraphicsScene.
+
+    Manages UI components including title label, toggle and close buttons, and a container for parameter widgets.
+    """
     def __init__(self, title="Script"):
         super().__init__()
-        self.width = conf.BLOCK_WIDTH
-        self.height = conf.BLOCK_HEIGHT
+        self.width = UIDimensions.BLOCK_WIDTH
+        self.height = UIDimensions.BLOCK_HEIGHT
         self.title = title
         self.expanded = True
         self.param_widgets = {}
@@ -32,6 +48,9 @@ class ScriptBlockItem(QGraphicsItem):
         self.setup_ui()
 
     def setup_ui(self):
+        """
+        @brief Sets up UI elements including title, toggle and close buttons, and parameter container.
+        """
         self.title_item = QGraphicsTextItem(self.title, self)
         font = QFont("Consolas", 12, QFont.Weight.Bold)
         self.title_item.setFont(font)
@@ -39,7 +58,7 @@ class ScriptBlockItem(QGraphicsItem):
         self.title_item.setPos(10, 7)
 
         self.close_btn = QPushButton()
-        self.close_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "close.png")))
+        self.close_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "close.png")))
         self.close_btn.setIconSize(QSize(22, 22))
         self.close_btn.setFixedSize(25, 25)
         self.close_btn.setStyleSheet("""
@@ -59,7 +78,7 @@ class ScriptBlockItem(QGraphicsItem):
         self.close_proxy.setPos(self.width - 35, 8)
 
         self.toggle_btn = QPushButton()
-        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "expand.png")))
         self.toggle_btn.setIconSize(QSize(22, 22))
         self.toggle_btn.setFixedSize(25, 25)
         self.toggle_btn.setStyleSheet("""
@@ -89,15 +108,23 @@ class ScriptBlockItem(QGraphicsItem):
         self.proxy.setPos(0, 40)
 
     def toggle_expand(self):
+        """
+        @brief Toggles the expanded/collapsed state of the block, showing or hiding the parameter container.
+        """
         self.expanded = not self.expanded
         self.container.setVisible(self.expanded)
-        self.toggle_btn.setIcon(QIcon(os.path.join(conf.ICON_PATH, "expand.png")))
+        self.toggle_btn.setIcon(QIcon(os.path.join(GlobalPaths.ICON_PATH, "expand.png")))
         self.prepareGeometryChange()
         self.update()
         if self.scene():
             self.scene().update()
 
     def build_from_params(self, param_list):
+        """
+        @brief Dynamically builds parameter input fields from a list of parameter definitions.
+
+        @param param_list List of dictionaries defining keys, types, labels, defaults, and options.
+        """
         layout = self.container.layout()
         for param in param_list:
             key = param.get("key")
@@ -105,7 +132,7 @@ class ScriptBlockItem(QGraphicsItem):
             label_text = param.get("label", key)
             default = param.get("default", "")
 
-            label = QLabel(label_text)
+            label = QLabel(Translator.tr(label_text))
             layout.addWidget(label)
 
             if tipo == "text":
@@ -131,15 +158,24 @@ class ScriptBlockItem(QGraphicsItem):
             self.param_widgets[key] = field
 
     def boundingRect(self):
-        return QRectF(0, 0, self.width, self.height if self.expanded else conf.BLOCK_COLLAPSED_HEIGHT)
+        """
+        @brief Returns the bounding rectangle of the block, considering its expanded or collapsed state.
+        """
+        return QRectF(0, 0, self.width, self.height if self.expanded else UIDimensions.BLOCK_COLLAPSED_HEIGHT)
 
     def paint(self, painter, option, widget=None):
+        """
+        @brief Paints the block rectangle with dark red background and black border.
+        """
         painter.setBrush(QBrush(QColor("#b94a48")))  # Rosso scuro
         painter.setPen(QPen(Qt.GlobalColor.black, 2))
         height = int(self.boundingRect().height())
         painter.drawRoundedRect(0, 0, self.width, height, 10, 10)
 
     def remove_from_scene(self):
+        """
+        @brief Removes the block item from its QGraphicsScene.
+        """
         scene = self.scene()
         if scene:
             scene.removeItem(self)

@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+@file user_project_manager.py
+@brief Visual project manager for user ESPHome projects stored locally.
+
+@defgroup project_ui Project Manager
+@ingroup gui
+@brief GUI for managing user-created ESPHome projects with categories, cards and actions.
+
+Displays a categorized list of local projects stored in the `user_projects` directory,
+allowing users to open, edit, inspect or delete their own projects.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 import os, sys, json
 from pathlib import Path
 from PyQt6.QtWidgets import (
@@ -7,7 +24,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
-from config.GUIconfig import DEFAULT_PROJECT_DIR
+from config.GUIconfig import conf
 from datetime import datetime
 from core.translator import Translator
 from gui.custom_message_dialog import CustomMessageDialog
@@ -32,9 +49,28 @@ def format_changelog(changelog: list[dict]) -> str:
     return "\n".join(lines).strip()            
 
 class UserProjectManagerWindow(QMainWindow):
+    """
+    @brief Main window for managing local ESPHome user projects.
+
+    Displays project categories on the left and project cards on the right.
+    Each card shows metadata and quick action buttons (open, edit, info, delete).
+
+    @note Reads project metadata from `info.json` files and supports live updates.
+    """    
     def __init__(self, main_window=None):
+        """
+        @brief Initializes the project manager window.
+
+        Loads language, sets up layout with:
+        - Category list on the left
+        - Scrollable project card grid on the right
+        - Footer with close button
+
+        @param main_window Optional reference to the main application window (for callbacks).
+        """        
         super().__init__()
         self.main_window = main_window
+        self.logger = getattr(main_window, "logger", None)
         self.setWindowTitle(Translator.tr("user_projects_title"))
         self.setMinimumSize(1050, 600)
         self.setStyleSheet(f"background-color: {Pantone.SECONDARY_BG};")
@@ -149,11 +185,24 @@ class UserProjectManagerWindow(QMainWindow):
         main_layout.addWidget(footer)
 
     def load_project_metadata(self):
+        """
+        @brief Scans the user projects directory and reads metadata from each `info.json`.
+
+        For each subfolder under each category in `DEFAULT_PROJECT_DIR`, loads:
+        - name
+        - author
+        - version
+        - update
+        - description
+        - changelog (optional)
+
+        @return List of dictionaries, each containing one project's metadata.
+        """        
         projects = []
-        if not DEFAULT_PROJECT_DIR.exists():
+        if not conf.DEFAULT_PROJECT_DIR.exists():
             return projects
 
-        for category in DEFAULT_PROJECT_DIR.iterdir():
+        for category in conf.DEFAULT_PROJECT_DIR.iterdir():
             if not category.is_dir():
                 continue
             for project in category.iterdir():
@@ -170,6 +219,13 @@ class UserProjectManagerWindow(QMainWindow):
         return projects
 
     def build_category_index(self):
+        """
+        @brief Builds a dictionary mapping categories to their associated project data.
+
+        This helps quickly retrieve and display projects filtered by category.
+
+        @return Dictionary: category -> list of project metadata.
+        """        
         result = {cat: [] for cat in self.categories}
         for proj in self.project_data:
             cat = proj.get("category", "Other / Misc")
@@ -177,6 +233,14 @@ class UserProjectManagerWindow(QMainWindow):
         return result
 
     def load_category_cards(self, category_name):
+        """
+        @brief Loads and displays all project cards for the selected category.
+
+        Clears existing cards and populates the scroll area with widgets,
+        arranged in a 2-column grid.
+
+        @param category_name Displayed category name (with emoji).
+        """        
         category_key = self.emoji_to_category.get(category_name, category_name)
 
         # Pulisce tutte le card esistenti
@@ -197,6 +261,16 @@ class UserProjectManagerWindow(QMainWindow):
                 row += 1
 
     def create_project_card(self, project_data: dict) -> QWidget:
+        """
+        @brief Creates a QWidget representing a project card with metadata and buttons.
+
+        Displays:
+        - Project name, version, author, update date
+        - Buttons for open, info, edit, delete
+
+        @param project_data Dictionary with project metadata.
+        @return QWidget with styled layout and connected actions.
+        """        
         card = QWidget()
         card.setFixedSize(350, 250)
         card.setStyleSheet("""
@@ -254,10 +328,17 @@ class UserProjectManagerWindow(QMainWindow):
 
 
     def apri_progetto(self, fields):
+        """
+        @brief Opens the selected project in the main window.
+
+        Verifies the existence of the folder and YAML file,
+        resets the tabs, and loads the project into the main interface.
+
+        @param fields Dictionary containing `__path` and other metadata.
+        """        
         path = Path(fields.get("__path", ""))
-        print(f"[DEBUG] apri_progetto chiamato con path: {path}")
-        print(f"[DEBUG] main_window è: {repr(self.main_window)}")
-        print(f"[DEBUG] main_window.open_project esiste: {hasattr(self.main_window, 'open_project')}")
+        if self.main_window and hasattr(self.main_window, "logger"):
+            self.main_window.logger.log(f"Apertura progetto: {path}", "debug")
 
         if not path.exists():
             self.show_message(Translator.tr("error"), Translator.tr("folder_not_found"))
@@ -265,29 +346,44 @@ class UserProjectManagerWindow(QMainWindow):
 
         yaml_files = list(path.glob("*.yaml"))
         if not yaml_files:
-            self.show_message(Translator.tr("error"), "Nessun file .yaml trovato nella cartella progetto.")
+            self.show_message(Translator.tr("error"), Translator.tr("no_yaml_found"))
             return
 
         yaml_path = yaml_files[0]
-        print(f"[DEBUG] YAML trovato: {yaml_path}")
+        self.show_message(Translator.tr("error"), Translator.tr("info_json_not_found"))
 
         if self.main_window:
             # Verifica se è già aperto
             if os.path.abspath(str(self.main_window.last_save_path or "")) == os.path.abspath(str(yaml_path)):
-                print("[DEBUG] Progetto già aperto, forzo ricaricamento")
+                if self.logger:
+                    self.logger.log(Translator.tr("log_project_already_open"), "debug")
             else:
-                print("[DEBUG] Progetto diverso, procedo con apertura")
+                if self.logger:
+                    self.logger.log(Translator.tr("log_project_different_open"), "debug")
+
 
             self.main_window._reset_tabs()  # forza pulizia
             self.main_window.open_project(str(yaml_path))
             self.close()
         else:
-            self.show_message("Stub", f"Apertura finta del progetto:\n{yaml_path}")
+            self.show_message(Translator.tr("stub_title"), Translator.tr("stub_fake_open").format(path=yaml_path))
 
     def modifica_progetto(self, project_data):
+        """
+        @brief Opens the edit dialog to change project version and description.
+
+        After confirmation, updates:
+        - info.json
+        - update timestamp
+        - changelog array
+
+        Refreshes project list and card display.
+
+        @param project_data Dictionary with current project info.
+        """        
         info_path = Path(project_data.get("__path", "")) / "info.json"
         if not info_path.exists():
-            self.show_message(Translator.tr("error"), "File info.json non trovato.")
+            self.show_message(Translator.tr("error"), Translator.tr("info_json_not_found"))
             return
 
         try:
@@ -338,6 +434,13 @@ class UserProjectManagerWindow(QMainWindow):
 
 
     def elimina_progetto(self, project_data):
+        """
+        @brief Permanently deletes the selected project folder after user confirmation.
+
+        Triggers reload of metadata and cards.
+
+        @param project_data Dictionary with current project info.
+        """        
         path = Path(project_data.get("__path", ""))
         if not path.exists():
             self.show_message(Translator.tr("error"), Translator.tr("folder_not_found"))
@@ -363,6 +466,11 @@ class UserProjectManagerWindow(QMainWindow):
             self.show_message(Translator.tr("error"), Translator.tr("delete_error").format(e=e))
 
     def mostra_descrizione(self, project_data):
+        """
+        @brief Shows a dialog with the project description and formatted changelog.
+
+        @param project_data Dictionary with metadata and changelog.
+        """        
         description = project_data.get("description", "")
         changelog = project_data.get("changelog", [])  # deve essere una lista
         formatted_changelog = format_changelog(changelog)
@@ -370,6 +478,13 @@ class UserProjectManagerWindow(QMainWindow):
 
 
     def show_message(self, title: str, text: str, icon=QMessageBox.Icon.Information):
+        """
+        @brief Displays a standard modal message box.
+
+        @param title Window title of the dialog.
+        @param text Message text to display.
+        @param icon Icon to use (default: Information).
+        """        
         box = QMessageBox(self)
         box.setWindowTitle(title)
         box.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
@@ -380,15 +495,12 @@ class UserProjectManagerWindow(QMainWindow):
         box.exec()
 
     def show_message_custom(self, title: str, text: str, changelog: str):
+        """
+        @brief Displays a custom dialog with description and changelog formatted as Markdown.
+
+        @param title Dialog title.
+        @param text Description content.
+        @param changelog Changelog content formatted for display.
+        """        
         dlg = CustomMessageDialog(title, text, changelog, self)
         dlg.exec()        
-
-
-
-
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = UserProjectManagerWindow()
-#     window.show()
-#     sys.exit(app.exec())

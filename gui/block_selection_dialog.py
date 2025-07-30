@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+@file block_selection_dialog.py
+@brief Dialogs for selecting sensors, actions, triggers, conditions, timers, and scripts.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Provides multiple QDialog classes each for selecting a specific block type from JSON data,  
+including search/filter functionality and icon display.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLineEdit, QListWidget, QListWidgetItem,
     QDialogButtonBox, QLabel, QHBoxLayout, QComboBox, QSpinBox
@@ -6,15 +23,22 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
 import os, json
-from core.log_handler import GeneralLogHandler as logger
+from core.log_handler import GeneralLogHandler
+from core.translator import Translator
 
-# === SENSOR SELECTION DIALOG ===
 class SensorSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a sensor from the sensors JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, sensors_json_path: str, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Seleziona Sensore")
+        self.setWindowTitle(Translator.tr("select_sensor_title"))
         self.setMinimumSize(400, 500)
         self.selected_sensor = None
+
+        self.logger = GeneralLogHandler()
 
         self.setStyleSheet(Pantone.DIALOG_STYLE)
 
@@ -24,7 +48,7 @@ class SensorSelectionDialog(QDialog):
 
         # Filtro di ricerca
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Cerca sensore...")
+        self.search_bar.setPlaceholderText(Translator.tr("search_sensor"))
         self.search_bar.textChanged.connect(self.filter_list)
         layout.addWidget(self.search_bar)
 
@@ -47,13 +71,13 @@ class SensorSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("sensors", [])
         except Exception as e:
-            logger.error(f"Errore nel caricamento dei sensori: {e}")
+            self.logger.log(Translator.tr("log_failed_load_sensors").format(error=str(e)), "error")
             return []
 
     def populate_list(self):
         self.list_widget.clear()
         for sensor in self.sensors:
-            label = sensor.get("label", "Sconosciuto")
+            label = sensor.get("label", Translator.tr("unknown"))
             platform = sensor.get("platform", "?")
             conn_type = self.detect_connection_type(sensor)
             item = QListWidgetItem(QIcon(self.get_icon_path(platform)), f"{label} ({conn_type})")
@@ -93,11 +117,17 @@ class SensorSelectionDialog(QDialog):
     def get_selected_sensor(self):
         return self.selected_sensor
 
-# === ACTION SELECTION DIALOG ===
+
 class ActionSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting an action from the actions JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, actions_json_path: str, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Seleziona Azione")
+        self.setWindowTitle(Translator.tr("select_action_title"))
+        self.logger = GeneralLogHandler()
         self.setMinimumSize(400, 500)
         self.selected_action = None
 
@@ -108,7 +138,7 @@ class ActionSelectionDialog(QDialog):
 
         # Ricerca
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Cerca azione...")
+        self.search_bar.setPlaceholderText(Translator.tr("search_action"))
         self.search_bar.textChanged.connect(self.filter_list)
         layout.addWidget(self.search_bar)
 
@@ -131,14 +161,14 @@ class ActionSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("actions", [])
         except Exception as e:
-            logger.error(f"Errore nel caricamento delle azioni: {e}")
+            self.logger.log(Translator.tr("log_failed_load_sensors").format(error=str(e)), "error")
             return []
 
     def populate_list(self):
         self.list_widget.clear()
         for action in self.actions:
-            label = action.get("label", "Sconosciuta")
-            tipo = action.get("type", "?")
+            label = action.get("label", Translator.tr("unknown"))
+            tipo = action.get("type", Translator.tr("unknown_type"))
             item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f"{label} ({tipo})")
             item.setData(Qt.ItemDataRole.UserRole, action)
             self.list_widget.addItem(item)
@@ -165,12 +195,16 @@ class ActionSelectionDialog(QDialog):
     def get_selected_action(self):
         return self.selected_action
 
-
-# === TRIGGER SELECTION DIALOG ===
 class TriggerSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a trigger from the triggers JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, triggers_json_path: str, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Seleziona Trigger")
+        self.setWindowTitle(Translator.tr("select_trigger_title"))
+        self.logger = GeneralLogHandler()
         self.setMinimumSize(400, 500)
         self.selected_trigger = None
 
@@ -181,7 +215,7 @@ class TriggerSelectionDialog(QDialog):
 
         # Ricerca
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Cerca trigger...")
+        self.search_bar.setPlaceholderText(Translator.tr("search_trigger"))
         self.search_bar.textChanged.connect(self.filter_list)
         layout.addWidget(self.search_bar)
 
@@ -204,14 +238,14 @@ class TriggerSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("triggers", [])
         except Exception as e:
-            logger.error(f"Errore nel caricamento dei trigger: {e}")
+            self.logger.log(Translator.tr("log_failed_load_sensors").format(error=str(e)), "error")
             return []
 
     def populate_list(self):
         self.list_widget.clear()
         for trigger in self.triggers:
-            label = trigger.get("label", "Sconosciuto")
-            tipo = trigger.get("type", "?")
+            label = trigger.get("label", Translator.tr("unknown"))
+            tipo = trigger.get("type", Translator.tr("unknown_type"))
             item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f"{label} ({tipo})")
             item.setData(Qt.ItemDataRole.UserRole, trigger)
             self.list_widget.addItem(item)
@@ -238,12 +272,16 @@ class TriggerSelectionDialog(QDialog):
     def get_selected_trigger(self):
         return self.selected_trigger
 
-
-# === CONDITION SELECTION DIALOG ===
 class ConditionSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a condition from the conditions JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, conditions_json_path: str, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Seleziona Condizione")
+        self.setWindowTitle(Translator.tr("select_condition_title"))
+        self.logger = GeneralLogHandler()
         self.setMinimumSize(400, 500)
         self.selected_condition = None
 
@@ -254,7 +292,7 @@ class ConditionSelectionDialog(QDialog):
 
         # Ricerca
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Cerca condizione...")
+        self.search_bar.setPlaceholderText(Translator.tr("search_condition"))
         self.search_bar.textChanged.connect(self.filter_list)
         layout.addWidget(self.search_bar)
 
@@ -277,14 +315,14 @@ class ConditionSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("conditions", [])
         except Exception as e:
-            logger.error(f"Errore nel caricamento delle condizioni: {e}")
+            self.logger.log(Translator.tr("log_failed_load_sensors").format(error=str(e)), "error")
             return []
 
     def populate_list(self):
         self.list_widget.clear()
         for condition in self.conditions:
-            label = condition.get("label", "Sconosciuta")
-            tipo = condition.get("type", "?")
+            label = condition.get("label", Translator.tr("unknown"))
+            tipo = condition.get("type", Translator.tr("unknown_type"))
             item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f"{label} ({tipo})")
             item.setData(Qt.ItemDataRole.UserRole, condition)
             self.list_widget.addItem(item)
@@ -311,12 +349,16 @@ class ConditionSelectionDialog(QDialog):
     def get_selected_condition(self):
         return self.selected_condition
 
-
-# === TIMER SELECTION DIALOG ===
 class TimerSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a timer or interval from the timers JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, timers_json_path: str, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Seleziona Timer / Interval")
+        self.setWindowTitle(Translator.tr("select_timer_title"))
+        self.logger = GeneralLogHandler()
         self.setMinimumSize(400, 500)
         self.selected_timer = None
 
@@ -327,7 +369,7 @@ class TimerSelectionDialog(QDialog):
 
         # Ricerca
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Cerca intervallo...")
+        self.search_bar.setPlaceholderText(Translator.tr("search_timer"))
         self.search_bar.textChanged.connect(self.filter_list)
         layout.addWidget(self.search_bar)
 
@@ -350,14 +392,14 @@ class TimerSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("timers", [])
         except Exception as e:
-            logger.error(f"Errore nel caricamento dei timer: {e}")
+            self.logger.log(Translator.tr("log_failed_load_sensors").format(error=str(e)), "error")
             return []
 
     def populate_list(self):
         self.list_widget.clear()
         for timer in self.timers:
-            label = timer.get("label", "Sconosciuto")
-            tipo = timer.get("type", "?")
+            label = timer.get("label", Translator.tr("unknown"))
+            tipo = timer.get("type", Translator.tr("unknown_type"))
             item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f"{label} ({tipo})")
             item.setData(Qt.ItemDataRole.UserRole, timer)
             self.list_widget.addItem(item)
@@ -385,11 +427,16 @@ class TimerSelectionDialog(QDialog):
         return self.selected_timer
 
 
-# === SCRIPT SELECTION DIALOG ===
 class ScriptSelectionDialog(QDialog):
+    """
+    @brief Dialog window for selecting a script from the scripts JSON list.
+
+    Supports search filtering and double-click/OK selection.
+    """
     def __init__(self, scripts_json_path: str, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Seleziona Script")
+        self.setWindowTitle(Translator.tr("select_script_title"))
+        self.logger = GeneralLogHandler()
         self.setMinimumSize(400, 500)
         self.selected_script = None
 
@@ -400,7 +447,7 @@ class ScriptSelectionDialog(QDialog):
 
         # Ricerca
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Cerca script...")
+        self.search_bar.setPlaceholderText(Translator.tr("search_script"))       
         self.search_bar.textChanged.connect(self.filter_list)
         layout.addWidget(self.search_bar)
 
@@ -423,14 +470,14 @@ class ScriptSelectionDialog(QDialog):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f).get("scripts", [])
         except Exception as e:
-            logger.error(f"Errore nel caricamento degli script: {e}")
+            self.logger.log(Translator.tr("log_failed_load_sensors").format(error=str(e)), "error")
             return []
 
     def populate_list(self):
         self.list_widget.clear()
         for script in self.scripts:
-            label = script.get("label", "Sconosciuto")
-            tipo = script.get("type", "?")
+            label = script.get("label", Translator.tr("unknown"))
+            tipo = script.get("type", Translator.tr("unknown_type"))
             item = QListWidgetItem(QIcon(self.get_icon_path(tipo)), f"{label} ({tipo})")
             item.setData(Qt.ItemDataRole.UserRole, script)
             self.list_widget.addItem(item)

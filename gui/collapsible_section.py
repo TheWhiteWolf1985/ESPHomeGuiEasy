@@ -1,14 +1,41 @@
+# -*- coding: utf-8 -*-
+"""
+@file collapsible_section.py
+@brief Custom collapsible/expandable section widget for use as accordion panels.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Implements a QWidget that can expand or collapse its content area,
+with a toggle button that shows an arrow and optional icon.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QToolButton, QFrame, QSizePolicy
 )
 from PyQt6.QtCore import Qt
 from gui.color_pantone import Pantone
+from core.translator import Translator
 
 class CollapsibleSection(QWidget):
     """
-    Sezione collassabile/espandibile per uso in accordion custom.
+    @brief A collapsible panel widget that can show or hide its content with a toggle button.
+
+    Includes an arrow icon indicating expansion state, and supports a text title with optional icon.
     """
     def __init__(self, title: str, content: QWidget, icon: str = ""):
+        """
+        @brief Initializes the collapsible section with a title, content widget, and optional icon.
+
+        @param title The header text to display.
+        @param content The QWidget to show or hide inside the section.
+        @param icon Optional string icon (e.g. emoji) to show before the title.
+        """
         super().__init__()
         self._icon = icon  # <--- salva l’icona come attributo di istanza
         self.toggle_button = QToolButton(text=f"{icon} {title}", checkable=True, checked=False)
@@ -37,6 +64,11 @@ class CollapsibleSection(QWidget):
         self.content_area.setLayout(content_layout)
 
     def on_toggled(self, checked):
+        """
+        @brief Slot connected to the toggle button to expand or collapse the content area.
+
+        @param checked True if expanded, False if collapsed.
+        """
         if checked:
             self.toggle_button.setArrowType(Qt.ArrowType.DownArrow)
             self.content_area.setMaximumHeight(16777215)
@@ -46,6 +78,10 @@ class CollapsibleSection(QWidget):
         self.updateGeometry()
 
     def set_title(self, title):
-        """Aggiorna il testo dell’accordion mantenendo l’icona."""
+        """
+        @brief Updates the section title text, preserving the icon.
+
+        @param title New text for the header.
+        """
         self.toggle_button.setText(f"{self._icon} {title}")        
 

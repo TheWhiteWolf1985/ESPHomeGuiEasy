@@ -1,10 +1,29 @@
+# -*- coding: utf-8 -*-
+"""
+@file tab_sensori.py
+@brief GUI tab managing sensors, actions, triggers, and logic blocks for ESPHome.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief Graphical interface: canvas and block-based configuration.
+
+Provides a visual interface for creating and connecting ESPHome components
+such as sensors, actions, triggers, conditions, timers, and scripts.
+
+The visual blocks are dynamically generated based on JSON definitions,
+and YAML is generated or parsed accordingly.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QPushButton, QHBoxLayout, QSpinBox, QLineEdit, QComboBox
 from PyQt6.QtCore import Qt
 from gui.sensor_canvas import SensorCanvas
 from core.yaml_handler import YAMLHandler
 from gui.color_pantone import Pantone
 from ruamel.yaml import YAML
-from gui.sensor_block_item import SensorBlockItem
 from core.translator import Translator
 from gui.block_selection_dialog import *
 from gui.sensor_block_item import SensorBlockItem
@@ -14,10 +33,32 @@ from gui.condition_block_item import ConditionBlockItem
 from gui.timer_block_item import TimerBlockItem
 from gui.script_block_item import ScriptBlockItem
 import os
-from core.log_handler import GeneralLogHandler as logger
+from config.GUIconfig import GlobalPaths
+
 
 class TabSensori(QWidget):
+    """
+    @brief Tab widget that allows visual configuration of ESPHome sensors and logic blocks.
+
+    This tab provides a drag-and-drop canvas to manage sensors, actions, triggers,
+    and other ESPHome components as modular blocks. Each block is configured via forms
+    and can be serialized to YAML or reconstructed from it.
+
+    The components are defined in JSON files and dynamically rendered on the canvas.
+
+    @note This class is part of the GUI layer and uses `SensorCanvas` for rendering blocks.
+    """    
     def __init__(self, yaml_editor, logger, tab_settings):
+        """
+        @brief Constructor that initializes the tab layout and sensor creation interface.
+
+        Builds the canvas, buttons, and group boxes for adding sensors and related ESPHome
+        logic components. Connects UI actions and styles elements accordingly.
+
+        @param yaml_editor Reference to the shared YAML editor (QPlainTextEdit).
+        @param logger Reference to the application-wide logger instance.
+        @param tab_settings Reference to the settings tab, used for connection type inference.
+        """        
         super().__init__()
         self.logger = logger
         self.tab_settings = tab_settings  
@@ -90,6 +131,13 @@ class TabSensori(QWidget):
         layout.addWidget(sensor_creation)
 
     def _editor(self):
+        """
+        @brief Returns the active YAML editor instance from the main window.
+
+        This utility method accesses the editor safely by checking its availability and existence.
+
+        @return QTextEdit instance if valid, otherwise None.
+        """        
         main = self.window()
         if hasattr(main, "yaml_editor") and main.yaml_editor:
             return main.yaml_editor
@@ -98,8 +146,14 @@ class TabSensori(QWidget):
 
     def aggiorna_yaml_da_blocchi(self):
         """
-        @brief Aggiorna SOLO la sezione sensori nel file YAML, mantenendo il resto invariato.
-        Logga eventuali blocchi ignorati per campi incompleti.
+        @brief Updates the YAML editor by extracting only the sensor-related blocks.
+
+        Parses the current sensor canvas and generates an updated YAML string
+        containing just the `sensor:` section while preserving other parts.
+
+        Logs a warning for each block skipped due to incomplete fields.
+
+        @note Uses `YAMLHandler.generate_yaml_sensors_only_with_log()`.
         """
         try:
             main = self.window()
@@ -107,7 +161,6 @@ class TabSensori(QWidget):
             if editor is None:
                 return
 
-            from core.yaml_handler import YAMLHandler
             current_yaml = editor.toPlainText()
 
             # Usa metodo esteso con lista blocchi scartati
@@ -140,13 +193,22 @@ class TabSensori(QWidget):
 
 
     def get_sensor_canvas(self):
+        """
+        @brief Returns the SensorCanvas instance used to manage visual blocks.
+
+        @return Pointer to the SensorCanvas instance.
+        """        
         return self.sensor_canvas
     
     def aggiorna_blocchi_da_yaml(self, yaml_content):
         """
-        @brief Parsea il file YAML e ricrea i blocchi dei sensori sul canvas.
-        """
+        @brief Parses the provided YAML content and reconstructs visual sensor blocks.
 
+        Clears all existing blocks, then loads sensor definitions from the JSON file
+        and instantiates them as visual blocks within the canvas.
+
+        @param yaml_content YAML content as string.
+        """
         # 1. Svuota tutti i blocchi esistenti
         self.get_sensor_canvas().clear_blocks()
 
@@ -165,15 +227,14 @@ class TabSensori(QWidget):
             return
 
         # 3. Carica definizioni da sensors.json
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+        json_path = GlobalPaths.SENSORS_JSON_PATH
         dialog = SensorSelectionDialog(sensors_json_path=json_path)
         sensor_defs = dialog.sensors
 
         # 4. Ricrea ogni blocco
         for sensor in data["sensor"]:
             platform = sensor.get("platform", "").lower()
-            name = sensor.get("name", "Nuovo Sensore")
+            name = sensor.get("name", Translator.tr("new_sensor"))
 
             # Trova definizione da JSON
             sensor_def = next(
@@ -226,7 +287,11 @@ class TabSensori(QWidget):
 
 
     def aggiorna_label(self):
-        from core.translator import Translator
+        """
+        @brief Updates all UI text labels in the tab based on the active translation.
+
+        Also updates the labels of existing blocks in the scene, if available.
+        """        
         self.sensor_canvas.setToolTip(Translator.tr("sensors_creation"))
         self.add_sensor_btn.setText("➕ " + Translator.tr("add_sensor"))
         self.update_yaml_btn.setText("🔁 " + Translator.tr("update_yaml"))
@@ -237,16 +302,17 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_sensore(self):
         """
-        @brief Apre la dialog di selezione sensore e aggiunge un blocco al canvas se confermato.
+        @brief Opens the sensor selection dialog and adds the selected sensor block to the canvas.
+
+        The block is dynamically built from JSON metadata and configured accordingly.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "sensors.json")
+        json_path = GlobalPaths.SENSORS_JSON_PATH
 
         dialog = SensorSelectionDialog(sensors_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_sensor()
             if selected:
-                label = selected.get("label", "Nuovo Sensore")
+                label = selected.get("label", Translator.tr("new_sensor"))
                 solo_nome = label.split(" (")[0]  # Prende tutto prima della prima parentesi aperta
                 blocco = SensorBlockItem(title=solo_nome)
                 blocco.sensor_platform = selected.get("platform", "custom")
@@ -267,17 +333,17 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_azione(self):
         """
-        @brief Apre la dialog di selezione azione e aggiunge un blocco al canvas se confermato.
-        """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "actions.json")
+        @brief Opens the action selection dialog and adds the selected action block to the canvas.
 
-        from gui.block_selection_dialog import ActionSelectionDialog
+        Dynamically builds parameters from the JSON action definition.
+        """
+        json_path = GlobalPaths.ACTIONS_JSON_PATH
+
         dialog = ActionSelectionDialog(actions_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_action()
             if selected:
-                label = selected.get("label", "Nuova Azione")
+                label = selected.get("label", Translator.tr("new_action"))
                 solo_nome = label.split(" (")[0]
                 blocco = ActionBlockItem(title=solo_nome)
 
@@ -289,16 +355,17 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_trigger(self):
         """
-        @brief Apre la dialog di selezione trigger e aggiunge un blocco al canvas se confermato.
+        @brief Opens the trigger selection dialog and adds the selected trigger block to the canvas.
+
+        Parameters are set based on trigger metadata in the JSON file.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "triggers.json")
+        json_path = GlobalPaths.TRIGGERS_JSON_PATH
 
         dialog = TriggerSelectionDialog(triggers_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_trigger()
             if selected:
-                label = selected.get("label", "Nuovo Trigger")
+                label = selected.get("label", Translator.tr("new_trigger"))
                 solo_nome = label.split(" (")[0]
                 blocco = TriggerBlockItem(title=solo_nome)
 
@@ -310,16 +377,17 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_condizione(self):
         """
-        @brief Apre la dialog di selezione condizione e aggiunge un blocco al canvas se confermato.
+        @brief Opens the condition selection dialog and adds the selected condition block to the canvas.
+
+        Automatically builds input fields using metadata from the `conditions.json` file.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "conditions.json")
+        json_path = GlobalPaths.CONDITIONS_JSON_PATH
 
         dialog = ConditionSelectionDialog(conditions_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_condition()
             if selected:
-                label = selected.get("label", "Nuova Condizione")
+                label = selected.get("label", Translator.tr("new_condition"))
                 solo_nome = label.split(" (")[0]
                 blocco = ConditionBlockItem(title=solo_nome)
 
@@ -331,16 +399,17 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_timer(self):
         """
-        @brief Apre la dialog di selezione timer e aggiunge un blocco al canvas se confermato.
+        @brief Opens the timer selection dialog and adds the selected timer block to the canvas.
+
+        Populates block parameters using the associated JSON definition.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "timers.json")
+        json_path = GlobalPaths.TIMERS_JSON_PATH
 
         dialog = TimerSelectionDialog(timers_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_timer()
             if selected:
-                label = selected.get("label", "Nuovo Timer")
+                label = selected.get("label", Translator.tr("new_timer"))
                 solo_nome = label.split(" (")[0]
                 blocco = TimerBlockItem(title=solo_nome)
 
@@ -352,16 +421,17 @@ class TabSensori(QWidget):
 
     def aggiungi_blocco_script(self):
         """
-        @brief Apre la dialog di selezione script e aggiunge un blocco al canvas se confermato.
+        @brief Opens the script selection dialog and adds the selected script block to the canvas.
+
+        The block is customized based on the structure defined in `scripts.json`.
         """
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(base_dir, "..", "config", "scripts.json")
+        json_path = GlobalPaths.SCRIPTS_JSON_PATH
 
         dialog = ScriptSelectionDialog(scripts_json_path=json_path, parent=self)
         if dialog.exec():
             selected = dialog.get_selected_script()
             if selected:
-                label = selected.get("label", "Nuovo Script")
+                label = selected.get("label", Translator.tr("new_script"))
                 solo_nome = label.split(" (")[0]
                 blocco = ScriptBlockItem(title=solo_nome)
 

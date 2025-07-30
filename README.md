@@ -1,4 +1,3 @@
-
 # esphomeGuieasy
 
 ![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)
@@ -8,7 +7,7 @@
 
 [![Donate](https://img.shields.io/badge/PayPal-Donate-blue?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=HVA3DZFRLW9NU)
 
-> 🇬🇧 If this project helped you, you can support the development via PayPal donation!
+> If this project helped you, you can support the development via PayPal donation!
 
 ---
 
@@ -25,7 +24,7 @@ Whether you're a beginner in home automation or a power user managing multiple d
 
 ---
 
-### 💡 Key Features
+## 💡 Key Features
 
 - 🧱 **Visual “block-style” editor**  
   Drag & drop preconfigured sensor/action blocks — no YAML syntax needed
@@ -36,7 +35,7 @@ Whether you're a beginner in home automation or a power user managing multiple d
 - 🖥️ **Cross-platform UI**  
   Clean and responsive PyQt6-based GUI, available in multiple languages (EN, IT, ES, DE)
 
-- 📄 **Project Manager** *(new in v1.4.0)*  
+- 📄 **Project Manager** *(since v1.4.0)*  
   Organize projects by category with metadata, changelogs, and quick actions
 
 - 🔌 **Integrated Flashing**  
@@ -45,33 +44,104 @@ Whether you're a beginner in home automation or a power user managing multiple d
 - 🧰 **Console with build logs**  
   Real-time output while building and flashing firmware
 
-- 💾 **No external setup required**  
-  Works out of the box — no need to install Python or ESPHome manually
+- 📁 **Local project folder & YAML structure**  
+  Compatible with ESPHome CLI structure
+
+- 💾 **Works out of the box**  
+  No Python installation or venv required — ships with Python embedded
 
 ---
 
-**ESPHomeGUIeasy is open source** and intended for users who prefer a desktop-first approach to ESPHome development, especially when dealing with multiple devices or structured project folders.
+## 📚 Technical Documentation
+
+- \ref boards "📦 Supported Boards"
+- \ref modules_schema "🧱 Modules Schema"
+- \ref sensors "🌡 Sensor Definitions"
 
 ---
 
-## 💾 Installation methods
+## 💾 Installation
 
-### 🔹 Option 1: Using the Windows Installer (recommended)
+### 🔹 Option 1: Windows Installer
 
-1. Download the `.exe` installer from the [Releases](https://github.com/YOUR_USERNAME/esphomeGuieasy/releases) page
-2. Run the installer and follow the wizard
-3. The program will be installed in `Program Files` and added to the Start menu and Desktop
+1. Download the `.exe` file from the [Releases](https://github.com/TheWhiteWolf1985/esphomeGuieasy/releases)
+2. Run the installer
+3. Follow the wizard to complete installation
 4. On first launch:
    - You will be prompted to select a language
-   - A user configuration database will be created in:
-     `%APPDATA%\ESPHomeGUIeasy\user_config.db`
-   - A log file will be created at:
-     `%APPDATA%\ESPHomeGUIeasy\esphomeguieasy_log.txt`
+   - A config database will be created at:  
+     `%LOCALAPPDATA%\ESPHomeGUIeasy\user_config.db`
+   - Logs will be saved to:  
+     `%LOCALAPPDATA%\ESPHomeGUIeasy\esphomeguieasy_log.txt`
 
-⚠️ **Security Notice:**  
-Some antivirus (like Windows Defender) may **falsely flag** the installer or `.exe` (e.g. *Phonzy.A!ml*).  
-This is a **false positive**, due to the unsigned nature and embedded Python runtime.  
-You can safely click **"More info → Run anyway"** when prompted by SmartScreen.
+> ⚠️ **Note:** SmartScreen or antivirus may falsely flag the installer. Click **"More info" > "Run anyway"**.
+
+---
+
+### 🔹 Option 2: macOS
+
+1. Download the `.tar.gz` file from the [Releases](https://github.com/TheWhiteWolf1985/esphomeGuieasy/releases)
+2. Open the downloaded `.tar.gz` file and drag **ESPHomeGUIeasy** into `/Applications`.
+3. On first launch:
+    - If you see "App is from unidentified developer", right-click the app and select **"Open"**.
+    - Accept language selection prompt.
+
+> 🔐 If serial ports do not appear:
+> Grant Terminal and App full disk and USB access via **System Settings > Privacy & Security**
+
+---
+
+### 🔹 Option 3: Linux
+
+1. Download the `.tar.gz` from [Releases](https://github.com/TheWhiteWolf1985/esphomeGuieasy/releases)
+2. Extract the archive and run the application:
+   ```bash
+   tar -xzf ESPHomeGUIeasy.tar.gz
+   ./ESPHomeGUIeasy/ESPHomeGUIeasy.sh
+
+> 🔐 Grant serial port permissions:
+> ```bash
+> sudo usermod -aG dialout $(whoami)
+> reboot
+> ```
+
+> 🛠 Dependencies like Python and ESPHome are bundled. You don’t need to install them separately.
+
+---
+
+### 🔹 Option 4: Running from source (for advanced or hybrid users)
+
+#### 1. Prerequisites
+- Python **3.10 or higher**  
+- ESPHome installed globally:
+  ```bash
+  pip install esphome
+  ```
+
+#### 2. Clone the repository
+```bash
+git clone https://github.com/TheWhiteWolf1985/ESPHomeGuiEasy.git
+cd ESPHomeGuiEasy
+```
+
+#### 3. Create a virtual environment
+```bash
+python -m venv venv
+# Activate:
+venv\Scripts\activate       # On Windows
+source venv/bin/activate     # On macOS/Linux
+
+```
+
+#### 4. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+#### 5. Run the app
+```bash
+python main.py
+```
 
 ---
 
@@ -89,99 +159,64 @@ You can safely click **"More info → Run anyway"** when prompted by SmartScreen
 #### 🔧 Settings Panel
 ![Settings](docs/images/screenshot_settings.png)
 
-
 ---
 
-### 🔹 Option 2: Running from source
+## 🧰 Dependencies (bundled in embedded build)
 
-#### 1. Prerequisites
-- Python **3.10 or higher** ([download here](https://www.python.org/downloads/))
-- [ESPHome](https://esphome.io/) globally installed:
-  ```bash
-  pip install esphome
-  ```
-- OS: **Windows, Linux, macOS**
-
-#### 2. Clone the repository
-```bash
-git clone https://github.com/TheWhiteWolf1985/ESPHomeGuiEasy.git
-cd ESPHomeGuiEasy
-```
-
-#### 3. Create a virtual environment
-```bash
-python -m venv venv
-venv\Scripts\activate         # On Windows
-# OR
-python -m venv venv
-source venv/bin/activate      # On macOS/Linux
-```
-
-#### 4. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-#### 5. Run the app
-```bash
-python main.py
-```
-
----
-
-## 🧰 Dependencies
-
-- **PyQt6** — graphical interface
-- **ruamel.yaml** — YAML handling
-- **pyserial** — serial port communication
+- **PyQt6** — GUI interface
+- **ruamel.yaml** — YAML support
+- **pyserial** — serial communication
 
 ---
 
 ## 🛠 Troubleshooting
 
-- **ModuleNotFoundError: 'PyQt6'**
-  - Make sure you activated the `venv` before installing requirements
-  - Try: `pip install -r requirements.txt`
+- **The program doesn't start**
+  - Extract all files before running
+  - Check antivirus or run from terminal:
+    ```bash
+    ./ESPHomeGUIeasy > log.txt 2>&1
+    ```
 
-- **'esphome' not found**
-  - Ensure it's installed globally via `pip install esphome`
+- **ESPHome not found**
+  - Make sure it's in your `PATH`, or install it:
+    ```bash
+    pip install esphome
+    ```
 
-- **Permission error on serial ports (Linux/macOS):**
+- **Serial port errors on Linux/macOS**
   ```bash
   sudo usermod -aG dialout $(whoami)
+  reboot
   ```
-
-- **Unexpected error or crash**
-  - Open an issue and provide:
-    - OS and version
-    - Python version
-    - Full error log
 
 ---
 
 ## 📁 Project Structure
 
 ```
-core/ # YAML, flash, logging logic
-gui/ # PyQt6 interface components
-assets/ # Icons and graphics
-config/ # Boards, templates
-main.py # Entry point (called from ESPHomeRunner.exe or .bat)
+core/        # YAML handling, flashing, logging
+config/      # JSON definitions: boards, sensors, modules
+docs/        # Doxygen documentation
+gui/         # GUI interface (PyQt6)
+assets/      # Icons and UI graphics
+main.py      # Entry point for the app
 ```
 
 ---
 
-## 🗂️ Where user files are stored
+## 🗂️ User Configuration & Logs
 
-After installation, the application creates the following directory for configuration and logs:
+All user data is stored in:
 
-%APPDATA%\ESPHomeGUIeasy\
+- **Windows**: `%LOCALAPPDATA%\ESPHomeGUIeasy`
+- **macOS/Linux**: `~/.config/ESPHomeGUIeasy` or `$XDG_CONFIG_HOME/ESPHomeGUIeasy`
 
-- `user_config.db` — contains language and startup preferences
-- `esphomeguieasy_log.txt` — contains startup logs and crash info
+Files:
+- `user_config.db` — language and startup preferences
+- `esphomeguieasy_log.txt` — crash and debug log
 
-This folder is fully writable by the user. You can delete it to reset the application to first-launch state.
-
+You can safely delete this folder to reset the app.
 
 ---
 
@@ -197,7 +232,7 @@ This folder is fully writable by the user. You can delete it to reset the applic
 ## 🤝 Contributing
 
 Contributions are welcome via pull request or issue.  
-Please report bugs in the [Issues section](https://github.com/YOUR_USERNAME/esphomeGuieasy/issues) with:
+Please report bugs in the [Issues section](https://github.com/TheWhiteWolf1985/esphomeGuieasy/issues) with:
 - OS and version
 - Python version
 - Steps to reproduce the problem

@@ -1,13 +1,39 @@
-import logging
-import os
-import traceback
+# -*- coding: utf-8 -*-
+"""
+@file log_handler.py
+@brief Provides classes to handle log output both to a file and to a GUI console widget.
+
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Implements two classes:
+- LOGHandler: For colored HTML output to the console (e.g., QTextEdit)
+- GeneralLogHandler: Singleton for logging to file and optionally to the GUI
+
+Includes support for:
+- Rotating file logging
+- Colored log messages by level
+- Exception logging with stack traces
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import logging, os,traceback
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QTextCursor
 from logging.handlers import RotatingFileHandler
-
-from config.GUIconfig import LOG_PATH
+from config.GUIconfig import conf
 
 class LOGHandler:
+    """
+@brief Outputs messages to a QTextEdit widget, with color formatting per log level.
+
+This class is mainly used to show logs in the GUI during runtime.  
+If the GUI console is not available, logs fall back to standard output.
+"""
     def __init__(self, console_widget=None):
         self._console = console_widget  # riferimento iniziale, ma non permanente
 
@@ -44,6 +70,13 @@ class LOGHandler:
             print(f"[LOGGER ERROR] QTextEdit distrutto. Messaggio:\n[{level.upper()}] {message}")
 
 class GeneralLogHandler:
+    """
+    @brief Singleton logger that writes to both file and GUI console (if available).
+
+    Supports rotating file logging and colored HTML output to QTextEdit.  
+    All logging levels (debug, info, warning, error) are available.
+    """
+
     _instance = None
 
     def __new__(cls, console_widget=None):
@@ -59,9 +92,9 @@ class GeneralLogHandler:
 
         # Aggiunge RotatingFileHandler se non presente
         if not any(isinstance(h, RotatingFileHandler) for h in self._logger.handlers):
-            os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+            os.makedirs(os.path.dirname(conf.LOG_PATH), exist_ok=True)
             handler = RotatingFileHandler(
-                LOG_PATH,
+                conf.LOG_PATH,
                 mode='a',
                 maxBytes=20 * 1024 * 1024,  # 20 MB
                 backupCount=2,
@@ -108,12 +141,17 @@ class GeneralLogHandler:
 
     def log_exception(self, context: str = "Errore sconosciuto"):
         """
-        Logga un'eccezione completa con stack trace nel file.
-        `context` serve per indicare il punto in cui è avvenuto.
+        @brief Logs a full exception stack trace to the log file.
+
+        @param context Optional string to describe where the exception occurred.
         """
         tb = traceback.format_exc()
-        self._logger.error(f"{context}\n{tb}")            
+        self._logger.error(f"{context}\n{tb}")         
 
+    """
+    @brief Logs a debug/info/warning/error/success message to the file and console.
+    @param msg The message string to be logged.
+    """
     def debug(self, msg: str):   self._logger.debug(msg)
     def info(self, msg: str):    self._logger.info(msg)
     def warning(self, msg: str): self._logger.warning(msg)

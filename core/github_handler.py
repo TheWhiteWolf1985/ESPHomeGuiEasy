@@ -1,25 +1,42 @@
-import requests
-import zipfile
-import io
-import os
-import json
-import config.GUIconfig as config
-from core.log_handler import GeneralLogHandler
+# -*- coding: utf-8 -*-
+"""
+@file github_handler.py
+@brief Handles download and parsing of ESPHome community projects from the GitHub repository.
 
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Provides static methods to:
+- Fetch metadata (`info.json`) from community projects
+- Download complete `.zip` packages from GitHub
+- Save selected project files locally (info.json and project.yaml)
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import io, os, json, zipfile, requests
+from config.GUIconfig import AppInfo, GlobalPaths
+from core.log_handler import GeneralLogHandler
+from core.translator import Translator
 
 class GitHubHandler:
     """
-    @class GitHubHandler
-    @brief Gestisce il download e parsing dei progetti ESPHome dalla repo GitHub della community.
+    @brief Utility class to interact with the GitHub community projects repository.
+
+    All methods are static and designed for quick access to remote files and metadata.
     """
 
     @staticmethod
     def fetch_project_metadata_list():
         """
-        @brief Scarica solo i file info.json da ogni progetto ZIP presente nella cartella GitHub.
-        @return Lista di dict con metadata progetto (Name, Version, Author, Update, category)
+        @brief Downloads only the `info.json` metadata files from each project directory in the GitHub repository.
+
+        @return A list of dictionaries containing project metadata (name, version, author, update, category).
         """
-        url = f"https://api.github.com/repos/{config.REPO_OWNER}/{config.REPO_NAME}/contents/{config.PROJECTS_PATH}"
+        url = f"https://api.github.com/repos/{AppInfo.REPO_OWNER}/{AppInfo.REPO_NAME}/contents/{GlobalPaths.COMMUNITY_PROJECTS_PATH}"
         try:
             resp = requests.get(url, headers={"Accept": "application/vnd.github+json"})
             resp.raise_for_status()
@@ -28,29 +45,30 @@ class GitHubHandler:
             projects = []
             for entry in entries:
                 if entry["type"] == "dir":
-                    info_url = f"https://raw.githubusercontent.com/{config.REPO_OWNER}/{config.REPO_NAME}/main/{config.PROJECTS_PATH}/{entry['name']}/info.json"
+                    info_url = f"https://raw.githubusercontent.com/{AppInfo.REPO_OWNER}/{AppInfo.REPO_NAME}/main/{GlobalPaths.COMMUNITY_PROJECTS_PATH}/{entry['name']}/info.json"
                     try:
                         info_resp = requests.get(info_url)
                         info_resp.raise_for_status()
                         info_json = info_resp.json()
                         projects.append(info_json)
                     except Exception as parse_err:
-                        GeneralLogHandler().error(f"Errore caricamento info.json per {entry['name']}: {parse_err}")
-
-
+                        GeneralLogHandler().error(
+                            Translator.tr("github_info_json_error").format(project=entry['name'], error=parse_err)
+                        )
             return projects
 
         except Exception as e:
-            GeneralLogHandler().error(f"Errore nel recupero dei metadati da GitHub: {e}")
+            GeneralLogHandler().error(Translator.tr("github_metadata_error").format(error=e))
             return []
 
     @staticmethod
     def fetch_projects_from_github():
         """
-        @brief Scarica tutti i progetti ZIP dalla repo GitHub ufficiale e ne estrae info e yaml.
-        @return Lista di dict: [{"info": info_dict, "yaml": yaml_string}, ...]
+        @brief Downloads all `.zip` projects from the GitHub repository and extracts metadata and YAML.
+
+        @return A list of dictionaries: [{"info": info_dict, "yaml": yaml_string}, ...]
         """
-        url = f"https://api.github.com/repos/{config.REPO_OWNER}/{config.REPO_NAME}/contents/{config.PROJECTS_PATH}"
+        url = f"https://api.github.com/repos/{AppInfo.REPO_NAME}/{AppInfo.REPO_NAME}/contents/{GlobalPaths.COMMUNITY_PROJECTS_PATH}"
         try:
             resp = requests.get(url, headers={"Accept": "application/vnd.github+json"})
             resp.raise_for_status()
@@ -71,17 +89,20 @@ class GitHubHandler:
             return projects
 
         except Exception as e:
-            GeneralLogHandler().error(f"Errore nel recupero dei progetti da GitHub: {e}")
+            GeneralLogHandler().error(
+                Translator.tr("github_projects_error").format(error=e)
+            )
             return []
         
     @staticmethod
     def download_project_to_folder(name: str, local_path: str):
         """
-        @brief Scarica info.json e project.yaml in una cartella locale.
-        @param name Nome del progetto (nome della cartella nel repo)
-        @param local_path Percorso locale dove salvare i file
+        @brief Downloads the `info.json` and `project.yaml` files for a given project into a local folder.
+
+        @param name The project folder name in the GitHub repo.
+        @param local_path The local destination path where the files will be saved.
         """
-        base = f"https://raw.githubusercontent.com/{config.REPO_OWNER}/{config.REPO_NAME}/main/{config.PROJECTS_PATH}/{name}"
+        base = f"https://raw.githubusercontent.com/{AppInfo.REPO_NAME}/{AppInfo.REPO_NAME}/main/{GlobalPaths.COMMUNITY_PROJECTS_PATH}/{name}"
         try:
             os.makedirs(local_path, exist_ok=True)
 
@@ -99,5 +120,8 @@ class GitHubHandler:
                 f.write(yaml_resp.text)
 
         except Exception as e:
-            GeneralLogHandler().error(f"Errore durante il download del progetto '{name}': {e}")
+            GeneralLogHandler().error(
+                Translator.tr("github_download_error").format(project=name, error=e)
+            )
+
 

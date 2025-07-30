@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+@file tab_modules.py
+@brief GUI tab managing ESPHome modules configuration.
+
+@defgroup gui GUI Modules
+@ingroup main
+@brief GUI elements: windows, dialogs, blocks, and widgets.
+
+Provides an interface to enable, configure, and disable ESPHome modules
+such as Logger, OTA, API, and others defined in the modules schema.
+
+Loads module definitions from JSON, dynamically creates controls,
+and synchronizes UI with YAML configuration.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QFormLayout, QCheckBox, QComboBox, QPushButton, QScrollArea, QSpinBox, QMessageBox
 from PyQt6.QtCore import Qt
 import json
@@ -5,9 +25,24 @@ from .collapsible_section import CollapsibleSection
 from gui.color_pantone import Pantone 
 from core.translator import Translator
 from core.log_handler import GeneralLogHandler as logger
+from core.yaml_handler import YAMLHandler
+from config.GUIconfig import conf
 
 class TabModules(QWidget):
+    """
+    @brief Tab widget that manages ESPHome modules configuration through a dynamic form.
+
+    Handles loading modules schema, populating UI widgets, reading from and writing to YAML,
+    and tracking enabled/disabled states for modules.
+
+    Supports user interaction to toggle module enablement and edit parameters.
+    """
     def __init__(self, yaml_editor, logger=None, parent=None):
+        """
+        @brief Initializes the modules tab, loads schema, and builds UI components.
+
+        Connects signals for handling user interaction and state changes.
+        """
         super().__init__(parent)
         self.logger = logger
 
@@ -102,7 +137,12 @@ class TabModules(QWidget):
 
     def _editor(self):
         """
-        Restituisce l'editor YAML dalla finestra principale, se ancora valido.
+        @brief Returns the YAML editor instance from the main window, if still valid.
+
+        This method ensures that the YAML editor has not been destroyed or detached from the main window.
+        It performs a parent chain check to avoid using destroyed widgets.
+
+        @return QTextEdit pointer to the YAML editor or None if not available.
         """
         main = self.window()
         if hasattr(main, "yaml_editor"):
@@ -112,7 +152,15 @@ class TabModules(QWidget):
 
     def aggiorna_yaml_da_moduli(self):
         """
-        @brief Aggiorna il contenuto YAML nell'editor leggendo i moduli (accordion) attivi.
+        @brief Updates the YAML content in the editor by reading the active module configurations.
+
+        Extracts module values from the UI widgets (accordion form),
+        generates a new YAML string using `YAMLHandler`, and replaces the current YAML in the editor.
+
+        If the operation is successful, a success message is logged.
+        On error, appropriate fallback logging is performed using the logger.
+
+        @note This method assumes that the editor is valid and the schema file is available.
         """
         try:
             main = self.window()
@@ -121,7 +169,7 @@ class TabModules(QWidget):
 
             editor = main.yaml_editor
             from core.yaml_handler import YAMLHandler
-            modules_schema_path = "config/modules_schema.json"
+            modules_schema_path = conf.MODULE_SCHEMA_PATH
             current_yaml = editor.toPlainText()
             modules_dict = YAMLHandler.extract_module_sections_from_widgets(
                 self.widget_map,
@@ -150,7 +198,17 @@ class TabModules(QWidget):
 
 
     def carica_dati_da_yaml(self, yaml_string):
-        from core.yaml_handler import YAMLHandler
+        """
+        @brief Loads and parses YAML content, updating the UI module widgets accordingly.
+
+        For each module defined in the YAML, this method:
+        - Enables the module section (checkbox)
+        - Sets the correct values for fields like text, combo, checkbox, or spinbox
+
+        If a module is not found in the YAML, its section remains disabled.
+
+        @param yaml_string YAML configuration as a string to be parsed and reflected in the UI.
+        """
         modules_schema_path = "config/modules_schema.json"
         modules_data = YAMLHandler.extract_modules_from_yaml(
             yaml_string,
@@ -193,6 +251,17 @@ class TabModules(QWidget):
                         widget.setCurrentIndex(idx)
 
     def reset_fields(self):
+        """
+        @brief Resets all module widgets in the UI to their default states.
+
+        This includes:
+        - Clearing text fields
+        - Unchecking checkboxes
+        - Resetting combo boxes to the first item
+        - Setting spinboxes to their minimum value
+
+        It does not modify or clear the YAML editor.
+        """        
         for widget_dict in self.widget_map.values():
             for key, widget in widget_dict.items():
                 if isinstance(widget, QLineEdit):
@@ -208,7 +277,17 @@ class TabModules(QWidget):
 
 
     def aggiorna_label(self):
-        from core.translator import Translator
+        """
+        @brief Updates all translatable UI labels within the Modules tab.
+
+        This includes:
+        - The "Update YAML" button
+        - Titles of collapsible module sections
+        - Field labels inside each module section
+        - Placeholder texts where applicable
+
+        The translations are pulled from the active language using `Translator.tr`.
+        """        
         # Aggiorna il bottone "Aggiorna YAML"
         self.update_yaml_btn.setText("🔁 " + Translator.tr("update_yaml"))
         # Aggiorna ogni modulo accordion (header/campi)

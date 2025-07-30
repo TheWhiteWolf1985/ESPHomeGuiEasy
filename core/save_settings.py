@@ -1,21 +1,42 @@
+# -*- coding: utf-8 -*-
+"""
+@file save_settings.py
+@brief Saves user preferences from the settings dialog to the local configuration database.
+
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+Updates:
+- Language preference
+- Default project path
+- Splash screen display toggle
+- Update check toggle
+
+Also refreshes the GUI to apply changes immediately.
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
 from core.settings_db import set_setting
 from PyQt6.QtWidgets import QApplication
-from core.settings_db import set_setting
 from core.translator import Translator
+from config.GUIconfig import LANGUAGES
 
 def save_settings(dialog):
-    # --- LANGUAGE ---
-    lang_map = {
-        "English": "en",
-        "Italiano": "it",
-        "Español": "es",
-        "Deutsch": "de",
-        "Brasileiro": "br",
-        "Português": "pt"
-    }
+    """
+    @brief Reads the values from the settings dialog and stores them in the config database.
 
+    Also refreshes the language and GUI labels if supported by the current interface.
+
+    @param dialog Reference to the settings dialog instance.
+    """
+
+    # --- LANGUAGE ---
     selected_lang = dialog.language_combo.currentText()
-    lang_code = lang_map.get(selected_lang, "en")
+    lang_code = LANGUAGES.get(selected_lang, "en")
     set_setting("language", lang_code)
 
     # Applica subito la lingua nella sessione corrente

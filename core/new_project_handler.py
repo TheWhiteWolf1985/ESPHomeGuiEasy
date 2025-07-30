@@ -1,5 +1,24 @@
-import os, shutil, json, re
-import shutil
+# -*- coding: utf-8 -*-
+"""
+@file new_project_handler.py
+@brief Creates and initializes new ESPHome projects with predefined structure and metadata.
+
+@defgroup core Core Modules
+@ingroup main
+@brief Core logic: YAML handling, logging, settings, flashing, etc.
+
+This file contains the logic to:
+- Generate a new project folder and optional subfolders
+- Create initial `project.yaml` and `info.json` files
+- Populate the editor with initial YAML
+- Link with logger, compiler, and UI callbacks
+
+@version \ref PROJECT_NUMBER
+@date July 2025
+@license GNU Affero General Public License v3.0 (AGPLv3)
+"""
+
+import json
 from pathlib import Path
 from PyQt6.QtWidgets import QMessageBox
 from config.GUIconfig import CATEGORY_TO_FOLDER
@@ -8,15 +27,15 @@ from datetime import datetime
 
 def create_new_project(data: dict, yaml_editor, logger, compiler, reset_tabs_callback, update_recent_callback):
     """
-    Crea una nuova struttura di progetto e aggiorna l'interfaccia principale.
+    @brief Creates a new project folder structure and updates the main GUI interface accordingly.
 
-    :param data: dizionario con i dati restituiti da get_data() del dialog
-    :param yaml_editor: riferimento all'editor YAML per impostare il contenuto iniziale
-    :param logger: funzione o oggetto logger con metodo .log(msg, level)
-    :param compiler: oggetto con metodo set_project_dir(percorso)
-    :param reset_tabs_callback: funzione da richiamare per resettare i tab
-    :param update_recent_callback: funzione da richiamare per aggiornare i file recenti
-    :return: project_dir, yaml_path
+    @param data Dictionary with input values from the project creation dialog.
+    @param yaml_editor Reference to the YAML editor widget to populate initial content.
+    @param logger Logging function or object with .log(msg, level) method.
+    @param compiler Object with set_project_dir(path) method.
+    @param reset_tabs_callback Function to reset UI tabs.
+    @param update_recent_callback Function to update the list of recent files.
+    @return Tuple (project_dir, yaml_path) if successful, or (None, None) on error.
     """
     nome_proj = data["name"].strip()
     root_dir = Path(data["base_dir"]).expanduser()
@@ -67,14 +86,14 @@ captive_portal:
         with open(yaml_path, "w", encoding="utf-8") as f:
             f.write(yaml_content)
     except Exception as e:
-        QMessageBox.critical(None, Translator.tr("error"), f"Errore scrittura YAML: {e}")
+        QMessageBox.critical(None, Translator.tr("error"), Translator.tr("yaml_write_error").format(error=e))
         return None, None
 
     try:
         with open(yaml_path, "r", encoding="utf-8") as f:
             yaml_editor.setPlainText(f.read())
     except Exception as e:
-        QMessageBox.critical(None, Translator.tr("error"), f"Errore apertura YAML: {e}")
+        QMessageBox.critical(None, Translator.tr("error"), Translator.tr("yaml_open_error").format(error=e))
         return None, None
 
     logger.log(Translator.tr("new_project_created").format(project_dir=project_dir), "success")
@@ -98,7 +117,7 @@ captive_portal:
         with open(info_path, "w", encoding="utf-8") as f:
             json.dump(info, f, indent=2, ensure_ascii=False)
     except Exception as e:
-        logger.log(f"❌ Errore nella creazione di info.json: {e}", "error")
+        logger.log(Translator.tr("infojson_error").format(error=e), "error")
 
     return str(project_dir), str(yaml_path)
 
