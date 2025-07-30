@@ -154,16 +154,16 @@ python main.py
 ## 🖼 Screenshots
 
 #### 🏠 Main Interface
-![Main Interface](images/screenshot_main.png)
+![Main Interface](docs/images/screenshot_main.png)
 
 #### 🧱 Sensor Configuration (Bricks)
-![Sensor Configuration](images/screenshot_sensors.png)
+![Sensor Configuration](docs/images/screenshot_sensors.png)
 
 #### ⚙️ Compilation and Upload
-![Compilation and Upload](images/screenshot_compile.png)
+![Compilation and Upload](docs/images/screenshot_compile.png)
 
 #### 🔧 Settings Panel
-![Settings](images/screenshot_settings.png)
+![Settings](docs/images/screenshot_settings.png)
 
 ---
 
