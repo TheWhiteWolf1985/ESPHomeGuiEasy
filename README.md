@@ -65,7 +65,7 @@ Whether you're a beginner in home automation or a power user managing multiple d
 
 ### 🔹 Option 1: Windows Installer
 
-1. Download the `.exe` file from the [Releases](https://github.com/YOUR_USERNAME/esphomeGuieasy/releases)
+1. Download the `.exe` file from the [Releases](https://github.com/TheWhiteWolf1985/esphomeGuieasy/releases)
 2. Run the installer
 3. Follow the wizard to complete installation
 4. On first launch:
@@ -79,32 +79,26 @@ Whether you're a beginner in home automation or a power user managing multiple d
 
 ---
 
-### 🔹 Option 2: macOS Installer
+### 🔹 Option 2: macOS
 
-1. Download the `.dmg` file from the [Releases](https://github.com/YOUR_USERNAME/esphomeGuieasy/releases)
-2. Open and drag **ESPHomeGUIeasy** into `/Applications`
+1. Download the `.tar.gz` file from the [Releases](https://github.com/TheWhiteWolf1985/esphomeGuieasy/releases)
+2. Open the downloaded `.tar.gz` file and drag **ESPHomeGUIeasy** into `/Applications`.
 3. On first launch:
-   - If you see "App is from unidentified developer", right-click the app and select **"Open"**
-   - Accept language selection prompt
+    - If you see "App is from unidentified developer", right-click the app and select **"Open"**.
+    - Accept language selection prompt.
 
-> 🔐 If serial ports do not appear:  
+> 🔐 If serial ports do not appear:
 > Grant Terminal and App full disk and USB access via **System Settings > Privacy & Security**
 
 ---
 
-### 🔹 Option 3: Linux Installer
+### 🔹 Option 3: Linux
 
-1. Download the `.AppImage` or `.tar.gz` from [Releases](https://github.com/YOUR_USERNAME/esphomeGuieasy/releases)
-2. If AppImage:
-   ```bash
-   chmod +x ESPHomeGUIeasy.AppImage
-   ./ESPHomeGUIeasy.AppImage
-   ```
-   If `.tar.gz`:
+1. Download the `.tar.gz` from [Releases](https://github.com/TheWhiteWolf1985/esphomeGuieasy/releases)
+2. Extract the archive and run the application:
    ```bash
    tar -xzf ESPHomeGUIeasy.tar.gz
    ./ESPHomeGUIeasy/ESPHomeGUIeasy.sh
-   ```
 
 > 🔐 Grant serial port permissions:
 > ```bash
@@ -238,7 +232,7 @@ You can safely delete this folder to reset the app.
 ## 🤝 Contributing
 
 Contributions are welcome via pull request or issue.  
-Please report bugs in the [Issues section](https://github.com/YOUR_USERNAME/esphomeGuieasy/issues) with:
+Please report bugs in the [Issues section](https://github.com/TheWhiteWolf1985/esphomeGuieasy/issues) with:
 - OS and version
 - Python version
 - Steps to reproduce the problem
