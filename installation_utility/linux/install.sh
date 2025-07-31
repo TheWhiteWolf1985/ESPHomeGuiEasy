@@ -5,6 +5,12 @@
 USER_DOCS="$HOME/ESPHomeGUIeasy"
 CONFIG_DIR="$HOME/.config/ESPHomeGUIeasy"
 
+# 🧠 Mostra subito la guida utente
+if [ -f "./docs/how_to_install.md" ]; then
+    xdg-open ./docs/how_to_install.md >/dev/null 2>&1 &
+fi
+
+
 echo "Creazione directory di lavoro nella home utente..."
 
 mkdir -p "$USER_DOCS/build"
