@@ -14,8 +14,7 @@
 📌 [Full changelog available here](CHANGELOG.md)
 
 ---
-
-## 📝 Description
+📝 Description
 
 **ESPHomeGUIeasy** is a standalone desktop application written in Python with a modern PyQt6 interface, designed to simplify how you create, configure, and deploy firmware for **ESPHome-compatible devices** (ESP32, ESP8266, etc.).
 
@@ -131,6 +130,7 @@ python -m venv venv
 # Activate:
 venv\Scripts\activate       # On Windows
 source venv/bin/activate     # On macOS/Linux
+
 ```
 
 #### 4. Install dependencies
