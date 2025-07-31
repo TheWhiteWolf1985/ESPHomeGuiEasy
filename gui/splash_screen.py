@@ -23,8 +23,10 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, QTimer, QSize
 from core.translator import Translator
 from core.settings_db import get_setting, set_setting
-from config.GUIconfig import conf, AppInfo, GlobalPaths
+from config.GUIconfig import conf, AppInfo, GlobalPaths, get_platform_config
+from config.GUIconfig import WindowsConfig, MacOSConfig, LinuxConfig
 from core.log_handler import GeneralLogHandler
+from core.custom_dialog_box import CustomDialogBox
 
 class SplashScreen(QSplashScreen):
     """
@@ -42,6 +44,7 @@ custom style, progress bar, informational labels and initialization steps.
 
         # Initializes the logger to track splash screen status
         self.logger = GeneralLogHandler()
+        self.os_platform = ""
 
         # Sets window style
         self.setStyleSheet("""
@@ -130,15 +133,15 @@ custom style, progress bar, informational labels and initialization steps.
         self.logger.info("Avvio sequenza inizializzazione splash screen.")
 
         # Rilevamento dettagli OS
-        os_platform = platform.system()     # Detects and logs operating system information
+        self.os_platform = platform.system()     # Detects and logs operating system information
         os_version = platform.version()
         os_release = platform.release()
 
         # Log nel file
-        self.logger.info(f"Sistema operativo rilevato: {os_platform} {os_release} (build: {os_version})")
+        self.logger.info(f"Sistema operativo rilevato: {self.os_platform} {os_release} (build: {os_version})")
 
         # Salvataggio nel DB
-        set_setting("os_platform", os_platform.lower())
+        set_setting("os_platform", self.os_platform.lower())
         set_setting("os_version", os_version.lower())
         set_setting("os_build", os_release.lower())
 
@@ -204,47 +207,9 @@ custom style, progress bar, informational labels and initialization steps.
             self.logger.info(f"Template base presente: {template_path}")
             self.logger.info("Controllo file template di progetto completato con successo.")
 
-
     def check_working_folders(self):
-        """
-        Verifies the existence of the essential working folders for the application.
-        Checks that the build directory exists and creates the other standard folders if necessary.
-        Raises an exception if the build directory is missing or not writable.
-        """
-        self.logger.info("Avvio controllo cartelle di lavoro...")
-
-        try:
-            # Checks if the build folder exists in the correct path
-            if not conf.DEFAULT_BUILD_DIR.exists():     # Build folder is essential and not created automatically
-                self.logger.error(f"La cartella di lavoro 'build' non è stata trovata: {conf.DEFAULT_BUILD_DIR}")
-                raise FileNotFoundError(f"La cartella di lavoro 'build' non è stata trovata: {conf.DEFAULT_BUILD_DIR}")
-
-            # --- Patch: verifica permessi di scrittura nella build dir ---
-            build_dir = conf.DEFAULT_BUILD_DIR
-            test_file = build_dir / ".__write_test__"
-            try:
-                with open(test_file, "w") as f:
-                    f.write("test")
-                os.remove(test_file)
-                self.logger.debug(f"Permessi di scrittura OK per la cartella: {build_dir}")
-            except Exception as e:
-                self.logger.error(f"Permessi insufficienti per scrivere nella cartella build: {build_dir}\n{e}")
-                QMessageBox.critical(self, "Permessi insufficienti",
-                    f"Non hai i permessi per scrivere nella cartella di lavoro:\n{build_dir}\n\n"
-                    "Avvia il programma in una directory diversa o controlla i permessi di scrittura.")
-                raise Exception(f"Permessi insufficienti nella cartella di lavoro: {build_dir}")
-
-            for folder in ["assets", "core", "config", "gui", "language"]:     # Creates standard application folders if missing
-                os.makedirs(folder, exist_ok=True)
-                self.logger.debug(f"Cartella verificata o creata: {folder}")
-
-            self.logger.info("Controllo cartelle di lavoro completato con successo.")
-
-        except Exception as e:
-            self.logger.log_exception("Errore durante la verifica delle cartelle di lavoro")
-            raise
-
-
+        checklist, platform_id = self.prepare_paths_checklist()
+        self.check_resources_accessibility(checklist, platform_id)
 
     def check_online_version(self):
         """
@@ -445,5 +410,122 @@ custom style, progress bar, informational labels and initialization steps.
         else:
             self.logger.error("File user_config.db mancante. Avvio impossibile.")
             raise Exception("File user_config.db mancante. Reinstalla o ripara l'applicazione.")
+
+    def prepare_paths_checklist(self):
+        """
+        Rileva il sistema operativo in uso e prepara il dizionario delle cartelle e file da verificare.
+        Questo dizionario sarà usato per i controlli di esistenza e permessi.
+        
+        @return Tuple contenente (dict_paths, platform_id)
+        """
+        self.logger.info("🔍 Rilevamento sistema operativo e preparazione lista controlli cartelle...")
+
+        platform_id = self.os_platform.lower()
+        if platform_id == "windows":
+            cfg = WindowsConfig
+            platform_name = "Windows"
+        elif platform_id == "darwin":
+            cfg = MacOSConfig
+            platform_name = "macOS"
+        else:
+            cfg = LinuxConfig
+            platform_name = "Linux"
+
+        self.logger.debug(f"🖥️ Sistema operativo rilevato: {platform_name}")
+
+        # Dizionario dei percorsi da controllare
+        checklist = {
+            "build_dir": Path(cfg.DEFAULT_BUILD_DIR),
+            "user_projects": Path(cfg.DEFAULT_PROJECT_DIR),
+            "community_projects": Path(cfg.COMMUNITY_LOCAL_FOLDER),
+            "log_file": Path(cfg.LOG_PATH),
+            "log_dir": Path(cfg.LOG_DIR)
+        }
+
+
+        # Cartelle specifiche dei progetti utente (dalla installazione)
+        subfolders = [
+            "Home_Monitoring", "Energy_Power", "Security_Alarm",
+            "Actuators_IO", "Communication", "Automation_Logic", "Other_Misc"
+        ]
+        for folder in subfolders:
+            key = f"user_projects/{folder}"
+            checklist[key] = Path(cfg.DEFAULT_PROJECT_DIR) / folder
+
+
+        self.logger.debug(f"✅ Dizionario cartelle preparato: {len(checklist)} voci")
+        return checklist, platform_id
+
+    def check_resources_accessibility(self, checklist: dict, platform_id: str):
+        """
+        Cicla sulle risorse da controllare (file/cartelle) e verifica che esistano e siano accessibili (read/write).
+        In caso di errore, mostra un CustomMessageDialog con la possibilità di correggere e riprovare.
+        """
+        for label, path in checklist.items():
+            self.logger.debug(f"🔍 Controllo risorsa: {label} → {path}")
+
+            # --- Fase 1: Controllo esistenza ---
+            while not path.exists():
+                message = Translator.tr("missing_path_message").format(path=path)
+                dlg = CustomDialogBox(
+                    title=Translator.tr("missing_path_title"),
+                    message=message,
+                    buttons=["Chiudi", "Riprova"]
+                )
+                result = dlg.exec()
+
+                if result == dlg.button_index("Riprova"):
+                    continue
+                else:
+                    self.logger.error(f"Programma terminato: percorso mancante {path}")
+                    sys.exit(1)
+
+            self.logger.debug(f"✅ Esistenza verificata per: {path}")
+
+            # --- Fase 2: Controllo permessi ---
+            while True:
+                try:
+                    if path.is_dir():
+                        test_file = path / ".__perm_test__"
+                        with open(test_file, "w", encoding="utf-8") as f:
+                            f.write("perm test")
+                        with open(test_file, "r", encoding="utf-8") as f:
+                            content = f.read().strip()
+                        os.remove(test_file)
+                        if content != "perm test":
+                            raise IOError("Contenuto letto non corrisponde a quello scritto.")
+                    else:
+                        if not os.access(path, os.R_OK | os.W_OK):
+                            raise PermissionError("Accesso in lettura/scrittura negato.")
+
+                    self.logger.debug(f"✅ Permessi lettura/scrittura OK per: {path}")
+                    break
+
+                except Exception as e:
+                    self.logger.error(f"⛔ Permessi insufficienti su '{label}': {e}")
+
+                    # Suggerimenti OS-specifici
+                    if platform_id == "windows":
+                        instructions = Translator.tr("windows_permission_instructions").format(path=path)
+                    elif platform_id == "darwin":
+                        instructions = Translator.tr("macos_permission_instructions").format(path=path)
+                    else:
+                        instructions = Translator.tr("linux_permission_instructions").format(path=path)
+
+                    message = Translator.tr("permissions_denied_message").format(path=path, instructions=instructions)
+
+                    dlg = CustomDialogBox(
+                        title=Translator.tr("permissions_denied_title"),
+                        message=message,
+                        buttons=["Chiudi", "Riprova"]
+                    )
+                    result = dlg.exec()
+
+                    if result == dlg.button_index("Riprova"):
+                        continue
+                    else:
+                        self.logger.error(f"Programma terminato per permessi mancanti su {path}")
+                        sys.exit(1)
+
 
 

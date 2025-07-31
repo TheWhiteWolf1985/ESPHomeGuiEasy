@@ -349,5 +349,12 @@
   "Temperature": "Temperature",
   "Humidity": "Humidity",
   "value": "value",
-  "Target": "Target"
+  "Target": "Target",
+  "windows_permission_instructions": "1. Open File Explorer and go to:\n   {path}\n2. Right-click → Properties → Security\n3. Modify permissions and grant your user 'Full control'",
+  "macos_permission_instructions": "1. Open Finder and go to:\n   {path}\n2. Right-click → Get Info\n3. In the 'Sharing & Permissions' section, make sure you have Read & Write access",
+  "linux_permission_instructions": "1. Open your file manager or terminal and go to:\n   {path}\n2. Check permissions using `ls -l`\n3. If needed, use `chmod` or `chown` to grant access",
+  "permissions_denied_title": "Permission Denied",
+  "permissions_denied_message": "⚠️ You do not have permission to access:\n\n{path}\n\nTo fix this:\n{instructions}\n\nYou can change the permissions and then click 'Retry'.",
+  "missing_path_title": "Missing folder or file",
+  "missing_path_message": "The following item was not found:\n\n{path}\n\nCheck that the installation completed correctly or recreate it manually."
 }

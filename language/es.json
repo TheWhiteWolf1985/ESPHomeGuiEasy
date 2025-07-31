@@ -345,5 +345,12 @@
   "Temperature": "Temperatura",
   "Humidity": "Humedad",
   "value": "valor",
-  "Target": "Objetivo"
+  "Target": "Objetivo",
+  "windows_permission_instructions": "1. Abre el Explorador de archivos y ve a:\n   {path}\n2. Clic derecho → Propiedades → Seguridad\n3. Modifica los permisos y otorga a tu usuario 'Control total'",
+  "macos_permission_instructions": "1. Abre el Finder y ve a:\n   {path}\n2. Clic derecho → Obtener información\n3. En la sección 'Compartir y permisos', asegúrate de tener Lectura y Escritura",
+  "linux_permission_instructions": "1. Abre el gestor de archivos o la terminal y ve a:\n   {path}\n2. Verifica los permisos con `ls -l`\n3. Si es necesario, usa `chmod` o `chown` para conceder acceso",
+  "permissions_denied_title": "Permisos insuficientes",
+  "permissions_denied_message": "⚠️ No tienes permisos para acceder a:\n\n{path}\n\nPara solucionarlo:\n{instructions}\n\nPuedes cambiar los permisos y luego hacer clic en 'Reintentar'.",
+  "missing_path_title": "Carpeta o archivo faltante",
+  "missing_path_message": "No se encontró el siguiente elemento:\n\n{path}\n\nVerifica que la instalación haya finalizado correctamente o créalo manualmente."
 }

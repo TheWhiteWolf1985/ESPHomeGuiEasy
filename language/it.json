@@ -350,5 +350,12 @@
   "Temperature": "Temperatura",
   "Humidity": "Umidità",
   "value": "valore",
-  "Target": "Obiettivo"
+  "Target": "Obiettivo",
+  "windows_permission_instructions": "1. Vai in Esplora File e raggiungi:\n   {path}\n2. Tasto destro → Proprietà → Sicurezza\n3. Modifica i permessi per il tuo utente attuale concedendo 'Controllo completo'",
+  "macos_permission_instructions": "1. Apri il Finder e vai su:\n   {path}\n2. Tasto destro → Ottieni informazioni\n3. Nella sezione 'Condivisione e permessi', assicurati di avere Lettura & Scrittura",
+  "linux_permission_instructions": "1. Apri il file manager o terminale e raggiungi:\n   {path}\n2. Verifica i permessi con `ls -l`\n3. Se necessario, usa `chmod` o `chown` per concedere accesso",
+  "permissions_denied_title": "Permessi insufficienti",
+  "permissions_denied_message": "⚠️ Non hai i permessi per accedere a:\n\n{path}\n\nPer correggere:\n{instructions}\n\nPuoi modificare i permessi e poi cliccare su 'Riprova'.",
+  "missing_path_title": "Cartella o file mancante",
+  "missing_path_message": "Il seguente elemento non è stato trovato:\n\n{path}\n\nVerifica che l'installazione sia andata a buon fine oppure ricrealo manualmente."
 }
