@@ -344,5 +344,12 @@
   "Temperature": "Temperatur",
   "Humidity": "Luftfeuchtigkeit",
   "value": "Wert",
-  "Target": "Ziel"
+  "Target": "Ziel",
+  "windows_permission_instructions": "1. Öffne den Datei-Explorer und gehe zu:\n   {path}\n2. Rechtsklick → Eigenschaften → Sicherheit\n3. Ändere die Berechtigungen und gib deinem Benutzer 'Vollzugriff'",
+  "macos_permission_instructions": "1. Öffne den Finder und gehe zu:\n   {path}\n2. Rechtsklick → Informationen einholen\n3. Stelle im Abschnitt 'Freigabe & Zugriffsrechte' sicher, dass du Lese- und Schreibrechte hast",
+  "linux_permission_instructions": "1. Öffne den Dateimanager oder das Terminal und gehe zu:\n   {path}\n2. Überprüfe die Berechtigungen mit `ls -l`\n3. Verwende bei Bedarf `chmod` oder `chown`, um Zugriff zu gewähren",
+  "permissions_denied_title": "Unzureichende Berechtigungen",
+  "permissions_denied_message": "⚠️ Du hast keine Berechtigung für den Zugriff auf:\n\n{path}\n\nZur Behebung:\n{instructions}\n\nDu kannst die Berechtigungen ändern und dann auf 'Wiederholen' klicken.",
+  "missing_path_title": "Ordner oder Datei fehlt",
+  "missing_path_message": "Das folgende Element wurde nicht gefunden:\n\n{path}\n\nÜberprüfen Sie, ob die Installation erfolgreich war oder erstellen Sie es manuell neu."
 }

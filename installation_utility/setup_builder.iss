@@ -33,16 +33,16 @@ Source: "ESPHomeGUIeasy\user_config.db"; \
   Flags: ignoreversion
 
 [Dirs]
-Name: "{userdocs}\ESPHomeGUIeasy\build"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects"
-Name: "{userdocs}\ESPHomeGUIeasy\community_projects"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Home_Monitoring"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Energy_Power"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Security_Alarm"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Actuators_IO"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Communication"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Automation_Logic"
-Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Other_Misc"
+Name: "{userdocs}\ESPHomeGUIeasy\build"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\community_projects"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Home_Monitoring"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Energy_Power"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Security_Alarm"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Actuators_IO"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Communication"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Automation_Logic"; Permissions: users-modify
+Name: "{userdocs}\ESPHomeGUIeasy\user_projects\Other_Misc"; Permissions: users-modify
 
 [Icons]
 Name: "{group}\ESPHomeGUIeasy"; \
@@ -83,6 +83,10 @@ brazilianportuguese_WelcomeLabel2=Este instalador configurará o ESPHomeGUIeasy 
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Run]
+Filename: "cmd.exe"; \
+    Parameters: "/C echo. > ""{userdocs}\ESPHomeGUIeasy\log.txt"""; \
+    Flags: runhidden; \
+    StatusMsg: "Creazione file log.txt..."
 Filename: "{app}\esphomeguieasy.exe"; Description: "Avvia ESPHomeGUIeasy"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]

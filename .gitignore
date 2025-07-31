@@ -42,5 +42,4 @@ board list utility/script.py
 config/user_settings.json
 
 build/gitkeep
-build/gitkeep
-log_pack_windows_20250722_123712.txt
+test_block.py

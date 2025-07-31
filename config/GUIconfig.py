@@ -87,8 +87,8 @@ conf, PLATFORM_ID = get_platform_config()
 # === INFORMAZIONI SULL'APPLICAZIONE ===
 class AppInfo:
     NAME = "ESPHomeGuiEasy"
-    VERSION = "1.4.1"
-    RELEASE_DATE = "2025-07-10"
+    VERSION = "1.4.2"
+    RELEASE_DATE = "2025-07-31"
     GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
     RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
     REPO_OWNER = "TheWhiteWolf1985"
