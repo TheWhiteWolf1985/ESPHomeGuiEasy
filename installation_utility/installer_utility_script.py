@@ -379,12 +379,26 @@ def build_macos_package(output_dir, log_area=None):
         gui_log("🟢 Aggiunto file install.command", log_area)
 
         howto_src = os.path.join(base_path, "installation_utility/macOS", "how_to_install.md")
-        howto_dst = os.path.join(install_dir, "how_to_install.md")
+        howto_dst = os.path.join(install_dir, "docs/how_to_install.md")
         shutil.copy2(howto_src, howto_dst)
         gui_log("📝 Aggiunto file how_to_install.md", log_area)
 
         if log_area:
             log_area.update()
 
+        # Crea lo script di lancio .command
+        create_start_command_mac(install_dir)
+
+        # Imposta permessi su .command
+        cmd_path = os.path.join(install_dir, "esphomeguieasy.command")
+        os.chmod(cmd_path, 0o755)
+
+        # Comprimi tutto in un unico tar.gz
+        output_tar = os.path.join(target_root, "ESPHomeGUIeasy-macos.tar.gz")
+        with tarfile.open(output_tar, "w:gz") as tar:
+            tar.add(install_dir, arcname="ESPHomeGUIeasy")
+
+        gui_log(f"🎉 Pacchetto macOS pronto: {output_tar}", log_area)
+        if log_area: log_area.update()            
     finally:
         sys.stdout = old_stdout

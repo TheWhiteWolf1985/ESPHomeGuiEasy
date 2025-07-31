@@ -6,7 +6,7 @@ echo "------------------------------------------"
 echo ""
 
 # 🧠 Mostra subito la guida utente
-open -a TextEdit ./how_to_install.md 2>/dev/null
+open -a TextEdit ./docs/how_to_install.md 2>/dev/null
 
 # 📁 Copia dell'applicazione in ~/Applications
 APP_DIR="$HOME/Applications/ESPHomeGUIeasy"
