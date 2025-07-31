@@ -355,6 +355,7 @@ def build_macos_package(output_dir, log_area=None):
             if log_area: log_area.update()
             return
 
+        # Directory temporanea con nome fisso, sarà la root nel tar.gz
         install_dir = os.path.join(target_root, "ESPHomeGUIeasy-macos")
         python_target = os.path.join(install_dir, "python")
         ensure_directory(install_dir)
@@ -370,27 +371,20 @@ def build_macos_package(output_dir, log_area=None):
         # Copia licenza
         copy_item(MacOSPackage.LICENSE_FOLDER, install_dir, base_path)
 
-        # Copia il file install.sh
-        install_sh_source = os.path.join(base_path, "installation_utility", "install.sh")
-        install_sh_target = os.path.join(install_dir, "install.sh")
-        shutil.copy2(install_sh_source, install_sh_target)
-        os.chmod(install_sh_target, 0o755)
-        gui_log("🚀 Creato file install.sh (MacOS install script)", log_area)
-        if log_area: log_area.update()        
-        
-        # Crea lo script di lancio .command
-        create_start_command_mac(install_dir)
+        # Copia install.command e how_to_install.md
+        install_cmd_src = os.path.join(base_path, "installation_utility/macOS", "install.command")
+        install_cmd_dst = os.path.join(install_dir, "install.command")
+        shutil.copy2(install_cmd_src, install_cmd_dst)
+        os.chmod(install_cmd_dst, 0o755)
+        gui_log("🟢 Aggiunto file install.command", log_area)
 
-        # Imposta permessi su .command
-        cmd_path = os.path.join(install_dir, "esphomeguieasy.command")
-        os.chmod(cmd_path, 0o755)
+        howto_src = os.path.join(base_path, "installation_utility/macOS", "how_to_install.md")
+        howto_dst = os.path.join(install_dir, "how_to_install.md")
+        shutil.copy2(howto_src, howto_dst)
+        gui_log("📝 Aggiunto file how_to_install.md", log_area)
 
-        # Comprimi tutto in un unico tar.gz
-        output_tar = os.path.join(target_root, "ESPHomeGUIeasy-macos.tar.gz")
-        with tarfile.open(output_tar, "w:gz") as tar:
-            tar.add(install_dir, arcname=os.path.basename(install_dir))
+        if log_area:
+            log_area.update()
 
-        gui_log(f"🎉 Pacchetto macOS pronto: {output_tar}", log_area)
-        if log_area: log_area.update()
     finally:
         sys.stdout = old_stdout
