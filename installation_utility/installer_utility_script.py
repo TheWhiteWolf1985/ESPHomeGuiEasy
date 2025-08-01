@@ -217,41 +217,6 @@ def create_start_bat(install_dir, log_area=None):
         f.write(")\n")
     gui_log("🚀 Creato file esphomeguieasy.bat", log_area)
 
-def create_start_sh(install_dir, log_area=None):
-    """
-    Crea uno script di avvio esphomeguieasy.sh per Linux nella cartella di installazione.
-    Usa python embedded con PYTHONHOME se disponibile, altrimenti python di sistema.
-    """
-    sh_path = os.path.join(install_dir, "esphomeguieasy.sh")
-    with open(sh_path, "w", encoding="utf-8") as f:
-        f.write("#!/bin/bash\n")
-        f.write("# Avvio ESPHomeGUIeasy (Linux)\n")
-        f.write('cd "$(dirname "$0")"\n')
-        f.write("\n")
-        f.write('if [ -x "./python/bin/python3" ]; then\n')
-        f.write('    export PYTHONHOME="$(pwd)/python"\n')
-        f.write('PYTHON_EXEC="./python/bin/python3"\n')
-        f.write('if [ -x "$PYTHON_EXEC" ]; then\n')
-        f.write('    export PYTHONHOME="$(pwd)/python"\n')
-        f.write('    echo "Launching ESPHomeGUIeasy using embedded Python..."\n')
-        f.write('else\n')
-        f.write('    PYTHON_EXEC="python3"\n')
-        f.write('    echo "Launching ESPHomeGUIeasy using system Python..."\n')
-        f.write('fi\n')
-        f.write('\n')
-        f.write('echo "Launching ESPHomeGUIeasy using $PYTHON_EXEC..."\n')
-        f.write('$PYTHON_EXEC main.py "$@"\n')
-
-    # 🔧 Forza conversione in formato LF
-    with open(sh_path, "rb") as f:
-        content = f.read().replace(b'\r\n', b'\n')
-    with open(sh_path, "wb") as f:
-        f.write(content)
-
-    os.chmod(sh_path, 0o755)
-    gui_log("🚀 Creato file esphomeguieasy.sh (Linux launch script)", log_area)
-    if log_area: log_area.update()
-
 def create_start_command_mac(install_dir, log_area=None):
     """
     Crea uno script di avvio esphomeguieasy.command per macOS nella cartella di installazione.
@@ -331,7 +296,9 @@ def build_linux_package(output_dir, log_area=None):
         copy_item(LinuxPackage.LICENSE_FOLDER, install_dir, base_path)
 
         # Script di lancio
-        create_start_sh(install_dir)
+        shutil.copy2(os.path.join(base_path, "installation_utility/linux", "esphomeguieasy.sh"), install_dir)
+        os.chmod(os.path.join(install_dir, "esphomeguieasy.sh"), 0o755)
+
 
         # Script di installazione
         install_sh_source = os.path.join(base_path, "installation_utility/linux", "install.sh")
