@@ -1,7 +1,0 @@
-#!/home/juri/Scrivania/python-embed-unix/bin/python
-import sys
-from aioesphomeapi.log_reader import cli_entry_point
-if __name__ == '__main__':
-    if sys.argv[0].endswith('.exe'):
-        sys.argv[0] = sys.argv[0][:-4]
-    sys.exit(cli_entry_point())

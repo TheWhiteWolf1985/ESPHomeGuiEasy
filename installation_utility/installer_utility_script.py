@@ -230,13 +230,24 @@ def create_start_sh(install_dir, log_area=None):
         f.write("\n")
         f.write('if [ -x "./python/bin/python3" ]; then\n')
         f.write('    export PYTHONHOME="$(pwd)/python"\n')
-        f.write('    PYTHON_EXEC="./python/bin/python3"\n')
+        f.write('PYTHON_EXEC="./python/bin/python3"\n')
+        f.write('if [ -x "$PYTHON_EXEC" ]; then\n')
+        f.write('    export PYTHONHOME="$(pwd)/python"\n')
+        f.write('    echo "Launching ESPHomeGUIeasy using embedded Python..."\n')
         f.write('else\n')
         f.write('    PYTHON_EXEC="python3"\n')
+        f.write('    echo "Launching ESPHomeGUIeasy using system Python..."\n')
         f.write('fi\n')
         f.write('\n')
         f.write('echo "Launching ESPHomeGUIeasy using $PYTHON_EXEC..."\n')
         f.write('$PYTHON_EXEC main.py "$@"\n')
+
+    # 🔧 Forza conversione in formato LF
+    with open(sh_path, "rb") as f:
+        content = f.read().replace(b'\r\n', b'\n')
+    with open(sh_path, "wb") as f:
+        f.write(content)
+
     os.chmod(sh_path, 0o755)
     gui_log("🚀 Creato file esphomeguieasy.sh (Linux launch script)", log_area)
     if log_area: log_area.update()
@@ -300,7 +311,7 @@ def build_linux_package(output_dir, log_area=None):
             return
 
         install_dir = os.path.join(target_root, "ESPHomeGUIeasy-linux")
-        python_target = os.path.join(install_dir)
+        python_target = os.path.join(install_dir, "python")
         ensure_directory(install_dir)
         ensure_directory(python_target)
 
@@ -310,6 +321,11 @@ def build_linux_package(output_dir, log_area=None):
 
         # Python embedded
         copy_folder_contents(os.path.join(base_path, LinuxPackage.PYTHON_FOLDER), python_target)
+        # Rendi eseguibile il python embedded
+        python_exe = os.path.join(python_target, "bin", "python3")
+        if os.path.exists(python_exe):
+            os.chmod(python_exe, 0o755)
+
 
         # Licenza
         copy_item(LinuxPackage.LICENSE_FOLDER, install_dir, base_path)
