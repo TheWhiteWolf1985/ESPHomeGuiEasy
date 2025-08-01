@@ -89,9 +89,8 @@ class LinuxPackage():
         "language",
         "installation_utility/user_config.db"
     ]
-    PYTHON_FOLDER = "installation_utility/python-embed"  # cartella Python embedded (verrà copiata come "python/")
+    PYTHON_FOLDER = "installation_utility/linux/python"  # cartella Python embedded (verrà copiata come "python/")
     LICENSE_FOLDER = "installation_utility/License"
-    SCRIPT_FOLDER = "installation_utility/setup_builder.iss"    
 
 class MacOSPackage():
         
@@ -218,32 +217,6 @@ def create_start_bat(install_dir, log_area=None):
         f.write(")\n")
     gui_log("🚀 Creato file esphomeguieasy.bat", log_area)
 
-def create_start_sh(install_dir, log_area=None):
-    """
-    Crea uno script di avvio esphomeguieasy.sh per Linux nella cartella di installazione.
-    Lo script:
-    - imposta la working directory corretta
-    - usa python di sistema o embedded se disponibile
-    - accetta argomenti extra
-    """
-    sh_path = os.path.join(install_dir, "esphomeguieasy.sh")
-    with open(sh_path, "w", encoding="utf-8") as f:
-        f.write("#!/bin/bash\n")
-        f.write("# Avvio ESPHomeGUIeasy (Linux)\n")
-        f.write('cd "$(dirname "$0")"\n')
-        f.write("\n")
-        # Cerca Python locale/embedded prima, poi di sistema
-        f.write('PYTHON_EXEC="./python/bin/python3"\n')
-        f.write('if [ ! -x "$PYTHON_EXEC" ]; then\n')
-        f.write('    PYTHON_EXEC="python3"\n')
-        f.write('fi\n')
-        f.write('\n')
-        f.write('echo "Launching ESPHomeGUIeasy using $PYTHON_EXEC..."\n')
-        f.write('$PYTHON_EXEC main.py "$@"\n')
-    os.chmod(sh_path, 0o755)
-    gui_log("🚀 Creato file esphomeguieasy.sh (Linux launch script)", log_area)
-    if log_area: log_area.update()
-
 def create_start_command_mac(install_dir, log_area=None):
     """
     Crea uno script di avvio esphomeguieasy.command per macOS nella cartella di installazione.
@@ -307,39 +280,61 @@ def build_linux_package(output_dir, log_area=None):
         ensure_directory(install_dir)
         ensure_directory(python_target)
 
-        # Copia contenuti principali (come già fai)
+        # Copia contenuti principali
         for item in LinuxPackage.MAIN_CONTENT:
             copy_item(item, install_dir, base_path)
 
-        copy_folder_contents(os.path.join(base_path, LinuxPackage.PYTHON_FOLDER), python_target, exclude_ext=[".exe", ".dll", ".pyd"])
+        # Python embedded
+        copy_folder_contents(os.path.join(base_path, LinuxPackage.PYTHON_FOLDER), python_target)
+        # Rendi eseguibile il python embedded
+        python_exe = os.path.join(python_target, "bin", "python3")
+        if os.path.exists(python_exe):
+            os.chmod(python_exe, 0o755)
+
+
+        # Licenza
         copy_item(LinuxPackage.LICENSE_FOLDER, install_dir, base_path)
 
-        # Crea lo script di lancio .sh
-        create_start_sh(install_dir)
+        # Script di lancio
+        shutil.copy2(os.path.join(base_path, "installation_utility/linux", "esphomeguieasy.sh"), install_dir)
+        os.chmod(os.path.join(install_dir, "esphomeguieasy.sh"), 0o755)
 
-        # Copia il file install.sh
-        install_sh_source = os.path.join(base_path, "installation_utility", "install.sh")
+
+        # Script di installazione
+        install_sh_source = os.path.join(base_path, "installation_utility/linux", "install.sh")
         install_sh_target = os.path.join(install_dir, "install.sh")
         shutil.copy2(install_sh_source, install_sh_target)
         os.chmod(install_sh_target, 0o755)
         gui_log("🚀 Creato file install.sh (Linux install script)", log_area)
-        if log_area: log_area.update()
+        # Forza conversione in formato LF
+        with open(install_sh_target, "rb") as f:
+            content = f.read().replace(b'\r\n', b'\n')
+        with open(install_sh_target, "wb") as f:
+            f.write(content)
+        gui_log("Converto il file da formato dos a formato unix LF", log_area)
 
-        # Imposta i permessi su tutti i file .sh nella cartella
+        # ⬅️ Copia how_to_install.md dentro /docs
+        howto_src = os.path.join(base_path, "installation_utility/linux", "how_to_install.md")
+        howto_dst_dir = os.path.join(install_dir, "docs")
+        ensure_directory(howto_dst_dir)
+        shutil.copy2(howto_src, os.path.join(howto_dst_dir, "how_to_install.md"))
+        gui_log("📝 Aggiunto file how_to_install.md (Linux)", log_area)
+
+        # Rendi eseguibili tutti gli .sh
         for fname in os.listdir(install_dir):
             if fname.endswith('.sh'):
                 os.chmod(os.path.join(install_dir, fname), 0o755)
 
-        # Comprimi tutto in un unico tar.gz
+        # Comprimi in tar.gz con nome interno UNIFICATO
         output_tar = os.path.join(target_root, "ESPHomeGUIeasy-linux.tar.gz")
-        import tarfile
         with tarfile.open(output_tar, "w:gz") as tar:
-            tar.add(install_dir, arcname=os.path.basename(install_dir))
+            tar.add(install_dir, arcname="ESPHomeGUIeasy")
 
         gui_log(f"🎉 Pacchetto Linux pronto: {output_tar}", log_area)
         if log_area: log_area.update()
     finally:
         sys.stdout = old_stdout
+
 
 def build_macos_package(output_dir, log_area=None):
     old_stdout = sys.stdout
@@ -366,7 +361,7 @@ def build_macos_package(output_dir, log_area=None):
             copy_item(item, install_dir, base_path)
 
         # Copia Python embedded (come su Linux)
-        copy_folder_contents(os.path.join(base_path, MacOSPackage.PYTHON_FOLDER), python_target, exclude_ext=[".exe", ".dll", ".pyd"])
+        copy_folder_contents(os.path.join(base_path, MacOSPackage.PYTHON_FOLDER), python_target)
 
         # Copia licenza
         copy_item(MacOSPackage.LICENSE_FOLDER, install_dir, base_path)
@@ -377,6 +372,12 @@ def build_macos_package(output_dir, log_area=None):
         shutil.copy2(install_cmd_src, install_cmd_dst)
         os.chmod(install_cmd_dst, 0o755)
         gui_log("🟢 Aggiunto file install.command", log_area)
+        # Forza conversione in formato LF
+        with open(install_cmd_dst, "rb") as f:
+            content = f.read().replace(b'\r\n', b'\n')
+        with open(install_cmd_dst, "wb") as f:
+            f.write(content)
+        gui_log("Converto il file da formato dos a formato unix LF", log_area)        
 
         howto_src = os.path.join(base_path, "installation_utility/macOS", "how_to_install.md")
         howto_dst = os.path.join(install_dir, "docs/how_to_install.md")

@@ -24,7 +24,6 @@ from PyQt6.QtCore import Qt, QTimer, QSize
 from core.translator import Translator
 from core.settings_db import get_setting, set_setting
 from config.GUIconfig import conf, AppInfo, GlobalPaths, get_platform_config
-from config.GUIconfig import WindowsConfig, MacOSConfig, LinuxConfig
 from core.log_handler import GeneralLogHandler
 from core.custom_dialog_box import CustomDialogBox
 
@@ -420,20 +419,11 @@ custom style, progress bar, informational labels and initialization steps.
         """
         self.logger.info("🔍 Rilevamento sistema operativo e preparazione lista controlli cartelle...")
 
-        platform_id = self.os_platform.lower()
-        if platform_id == "windows":
-            cfg = WindowsConfig
-            platform_name = "Windows"
-        elif platform_id == "darwin":
-            cfg = MacOSConfig
-            platform_name = "macOS"
-        else:
-            cfg = LinuxConfig
-            platform_name = "Linux"
+        cfg, platform_id = get_platform_config()
+        platform_name = platform_id.capitalize()
 
         self.logger.debug(f"🖥️ Sistema operativo rilevato: {platform_name}")
 
-        # Dizionario dei percorsi da controllare
         checklist = {
             "build_dir": Path(cfg.DEFAULT_BUILD_DIR),
             "user_projects": Path(cfg.DEFAULT_PROJECT_DIR),
@@ -442,8 +432,6 @@ custom style, progress bar, informational labels and initialization steps.
             "log_dir": Path(cfg.LOG_DIR)
         }
 
-
-        # Cartelle specifiche dei progetti utente (dalla installazione)
         subfolders = [
             "Home_Monitoring", "Energy_Power", "Security_Alarm",
             "Actuators_IO", "Communication", "Automation_Logic", "Other_Misc"
@@ -452,9 +440,9 @@ custom style, progress bar, informational labels and initialization steps.
             key = f"user_projects/{folder}"
             checklist[key] = Path(cfg.DEFAULT_PROJECT_DIR) / folder
 
-
         self.logger.debug(f"✅ Dizionario cartelle preparato: {len(checklist)} voci")
         return checklist, platform_id
+
 
     def check_resources_accessibility(self, checklist: dict, platform_id: str):
         """
