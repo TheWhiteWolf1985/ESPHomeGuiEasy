@@ -89,9 +89,8 @@ class LinuxPackage():
         "language",
         "installation_utility/user_config.db"
     ]
-    PYTHON_FOLDER = "installation_utility/python-embed"  # cartella Python embedded (verrà copiata come "python/")
+    PYTHON_FOLDER = "installation_utility/linux/python"  # cartella Python embedded (verrà copiata come "python/")
     LICENSE_FOLDER = "installation_utility/License"
-    SCRIPT_FOLDER = "installation_utility/setup_builder.iss"    
 
 class MacOSPackage():
         
@@ -301,7 +300,7 @@ def build_linux_package(output_dir, log_area=None):
             return
 
         install_dir = os.path.join(target_root, "ESPHomeGUIeasy-linux")
-        python_target = os.path.join(install_dir, "python")
+        python_target = os.path.join(install_dir)
         ensure_directory(install_dir)
         ensure_directory(python_target)
 
