@@ -24,59 +24,44 @@ from pathlib import Path
 
 # === CONFIGURAZIONI SPECIFICHE PER SISTEMA OPERATIVO ===
 
-class WindowsConfig:
-    def __init__(self):
-        self.COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
-        self.DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
-        self.DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
-        
-        self.LOCALAPPDATA_FOLDER = os.path.join(os.environ.get("LOCALAPPDATA", ""), "ESPHomeGUIeasy")
-        os.makedirs(self.LOCALAPPDATA_FOLDER, exist_ok=True)
-
-        self.USER_DB_PATH = os.path.join(self.LOCALAPPDATA_FOLDER, "user_config.db")
-
-        self.LOG_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy"
-        os.makedirs(self.LOG_DIR, exist_ok=True)
-
-        self.LOG_PATH = self.LOG_DIR / "log.txt"
-        self.MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
-
-
-class MacOSConfig:
-    def __init__(self):
-        self.COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
-        self.DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
-        self.DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
-
-        self.LOCALAPPDATA_FOLDER = str(Path.home() / "Library/Application Support" / "ESPHomeGUIeasy")
-        os.makedirs(self.LOCALAPPDATA_FOLDER, exist_ok=True)
-
-        self.USER_DB_PATH = os.path.join(self.LOCALAPPDATA_FOLDER, "user_config.db")
-
-        self.LOG_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy"
-        os.makedirs(self.LOG_DIR, exist_ok=True)
-
-        self.LOG_PATH = self.LOG_DIR / "log.txt"
-        self.MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
-
-
-class LinuxConfig:
-    def __init__(self):
-        self.COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
-        self.DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
-        self.DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
-
-        self.LOCALAPPDATA_FOLDER = str(Path.home() / ".config" / "ESPHomeGUIeasy")
-        os.makedirs(self.LOCALAPPDATA_FOLDER, exist_ok=True)
-
-        self.USER_DB_PATH = os.path.join(self.LOCALAPPDATA_FOLDER, "user_config.db")
-
-        self.LOG_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy"
-        os.makedirs(self.LOG_DIR, exist_ok=True)
-
-        self.LOG_PATH = self.LOG_DIR / "log.txt"
-        self.MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
-
+if platform.system() == 'Windows':
+    class WindowsConfig:
+        COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
+        DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
+        DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
+        LOCALAPPDATA_FOLDER = os.path.join(os.environ["LOCALAPPDATA"], "ESPHomeGUIeasy")
+        os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
+        USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
+        LOG_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy"
+        os.makedirs(LOG_DIR, exist_ok=True)
+        LOG_PATH = LOG_DIR / "log.txt"
+        MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
+elif platform.system() == 'MacOs' :
+    class MacOSConfig:
+        COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
+        DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
+        DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
+        LOCALAPPDATA_FOLDER = str(Path.home() / "Library/Application Support" / "ESPHomeGUIeasy")
+        os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
+        os.makedirs(DEFAULT_BUILD_DIR, exist_ok=True)
+        USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
+        LOG_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy"
+        os.makedirs(LOG_DIR, exist_ok=True)
+        LOG_PATH = LOG_DIR / "log.txt"
+        MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
+elif platform.system() == 'Linux':
+    class LinuxConfig:
+        COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
+        DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
+        DEFAULT_BUILD_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "build"
+        LOCALAPPDATA_FOLDER = str(Path.home() / ".config" / "ESPHomeGUIeasy")
+        os.makedirs(LOCALAPPDATA_FOLDER, exist_ok=True)
+        os.makedirs(DEFAULT_BUILD_DIR, exist_ok=True)
+        USER_DB_PATH = os.path.join(LOCALAPPDATA_FOLDER, "user_config.db")
+        LOG_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy"
+        os.makedirs(LOG_DIR, exist_ok=True)
+        LOG_PATH = LOG_DIR / "log.txt"
+        MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
 
 
 def get_platform_config():
@@ -101,12 +86,13 @@ def get_platform_config():
 
 
 conf, PLATFORM_ID = get_platform_config()
+#conf, PLATFORM_ID = LinuxConfig(), "linux"
 
 # === INFORMAZIONI SULL'APPLICAZIONE ===
 class AppInfo:
     NAME = "ESPHomeGuiEasy"
-    VERSION = "1.4.2"
-    RELEASE_DATE = "2025-07-31"
+    VERSION = "1.4.1"
+    RELEASE_DATE = "2025-07-10"
     GITHUB_URL = "https://raw.githubusercontent.com/TheWhiteWolf1985/esphomeguieasy/main/latest_version.json"
     RELEASE_URL = "https://github.com/TheWhiteWolf1985/esphomeguieasy/releases"
     REPO_OWNER = "TheWhiteWolf1985"
