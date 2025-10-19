@@ -36,7 +36,7 @@ if platform.system() == 'Windows':
         os.makedirs(LOG_DIR, exist_ok=True)
         LOG_PATH = LOG_DIR / "log.txt"
         MODULE_SCHEMA_PATH = str(Path(__file__).parent.parent / "config" / "modules_schema.json")
-elif platform.system() == 'MacOs' :
+elif platform.system() == 'Darwin' :
     class MacOSConfig:
         COMMUNITY_LOCAL_FOLDER = str(Path.home() / "Documents" / "ESPHomeGUIeasy" / "community_projects")
         DEFAULT_PROJECT_DIR = Path.home() / "Documents" / "ESPHomeGUIeasy" / "user_projects"
