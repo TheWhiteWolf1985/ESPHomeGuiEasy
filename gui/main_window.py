@@ -134,7 +134,7 @@ class MainWindow(QMainWindow):
             QPlainTextEdit {
                 background-color: #1e1e1e;
                 color: #d4d4d4;
-                font-family: Consolas, monospace;
+                font-family: Consolas, 'Courier New', monospace;
                 font-size: 12pt;
                 padding: 8px;
                 border: 2px solid #444;
@@ -155,7 +155,7 @@ class MainWindow(QMainWindow):
             QTextEdit {
                 background-color: #1e1e1e;
                 color: #d4d4d4;
-                font-family: 'Cascadia Code', Consolas, monospace;
+                font-family: 'Cascadia Code', Consolas, 'Courier New', monospace;
                 font-size: 11pt;
                 padding: 8px;
                 border: 2px solid #444;
